@@ -1,0 +1,88 @@
+{
+  "mode": "chemistry_conditioned_graph_regression",
+  "dataset": "results/data/fragments/fmo_hamiltonians.json",
+  "num_samples": 2,
+  "train_indices": [
+    1
+  ],
+  "val_indices": [
+    0
+  ],
+  "target_names": [
+    "n_qubits",
+    "n_pauli_terms",
+    "l1_norm",
+    "mean_abs_coeff",
+    "max_abs_coeff",
+    "n_one_body_terms",
+    "n_two_body_terms",
+    "n_three_body_terms",
+    "n_four_body_terms",
+    "charge",
+    "multiplicity",
+    "n_active_electrons",
+    "n_active_orbitals",
+    "fragment_count",
+    "is_fragment"
+  ],
+  "train_loss_history": [
+    0.036233630031347275,
+    0.01871785707771778,
+    0.012861457653343678
+  ],
+  "train_mae_history": [
+    8.090808023553109e-08,
+    3.071765419804251e-08,
+    3.6683090343103686e-08
+  ],
+  "val_loss_history": [
+    5.996143231367119e+18,
+    5.996143231367119e+18,
+    5.996143231367119e+18
+  ],
+  "val_mae_history": [
+    923.0537719726562,
+    923.0537719726562,
+    923.0537719726562
+  ],
+  "final_train_mse": 0.012861457653343678,
+  "final_train_mae": 3.6683090343103686e-08,
+  "final_val_mse": 5.996143231367119e+18,
+  "final_val_mae": 923.0537719726562,
+  "model_path": "results/train/chemistry_encoder.pt",
+  "embeddings_path": "results/train/chemistry_embeddings.json",
+  "target_mean": [
+    4.0,
+    15.0,
+    190.3070526123047,
+    12.68713665008545,
+    189.12008666992188,
+    4.0,
+    6.0,
+    0.0,
+    4.0,
+    1.0,
+    1.0,
+    2.0,
+    2.0,
+    0.0,
+    0.0
+  ],
+  "target_std": [
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07,
+    9.999999974752427e-07
+  ]
+}

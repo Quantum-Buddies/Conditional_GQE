@@ -1,0 +1,5 @@
+{
+  "status": "done",
+  "metrics": "results/train/flat_conditioning_metrics.json",
+  "model": "results/train/flat_conditioning.pt"
+}

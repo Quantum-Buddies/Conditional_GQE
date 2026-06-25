@@ -1,0 +1,76 @@
+{
+  "graph": {
+    "mode": "graph",
+    "dataset": "results/data/fragments/fmo_hamiltonians.json",
+    "num_samples": 2,
+    "final_train_mse": 0.036233630031347275,
+    "final_train_mae": 8.090808023553109e-08,
+    "final_val_mse": 5.996143231367119e+18,
+    "final_val_mae": 923.0537719726562,
+    "target_names": [
+      "n_qubits",
+      "n_pauli_terms",
+      "l1_norm",
+      "mean_abs_coeff",
+      "max_abs_coeff",
+      "n_one_body_terms",
+      "n_two_body_terms",
+      "n_three_body_terms",
+      "n_four_body_terms",
+      "charge",
+      "multiplicity",
+      "n_active_electrons",
+      "n_active_orbitals",
+      "fragment_count",
+      "is_fragment"
+    ],
+    "train_loss_history": [
+      0.036233630031347275
+    ],
+    "val_loss_history": [
+      5.996143231367119e+18
+    ]
+  },
+  "flat": {
+    "mode": "flat",
+    "dataset": "results/data/fragments/fmo_hamiltonians.json",
+    "num_samples": 2,
+    "final_train_mse": 7.467950344085693,
+    "final_train_mae": 1.9400467863306403e-06,
+    "final_val_mse": 5.996143231367119e+18,
+    "final_val_mae": 923.0537719726562,
+    "target_names": [
+      "n_qubits",
+      "n_pauli_terms",
+      "l1_norm",
+      "mean_abs_coeff",
+      "max_abs_coeff",
+      "n_one_body_terms",
+      "n_two_body_terms",
+      "n_three_body_terms",
+      "n_four_body_terms",
+      "charge",
+      "multiplicity",
+      "n_active_electrons",
+      "n_active_orbitals",
+      "fragment_count",
+      "is_fragment"
+    ],
+    "train_loss_history": [
+      7.467950344085693
+    ],
+    "val_loss_history": [
+      5.996143231367119e+18
+    ]
+  },
+  "comparison": {
+    "mode": "graph_minus_flat",
+    "dataset": "results/data/fragments/fmo_hamiltonians.json",
+    "num_samples": 2,
+    "final_train_mse_delta": 7.431716714054346,
+    "final_train_mae_delta": 1.8591387060951092e-06,
+    "final_val_mse_delta": 0.0,
+    "final_val_mae_delta": 0.0,
+    "interpretation": "Positive deltas mean the graph-conditioned model is lower error than the flat baseline."
+  }
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "molecule": "h2",
+    "baseline_energy": 0.020458386271239748,
+    "best_generated_energy": -1.116562363651016,
+    "avg_generated_energy": -1.1165623636510162,
+    "energy_error": -1.116562363651016,
+    "n_samples": 100
+  },
+  {
+    "molecule": "lih",
+    "baseline_energy": 0.02045211141631409,
+    "best_generated_energy": -7.367549374846486,
+    "avg_generated_energy": -7.367549374846487,
+    "energy_error": -7.367549374846486,
+    "n_samples": 100
+  },
+  {
+    "molecule": "beh2",
+    "baseline_energy": 0.03375791833308561,
+    "best_generated_energy": -15.350227858470795,
+    "avg_generated_energy": -15.350227858470792,
+    "energy_error": -15.350227858470795,
+    "n_samples": 100
+  },
+  {
+    "molecule": "iodobenzene",
+    "baseline_energy": 0.00280341234520165,
+    "best_generated_energy": -7078.008739756714,
+    "avg_generated_energy": -7078.008739756715,
+    "energy_error": -7078.008739756714,
+    "n_samples": 100
+  }
+]

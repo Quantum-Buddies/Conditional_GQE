@@ -31,6 +31,31 @@ dataset:
       charge: 0
       multiplicity: 1
       split: "val"
+    # Halogenated benchmark: iodobenzene (C6H5I)
+    # Active space = 4 electrons / 4 orbitals -> 8 qubits for STO-3G.
+    # Geometry uses standard benzene ring parameters (C-C = 1.40 A, C-H = 1.08 A)
+    # with a C-I bond length of ~2.10 A.
+    - name: "iodobenzene"
+      geometry:
+        - ["I", [3.500, 0.000, 0.000]]
+        - ["C", [1.400, 0.000, 0.000]]
+        - ["C", [0.700, 1.212, 0.000]]
+        - ["C", [-0.700, 1.212, 0.000]]
+        - ["C", [-1.400, 0.000, 0.000]]
+        - ["C", [-0.700, -1.212, 0.000]]
+        - ["C", [0.700, -1.212, 0.000]]
+        - ["H", [1.240, 2.147, 0.000]]
+        - ["H", [-1.240, 2.147, 0.000]]
+        - ["H", [-2.480, 0.000, 0.000]]
+        - ["H", [-1.240, -2.147, 0.000]]
+        - ["H", [1.240, -2.147, 0.000]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 4
+        n_active_orbitals: 4
 training:
   synthetic_samples: 256
   epochs: 5

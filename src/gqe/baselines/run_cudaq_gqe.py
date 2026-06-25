@@ -1,11 +1,16 @@
-"""CUDA-Q Generative Quantum Eigensolver (GQE) baseline — H2 smoke example."""
+"""CUDA-Q Generative Quantum Eigensolver (GQE) over dataset Hamiltonians."""
+
+from __future__ import annotations
 
 import argparse
 import json
 import logging
 import warnings
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterable, List, Optional, Sequence
+
+import numpy as np
+from tqdm.auto import tqdm
 
 # cudaq-solvers[gqe] imports PyTorch; on HPC nodes the bundled PyTorch CUDA
 # build may not match the host driver, which emits a noisy UserWarning even
@@ -29,21 +34,53 @@ warnings.filterwarnings(
 for _log in ("torch", "torch.cuda"):
     logging.getLogger(_log).setLevel(logging.ERROR)
 
-try:
+# Workaround for PyTorch issue #95648: sm_89 (Ada Lovelace / L40S) is
+# functionally identical to sm_86 but not listed in get_arch_list(), which
+# causes cudaq-solvers GQE to refuse GPU execution.
+import torch  # noqa: E402
+_orig_get_arch_list = torch.cuda.get_arch_list
+def _patched_get_arch_list() -> list[str]:
+    archs = list(_orig_get_arch_list())
+    if "sm_89" not in archs:
+        archs.append("sm_89")
+    return archs
+torch.cuda.get_arch_list = _patched_get_arch_list  # type: ignore[assignment]
+
+try:  # pragma: no cover - resolved at runtime
     import cudaq  # type: ignore[import-untyped]
     import cudaq_solvers as solvers  # type: ignore[import-untyped]
-    from cudaq import spin  # type: ignore[import-untyped]
-    from cudaq_solvers.gqe_algorithm.gqe import (  # type: ignore[import-untyped]
-        get_default_config,
-    )
-except Exception as exc:  # pragma: no cover - handled at runtime
+    from cudaq_solvers.gqe_algorithm.gqe import get_default_config  # type: ignore[import-untyped]
+except Exception as exc:  # pragma: no cover
     cudaq = None  # type: ignore[assignment]
     solvers = None  # type: ignore[assignment]
-    spin = None  # type: ignore[assignment]
     get_default_config = None  # type: ignore[assignment]
     _CUDAQ_IMPORT_ERROR: Optional[Exception] = exc
-else:
+else:  # pragma: no cover
     _CUDAQ_IMPORT_ERROR = None
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from common.hamiltonian_utils import (  # noqa: E402
+    exact_diagonalize_hamiltonian,
+    hamiltonian_to_spin_operator,
+    iter_terms,
+    load_hamiltonian_records,
+    pauli_ops_to_spin_term,
+)
+
+
+PERIODIC_TABLE = {
+    "H": 1,
+    "Li": 3,
+    "Be": 4,
+    "B": 5,
+    "C": 6,
+    "N": 7,
+    "O": 8,
+    "F": 9,
+    "I": 53,
+}
 
 
 def _ensure_cudaq_available() -> None:
@@ -51,162 +88,119 @@ def _ensure_cudaq_available() -> None:
         msg = (
             "CUDA-Q GQE baseline requires `cudaq` and `cudaq-solvers[gqe]`.\n"
             "Install into the experiment environment, for example:\n"
-            "  pip install cudaq-solvers[gqe]\n"
+            "  pip install cudaq-solvers[gqe]"
         )
         raise RuntimeError(msg) from _CUDAQ_IMPORT_ERROR
 
 
+def _configure_target(preferred: str, option: str | None = None) -> str:
+    assert cudaq is not None
+    try:
+        if option:
+            cudaq.set_target(preferred, option=option)
+        else:
+            cudaq.set_target(preferred)
+        return preferred
+    except RuntimeError:
+        if preferred != "qpp-cpu":
+            cudaq.set_target("qpp-cpu")
+            return "qpp-cpu"
+        raise
+
+
+def _estimate_active_electrons(record: Dict[str, Any]) -> int:
+    active = record.get("active_space") or {}
+    for key in ("n_active_electrons", "n_electrons"):
+        value = active.get(key) if isinstance(active, dict) else None
+        if value is None:
+            value = record.get(key)
+        if isinstance(value, int) and value > 0:
+            return min(value, int(record["n_qubits"]))
+
+    geometry = record.get("geometry", [])
+    total = 0
+    for entry in geometry:
+        if not isinstance(entry, list) or not entry:
+            continue
+        symbol = str(entry[0]).capitalize()
+        total += PERIODIC_TABLE.get(symbol, 0)
+    electrons = total - int(record.get("charge", 0))
+    electrons = max(1, min(electrons, int(record["n_qubits"])))
+    return electrons
+
+
 def _serialize_selected_operators(
-    op_pool: List[Any], indices: List[int], n_qubits: int
+    op_pool: Sequence[tuple[Any, complex, str]], indices: Iterable[int], n_qubits: int
 ) -> List[Dict[str, Any]]:
-    """Serialize selected operators into a JSON-friendly structure."""
     records: List[Dict[str, Any]] = []
     for idx in indices:
-        op = op_pool[idx]
-        terms: List[Dict[str, Any]] = []
-        for term in op:
-            coeff = term.evaluate_coefficient()
-            try:
-                pw = term.get_pauli_word(n_qubits)
-                pw_str = str(pw)
-            except Exception:  # pragma: no cover - defensive
-                pw_str = None
-            terms.append(
-                {
-                    "coefficient_real": float(coeff.real),
-                    "coefficient_imag": float(coeff.imag),
-                    "pauli_word": pw_str,
-                }
-            )
-        records.append({"index": int(idx), "terms": terms})
+        op, coeff, pw_str = op_pool[int(idx)]
+        records.append(
+            {
+                "index": int(idx),
+                "coefficient_real": float(coeff.real),
+                "coefficient_imag": float(coeff.imag),
+                "pauli_word": pw_str,
+            }
+        )
     return records
 
+def _build_operator_pool(
+    record: Dict[str, Any],
+    *,
+    max_terms: int,
+    scale_factors: Sequence[float],
+) -> List[tuple[Any, complex, str]]:
+    entries = sorted(iter_terms(record), key=lambda item: abs(item[1]), reverse=True)
+    pool: List[tuple[Any, complex, str]] = []
+    used = 0
+    for ops, coeff in entries:
+        if used >= max_terms:
+            break
+        term_op = pauli_ops_to_spin_term(ops)
+        if term_op is None:
+            continue
+        used += 1
+        sign = 1.0 if coeff.real >= 0 else -1.0
+        
+        # Build the exact pauli string representation (e.g. "IZIZ")
+        pauli_str = "".join(ops)
+        
+        for scale in scale_factors:
+            pool.append((scale * sign * term_op, complex(scale * sign * abs(coeff)), pauli_str))
+    return pool
 
-def _run_h2_gqe(max_iters: int, ngates: int) -> Dict[str, Any]:
-    """Run CUDA-Q GQE on the H2 molecule following NVIDIA's example pattern."""
+
+def _energy_shift_and_scale(record: Dict[str, Any]) -> tuple[float, float]:
+    shift = 0.0
+    l1_norm = 0.0
+    for ops, coeff in iter_terms(record):
+        coeff_real = float(np.real(coeff))
+        l1_norm += abs(coeff_real)
+        if all(op == "I" for op in ops):
+            shift += coeff_real
+    return shift, max(1.0, l1_norm)
+
+
+def _run_record(
+    record: Dict[str, Any],
+    *,
+    max_iters: int,
+    ngates: int,
+    max_terms: int,
+    scale_factors: Sequence[float],
+    target: str,
+    target_option: str | None = None,
+) -> Dict[str, Any]:
     _ensure_cudaq_available()
-    if not hasattr(cudaq, "pauli_word"):  # type: ignore[union-attr]
-        raise RuntimeError(
-            "Installed CUDA-Q is missing `cudaq.pauli_word`, which is required "
-            "for GQE kernel argument typing in this script. Please upgrade CUDA-Q."
-        )
-
-    # Choose a target consistent with the official examples, but fall back to CPU
-    # if NVIDIA hardware or the fp64 option is unavailable.
-    try:
-        cudaq.set_target("nvidia", option="fp64")  # type: ignore[union-attr]
-    except RuntimeError:
-        cudaq.set_target("qpp-cpu")  # type: ignore[union-attr]
-
-    # Molecular Hamiltonian (same geometry as the CUDA-Q VQE baseline)
-    geometry = [("H", (0.0, 0.0, 0.0)), ("H", (0.0, 0.0, 0.7474))]
-    molecule = solvers.create_molecule(  # type: ignore[union-attr]
-        geometry=geometry,
-        basis="sto-3g",
-        spin=0,
-        charge=0,
-        casci=True,
-    )
-
-    spin_ham = molecule.hamiltonian
-    n_qubits = int(molecule.n_orbitals * 2)
-    n_electrons = int(molecule.n_electrons)
-
-    # Operator pool and cost follow the NVIDIA `gqe_h2.py` example, but we keep
-    # the configuration minimal (no CSV logging, no MPI path).
-    params = [
-        0.003125,
-        -0.003125,
-        0.00625,
-        -0.00625,
-        0.0125,
-        -0.0125,
-        0.025,
-        -0.025,
-        0.05,
-        -0.05,
-        0.1,
-        -0.1,
-    ]
-
-    def build_pool() -> List[Any]:
-        ops: List[Any] = []
-        i = 0
-
-        ops.append(
-            cudaq.SpinOperator(  # type: ignore[union-attr]
-                spin.y(i) * spin.z(i + 1) * spin.x(i + 2) * spin.i(i + 3)
-            )
-        )
-        ops.append(
-            cudaq.SpinOperator(
-                spin.x(i) * spin.z(i + 1) * spin.y(i + 2) * spin.i(i + 3)
-            )
-        )
-        ops.append(
-            cudaq.SpinOperator(
-                spin.i(i) * spin.y(i + 1) * spin.z(i + 2) * spin.x(i + 3)
-            )
-        )
-        ops.append(
-            cudaq.SpinOperator(
-                spin.i(i) * spin.x(i + 1) * spin.z(i + 2) * spin.y(i + 3)
-            )
-        )
-        ops.append(
-            cudaq.SpinOperator(
-                spin.x(i) * spin.x(i + 1) * spin.x(i + 2) * spin.y(i + 3)
-            )
-        )
-        ops.append(
-            cudaq.SpinOperator(
-                spin.x(i) * spin.x(i + 1) * spin.y(i + 2) * spin.x(i + 3)
-            )
-        )
-        ops.append(
-            cudaq.SpinOperator(
-                spin.x(i) * spin.y(i + 1) * spin.y(i + 2) * spin.y(i + 3)
-            )
-        )
-        ops.append(
-            cudaq.SpinOperator(
-                spin.y(i) * spin.x(i + 1) * spin.y(i + 2) * spin.y(i + 3)
-            )
-        )
-        ops.append(
-            cudaq.SpinOperator(
-                spin.x(i) * spin.y(i + 1) * spin.x(i + 2) * spin.x(i + 3)
-            )
-        )
-        ops.append(
-            cudaq.SpinOperator(
-                spin.y(i) * spin.x(i + 1) * spin.x(i + 2) * spin.x(i + 3)
-            )
-        )
-        ops.append(
-            cudaq.SpinOperator(
-                spin.y(i) * spin.y(i + 1) * spin.x(i + 2) * spin.y(i + 3)
-            )
-        )
-        ops.append(
-            cudaq.SpinOperator(
-                spin.y(i) * spin.y(i + 1) * spin.y(i + 2) * spin.x(i + 3)
-            )
-        )
-
-        pool: List[Any] = []
-        for c in params:
-            for op in ops:
-                pool.append(c * op)
-        return pool
-
-    op_pool = build_pool()
-
-    def term_coefficients(op: Any) -> List[complex]:
-        return [term.evaluate_coefficient() for term in op]
-
-    def term_words(op: Any) -> List[cudaq.pauli_word]:
-        return [term.get_pauli_word(n_qubits) for term in op]
+    configured_target = _configure_target(target, target_option)
+    n_qubits = int(record["n_qubits"])
+    n_electrons = _estimate_active_electrons(record)
+    spin_ham = hamiltonian_to_spin_operator(record)
+    op_pool = _build_operator_pool(record, max_terms=max_terms, scale_factors=scale_factors)
+    if not op_pool:
+        raise RuntimeError("Operator pool is empty; increase --max-terms or adjust scales.")
+    energy_shift, energy_scale = _energy_shift_and_scale(record)
 
     @cudaq.kernel  # type: ignore[union-attr]
     def kernel(
@@ -216,89 +210,158 @@ def _run_h2_gqe(max_iters: int, ngates: int) -> Dict[str, Any]:
         words: List[cudaq.pauli_word],
     ) -> None:
         q = cudaq.qvector(n_qubits_kernel)  # type: ignore[union-attr]
-
         for i in range(n_electrons_kernel):
             x(q[i])  # type: ignore[name-defined]
-
         for j in range(len(coeffs)):
             exp_pauli(coeffs[j], q, words[j])  # type: ignore[name-defined]
 
-    def cost(sampled_ops: List[Any], **_: Any) -> float:
-        full_coeffs: List[float] = []
-        full_words: List[cudaq.pauli_word] = []
+    # Build lookup: SpinOperator id -> (coefficient, pauli_string)
+    _op_to_data: dict[int, tuple[complex, str]] = {}
+    for _op, _c, _pstr in op_pool:
+        _op_to_data[id(_op)] = (_c, _pstr)
 
+    def _raw_cost(sampled_ops: List[Any]) -> float:
+        coeffs: List[float] = []
+        words: List[cudaq.pauli_word] = []  # type: ignore[name-defined]
         for op in sampled_ops:
-            full_coeffs += [c.real for c in term_coefficients(op)]
-            full_words += term_words(op)
-
+            data = _op_to_data.get(id(op))
+            if data is None:
+                raise RuntimeError("Sampled operator was not found in the operator pool lookup.")
+            _c, _pstr = data
+            coeffs.append(float(np.real(_c)))
+            words.append(_pstr)
         result = cudaq.observe(  # type: ignore[union-attr]
             kernel,
             spin_ham,
             n_qubits,
             n_electrons,
-            full_coeffs,
-            full_words,
+            coeffs,
+            words,
         )
         return float(result.expectation())
+
+    def cost(sampled_ops: List[Any], **_: Any) -> float:
+        raw_energy = _raw_cost(sampled_ops)
+        return (raw_energy - energy_shift) / energy_scale
 
     cfg = get_default_config()  # type: ignore[operator]
     cfg.use_fabric_logging = False
     cfg.save_trajectory = False
     cfg.verbose = False
 
+    operators_only = [op for op, _coeff, _pstr in op_pool]
     min_energy, best_indices = solvers.gqe(  # type: ignore[union-attr]
         cost,
-        op_pool,
+        operators_only,
         max_iters=max_iters,
         ngates=ngates,
         config=cfg,
     )
 
-    reference_energy = float(
-        molecule.energies.get("fci_energy", min_energy)  # type: ignore[index]
-    )
-    baseline_energy = float(min_energy)
+    reference_energy = None
+    try:
+        reference_energy, _ = exact_diagonalize_hamiltonian(record)
+    except Exception:
+        reference_energy = None
+
+    best_ops = [operators_only[int(i)] for i in best_indices]
+    baseline_energy = _raw_cost(best_ops)
+    delta = None
+    if reference_energy is not None:
+        delta = abs(baseline_energy - reference_energy)
 
     return {
-        "system": "h2",
+        "system": record.get("name", "unknown"),
         "baseline": "cudaq_gqe",
         "reference_energy": reference_energy,
         "baseline_energy": baseline_energy,
-        "delta_energy": abs(baseline_energy - reference_energy),
+        "delta_energy": delta,
         "n_spin_orbitals": n_qubits,
+        "n_pauli_terms": len(record.get("terms", [])),
         "mode": "cudaq_gqe",
         "gqe_config": {
             "max_iters": max_iters,
             "ngates": ngates,
             "num_samples": int(getattr(cfg, "num_samples", 5)),
+            "objective_shift": energy_shift,
+            "objective_scale": energy_scale,
+            "min_scaled_energy": float(min_energy),
         },
+        "n_electrons": n_electrons,
+        "target": configured_target,
+        "target_option": target_option,
         "gqe_selected_operators": _serialize_selected_operators(
-            op_pool, list(map(int, best_indices)), n_qubits
+            op_pool,
+            (int(i) for i in best_indices),
+            n_qubits,
         ),
     }
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run CUDA-Q GQE baseline.")
+    parser = argparse.ArgumentParser(description="Run CUDA-Q GQE baseline on dataset Hamiltonians.")
+    parser.add_argument("--ham", type=Path, required=True, help="Path to hamiltonians.json")
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--molecule", type=str, default=None, help="Optional molecule filter")
+    parser.add_argument("--max-iters", type=int, default=25)
+    parser.add_argument("--ngates", type=int, default=10)
+    parser.add_argument("--max-terms", type=int, default=32, help="Number of Pauli terms to seed the operator pool")
     parser.add_argument(
-        "--max-iters",
-        type=int,
-        default=25,
-        help="Number of GQE epochs (cfg.max_iters).",
+        "--pool-scale",
+        type=float,
+        nargs="*",
+        default=(0.0125, -0.0125, 0.025, -0.025, 0.05, -0.05),
+        help="Scale factors applied to each selected Pauli term when building the operator pool",
     )
-    parser.add_argument(
-        "--ngates",
-        type=int,
-        default=10,
-        help="Number of gates per generated circuit (cfg.ngates).",
-    )
+    parser.add_argument("--target", type=str, default="nvidia", help="Preferred cudaq target (e.g., nvidia, nvidia-mqpu, qpp-cpu)")
+    parser.add_argument("--target-option", type=str, default=None, help="Target option string (e.g., mqpu,fp32)")
+    parser.add_argument("--max-qubits", type=int, default=16, help="Skip systems with more than this many qubits")
     args = parser.parse_args()
 
-    result = _run_h2_gqe(max_iters=args.max_iters, ngates=args.ngates)
+    records = load_hamiltonian_records(args.ham)
+    if args.molecule:
+        records = [r for r in records if r.get("name") == args.molecule]
+
+    results: List[Dict[str, Any]] = []
+    for rec in tqdm(records, desc="CUDA-Q GQE", unit="system", dynamic_ncols=True):
+        n_qubits = int(rec.get("n_qubits", 0))
+        if n_qubits > args.max_qubits:
+            results.append(
+                {
+                    "system": rec.get("name", "unknown"),
+                    "baseline": "cudaq_gqe",
+                    "status": f"skipped_qubits>{args.max_qubits}",
+                    "n_spin_orbitals": n_qubits,
+                    "n_pauli_terms": len(rec.get("terms", [])),
+                }
+            )
+            continue
+        try:
+            results.append(
+                _run_record(
+                    rec,
+                    max_iters=args.max_iters,
+                    ngates=args.ngates,
+                    max_terms=args.max_terms,
+                    scale_factors=args.pool_scale,
+                    target=args.target,
+                    target_option=args.target_option,
+                )
+            )
+        except Exception as exc:
+            results.append(
+                {
+                    "system": rec.get("name", "unknown"),
+                    "baseline": "cudaq_gqe",
+                    "status": f"error: {exc}",
+                    "n_spin_orbitals": rec.get("n_qubits"),
+                    "n_pauli_terms": len(rec.get("terms", [])),
+                }
+            )
+
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with args.out.open("w", encoding="utf-8") as f:
-        json.dump({"results": [result]}, f, indent=2)
+        json.dump({"results": results}, f, indent=2)
     print(f"Wrote CUDA-Q GQE baseline results to: {args.out}")
 
 

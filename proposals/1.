@@ -1,0 +1,864 @@
+1. 
+1 Introduction
+
+1.1 Motivation
+1.2 Scope & Paper Selection Criteria
+[1.3 Innovations & Contributions](https://arxiv.org/html/2504.03192v1)
+
+
+2. [1.1 Motivation](https://arxiv.org/html/2504.03192v1)
+3. [1.2 Scope & Paper Selection Criteria](https://arxiv.org/html/2504.03192v1)
+4. [1.3 Innovations & Contributions](https://arxiv.org/html/2504.03192v1)
+5. [2 Classical Transformer](https://arxiv.org/html/2504.03192v1)
+6. 
+3 Fundamentals of QML
+
+3.1 Quantum Computing Basics
+[3.2 Relevant quantum techniques in Quantum Transformers](https://arxiv.org/html/2504.03192v1)
+
+
+7. [3.1 Quantum Computing Basics](https://arxiv.org/html/2504.03192v1)
+8. [3.2 Relevant quantum techniques in Quantum Transformers](https://arxiv.org/html/2504.03192v1)
+9. 
+4 PQC-based Quantum Transformers
+
+
+4.1 Model Architectures
+
+4.1.1 QKV-only Quantum mapping
+4.1.2 Quantum Pairwise Attention
+4.1.3 Quantum Global Attention
+4.1.4 Quantum-Assisted Acceleration
+
+
+
+4.2 Discussions on Quantum Advantages
+
+4.2.1 Model Complexity
+[4.2.2 Experimental Performance](https://arxiv.org/html/2504.03192v1)
+
+
+
+
+10. 
+4.1 Model Architectures
+
+4.1.1 QKV-only Quantum mapping
+4.1.2 Quantum Pairwise Attention
+4.1.3 Quantum Global Attention
+[4.1.4 Quantum-Assisted Acceleration](https://arxiv.org/html/2504.03192v1)
+
+
+11. [4.1.1 QKV-only Quantum mapping](https://arxiv.org/html/2504.03192v1)
+12. [4.1.2 Quantum Pairwise Attention](https://arxiv.org/html/2504.03192v1)
+13. [4.1.3 Quantum Global Attention](https://arxiv.org/html/2504.03192v1)
+14. [4.1.4 Quantum-Assisted Acceleration](https://arxiv.org/html/2504.03192v1)
+15. 
+4.2 Discussions on Quantum Advantages
+
+4.2.1 Model Complexity
+[4.2.2 Experimental Performance](https://arxiv.org/html/2504.03192v1)
+
+
+16. [4.2.1 Model Complexity](https://arxiv.org/html/2504.03192v1)
+17. [4.2.2 Experimental Performance](https://arxiv.org/html/2504.03192v1)
+18. [5 QLA-based Quantum Transformers](https://arxiv.org/html/2504.03192v1)
+19. 
+6 Challenges and Outlook
+
+
+6.1 Challenges on PQC-based Transformers
+
+6.1.1 Scalability
+6.1.2 Lack of Unified Evaluation Benchmark
+6.1.3 Trainability and Barren Plateau
+
+
+6.2 Challenges on QLA-based Transformers
+[6.3 Outlooks](https://arxiv.org/html/2504.03192v1)
+
+
+20. 
+6.1 Challenges on PQC-based Transformers
+
+6.1.1 Scalability
+6.1.2 Lack of Unified Evaluation Benchmark
+[6.1.3 Trainability and Barren Plateau](https://arxiv.org/html/2504.03192v1)
+
+
+21. [6.1.1 Scalability](https://arxiv.org/html/2504.03192v1)
+22. [6.1.2 Lack of Unified Evaluation Benchmark](https://arxiv.org/html/2504.03192v1)
+23. [6.1.3 Trainability and Barren Plateau](https://arxiv.org/html/2504.03192v1)
+24. [6.2 Challenges on QLA-based Transformers](https://arxiv.org/html/2504.03192v1)
+25. [6.3 Outlooks](https://arxiv.org/html/2504.03192v1)
+26. [7 Conclusion](https://arxiv.org/html/2504.03192v1)
+[1 Introduction](https://arxiv.org/html/2504.03192v1)
+1. [1.1 Motivation](https://arxiv.org/html/2504.03192v1)
+2. [1.2 Scope & Paper Selection Criteria](https://arxiv.org/html/2504.03192v1)
+3. [1.3 Innovations & Contributions](https://arxiv.org/html/2504.03192v1)
+[1.1 Motivation](https://arxiv.org/html/2504.03192v1)
+[1.2 Scope & Paper Selection Criteria](https://arxiv.org/html/2504.03192v1)
+[1.3 Innovations & Contributions](https://arxiv.org/html/2504.03192v1)
+[2 Classical Transformer](https://arxiv.org/html/2504.03192v1)
+[3 Fundamentals of QML](https://arxiv.org/html/2504.03192v1)
+1. [3.1 Quantum Computing Basics](https://arxiv.org/html/2504.03192v1)
+2. [3.2 Relevant quantum techniques in Quantum Transformers](https://arxiv.org/html/2504.03192v1)
+[3.1 Quantum Computing Basics](https://arxiv.org/html/2504.03192v1)
+[3.2 Relevant quantum techniques in Quantum Transformers](https://arxiv.org/html/2504.03192v1)
+[4 PQC-based Quantum Transformers](https://arxiv.org/html/2504.03192v1)
+1. 
+4.1 Model Architectures
+
+4.1.1 QKV-only Quantum mapping
+4.1.2 Quantum Pairwise Attention
+4.1.3 Quantum Global Attention
+[4.1.4 Quantum-Assisted Acceleration](https://arxiv.org/html/2504.03192v1)
+
+
+2. [4.1.1 QKV-only Quantum mapping](https://arxiv.org/html/2504.03192v1)
+3. [4.1.2 Quantum Pairwise Attention](https://arxiv.org/html/2504.03192v1)
+4. [4.1.3 Quantum Global Attention](https://arxiv.org/html/2504.03192v1)
+5. [4.1.4 Quantum-Assisted Acceleration](https://arxiv.org/html/2504.03192v1)
+6. 
+4.2 Discussions on Quantum Advantages
+
+4.2.1 Model Complexity
+[4.2.2 Experimental Performance](https://arxiv.org/html/2504.03192v1)
+
+7. [4.2.1 Model Complexity](https://arxiv.org/html/2504.03192v1)
+8. [4.2.2 Experimental Performance](https://arxiv.org/html/2504.03192v1)
+[4.1 Model Architectures](https://arxiv.org/html/2504.03192v1)
+1. [4.1.1 QKV-only Quantum mapping](https://arxiv.org/html/2504.03192v1)
+2. [4.1.2 Quantum Pairwise Attention](https://arxiv.org/html/2504.03192v1)
+3. [4.1.3 Quantum Global Attention](https://arxiv.org/html/2504.03192v1)
+4. [4.1.4 Quantum-Assisted Acceleration](https://arxiv.org/html/2504.03192v1)
+[4.1.1 QKV-only Quantum mapping](https://arxiv.org/html/2504.03192v1)
+[4.1.2 Quantum Pairwise Attention](https://arxiv.org/html/2504.03192v1)
+[4.1.3 Quantum Global Attention](https://arxiv.org/html/2504.03192v1)
+[4.1.4 Quantum-Assisted Acceleration](https://arxiv.org/html/2504.03192v1)
+[4.2 Discussions on Quantum Advantages](https://arxiv.org/html/2504.03192v1)
+1. [4.2.1 Model Complexity](https://arxiv.org/html/2504.03192v1)
+2. [4.2.2 Experimental Performance](https://arxiv.org/html/2504.03192v1)
+[4.2.1 Model Complexity](https://arxiv.org/html/2504.03192v1)
+[4.2.2 Experimental Performance](https://arxiv.org/html/2504.03192v1)
+[5 QLA-based Quantum Transformers](https://arxiv.org/html/2504.03192v1)
+[6 Challenges and Outlook](https://arxiv.org/html/2504.03192v1)
+1. 
+6.1 Challenges on PQC-based Transformers
+
+6.1.1 Scalability
+6.1.2 Lack of Unified Evaluation Benchmark
+[6.1.3 Trainability and Barren Plateau](https://arxiv.org/html/2504.03192v1)
+
+
+2. [6.1.1 Scalability](https://arxiv.org/html/2504.03192v1)
+3. [6.1.2 Lack of Unified Evaluation Benchmark](https://arxiv.org/html/2504.03192v1)
+4. [6.1.3 Trainability and Barren Plateau](https://arxiv.org/html/2504.03192v1)
+5. [6.2 Challenges on QLA-based Transformers](https://arxiv.org/html/2504.03192v1)
+6. [6.3 Outlooks](https://arxiv.org/html/2504.03192v1)
+[6.1 Challenges on PQC-based Transformers](https://arxiv.org/html/2504.03192v1)
+1. [6.1.1 Scalability](https://arxiv.org/html/2504.03192v1)
+2. [6.1.2 Lack of Unified Evaluation Benchmark](https://arxiv.org/html/2504.03192v1)
+3. [6.1.3 Trainability and Barren Plateau](https://arxiv.org/html/2504.03192v1)
+[6.1.1 Scalability](https://arxiv.org/html/2504.03192v1)
+[6.1.2 Lack of Unified Evaluation Benchmark](https://arxiv.org/html/2504.03192v1)
+[6.1.3 Trainability and Barren Plateau](https://arxiv.org/html/2504.03192v1)
+[6.2 Challenges on QLA-based Transformers](https://arxiv.org/html/2504.03192v1)
+[6.3 Outlooks](https://arxiv.org/html/2504.03192v1)
+[7 Conclusion](https://arxiv.org/html/2504.03192v1)
+
+# A Survey of Quantum Transformers: Approaches, Advantages, Challenges, and Future Directions
+
+###### Abstract
+Quantum Transformer models represent a significant research direction in quantum machine learning (QML), leveraging the parallelism and entanglement properties of quantum computing to overcome the computational complexity and expressive limitations of classical Transformers. Parameterized quantum circuit (PQC)-based Transformer models are the primary focus of current research, employing PQCs to achieve varying degrees of quantumization, including strategies such as QKV-only Quantum mapping, Quantum Pairwise Attention, Quantum Global Attention, and Quantum-Assisted Acceleration. These approaches are well-suited to Noisy Intermediate-Scale Quantum (NISQ) devices, demonstrating potential in small-scale tasks to reduce complexity or enhance performance. The strength of PQC-based methods lies in their compatibility with existing quantum hardware, positioning them as the main pathway toward the practical implementation of quantum Transformers. However, these methods face challenges such as limited scalability, the absence of standardized testing benchmarks, and the ”barren plateau” problem during training. As a complementary approach, Quantum Linear Algebra (QLA)-based Transformer models rely on future fault-tolerant quantum computing, utilizing techniques like block-encoding and Quantum Singular Value Transformation (QSVT) to achieve efficient matrix operations and theoretically significant complexity reductions, though they remain in the theoretical exploration stage. Future research should prioritize optimizing PQC-based hybrid architectures and quantum global attention models, establishing unified evaluation frameworks, and addressing training difficulties, while also exploring hybrid PQC-QLA approaches to advance the development of quantum Transformers.
+
+###### Index Terms:
+
+## 1 Introduction
+
+Quantum Machine Learning (QML), as an interdisciplinary field at the intersection of quantum computing and classical machine learning, has witnessed rapid advancements in recent years, garnering significant attention from both academia and industry [1]. The core objective of QML is to leverage the unique properties of quantum computing—such as superposition, entanglement, and interference—to enhance data processing capabilities and address the computational complexity and efficiency bottlenecks inherent in classical methods[2]. Its potential for enhanced representation learning and computational acceleration has positioned QML as one of the most active areas of research [3, [4](https://arxiv.org/html/2504.03192v1)].
+Meanwhile, since its introduction by Vaswani et al. [5], the classical Transformer architecture has achieved groundbreaking success in fields such as natural language processing (NLP) and computer vision (CV), primarily due to the efficiency of its self-attention mechanism. For instance, BERT [6] and GPT-4 [7], both utilizing the transformer as their backbone, have demonstrated remarkable language understanding capabilities in NLP tasks, while Vision Transformer (ViT) [[8](https://arxiv.org/html/2504.03192v1)] has challenged the dominance of convolutional neural networks (CNNs) in image processing. However, the computational complexity of the self-attention mechanism grows quadratically with sequence length, resulting in significant computational overhead. This limitation has motivated researchers to explore the integration of QML principles with Transformer architectures, giving rise to the emerging research direction of quantum Transformers. This line of research aims to investigate how quantum computing can optimize or enhance Transformer performance.
+Although research on quantum Transformers is still in its early stages, it has progressed rapidly in recent years. Since 2022, dozens of studies have explored the application of quantum computing techniques to Transformer architectures, spanning various aspects from theoretical design to preliminary experimental validation. These studies not only highlight the potential of quantum Transformers but also reveal the diversity of their implementation approaches.
+Broadly speaking, current research on quantum Transformers follows two main technological pathways (as shown in Tab. I: 1) PQC-based Quantum Transformers. This approach leverages parameterized quantum circuits (PQC) to simulate or replace key components of the Transformer, such as the generation of queries (Q), keys (K), and values (V), or the computation of the attention mechanism. PQCs manipulate quantum states (vectors) and capture data features by adjusting learnable quantum gate parameters, which are optimized using classical optimizers [9, 10]. These methods aim to achieve quantum advantages under the constraints of current Noisy Intermediate-Scale Quantum (NISQ) [[11](https://arxiv.org/html/2504.03192v1)] devices by enhancing model’s expressibility, improving parameter efficiency, or boosting performance on small-scale tasks. For instance, some studies employ PQCs to generate efficient feature representations and reduce parameter count, while others explore the potential of quantum parallelism by using quantum circuits to directly compute attention scores. 2) QLA-based Quantum Transformers. This approach utilizes quantum linear algebra (QLA) techniques, such as block encoding and quantum singular value transformation (QSVT), to accelerate matrix operations within Transformers, including attention matrix multiplications and linear transformations in feedforward networks. Moreover, QLA enables efficient implementation of arithmetic operations and nonlinear activation functions. By significantly reducing the classical computational complexity of Transformers, QLA-based methods promise substantial speedup. However, their practical implementation relies on high-fidelity quantum operations and large-scale qubit support, requiring fault-tolerant quantum computers. As a result, research in this area remains largely theoretical at present.
+
+### 1.1 Motivation
+Despite the increasing attention on quantum Transformer research and the emergence of various technical approaches, there remains no comprehensive review that systematically examines the existing studies. Given the diversity of strategies and the challenges involved in this field, several key questions arise: How are these quantum Transformer architectures designed? Do they genuinely exhibit quantum advantage, and if so, in what manner? Under the constraints of NISQ devices, how do PQC-based methods balance the trade-off between quantum advantage and resource consumption while enhancing expressibility? Furthermore, how are QLA-based algorithms integrated into machine learning tasks? So it is essential to synthesize these efforts to provide a clearer understanding of the landscape potential future directions.
+To address the lack of a comprehensive review and to explore these critical questions, this paper systematically analyzes and synthesizes the existing quantum Transformer models, evaluating their technical characteristics, advantages, and challenges while providing insights into their future development.
+
+### 1.2 Scope & Paper Selection Criteria
+This paper focuses on the quantumization of classical Transformers or self-attention networks (i.e., ”Quantum for AI”), while excluding studies that use classical Transformers for quantum problems (i.e., ”AI for Quantum”) [12]. Additionally, we only consider works that substantially quantize internal Transformer components, excluding those that merely apply quantum preprocessing or postprocessing without modifying the Transformer block itself [13, 14], even if their titles contain the terms ”Quantum” and ”Transformer (or self-attention)”. After filtering, a total of 22 papers are included. We list the publication information, i.e., authors, years, and sources in Tab. [II](https://arxiv.org/html/2504.03192v1). Among them, paper 1-18 are PQC-based Transformers, and 19-22 are QLA-based Transformers. We emphasize PQC-based Quantum Transformers because, given current hardware capabilities, these approaches have higher practical relevance and can help both academia and industry assess the near-term feasibility and limitations of quantum computing in Transformer applications. Meanwhile, QLA-based methods, though currently impractical, will also be discussed in the as a potential future direction when quantum hardware matures.
+While this review does not claim to cover all existing quantum Transformer studies that meet the selection criteria, it strives to encompass the mainstream research directions and some of the most important innovative works.
+
+### 1.3 Innovations & Contributions
+
+The main innovations and contributions of this paper are as follows:
+i) First Comprehensive Review of Quantum Transformer Research. We provide a first comprehensive and in-depth review of quantum Transformer models, consolidating diverse research efforts by covering PQC- and QLA-based approaches, and presenting a holistic view of the field’s technical landscape, evolution, and potential applications.
+ii) Technical Analysis of Quantum Transformer Architectures. This work meticulously categorizes the technical approaches in quantum Transformer research by proposing a novel classification framework, which clearly delineates the distinct application patterns of various quantum algorithms in quantum Transformers and elucidates their resulting model properties, such as computational complexity and degree of quantumization.
+iii) Trade-off Between Advantages and Costs in NISQ Era. This work evaluates the advantages and costs of PQC-based methods under NISQ constraints, investigating how they achieve quantum advantages (e.g., enhanced expressibility or reducing computational complexity), and analyzing the trade-offs in quantum resource consumption, such as qubit requirements and circuit depth.
+iv) Challenges and Future Directions. This work examines the technical challenges and future prospects of PQC- and QLA-based quantum Transformer approaches, addressing practical limitations under NISQ conditions (e.g., noise sensitivity, scalability) and the transformative potential enabled by fault-tolerant quantum computing (e.g., algorithmic speedup).
+The remainder of this paper is organized as follows: Section 2 introduces the classical Transformer mechanism, while Section 3 covers quantum machine learning fundamentals relevant to Quantum Transformers. Section 4 analyzes PQC-based Transformers, discussing their architectures, resource requirements, and computational complexities. Section 5 explores QLA-based Transformers as a potential future direction. Section 6 summarizes key challenges and outlooks, and Section [7](https://arxiv.org/html/2504.03192v1) concludes with a summary and future perspectives.
+[15](https://arxiv.org/html/2504.03192v1)
+[16](https://arxiv.org/html/2504.03192v1)
+[17](https://arxiv.org/html/2504.03192v1)
+[18](https://arxiv.org/html/2504.03192v1)
+[19](https://arxiv.org/html/2504.03192v1)
+[20](https://arxiv.org/html/2504.03192v1)
+[21](https://arxiv.org/html/2504.03192v1)
+[22](https://arxiv.org/html/2504.03192v1)
+[23](https://arxiv.org/html/2504.03192v1)
+[24](https://arxiv.org/html/2504.03192v1)
+[25](https://arxiv.org/html/2504.03192v1)
+[26](https://arxiv.org/html/2504.03192v1)
+[27](https://arxiv.org/html/2504.03192v1)
+[28](https://arxiv.org/html/2504.03192v1)
+[29](https://arxiv.org/html/2504.03192v1)
+[30](https://arxiv.org/html/2504.03192v1)
+[31](https://arxiv.org/html/2504.03192v1)
+[32](https://arxiv.org/html/2504.03192v1)
+[33](https://arxiv.org/html/2504.03192v1)
+[34](https://arxiv.org/html/2504.03192v1)
+[35](https://arxiv.org/html/2504.03192v1)
+[36](https://arxiv.org/html/2504.03192v1)
+
+## 2 Classical Transformer
+The original Transformer follows an Encoder-Decoder structure, but in different tasks, it can flexibly use only the Encoder or Decoder. Regardless of the specific usage, both the Encoder and Decoder consist of multiple stacked Transformer blocks, each containing the following key components: self-attention mechanisms, multi-head attention, position-wise feedforward networks, and residual connections with normalization. The structure of a Transformer block is shown in Fig. [1](https://arxiv.org/html/2504.03192v1).
+Self-Attention Mechanism. Self-attention allows each position in a sequence to attend to all others, capturing long-range dependencies. It involves three main steps:
+QKV generations - Given an input sequence 𝐗∈ℝn×d𝐗superscriptℝ𝑛𝑑\mathbf{X}\in\mathbb{R}^{n\times d}bold_X ∈ blackboard_R start_POSTSUPERSCRIPT italic_n × italic_d end_POSTSUPERSCRIPT, we project it into three different spaces to obtain queries (𝐐)𝐐(\mathbf{Q})( bold_Q ), keys (𝐊)𝐊(\mathbf{K})( bold_K ), and values (𝐕)𝐕(\mathbf{V})( bold_V ):
+where 𝐖Q,𝐖K,𝐖V∈ℝd×dksubscript𝐖𝑄subscript𝐖𝐾subscript𝐖𝑉superscriptℝ𝑑subscript𝑑𝑘\mathbf{W}_{Q},\mathbf{W}_{K},\mathbf{W}_{V}\in\mathbb{R}^{d\times d_{k}}bold_W start_POSTSUBSCRIPT italic_Q end_POSTSUBSCRIPT , bold_W start_POSTSUBSCRIPT italic_K end_POSTSUBSCRIPT , bold_W start_POSTSUBSCRIPT italic_V end_POSTSUBSCRIPT ∈ blackboard_R start_POSTSUPERSCRIPT italic_d × italic_d start_POSTSUBSCRIPT italic_k end_POSTSUBSCRIPT end_POSTSUPERSCRIPT.
+Computing Attention Matrix - The attention matrix is computed using the scaled dot-product similarity between queries and keys, followed by the softmax function:
+Multiply Attention Matrix by Values (weighted Values) - The final self-attention representation is obtained by multiplying the attention matrix with the value vectors:
+Multi-Head Attention. Instead of a single attention computation, Multi-Head Attention splits the input into hℎhitalic_h independent attention heads, each with its own set of projections:
+The attention outputs from all heads are concatenated and projected back:
+Residual Connection and Layer Normalization. Each sub-layer (e.g., Multi-Head Attention, Feed-Forward Network) in the Transformer is surrounded by a residual connection and a layer normalization operation. Let 𝐗insubscript𝐗in\mathbf{X}_{\text{in}}bold_X start_POSTSUBSCRIPT in end_POSTSUBSCRIPT be the input to a sub-layer f⁢(⋅)𝑓⋅f(\cdot)italic_f ( ⋅ ). The output is:
+This stabilizes training and helps with gradient flow.
+Feed-Forward Network. Following multi-head attention and its residual connection + normalization, a position-wise feed-forward network (FFN) is applied to each position independently. A common choice is a two-layer fully connected network with a ReLU (or GELU) activation:
+This step further transforms token representations before passing them to the next layer.
+In summary, the Transformer model builds contextualized representations by stacking multiple self-attention layers, each followed by a feed-forward network, residual connections, and layer normalization.
+
+## 3 Fundamentals of QML
+Before introducing existing quantum transformer models, it is necessary to understand a few fundamental concepts of QML, including Quantum Computing Basics and QNN Basics.
+
+### 3.1 Quantum Computing Basics
+
+Quantum States. In quantum computing, quantum information is usually represented by n𝑛nitalic_n-qubit (pure) quantum states over Hilbert space ℂ2nsuperscriptℂsuperscript2𝑛\mathbb{C}^{2^{n}}blackboard_C start_POSTSUPERSCRIPT 2 start_POSTSUPERSCRIPT italic_n end_POSTSUPERSCRIPT end_POSTSUPERSCRIPT. A quantum state is typically represented by using Dirac notation, such as |ψ⟩ket𝜓|\psi\rangle| italic_ψ ⟩. For a single qubit, the state can be written as:
+where |0⟩ket0|0\rangle| 0 ⟩ and |1⟩ket1|1\rangle| 1 ⟩ are the basis of Hilbert space, and α𝛼\alphaitalic_α, β𝛽\betaitalic_β are amplitudes, which are complex numbers satisfying |α|2+|β|2=1superscript𝛼2superscript𝛽21|\alpha|^{2}+|\beta|^{2}=1| italic_α | start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT + | italic_β | start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT = 1. The values of α𝛼\alphaitalic_α and β𝛽\betaitalic_β describe the probability distribution of the qubit being in the |0⟩ket0|0\rangle| 0 ⟩ or |1⟩ket1|1\rangle| 1 ⟩ state.
+Quantum Gates. Quantum states evolve through quantum gates, which are unitary transformations represented by matrices. Common quantum gates include Pauli gates:
+Hadamard gate (H-gate), which creates superposition:
+and Controlled-NOT (CNOT) gate:
+Quantun Circuit. A quantum circuit is a computational model that processes quantum information using a sequence of quantum gates acting on qubits. Mathematically, a quantum circuit applies a unitary transformation U𝑈Uitalic_U to an initial quantum state |ψ0⟩ketsubscript𝜓0|\psi_{0}\rangle| italic_ψ start_POSTSUBSCRIPT 0 end_POSTSUBSCRIPT ⟩, producing an output state:
+The unitary operator U𝑈Uitalic_U is typically decomposed into a series of elementary quantum gates, such as Hadamard, Pauli, and controlled gates, which manipulate the quantum state according to the principles of quantum mechanics. A general quantum circuit with multiple layers can be expressed as:
+where each Uisubscript𝑈𝑖U_{i}italic_U start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT represents a set of quantum gates applied at layer i𝑖iitalic_i.
+If some of the quantum gates contain tunable parameters, such as rotation angles in Pauli rotation gates Rθ=e−i⁢θ⁢σ/2subscript𝑅𝜃superscript𝑒𝑖𝜃𝜎2R_{\theta}=e^{-i\theta\sigma/2}italic_R start_POSTSUBSCRIPT italic_θ end_POSTSUBSCRIPT = italic_e start_POSTSUPERSCRIPT - italic_i italic_θ italic_σ / 2 end_POSTSUPERSCRIPT, then the circuit is referred to as a PQC. These parameters can be optimized using classical optimization methods, making PQCs a fundamental component of quantum neural networks.
+Measurement. Quantum measurements are described by a collection {Mm}subscript𝑀𝑚\{M_{m}\}{ italic_M start_POSTSUBSCRIPT italic_m end_POSTSUBSCRIPT } of measurement operators. These are operators acting on the state space of the system being measured. The index m𝑚mitalic_m refers to the measurement outcomes that may occur in the experiment. If the state of the quantum system is |ψ⟩ket𝜓|\psi\rangle| italic_ψ ⟩ immediately before the measurement then the probability that result m𝑚mitalic_m occurs is
+
+### 3.2 Relevant quantum techniques in Quantum Transformers
+
+Quantum kernel. Quantum kernel methods leverage quantum computing to enhance classical kernel-based machine learning algorithms, such as support vector machines (SVMs) [[37](https://arxiv.org/html/2504.03192v1)]. The core idea is to map classical input data x𝑥xitalic_x into a high-dimensional Hilbert space using a quantum feature map U⁢(x)𝑈𝑥U(x)italic_U ( italic_x ), where the inner product between two quantum-encoded data points defines the kernel function:
+This quantum kernel measures the similarity between data points in the quantum feature space, potentially enabling more expressive representations and improved classification performance over classical kernels.
+Swap Test. A swap test is a quantum operation used to determine the similarity between two quantum states |ψ⟩ket𝜓|\psi\rangle| italic_ψ ⟩ and |ϕ⟩ketitalic-ϕ|\phi\rangle| italic_ϕ ⟩. It involves applying a swap operation on the two quantum states, while the swap operation is controlled by an ancilla qubit. On the ancilla qubit, a Hadamard gate is applied before and after the controlled swap operation. The ancilla qubit is then measured, and the probability of the measurement yielding 00 is:
+This probability reflects the degree of overlap between the two states, serving as a measure of similarity. It provides an efficient means of comparing two quantum vectors. The swap test circuit is shown in Fig [2](https://arxiv.org/html/2504.03192v1).
+Hadamard test. The Hadamard test is a quantum operation used to estimate the real or imaginary part of the expectation value of a unitary operator U𝑈Uitalic_U with respect to a quantum state |ψ⟩ket𝜓|\psi\rangle| italic_ψ ⟩. It utilizes an ancilla qubit to control the application of U𝑈Uitalic_U and employs Hadamard gates to create and interfere quantum superpositions. The probability of measuring the ancilla in the |0⟩ket0|0\rangle| 0 ⟩ state is given by:
+Similarly, by modifying the circuit with an additional phase gate, the test can be used to extract the imaginary part of ⟨ψ|U|ψ⟩quantum-operator-product𝜓𝑈𝜓\langle\psi|U|\psi\rangle⟨ italic_ψ | italic_U | italic_ψ ⟩. This technique is widely used to evaluate inner products, estimate expectation values, and facilitate quantum variational methods. The Hadamard test circuit is shown in Fig [3](https://arxiv.org/html/2504.03192v1).
+Block Encoding. Block encoding is a quantum technique that embeds a given matrix A𝐴Aitalic_A within a larger unitary matrix UAsubscript𝑈𝐴U_{A}italic_U start_POSTSUBSCRIPT italic_A end_POSTSUBSCRIPT, enabling efficient quantum processing of matrix operations [[38](https://arxiv.org/html/2504.03192v1)]. It is fundamental in quantum linear algebra and forms the basis for quantum singular value transformation (QSVT) and quantum algorithms for solving linear systems.
+Formally, a unitary matrix UAsubscript𝑈𝐴U_{A}italic_U start_POSTSUBSCRIPT italic_A end_POSTSUBSCRIPT is said to be an (α,a,ϵ𝛼𝑎italic-ϵ\alpha,a,\epsilonitalic_α , italic_a , italic_ϵ)-block encoding of a matrix A∈ℂ2n×2n𝐴superscriptℂsuperscript2𝑛superscript2𝑛A\in\mathbb{C}^{2^{n}\times 2^{n}}italic_A ∈ blackboard_C start_POSTSUPERSCRIPT 2 start_POSTSUPERSCRIPT italic_n end_POSTSUPERSCRIPT × 2 start_POSTSUPERSCRIPT italic_n end_POSTSUPERSCRIPT end_POSTSUPERSCRIPT if it satisfies the following condition:
+Here, α𝛼\alphaitalic_α is a scaling factor ensuring UAsubscript𝑈𝐴U_{A}italic_U start_POSTSUBSCRIPT italic_A end_POSTSUBSCRIPT remains unitary, a𝑎aitalic_a represents the number of ancilla qubits required for encoding, ϵitalic-ϵ\epsilonitalic_ϵ is the allowable error in approximation, and Insubscript𝐼𝑛I_{n}italic_I start_POSTSUBSCRIPT italic_n end_POSTSUBSCRIPT is the identity matrix of appropriate size. Block encoding allows quantum computers to efficiently perform matrix operations, achieving significant speedups in solving complex linear algebra problems compared to classical methods.
+Quantum Singular Value Transformation. QSVT is a powerful framework that generalizes various quantum algorithms for linear algebra and matrix computations [[39](https://arxiv.org/html/2504.03192v1)]. It enables the manipulation of the singular values of a block-encoded matrix using quantum circuits, providing exponential speedups for problems such as solving linear systems, matrix exponentiation, and principal component analysis.
+
+### 3.2 Relevant quantum techniques in Quantum Transformers
+
+Given a block-encoded matrix UAsubscript𝑈𝐴U_{A}italic_U start_POSTSUBSCRIPT italic_A end_POSTSUBSCRIPT of a target matrix A𝐴Aitalic_A, QSVT applies a carefully designed sequence of quantum operations to transform the singular values σisubscript𝜎𝑖\sigma_{i}italic_σ start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT of A𝐴Aitalic_A. Formally, if A𝐴Aitalic_A is (α,m𝛼𝑚\alpha,mitalic_α , italic_m)-block-encoded in UAsubscript𝑈𝐴U_{A}italic_U start_POSTSUBSCRIPT italic_A end_POSTSUBSCRIPT, QSVT constructs a polynomial transformation P⁢(A)𝑃𝐴P(A)italic_P ( italic_A ) such that:
+where DAsubscript𝐷𝐴D_{A}italic_D start_POSTSUBSCRIPT italic_A end_POSTSUBSCRIPT is a diagonal matrix containing the singular values σisubscript𝜎𝑖\sigma_{i}italic_σ start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT of A𝐴Aitalic_A, and VAsubscript𝑉𝐴V_{A}italic_V start_POSTSUBSCRIPT italic_A end_POSTSUBSCRIPT is a unitary transformation that diagonalizes A𝐴Aitalic_A. The polynomial P𝑃Pitalic_P is designed through a sequence of phase rotations and controlled operations, allowing for controlled amplification, filtering, or inversion of singular values.
+A key advantage of QSVT is its ability to approximate functions of a matrix A𝐴Aitalic_A with minimal overhead, making it a fundamental technique in quantum algorithms for machine learning, optimization, and scientific computing.
+
+## 4 PQC-based Quantum Transformers
+
+In the NISQ era, quantum hardware is limited by high noise levels and a restricted number of qubits. Consequently, most research efforts focus on exploring the feasibility of quantum Transformers within the framework of PQCs (i.e., papers 1-18 in Tab. [II](https://arxiv.org/html/2504.03192v1)). By replacing specific Transformer components with PQCs, these models aim to reduce classical computational complexity while potentially leveraging quantum computational advantages. This section analyzes the implementation techniques of these models, evaluates their computational complexity and quantum resource requirements, and lays the foundation for further optimization and extension of quantum Transformers.
+
+### 4.1 Model Architectures
+
+[15](https://arxiv.org/html/2504.03192v1)
+[16](https://arxiv.org/html/2504.03192v1)
+[17](https://arxiv.org/html/2504.03192v1)
+[18](https://arxiv.org/html/2504.03192v1)
+[19](https://arxiv.org/html/2504.03192v1)
+[20](https://arxiv.org/html/2504.03192v1)
+[21](https://arxiv.org/html/2504.03192v1)
+[22](https://arxiv.org/html/2504.03192v1)
+[23](https://arxiv.org/html/2504.03192v1)
+[24](https://arxiv.org/html/2504.03192v1)
+[25](https://arxiv.org/html/2504.03192v1)
+[26](https://arxiv.org/html/2504.03192v1)
+[27](https://arxiv.org/html/2504.03192v1)
+[28](https://arxiv.org/html/2504.03192v1)
+[29](https://arxiv.org/html/2504.03192v1)
+[30](https://arxiv.org/html/2504.03192v1)
+[31](https://arxiv.org/html/2504.03192v1)
+[32](https://arxiv.org/html/2504.03192v1)
+We examine these PQC-based model architectures through the lens of implementation quantum techniques, proposing a four-category classification framework (see Tab. [II](https://arxiv.org/html/2504.03192v1)I): Naive Quantum self-attention methods (quantumizing solely Q/K/V𝑄𝐾𝑉Q/K/Vitalic_Q / italic_K / italic_V generation), Quantum Pairwise Attention methods (preserving the pairwise token similarities form), Quantum Global Attention (implicit token mixing with a nonlinear weighting scheme for Values), and Attention Matrix Acceleration (quantum-assisted acceleration of classical self-attention). This taxonomy elucidates variations between these models in quantumization scope (ranging from local to global), optimization aims (replacement vs. acceleration), and implementation strategies (classical retention vs. quantum reinvention), thereby offering a comprehensive technical roadmap for current PQC-based Quantum Transformers. Fig. 4 provides a summary of our subsequent analysis, clearly illustrating the quantumized Transformer components, the quantum techniques employed, and the category to which each model belongs. The numbers in the figure correspond to the paper numbers in Tab. II.
+
+#### 4.1.1 QKV-only Quantum mapping
+QKV-only Quantum mapping methods refers to quantumizing only the Q,K,V𝑄𝐾𝑉Q,K,Vitalic_Q , italic_K , italic_V generation step in Transformers, replacing classical linear mapping matrices (e.g., Wq,Wk,Wvsubscript𝑊𝑞subscript𝑊𝑘subscript𝑊𝑣W_{q},W_{k},W_{v}italic_W start_POSTSUBSCRIPT italic_q end_POSTSUBSCRIPT , italic_W start_POSTSUBSCRIPT italic_k end_POSTSUBSCRIPT , italic_W start_POSTSUBSCRIPT italic_v end_POSTSUBSCRIPT) with parameterized quantum circuits (PQCs), while retaining core self-attention computations and subsequent steps as classical implementations. This approach generates enhanced feature representations through quantum state evolution and measurement, aiming to leverage quantum feature spaces to enrich Q,K,V𝑄𝐾𝑉Q,K,Vitalic_Q , italic_K , italic_V expressivity while maintaining compatibility with classical Transformers.
+A. Representative work
+Li et al. [[15](https://arxiv.org/html/2504.03192v1)] were the first to propose a Quantum Self-Attention Neural Network (QSANN) based on this concept. QSANN firstly encodes the classical data into quantum state,
+then performs the PQCs on the initial quantum state separately,
+Then, measurements are performed to obtain three sets of expectations, which are used as the mapped Q⁢K⁢V𝑄𝐾𝑉QKVitalic_Q italic_K italic_V. In this process, the three quantum systems of QKV are independent of each other. To address the challenge of correlating distant quantum states, they introduced the Gaussian Projected Quantum Self-Attention (GPQSA) mechanism. This mechanism calculates self-attention coefficients through a novel method rather than relying on traditional inner products. Consequently, the combination of quantum generation operations with the classical self-attention mechanism forms a quantum-classical hybrid self-attention layer, which can be stacked multiply to extract the feature representations of the input data. These feature representations are then averaged and then used for classification tasks. Experimental results demonstrated that QSANN achieved higher classification accuracy compared to traditional models in binary classification tasks on small-scale text datasets, highlighting the potential of quantum-enhanced self-attention in practical applications.
+
+### 4.1 Model Architectures
+
+Due to its simple structure and ease of integration with classical models, QSANN has attracted considerable attention and inspired a series of follow-up studies. These studies further refined measurement methods, improved ansatz structures, or applied QSANN to specific practical problems.
+B. Measurement Improvement
+Building upon QSANN, Zhang et al. [16] proposed an improved model, which incorporated amplitude-phase decomposed measurements (APDM) and more powerful PQCs. By measuring a single PQC under both Pauli X and Pauli Z bases and assigning different classical meanings to the measurement results, ADPM can accomplish the mapping of Q, K, and V using only two PQCs. This enhancement allowed for more efficient quantum state information extraction and reduced the number of learnable parameters by one-third. Wei et al. [[17](https://arxiv.org/html/2504.03192v1)], on the other hand, employed a POVM-based measurement method to map quantum QKV states to the classical space. This approach utilizes informationally complete (IC) tetrahedral POVM measurement operators on each qubit, may capture richer Q𝑄Qitalic_Q, K𝐾Kitalic_K and V𝑉Vitalic_V feature representations of the input data. Both methods claim to achieve slightly better experimental results than QSANN.
+C. Practical Application
+Since QKV is converted into classical data for further processing, this modified approach can naturally be extended to multi-head attention, enhancing the model’s performance and bringing the quantum-classical hybrid model closer to the capabilities of classical models. Research in this area includes the work of Unlu et al. (2024) [20] and Comajoan Cara et al. [19], both of whom introduced the multi-head attention structure based on the framework in QSANN, and applied it to solve high-energy physics image classification. These advancements demonstrated the effectiveness of PQC-based linear mappings for processing high-dimensional data. On the other hand, Nguyen et al. [[18](https://arxiv.org/html/2504.03192v1)] proposed a quantum transformer model for refining the image clustering (QClusformer). QClusformer calculates correlations between feature vectors by quantum self-attention layer, identifying hard samples and noise within coarse-grained clusters that are already handled by a classical k-nearest neighbor algorithm.
+D. Experiments on a real Quantum computer
+He et al. (2024) [[21](https://arxiv.org/html/2504.03192v1)] pioneered the execution of a quantum Transformer model on real quantum hardware, with an overall architecture resembling QSANN but featuring slight improvements to the structure of PQCs to ensure that single-qubit measurements adequately capture complex dependencies. The experiments utilized the ”Wukong” 72-qubit superconducting quantum computer, employing 28 of its qubits. By introducing parallel strategies at the attention, and batch levels, the approach theoretically accelerates training speed by a factor of 3×b⁢s×n3𝑏𝑠𝑛3\times bs\times n3 × italic_b italic_s × italic_n compared to non-parallel strategies. The method’s effectiveness was validated on the MC and RP datasets, with results showing that performance on the real quantum chip (MC accuracy 100%, RP accuracy 83.87%) slightly outperformed the simulator (MC 100%, RP 80.66%), while significantly reducing forward and backward propagation times. This work not only demonstrates the feasibility of quantum self-attention models on NISQ devices but also provides valuable insights for the practical deployment of QML algorithms in NLP tasks through parallel optimization and noise-adaptive design. Future research could further explore its scalability and applicability to more complex tasks.
+Although this approach is favored for its simple and flexible structure, and its practicality that can closely match classical models, it still have some limitations. First, it does not address the computational bottleneck in the classical transformer model—the computation of the attention matrix. Second, when stacking multiple self-attention layers, data must be frequently converted between the quantum and classical levels, which increases the overhead of data encoding and measurements. Therefore, more studies are devoted to quantimizing the most critical component of the Transformer—the self-attention mechanism.
+
+#### 4.1.2 Quantum Pairwise Attention
+
+### 4.1 Model Architectures
+
+This section focuses on quantum pairwise attention methods, which preserve the form of computing pairwise similarities between tokens. It is worth noting that this subclass of works represents a deeper level of quantumization compared to the first subclass, as the Q⁢K⁢V𝑄𝐾𝑉QKVitalic_Q italic_K italic_V are also generated by PQCs. The key difference is that, in this routine, Q, K, and V remain as quantum states rather than being measured before attention score computation. Such methods can be further categorized into two quantum pairwise inner product similarity methods and quantum pairwise generalized similarity methods.
+A. Quantum pairwise inner-product similarity
+The attention coefficient is calculated as softmax⁢(Q⁢K⊤dk)softmax𝑄superscript𝐾topsubscript𝑑𝑘\text{softmax}\left(\frac{QK^{\top}}{\sqrt{d_{k}}}\right)softmax ( divide start_ARG italic_Q italic_K start_POSTSUPERSCRIPT ⊤ end_POSTSUPERSCRIPT end_ARG start_ARG square-root start_ARG italic_d start_POSTSUBSCRIPT italic_k end_POSTSUBSCRIPT end_ARG end_ARG ). Quantum pairwise inner product attention methods refers to replacing the classical computation of ⟨qi|kj⟩inner-productsubscript𝑞𝑖subscript𝑘𝑗\langle q_{i}|k_{j}\rangle⟨ italic_q start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT | italic_k start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT ⟩ with quantum methods that can directly obtaining the inner-product similarity between quantum states, e.g., Swap Test, Hadamard Test, and Quantum Kernel. In this section, we introduce models based on these quantum algorithms.
+Chen et al. (2025) [[22](https://arxiv.org/html/2504.03192v1)] proposed Quantum Mixed-State Self-Attention Network (QMSAN), which uses the swap test to directly compute the similarities of token pairs. This method firstly uses PQCs to generate |ψq⟩ketsubscript𝜓𝑞|\psi_{q}\rangle| italic_ψ start_POSTSUBSCRIPT italic_q end_POSTSUBSCRIPT ⟩, |ψk⟩ketsubscript𝜓𝑘|\psi_{k}\rangle| italic_ψ start_POSTSUBSCRIPT italic_k end_POSTSUBSCRIPT ⟩ and |ψv⟩ketsubscript𝜓𝑣|\psi_{v}\rangle| italic_ψ start_POSTSUBSCRIPT italic_v end_POSTSUBSCRIPT ⟩, then performs partial trace operations on |ψq⟩ketsubscript𝜓𝑞|\psi_{q}\rangle| italic_ψ start_POSTSUBSCRIPT italic_q end_POSTSUBSCRIPT ⟩ and |ψk⟩ketsubscript𝜓𝑘|\psi_{k}\rangle| italic_ψ start_POSTSUBSCRIPT italic_k end_POSTSUBSCRIPT ⟩ to obtain |ψ^q⟩ketsubscript^𝜓𝑞|\hat{\psi}_{q}\rangle| over^ start_ARG italic_ψ end_ARG start_POSTSUBSCRIPT italic_q end_POSTSUBSCRIPT ⟩ and |ψ^k⟩ketsubscript^𝜓𝑘|\hat{\psi}_{k}\rangle| over^ start_ARG italic_ψ end_ARG start_POSTSUBSCRIPT italic_k end_POSTSUBSCRIPT ⟩ in mixed quantum states. Then, the swap tests are performed on this mixed quantum state pairs to obtain the attention matrix. Since the outcomes of swap tests are classical, the subsequent steps are converted to classical means. The feature representations on mixed quantum states enable the evolution of from input data to Q𝑄Qitalic_Q, K𝐾Kitalic_K, and V𝑉Vitalic_V to extend beyond unitary transformations. The feature representation based on quantum mixed states allows the evolution of input data in the PQCs to overcome the limitations of unitary transformations, resulting in Q𝑄Qitalic_Q and K𝐾Kitalic_K with richer features, which in turn enhances the performance of the swap test.
+Meanwhile, Zhang et al. (2025) introduced HQViT, which uses swap test to compute the attention matrix while preserving global image information through a whole-image processing approach. Unlike previous methods that split images into patches, HQViT feeds an entire image as a whole embedding into the quantum system via amplitude encoding. In this way, the different qubits in the quantum system are naturally divided into two subsystems, representing the token’s own information (labeled as subsystem 1) and the token’s index information (labeled as subsystem 2). Two such quantum systems are created, each representing the evolution of Q and K. The swap test then acts on subsystem 1 of the Q and K quantum systems. By performing a systematic traversal of conditional measurements on subsystem 2 of the two quantum systems, combined with the swap test, the information of the entire attention matrix can be obtained.
+
+### 4.1 Model Architectures
+
+On the other hand, Smaldone et al. (2025) [[24](https://arxiv.org/html/2504.03192v1)] introduced Hadamard test to construct the their hybrid quantum-classical quantum transformer model, aiming to handle molecular generation tasks. Building on the conventional Hadamard test, this approach incorporates controlled inversion and conditional reset operations to efficiently embed |qi⟩delimited-|⟩subscript𝑞𝑖\lvert q_{i}\rangle| italic_q start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT ⟩ and |kj⟩delimited-|⟩subscript𝑘𝑗\lvert k_{j}\rangle| italic_k start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT ⟩ and calculate their inner product. The process begins with a primary register preparing |qi⟩delimited-|⟩subscript𝑞𝑖\lvert q_{i}\rangle| italic_q start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT ⟩, followed by a conditional reset of the register under the control of an auxiliary qubit to embed |kj⟩delimited-|⟩subscript𝑘𝑗\lvert k_{j}\rangle| italic_k start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT ⟩, with similarity extracted via a final Hadamard gate and measurement. The attention coefficient is defined as the real part of the inner product: Re⟨qi|kj⟩\text{Re}\langle q_{i}\lvert k_{j}\rangleRe ⟨ italic_q start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT | italic_k start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT ⟩. The resulting classical attention matrix is combined with the value matrix 𝐕𝐕\mathbf{V}bold_V to produce the output. On the QM9 dataset, this method generates molecules with target properties, achieving performance comparable to classical Transformers, thus demonstrating its potential on NISQ devices.
+Zhao et al. (2024) [[25](https://arxiv.org/html/2504.03192v1)] proposed the Quantum Kernel Self-Attention Mechanism (QKSAM), which computes the attention coefficients by encoding both ⟨qi|brasubscript𝑞𝑖\langle q_{i}|⟨ italic_q start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT | and |kj⟩ketsubscript𝑘𝑗|k_{j}\rangle| italic_k start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT ⟩ into a single quantum register and directly obtains their overlap by measurements. Compared to the swap test-based approaches, the quantum kernel-based approach reduces qubit resource requirements by one-third when computing similarity, as the evolution of Q𝑄Qitalic_Q and K𝐾Kitalic_K shares a single quantum system (while the evolution of V𝑉Vitalic_V still requires an independent quantum system). The attention coefficients are derived through the qubit-wise conditional measurements, which are called Quantum Kernel Self-Attention Score (QKSAS), and then QKSAS are associated to the V𝑉Vitalic_V register by control operations to generate weighted Values. This approach yields a new interpretation of attention coefficients, presenting them as probability vectors rather than scalars. thereby expanding the representation space of similarity coefficients and enhancing the model’s expressive power.
+The swap test can obtain the inner-product similarity between two vectors with only a single circuit execution and measurement (ignoring the number of sampling). However, to compute the entire attention score matrix, the circuit still needs to be executed N2superscript𝑁2N^{2}italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT times. Therefore, the algorithm complexity is O⁢(N2⁢f⁢(d))𝑂superscript𝑁2𝑓𝑑O(N^{2}f(d))italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT italic_f ( italic_d ) ), which still scales quadratically with the sequence length. Here, f⁢(d)𝑓𝑑f(d)italic_f ( italic_d ) represents the encoding complexity of the circuit, depending on the encoding method. For qubit encoding, f⁢(d)=d𝑓𝑑𝑑f(d)=ditalic_f ( italic_d ) = italic_d, while for amplitude encoding, f⁢(d)=log⁡d𝑓𝑑𝑑f(d)=\log ditalic_f ( italic_d ) = roman_log italic_d.
+B. Quantum pairwise generalized similarity
+Unlike the aforementioned quantum pairwise inner-product similarity method, another type of quantum pairwise attention mechanism is not limited to the mathematical form of inner-product similarity. Instead, it adopts a generalized similarity metric strategy, leveraging the unique properties of quantum circuits to implement the pairwise attention mechanism.
+
+### 4.1 Model Architectures
+
+Zhao et al. (2024) [[26](https://arxiv.org/html/2504.03192v1)] developed an Quantum Self-Attention Network (QSAN) that introduces Quantum Logical Similarity (QLS), which is a new metric that replaces classical inner-product similarity, utilizing quantum gates (such as Toffoli and CNOT gates) to perform logical operations and compute the similarity between Query and Key. Compared to classical methods, QLS avoids numerical computations and intermediate measurements, allowing the model to continuously operate on a quantum computer and obtain a similarity representation with quantum characteristics—the Quantum Bit Self-Attention Score Matrix (QBSASM). QBSASM represents attention scores in the form of quantum states (tensors), which have a higher dimensionality compared to classical scalar representations, enabling it to capture richer information in Hilbert space. The association between QBSASM and V𝑉Vitalic_V is achieved through a slicing operation. Specifically, for each query qisubscript𝑞𝑖q_{i}italic_q start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT, the slicing operation extracts the QLS elements, i.e., (⟨kj|qi⟩inner-productsubscript𝑘𝑗subscript𝑞𝑖\langle k_{j}|q_{i}\rangle⟨ italic_k start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT | italic_q start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT ⟩), from each row of QBSASM as control bits, then multi-controlled Toffoli gates are then used to apply weighted control over vjsubscript𝑣𝑗v_{j}italic_v start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT. The model was validated on the MNIST and CIFAR-10 datasets, and experimental results demonstrated faster convergence and higher classification accuracy. However, this method requires a large number of auxiliary qubits to store intermediate results for the AND and modulo-2 addition of Q-K pairs, causing the model width and depth complexity to grow quadratically with the sequence length N𝑁Nitalic_N. This results in high quantum resources consumption.
+Another quantum pairwise generalized attention model was proposed by Zheng et al. [27] in 2023. It comprises three main steps: first, the input data, which is preprocessed by classical CBOW model, is encoded into quantum states with amplitude encoding, generating Q⁢|x⟩𝑄ket𝑥Q|x\rangleitalic_Q | italic_x ⟩, K⁢|x⟩𝐾ket𝑥K|x\rangleitalic_K | italic_x ⟩, and V⁢|x⟩𝑉ket𝑥V|x\rangleitalic_V | italic_x ⟩; the quantum self-attention layer utilizes strongly entangled quantum circuit block (composed of parameterized rotation gates and CNOT gates) to capture the similarity between each qisubscript𝑞𝑖q_{i}italic_q start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT and kjsubscript𝑘𝑗k_{j}italic_k start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT pair; then a universal 2-qubit gate block are applied to distribute this similarity to corresponding vjsubscript𝑣𝑗v_{j}italic_v start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT, producing a weighted Value; finally, all the weighted Values are further processed by a quantum fully connected layer (incorporating Hadamard gates, CNOT gates, and rotation gates) for classification, with the entire process operating directly on quantum states without auxiliary qubits. The parameters are optimized by a network optimization module leverages quantum stochastic gradient descent (QSGD) and the parameter-shift rule. The classification performance of this method reaches 100%percent100100\%100 % accuracy on the MC dataset and 87.1%percent87.187.1\%87.1 % on RP, outperforming DisCoCat [40] and QSANN [15]. Compared to QSAN [[26](https://arxiv.org/html/2504.03192v1)], although this method does not require 𝒪⁢(N2)𝒪superscript𝑁2\mathcal{O}(N^{2})caligraphic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ) auxiliary qubits, the pairwise entanglement between qisubscript𝑞𝑖q_{i}italic_q start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT and kjsubscript𝑘𝑗k_{j}italic_k start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT occurs along the circuit depth. As a result, the overall circuit depth remains 𝒪⁢(N2)𝒪superscript𝑁2\mathcal{O}(N^{2})caligraphic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ).
+
+### 4.1 Model Architectures
+
+Shi et al. [[28](https://arxiv.org/html/2504.03192v1)] proposed a quite straightforward quantum self-attention mechanism. They encode and organize the quantum circuit at the unit level of qisubscript𝑞𝑖q_{i}italic_q start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT, kjsubscript𝑘𝑗k_{j}italic_k start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT, and vjsubscript𝑣𝑗v_{j}italic_v start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT, rather than structuring it at the level of Q𝑄Qitalic_Q, K𝐾Kitalic_K, and V𝑉Vitalic_V as in other methods. Instead of explicitly computing attention scores, they apply a PQC to each qisubscript𝑞𝑖q_{i}italic_q start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT, kjsubscript𝑘𝑗k_{j}italic_k start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT, and vjsubscript𝑣𝑗v_{j}italic_v start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT register to directly obtain the weighted value. The effectiveness of the model was validated on the small-scale datasets MC and RP. However, this method requires all qisubscript𝑞𝑖q_{i}italic_q start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT, kjsubscript𝑘𝑗k_{j}italic_k start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT, and vjsubscript𝑣𝑗v_{j}italic_v start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT pairs to be input at once, meaning that each token needs to be encoded multiple times, resulting in a very high demand for qubit resources.
+Overall, quantum pairwise self-attention methods implement token-wise pairwise similarity computation through quantum circuits, demonstrating the deep integration of quantum algorithms with Transformer models while also showcasing the diversity of quantum similarity interpretations. Among them, inner-product similarity methods tend to generate classical-form attention matrices (which, through conditional measurement control, can also technically associate attention coefficients with V𝑉Vitalic_V in quantum states, such as in QKSAN). The circuit execution complexity for these methods is O⁢(N2)𝑂superscript𝑁2O(N^{2})italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ). In contrast, generalized similarity methods emphasize the uninterrupted execution on quantum computers. They adopt novel similarity metrics such as quantum logical similarity (QLS) or strongly entangled circuits, breaking free from the constraints of inner-product similarity in an attempt to obtain similarity information that is classically hard to simulate. However, these methods may still require O⁢(N2)𝑂superscript𝑁2O(N^{2})italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ) complexity in terms of qubit count or circuit depth.
+
+#### 4.1.3 Quantum Global Attention
+Quantum Global Attention methods leverage quantum circuits to perform global mixing across all tokens simultaneously, eschewing the pairwise similarity computations of standard self-attention. Typically, these methods lack an explicit Q⁢K⁢V𝑄𝐾𝑉QKVitalic_Q italic_K italic_V mapping process; instead, they integrate feature mapping and global token mixing within a single parameterized transformation, directly yielding the attention layer’s output. Such approaches often involve specially designed global encoding strategies, enabling efficient information mixing with reduced computational complexity compared to pairwise methods.
+
+### 4.1 Model Architectures
+
+Kerenidis et al. (2024) [29] proposed an innovative Quantum Vision Transformer (Quantum ViT), termed Quantum Compound Transformer, which is built upon two core components: the Data Loader and the Quantum Orthogonal Layer. The Data Loader employs unary amplitude encoding to efficiently transform a classical matrix 𝐗∈ℝn×d𝐗superscriptℝ𝑛𝑑\mathbf{X}\in\mathbb{R}^{n\times d}bold_X ∈ blackboard_R start_POSTSUPERSCRIPT italic_n × italic_d end_POSTSUPERSCRIPT (e.g., an image divided into N𝑁Nitalic_N patches, each with dimension d𝑑ditalic_d) into a quantum superposition state |𝐗⟩=1‖𝐗‖⁢∑i=1n∑j=1dXi⁢j⁢|𝐞j⟩⁢|𝐞i⟩ket𝐗1norm𝐗superscriptsubscript𝑖1𝑛superscriptsubscript𝑗1𝑑subscript𝑋𝑖𝑗ketsubscript𝐞𝑗ketsubscript𝐞𝑖|\mathbf{X}\rangle=\frac{1}{\|\mathbf{X}\|}\sum_{i=1}^{n}\sum_{j=1}^{d}X_{ij}|% \mathbf{e}_{j}\rangle|\mathbf{e}_{i}\rangle| bold_X ⟩ = divide start_ARG 1 end_ARG start_ARG ∥ bold_X ∥ end_ARG ∑ start_POSTSUBSCRIPT italic_i = 1 end_POSTSUBSCRIPT start_POSTSUPERSCRIPT italic_n end_POSTSUPERSCRIPT ∑ start_POSTSUBSCRIPT italic_j = 1 end_POSTSUBSCRIPT start_POSTSUPERSCRIPT italic_d end_POSTSUPERSCRIPT italic_X start_POSTSUBSCRIPT italic_i italic_j end_POSTSUBSCRIPT | bold_e start_POSTSUBSCRIPT italic_j end_POSTSUBSCRIPT ⟩ | bold_e start_POSTSUBSCRIPT italic_i end_POSTSUBSCRIPT ⟩. This process is realized using two registers: an upper register with n𝑛nitalic_n qubits representing patch indices and a lower register with d𝑑ditalic_d qubits encoding the information of each patch. The Quantum Orthogonal Layer111The technical details involved in the RBS gate and the quantum orthogonal network are extensive. Due to space limitations, we do not elaborate on them in this paper. Readers interested in further details are encouraged to refer to [[41](https://arxiv.org/html/2504.03192v1)], implemented via parameterized RBS gates, performs orthogonal matrix transformations, reducing the depth complexity of the parameterized circuit to 𝒪⁢(log⁡N)𝒪𝑁\mathcal{O}(\log N)caligraphic_O ( roman_log italic_N ), thereby balancing expressivity and hardware compatibility while mitigating the gradient vanishing issues common in variational circuits.
+
+### 4.1 Model Architectures
+
+Leveraging these tools, the Quantum Compound Transformer introduces a ”compound” paradigm, where a second-order compound matrix 𝒱c(2)superscriptsubscript𝒱𝑐2\mathcal{V}_{c}^{(2)}caligraphic_V start_POSTSUBSCRIPT italic_c end_POSTSUBSCRIPT start_POSTSUPERSCRIPT ( 2 ) end_POSTSUPERSCRIPT (with dimension (N+d2)×(N+d2)binomial𝑁𝑑2binomial𝑁𝑑2\binom{N+d}{2}\times\binom{N+d}{2}( FRACOP start_ARG italic_N + italic_d end_ARG start_ARG 2 end_ARG ) × ( FRACOP start_ARG italic_N + italic_d end_ARG start_ARG 2 end_ARG )) integrates feature mapping and global weighting into a single high-order transformation to achieve global information mixing. First, the Data Loader encodes the entire image into a quantum superposition state; then, a single quantum orthogonal layer 𝐕csubscript𝐕𝑐\mathbf{V}_{c}bold_V start_POSTSUBSCRIPT italic_c end_POSTSUBSCRIPT is applied across both registers, generating the output state |𝐘⟩=|𝒱c(2)⁢X⟩ket𝐘ketsuperscriptsubscript𝒱𝑐2𝑋|\mathbf{Y}\rangle=|\mathcal{V}_{c}^{(2)}X\rangle| bold_Y ⟩ = | caligraphic_V start_POSTSUBSCRIPT italic_c end_POSTSUBSCRIPT start_POSTSUPERSCRIPT ( 2 ) end_POSTSUPERSCRIPT italic_X ⟩, accomplishing global feature transformation and weighting in one step. The overall width and depth of the model are primarily determined by the Data Loader circuit, resulting in (N+d)𝑁𝑑(N+d)( italic_N + italic_d ) and 𝒪⁢(log⁡N+2⁢N⁢log⁡d)𝒪𝑁2𝑁𝑑\mathcal{O}(\log N+2N\log d)caligraphic_O ( roman_log italic_N + 2 italic_N roman_log italic_d ), respectively, which reduces quantum resource consumption compared to quantum pairwise attention methods. This approach harnesses quantum superposition and orthogonality to efficiently explore a larger Hilbert space while preserving gradient sharing among patches—akin to the global context of classical transformers but realized through quantum algorithms. Finally, by measuring the output state, the classical output patches (𝐲𝟏,…,𝐲𝐍)∈ℝN×dsubscript𝐲1…subscript𝐲𝐍superscriptℝ𝑁𝑑(\mathbf{y_{1}},\dots,\mathbf{y_{N}})\in\mathbb{R}^{N\times d}( bold_y start_POSTSUBSCRIPT bold_1 end_POSTSUBSCRIPT , … , bold_y start_POSTSUBSCRIPT bold_N end_POSTSUBSCRIPT ) ∈ blackboard_R start_POSTSUPERSCRIPT italic_N × italic_d end_POSTSUPERSCRIPT are obtained. This method was validated on the MedMNIST dataset and achieved results outperforming classical benchmarks.
+It is worth noting that, as stated in the article, the spirit of this method is actually closer to MLP-Mixer [[42](https://arxiv.org/html/2504.03192v1)] than to self-attention. MLP-Mixer employs alternating token-mixing MLP and channel-mixing MLP operations to directly perform global feature mixing across all patches. Similarly, the operation of the Quantum Compound Transformer follows this paradigm, replacing the classical MLP layers with quantum parameterized orthogonal layers. Its global transformation implicitly integrates the mixing of tokens and channels within a high-order transformation framework.
+
+### 4.1 Model Architectures
+
+Evans et al. [31] proposed a quantum self-attention variant based on Fourier transform and kernel method. This method leverages the observation from FNet [43] that unparameterized Fourier transforms can replace self-attention, maintaining high accuracy with significant training speedups, and extends this via the kernel convolution perspective [44, [45](https://arxiv.org/html/2504.03192v1)], where self-attention can be represented by a convolution against a stationary kernel and can be simply computed in the Fourier domain. SASQuaTCh implements this quantumly by globally encoding sequences into a tensor product quantum state |ψ⟩=|ψ1⟩⊗⋯⊗|ψN⟩ket𝜓tensor-productketsubscript𝜓1⋯ketsubscript𝜓𝑁|\psi\rangle=|\psi_{1}\rangle\otimes\cdots\otimes|\psi_{N}\rangle| italic_ψ ⟩ = | italic_ψ start_POSTSUBSCRIPT 1 end_POSTSUBSCRIPT ⟩ ⊗ ⋯ ⊗ | italic_ψ start_POSTSUBSCRIPT italic_N end_POSTSUBSCRIPT ⟩, applying a quantum Fourier transform (QFT) to each token’s state to shift into the frequency domain, followed by a variational kernel, Ukernel⁢(θ)subscript𝑈kernel𝜃U_{\text{kernel}}(\theta)italic_U start_POSTSUBSCRIPT kernel end_POSTSUBSCRIPT ( italic_θ ), for channel mixing and an inverse QFT to return to the computational basis, all within a single quantum circuit. A final variational unitary Up⁢(θ)subscript𝑈𝑝𝜃U_{p}(\theta)italic_U start_POSTSUBSCRIPT italic_p end_POSTSUBSCRIPT ( italic_θ ) transfers information to a readout qubit for measurement. This reduces per-layer self-attention complexity from classical 𝒪⁢(N2⁢d)𝒪superscript𝑁2𝑑\mathcal{O}(N^{2}d)caligraphic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT italic_d ) to 𝒪⁢(N⁢log2⁡d)𝒪𝑁superscript2𝑑\mathcal{O}(N\log^{2}d)caligraphic_O ( italic_N roman_log start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT italic_d ). Yet its limitations may include the stationary kernel assumption, which underpins the convolution reformulation but is not inherently valid for self-attention due to its dynamic, context-dependent weights rather than sole reliance on relative positions, risking reduced expressive power for complex, non-stationary tasks. Additionally, this method lacks publicly available experimental data to validate its feasibility.
+
+#### 4.1.4 Quantum-Assisted Acceleration
+In contrast to the previous methods, some works focus on using quantum computing to assist in accelerating classical self-attention, aiming to reduce computational complexity.
+
+### 4.1 Model Architectures
+
+Gao et al. [32] proposed a model optimization strategy for attention computation in large language models, inspired by the observation that attention matrices are often sparse [46, 47]. This approach leverages Grover’s Search, a quantum algorithm that efficiently finds k𝑘kitalic_k target elements in an unstructured N𝑁Nitalic_N-element set in O~⁢(n⁢k)~𝑂𝑛𝑘\tilde{O}(\sqrt{nk})over~ start_ARG italic_O end_ARG ( square-root start_ARG italic_n italic_k end_ARG ) time by exploiting superposition and interference, offering a quadratic speedup over classical 𝒪⁢(N⁢k)𝒪𝑁𝑘\mathcal{O}(Nk)caligraphic_O ( italic_N italic_k ) search [[48](https://arxiv.org/html/2504.03192v1)]. Motivated by this, the method uses Grover’s Search to accelerate identification of sparse, significant entries in attention matrices, classically encodes Q𝑄Qitalic_Q and K𝐾Kitalic_K matrices, locates k𝑘kitalic_k entries per row exceeding a threshold τ𝜏\tauitalic_τ in O~⁢(N⁢k⁢d)~𝑂𝑁𝑘𝑑\tilde{O}(\sqrt{Nk}d)over~ start_ARG italic_O end_ARG ( square-root start_ARG italic_N italic_k end_ARG italic_d ) time, and constructs a sparse matrix B𝐵Bitalic_B with a rank-1 component through classical operations, reducing inference complexity from 𝒪⁢(N2⁢d)𝒪superscript𝑁2𝑑\mathcal{O}(N^{2}d)caligraphic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT italic_d ) to O~⁢(N1.5⁢k0.5⁢d+N⁢k⁢d)~𝑂superscript𝑁1.5superscript𝑘0.5𝑑𝑁𝑘𝑑\tilde{O}(N^{1.5}k^{0.5}d+Nkd)over~ start_ARG italic_O end_ARG ( italic_N start_POSTSUPERSCRIPT 1.5 end_POSTSUPERSCRIPT italic_k start_POSTSUPERSCRIPT 0.5 end_POSTSUPERSCRIPT italic_d + italic_N italic_k italic_d ). By limiting quantum usage to search acceleration, it achieves polynomial speedup with error bounds of O⁢(η2)𝑂superscript𝜂2O(\eta^{2})italic_O ( italic_η start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ) when sparsity (k≪Nmuch-less-than𝑘𝑁k\ll Nitalic_k ≪ italic_N) holds. However, the effectiveness of this method relies on the (τ,k)𝜏𝑘(\tau,k)( italic_τ , italic_k )-good sparsity assumption and efficient oracle access, but it still lacks experimental validation to confirm its performance in practical applications.
+
+### 4.2 Discussions on Quantum Advantages
+
+#### 4.2.1 Model Complexity
+[15](https://arxiv.org/html/2504.03192v1)
+[22](https://arxiv.org/html/2504.03192v1)
+[23](https://arxiv.org/html/2504.03192v1)
+[24](https://arxiv.org/html/2504.03192v1)
+[25](https://arxiv.org/html/2504.03192v1)
+[26](https://arxiv.org/html/2504.03192v1)
+[27](https://arxiv.org/html/2504.03192v1)
+[29](https://arxiv.org/html/2504.03192v1)
+[31](https://arxiv.org/html/2504.03192v1)
+- 
+•
+
+1: This method has been implemented using both amplitude encoding and qubit encoding, but here we select the case of qubit encoding.
+
+
+- 
+•
+
+’——’ indicates that there is no classical computational overhead.
+
+
+- 
+•
+
+’*’ indicates that this method uses amplitude encoding, which will significantly increases the circuit depth.
+
+
+- 
+•
+
+’**’ indicates that the measurement process of this method includes post-selection measurements, which will significantly increases the number of sampling required.
+
+
+1: This method has been implemented using both amplitude encoding and qubit encoding, but here we select the case of qubit encoding.
+’——’ indicates that there is no classical computational overhead.
+’*’ indicates that this method uses amplitude encoding, which will significantly increases the circuit depth.
+’**’ indicates that the measurement process of this method includes post-selection measurements, which will significantly increases the number of sampling required.
+To systematically analyze the complexity of quantum Transformer models based on parameterized quantum circuits (PQC), as shown in Tab. [IV](https://arxiv.org/html/2504.03192v1), we selects the following key metrics:
+- Number of qubits (width). This reflects the spatial complexity of the model and directly impacts hardware resource requirements. Given the limited number of qubits in NISQ devices, we assume that all methods adopt qubit reuse (i.e., serial execution) rather than parallel computation.
+- Circuit depth: This measures the time complexity of quantum computation. The noise constraints in NISQ devices make deep circuits difficult to execute in practice. In this paper, we consider the depth of parameterized quantum circuits (PQC) as the primary measure, typically expressed as O⁢(poly⁢(n))𝑂poly𝑛O(\text{poly}(n))italic_O ( poly ( italic_n ) ), where n𝑛nitalic_n is the number of qubits. Multi-qubit gates (e.g., CNOT) are counted as a single depth unit without further decomposition. Notably, the circuit depth reported in the table does not include the additional depth required for encoding (such as amplitude encoding), which we denote with an asterisk (*).
+- Number of measurements. This represents the overhead of quantum-classical interactions and is a key factor in the actual cost of running quantum algorithms. The number of measurements per execution depends on the required feature dimensions (e.g., extracting a d𝑑ditalic_d-dimensional vector requires O⁢(d)𝑂𝑑O(d)italic_O ( italic_d ) measurements). The total number of measurements is the product of measurements per execution and the number of circuit executions. To estimate measurement probabilities or expectation values, practical experiments typically require O⁢(1/ϵ2)𝑂1superscriptitalic-ϵ2O(1/\epsilon^{2})italic_O ( 1 / italic_ϵ start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ) samples (where ϵitalic-ϵ\epsilonitalic_ϵ is the target accuracy), but in this paper, we provide only qualitative annotations (**) rather than precise calculations.
+- Number of circuit executions. Different methods invoke quantum circuits at varying frequencies, affecting overall computational cost. For example, QKV mapping with per-token input requires O⁢(N)𝑂𝑁O(N)italic_O ( italic_N ) executions, whereas global attention computation may require only O⁢(1)𝑂1O(1)italic_O ( 1 ) execution. In self-attention mechanisms, computing pairwise attention scores typically requires O⁢(N2)𝑂superscript𝑁2O(N^{2})italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ) executions, corresponding to all token pairs.
+- Remaining classical computational complexity. This measures the portion of computation not replaced by quantum processing and assesses the classical computational burden of the overall framework. Due to the limitations of current NISQ devices, most quantum Transformer models still rely on classical computations (e.g., softmax and normalization), which influence the demonstration of quantum advantages.
+
+### 4.2 Discussions on Quantum Advantages
+
+Additionally, although the number of quantum gates directly affects the execution time and noise accumulation of PQC algorithms, existing literature rarely provides explicit statistics, and this metric heavily depends on circuit structure and hardware implementation. Therefore, we exclude it from this analysis.
+Currently, whether PQC algorithms can achieve definitive quantum acceleration remains an open question. The constraints of NISQ devices—such as limited qubit availability, noise accumulation, and long measurement times—make direct comparisons with classical algorithms in terms of runtime or resource costs potentially unfair. Consequently, this paper focuses on evaluating the performance of quantum algorithms under current quantum resource limitations, particularly whether they can overcome the quadratic complexity bottleneck (O⁢(N2)𝑂superscript𝑁2O(N^{2})italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT )) in self-attention mechanisms. This perspective aims to assess the theoretical potential of quantum Transformer models in algorithm design, laying the groundwork for future applications as hardware improves.
+From this perspective, the overall complexity of QKV-only Quantum mapping and quantum pairwise attention methods (defined as the highest dimension of quantum resource complexity) still exhibits a quadratic relationship with the sequence length N𝑁Nitalic_N, failing to achieve significant complexity reduction. For example, the core self-attention computation of the QKV-only Quantum mapping method (such as 1) relies on classical algorithms, with a complexity of O⁢(N2⁢d)𝑂superscript𝑁2𝑑O(N^{2}d)italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT italic_d ), while quantum pairwise attention methods often exhibit O⁢(N2⁢d)𝑂superscript𝑁2𝑑O(N^{2}d)italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT italic_d ) complexity in at least one dimension, such as 8, 9, 10, and 11. These methods require O⁢(N2)𝑂superscript𝑁2O(N^{2})italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ) circuit runs, leading to total measurement counts of O⁢(N2⁢d)𝑂superscript𝑁2𝑑O(N^{2}d)italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT italic_d ) or O⁢(N2⁢log⁡d)𝑂superscript𝑁2𝑑O(N^{2}\log d)italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT roman_log italic_d ). Meanwhile, 12 and 13 exhibit O⁢(N2)𝑂superscript𝑁2O(N^{2})italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ) complexity in terms of circuit width or depth. In contrast, quantum global attention methods can significantly reduce the overall complexity to below the square of the sequence length, such as 15 with a width of O⁢(N+d)𝑂𝑁𝑑O(N+d)italic_O ( italic_N + italic_d ), a depth of O⁢(N⁢log⁡d)𝑂𝑁𝑑O(N\log d)italic_O ( italic_N roman_log italic_d ), and total measurement counts of O⁢(N⁢d)𝑂𝑁𝑑O(Nd)italic_O ( italic_N italic_d ), and 17 with a width of O⁢(N⁢log⁡d)𝑂𝑁𝑑O(N\log d)italic_O ( italic_N roman_log italic_d ), a depth of O⁢(N⁢log2⁡d+poly⁢(N⁢log⁡d))𝑂𝑁superscript2𝑑poly𝑁𝑑O(N\log^{2}d+\text{poly}(N\log d))italic_O ( italic_N roman_log start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT italic_d + poly ( italic_N roman_log italic_d ) ), and total measurement counts of O⁢(1)𝑂1O(1)italic_O ( 1 ). However, the mathematical form of these methods deviates from the classical self-attention definition (being closer to global mixing mechanisms like MLP-Mixer), and their theoretical explanation remains incomplete. For example, the semantic roles of composite matrices or QFT have not been fully clarified, which may limit their direct applicability in tasks requiring classical self-attention semantics (such as long-range dependency modeling). Furthermore, the complexity reduction of quantum global attention methods may come with other costs, such as the post-selection measurements of 15, which might lead to higher sampling complexity.
+
+### 4.2 Discussions on Quantum Advantages
+
+Although QKV-only Quantum mapping and quantum pairwise attention methods have not reduced the overall complexity in the O⁢(N2)𝑂superscript𝑁2O(N^{2})italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ) dimension, they still contribute other forms of advantages through quantum characteristics. First, the reduction in local complexity provides efficiency improvements for the model. For instance, methods like 8 and 9 use the Swap Test to reduce the complexity of a single inner-product calculation from the classical O⁢(d)𝑂𝑑O(d)italic_O ( italic_d ) to O⁢(1)𝑂1O(1)italic_O ( 1 ), with the potential for parallel processing. Second, the high-dimensional interpretation of quantum attention scores may lead to richer semantic representations. For example, 12 generates quantum-state-form attention scores via quantum logical similarity (QLS), and its high-dimensional representation in Hilbert space captures more complex information associations. Finally, PQC enhances the representational capacity of Q𝑄Qitalic_Q, K𝐾Kitalic_K, and V𝑉Vitalic_V through quantum entanglement and superposition. For instance, 1 uses PQC to generate more expressive feature mappings, achieving success in text classification tasks. However, the practical impact of these advantages still requires further validation, such as whether local efficiency improvements translate into overall performance gains and whether high-dimensional representations remain effective in more complex tasks.
+
+#### 4.2.2 Experimental Performance
+[15](https://arxiv.org/html/2504.03192v1)
+[22](https://arxiv.org/html/2504.03192v1)
+[27](https://arxiv.org/html/2504.03192v1)
+[28](https://arxiv.org/html/2504.03192v1)
+[17](https://arxiv.org/html/2504.03192v1)
+- 
+•
+
+’——’ indicates that there is no experiment conducted.
+
+
+’——’ indicates that there is no experiment conducted.
+[25](https://arxiv.org/html/2504.03192v1)
+[26](https://arxiv.org/html/2504.03192v1)
+[16](https://arxiv.org/html/2504.03192v1)
+[23](https://arxiv.org/html/2504.03192v1)
+- 
+•
+
+’——’ indicates that there is no experiment conducted.
+
+
+’——’ indicates that there is no experiment conducted.
+In the experimental evaluation of above quantum Transformer models, current researches have demonstrated certain technical potential, with most models exhibiting superior performance compared to their classical counterparts on small-scale classification tasks. We have selected studies with relatively comprehensive experiments on public datasets for statistical analysis (excluding datasets with only a single model tested and lacking cross-comparisons to ensure representativeness and comparability), as summarized in Tab. V and VI. We can see that, for NLP tasks, the quantum hybrid architecture 8 achieved accuracy rates of 84.96%–87.48% on sentiment analysis tasks (Yelp/IMDb/Amazon), outperforming other models. In relation parsing (RP), 13 reached an accuracy of 87.1%, marking a 14.8 percentage-point improvement over the quantum NLP model DisCoCat [[40](https://arxiv.org/html/2504.03192v1)], demonstrating breakthrough performance in specific tasks. For CV tasks, 2 and 9 showed strong generalization capabilities across datasets of varying scales, particularly achieving accuracies of 86.75%–88.5% on Mini-Imagenet binary classification tasks.
+Overall, hybrid quantum-classical self-attention architectures (e.g., [15], [16], [22], [23], see Fig. 4) performed slightly better. These models retain certain classical Transformer components (e.g., Softmax operations, residual connections), making their architectures more similar to classical Transformers and thus more scalable for larger datasets. In contrast, fully quantum models (e.g., [25], [26], [[27](https://arxiv.org/html/2504.03192v1)]) are constrained by current quantum hardware limitations, restricting their validation to small-scale datasets, and their scalability requires further exploration.
+However, due to inconsistencies in experimental design and evaluation frameworks, the comparability of these results is limited, and readers should interpret them with caution.
+
+### 4.2 Discussions on Quantum Advantages
+
+1) Inconsistency in model configurations and classical baselines. Since quantum Transformers are still in the exploratory stage, there is currently no unified classical baseline for comparison. Different studies often highlight their models’ performance by using customized classical counterparts for comparison (for example, if a quantum model lacks position encoding or residual connections, the corresponding classical model also omits these components). The configuration of these components varies across quantum models, making it difficult to identify a fair classical baseline to serve as a standard for comparison.
+2) Inconsistency in data preprocessing methods. Before feeding data into the quantum circuit, researchers usually perform some classical preprocessing, and the methods used across different studies vary significantly. For example, in CV tasks, some studies perform direct downsampling of images, while others use principal component analysis (PCA) or classical fully connected layer for feature extraction. These differences in preprocessing methods directly affect the final experimental results, making it difficult to quantify and fairly compare the performance improvements brought about by the quantum components. Therefore, even if some quantum models perform excellently in experiments, it remains unclear whether the performance boost comes from the quantum components themselves or from optimizations in the classical preprocessing methods.
+
+## 5 QLA-based Quantum Transformers
+
+On the other hand, transformer models based on quantum linear algebra (QLA) may offer a promising direction, although research in this area remains largely theoretical. These approaches are mainly designed for the future era of fault-tolerant quantum computing, where the powerful tools of quantum linear algebra may enable the exponential acceleration of quantum Transformers. In this subsection, we provide a brief introduction to existing QLA-based Transformer models.
+Quantum linear algebra methods leverage the unique properties of quantum computing to efficiently solve fundamental problems in classical linear algebra, enabling exponential speedup for certain tasks. Since the core computations of the Transformer model rely heavily on matrix operations, quantum Transformers based on quantum linear algebra have emerged as a novel approach for quantumizing Transformer models. The core idea of QLA-based quantum transformer models is to leverage block encoding for matrix operations while utilizing QSVT for implementation of non-linear transformation (e.g., softmax or GELU functions). Meanwhile, other techniques such as LCU and amplitude transformation are incorporated to implement functions like residual connections and layer normalization.
+Guo et al. (2024) [[33](https://arxiv.org/html/2504.03192v1)] presented a pioneering QLA-based quantum Transformer architecture. For the given pre-trained parameters, this work utilities quantum means to implement the all the steps in a transformer block for inference stage. It also analyzes the complexity of each quantum subroutine and the overall complexity of a transformer block.
+First, for the given pre-trained weights, actually the matrix Q⁢KT𝑄superscript𝐾𝑇QK^{T}italic_Q italic_K start_POSTSUPERSCRIPT italic_T end_POSTSUPERSCRIPT is already obtained directly, and then is encoded in Quantum circuit by block encoding. Then, QSVT is applied to perform an element-wise matrix function and then implement the softmax function by polynomial approximation. Immediately following this, the multiplication of the attention matrix and V𝑉Vitalic_V can be conveniently implemented within the block-encoding framework. Besides, residual connections is realized by linear combination of block encodings, while layer normalization employs amplitude transformations to standardize vectors, both integrated seamlessly with quantum states’ inherent normalization. Regarding the FFN, the block-encoding technique is again employed to encode the parameter matrices of the linear layers, while the QSVT is applied to implement the GELU nonlinear activation function.
+This method achieves a complexity of 𝒪⁢(d⁢n2⁢α2⁢log2⁡(1ϵ))𝒪𝑑superscript𝑛2superscript𝛼2superscript21italic-ϵ\mathcal{O}(dn^{2}\alpha^{2}\log^{2}\left(\frac{1}{\epsilon}\right))caligraphic_O ( italic_d italic_n start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT italic_α start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT roman_log start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ( divide start_ARG 1 end_ARG start_ARG italic_ϵ end_ARG ) ) for a single-layer output state preparation (where d~~𝑑\tilde{d}over~ start_ARG italic_d end_ARG is the embedding dimension, n=log⁡N𝑛𝑁n=\log Nitalic_n = roman_log italic_N with N𝑁Nitalic_N as sequence length, α𝛼\alphaitalic_α as normalization factors, and ϵitalic-ϵ\epsilonitalic_ϵ as error), offering potential exponential speedups over classical 𝒪⁢(N2⁢d+N⁢d2)𝒪superscript𝑁2𝑑𝑁superscript𝑑2\mathcal{O}(N^{2}d+Nd^{2})caligraphic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT italic_d + italic_N italic_d start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ) complexity.
+
+## 5 QLA-based Quantum Transformers
+
+However, it is noteworthy that the parameters of this model are pre-trained (may have been trained by a classical model, but the paper does not explicitly state this), meaning that the input data for block encoding Q⁢KT𝑄superscript𝐾𝑇QK^{T}italic_Q italic_K start_POSTSUPERSCRIPT italic_T end_POSTSUPERSCRIPT is fixed. This highlights a limitation of the QLA-based approaches: since block encoding requires a specific unitary (denotes as UAsubscript𝑈𝐴U_{A}italic_U start_POSTSUBSCRIPT italic_A end_POSTSUBSCRIPT) for a given matrix A𝐴Aitalic_A (see eq. [8](https://arxiv.org/html/2504.03192v1)), updating A𝐴Aitalic_A necessitates recalculating the UAsubscript𝑈𝐴U_{A}italic_U start_POSTSUBSCRIPT italic_A end_POSTSUBSCRIPT matrix each time, which is computationally intensive, potentially offsetting the inherent quantum acceleration advantages provided by QLA techniques.
+Another study [34] adopts a hybrid approach combining quantum linear algebra with variational quantum algorithms and provides a specific structure for the quantum circuit structure. This method uses block encoding for the attention matrix Q⁢KT𝑄superscript𝐾𝑇QK^{T}italic_Q italic_K start_POSTSUPERSCRIPT italic_T end_POSTSUPERSCRIPT, variational quantum circuits for WVsubscript𝑊𝑉W_{V}italic_W start_POSTSUBSCRIPT italic_V end_POSTSUBSCRIPT, and matrix vectorization for their multiplication, yielding quantum self-attention results while omitting softmax to simplify complexity. The residual connection employs a Hadamard gate on an ancillary qubit for superposition, controlled operations to link self-attention output and input X𝑋Xitalic_X, followed by another Hadamard gate and post-selection measurement. The FFN is implemented in two steps: parallel swap tests compute inner products, amplitude estimation stores results, phase estimation generates binary representations, and an arithmetic circuit computes ReLU. Compared to Guo et al. (2024) [[33](https://arxiv.org/html/2504.03192v1)]’s theoretical framework, this approach is more concrete, integrating linear algebra and variational algorithms, with Q⁢KT𝑄superscript𝐾𝑇QK^{T}italic_Q italic_K start_POSTSUPERSCRIPT italic_T end_POSTSUPERSCRIPT given directly, WVsubscript𝑊𝑉W_{V}italic_W start_POSTSUBSCRIPT italic_V end_POSTSUBSCRIPT and FFN weights as variational parameters. Stacking multiple layers requires measuring each block’s output into classical data for the next block’s input.
+Khatri et al. (2024) [35] propose a quantum self-attention variant based on Linear Combination of Unitaries (LCU) [49] and Quantum Singular Value Transformation (QSVT). This approach discards the traditional QKV structure, directly encoding input embeddings via LCU into unitary matrices, forming a superposition of all tokens. QSVT extracts polynomials (typically second-order) capturing all token-pair interactions, with measurement results serving as quantum self-attention outputs, simplifying the quantum linear algebra-based model for basic numerical simulations. Another study [[36](https://arxiv.org/html/2504.03192v1)] focuses on implementing quantum residual connections using qRAM, not requiring uninterrupted quantum evolution, allowing quantum-classical data conversion interfaces. qRAM enables efficient data storage and reuse to streamline residual connection design, though its physical realization may be more challenging than fault-tolerant quantum computers, potentially requiring decades of hardware advancements.
+In the NISQ era, certain steps in PQC-based models—such as softmax, residual connections, and layer normalization—are typically implemented classically or omitted entirely (as shown in Fig. [4](https://arxiv.org/html/2504.03192v1). By contrast, in the fault-tolerant quantum computing era, researchers can leverage a richer set of quantum linear algebra tools—thanks to significantly increased qubit counts and improved gate fidelities—to implement a complete quantum transformer structure, theoretically offering stronger potential for quantum acceleration and enhancement.
+
+## 6 Challenges and Outlook
+
+From the analysis of the technical approaches of the above models, it can be seen that both PQC-based and QLA-based quantum transformer models still face some challenges. We have summarized these challenges and provided the corresponding outlook, as shown in Table [VII](https://arxiv.org/html/2504.03192v1). This section will discuss these challenges and outlook in detail.
+
+### 6.1 Challenges on PQC-based Transformers
+
+#### 6.1.1 Scalability
+As quantum Transformer models continue to evolve, the scalability of these models has become a pressing issue. By examining the experimental results (see Tables V and [VI](https://arxiv.org/html/2504.03192v1)), it is observed that current quantum Transformer models have mainly been tested on small-scale datasets such as Yelp, IMDb, Amazon, MNIST, and CIFAR-10, with experiments on large-scale datasets still being limited. Hybrid quantum-classical models (e.g., QMSAN, HQViT, LW-QSAN) perform well on small-scale tasks, with some even surpassing classical baselines. However, these models still rely on classical components such as Softmax and residual connections. Fully quantum models (e.g., QKSAN, QLS, QSE), on the other hand, are constrained by hardware resources and can only be tested on a limited scale. This shows that, at present, quantum Transformers face significant challenges regarding their independent scalability on large-scale tasks.
+The limited scalability primarily stems from the growing demand for quantum resources. As seen in Table LABEL:Experiments, the overall quantum resource requirements (such as the number of qubits, measurement counts, and circuit execution times) of most quantum Transformer models grow quadratically with the input size N𝑁Nitalic_N. For instance, QKV-only Quantum mapping (QSANN) and quantum pairwise attention (e.g., QMSAN, HQViT, QHSAN) require O⁢(N2)𝑂superscript𝑁2O(N^{2})italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ) circuit executions, while QLS-SAN and QSE-SAN still maintain O⁢(N2)𝑂superscript𝑁2O(N^{2})italic_O ( italic_N start_POSTSUPERSCRIPT 2 end_POSTSUPERSCRIPT ) complexity in terms of circuit width or depth, failing to break through the quadratic complexity barrier of classical Transformers. This indicates that, while localized quantum computation methods may provide some acceleration, the overall quantum architecture still faces resource consumption issues when dealing with large-scale data, thus limiting the model’s scalability. Furthermore, in real-world applications, the hardware limitations of quantum computing and noise effects also restrict the scalability of these models, such as the number of qubits and gate fidelity, making it difficult for fully quantum Transformers to achieve reliable experimental validation on large-scale tasks.
+Therefore, to ensure theoretical advantages while achieving practical usability of quantum Transformers on large-scale tasks, further optimization of quantum circuit designs or exploration of new computational paradigms will be necessary to break through the existing bottlenecks.
+
+#### 6.1.2 Lack of Unified Evaluation Benchmark
+In quantum Transformer research, the absence of a unified evaluation benchmark represents a fundamental challenge. This issue lies in the fact that current experimental designs and data preprocessing methods are highly customized, forcing each study to develop its own evaluation baseline tailored to its specific model configuration. Without a standardized criterion, not only is it difficult to directly compare results across studies, but it also becomes challenging to accurately discern the true contribution of quantum components from the biases introduced by individual experimental setups. Addressing this challenge requires a methodological breakthrough—a unified evaluation framework that can objectively reflect the genuine advantages of quantum Transformers, thereby providing a solid foundation for the cumulative development and standardization of the field.
+
+#### 6.1.3 Trainability and Barren Plateau
+
+### 6.1 Challenges on PQC-based Transformers
+The trainability of quantum gates and the barren plateau phenomenon significantly hinder quantum Transformer performance. PQC designs, relying on parameterized rotation and entangling gates (e.g., 𝒪⁢(poly⁢(n))𝒪poly𝑛\mathcal{O}(\text{poly}(n))caligraphic_O ( poly ( italic_n ) ) depth), determine optimization success, but gradient computation is hampered by noise and hardware precision, slowing convergence. Deep circuits, such as those in quantum native attention with global token mixing, exacerbate the barren plateau problem, where vanishing gradients stall parameter updates, especially as parameter spaces expand with complexity optimization. This affects PQC effectiveness in Q⁢K⁢V𝑄𝐾𝑉QKVitalic_Q italic_K italic_V generation and limits adaptability to complex datasets. While hardware-efficient ansatzes and compression techniques (e.g., QPIXL) mitigate some issues, these remain critical bottlenecks in the NISQ era, requiring advances in optimization algorithms or hardware to overcome.
+
+### 6.2 Challenges on QLA-based Transformers
+For quantum Transformer models based on quantum linear algebra (QLA), a key challenge lies in updating parameters within block-encoding frameworks, as seen in fault-tolerant approaches like [[33](https://arxiv.org/html/2504.03192v1)]. Current research assumes fixed, pre-trained weight matrices (e.g., for self-attention’s Q⁢KT𝑄superscript𝐾𝑇QK^{T}italic_Q italic_K start_POSTSUPERSCRIPT italic_T end_POSTSUPERSCRIPT or FFN operations), which are efficiently implemented via block-encoding and QSVT. However, updating these parameters—essential for training or fine-tuning—requires recompiling the block-encoding, a complex and resource-intensive process. This involves recalculating unitary operators and managing high ancillary qubit demands, undermining the practicality of end-to-end training. Unlike QNN-based methods with variational flexibility, this rigidity limits QLA-based models to theoretical exploration, awaiting future hardware advancements to streamline parameter adjustments and realize their full potential.
+
+### 6.3 Outlooks
+
+Future research on quantum Transformer models must explore innovative solutions within both NISQ and fault-tolerant quantum computing paradigms to overcome current bottlenecks and unlock their full potential.
+Global token mixing has shown promise in reducing Transformer computational complexity. Future work should focus on enhancing its functional completeness and exploring its compatibility with classical components such as FFN and residual connections. This will ensure good scalability and allow the model to demonstrate quantum advantages on larger datasets. Additionally, more research is needed to improve the interpretability of quantum-native Transformers, analyzing their theoretical superiority over standard Transformers and variants. Such insights will provide a solid foundation for optimizing quantum circuit structures.
+Establishing a unified benchmark for quantum Transformers is crucial. Developing a cross-model, cross-dataset evaluation framework will help analyze how different data encoding methods, measurement techniques, and quantum self-attention mechanisms impact real-world task performance. The quantum simulation platform proposed by McClean et al. [50] could serve as a starting point, facilitating performance comparisons between full classical Transformers (e.g., BERT [[6](https://arxiv.org/html/2504.03192v1)]) and their quantum counterparts to quantify technological advancements.
+The barren plateau problem is a common challenge in PQC-based QML algorithms. Potential solutions include further reducing quantum circuit depth through gate compression techniques or using specialized parameter initialization methods to mitigate gradient vanishing issues. Reducing the impact of noise still largely depends on breakthroughs in quantum error correction; however, noise-adaptive ansatz designs can help alleviate barren plateau problems caused by noise in the meantime.
+For long-term advancements, the architecture proposed by Guo et al. [33] has demonstrated the theoretical potential of QLA. Future research could leverage the dynamic quantum linear algebra methods of Childs et al. [[49](https://arxiv.org/html/2504.03192v1)] to develop adaptive block-encoding techniques, reducing the overhead of recompiling during training. Additionally, given the potential long-term coexistence of NISQ and fault-tolerant quantum computing, hybrid PQC-QLA models could be explored. These models could use PQC-based paradigm for training while employing QLA-based paradigm for inference, leveraging the strengths of both approaches to bring QLA methods closer to practical implementation.
+
+## 7 Conclusion
+
+In recent years, Quantum Transformers, blending quantum machine learning with the Transformer architecture, have seen significant progress. In this paper, we review the current landscape of quantum transformer models, highlighting their architectures, quantum advantages, challenges, and potential for future advancements. QNN-based Quantum Transformer models show application potential in the NISQ era. By using Parameterized Quantum Circuits (PQCs) to partially replace Transformer components like Q/K/V generation or attention matrix calculation, they’ve achieved performance gains or reduced computational complexity in specific tasks. Yet, these methods face many challenges, such as balancing quantum resource requirements with complexity reduction, and issues like scalability, lack of standardized evaluation benchmarks, and the Barren Plateau problem.
+In the near future, we still need to exploit the practical potential of NISQ quantum computers. Global token mixing is a promising research direction. It should aim to further lower Transformer computational complexity, but its architecture completeness and compatibility with classical components must be enhanced. Establishing a unified Quantum Transformer evaluation benchmark is crucial to measure different methods’ real - world performance. For the Barren Plateau problem, reducing quantum circuit depth or using special parameter initialization methods can help. In the long run, QLA - based Quantum Transformer models have theoretical potential in the fault - tolerant quantum computing era. Exploring adaptive block - encoding techniques and hybrid PQC - QLA models can maximize quantum acceleration. As quantum hardware technology advances, Quantum Transformer models will likely deliver greater value in complex tasks, heralding new breakthroughs and opportunities in AI.
+
+## References
+
+- 
+[1]
+
+J. Biamonte et al., “Quantum machine learning,” Nature, vol. 549, no. 7671, pp. 195–202, 2017.
+
+
+
+- 
+[2]
+
+M. Cerezo et al., “Challenges and opportunities in quantum machine learning,” Nature Computational Science, vol. 2, no. 9, pp. 567–576, 2022.
+
+
+
+- 
+[3]
+
+Y. Liu, S. Arunachalam, and K. Temme, “A rigorous and robust quantum speed-up in supervised machine learning,” Nature Physics, vol. 17, no. 9, pp. 1013–1017, 2021.
+
+
+
+- 
+[4]
+
+V. Havlíček et al., “Supervised learning with quantum-enhanced feature spaces,” Nature, vol. 567, no. 7747, pp. 209–212, 2019.
+
+
+
+- 
+[5]
+
+A. Vaswani et al., “Attention is all you need,” Advances in Neural Information Processing Systems, vol. 30, 2017.
+
+
+
+- 
+[6]
+
+J. Devlin, “Bert: Pre-training of deep bidirectional transformers for language understanding,” arXiv preprint arXiv:1810.04805, 2018.
+
+
+
+- 
+[7]
+
+J. Achiam, S. Adler, S. Agarwal, L. Ahmad, I. Akkaya, F. L. Aleman, D. Almeida, J. Altenschmidt, S. Altman, S. Anadkat et al., “Gpt-4 technical report,” arXiv preprint arXiv:2303.08774, 2023.
+
+
+
+- 
+[8]
+
+A. Dosovitskiy et al., “An image is worth 16x16 words: Transformers for image recognition at scale,” arXiv preprint arXiv:2010.11929, 2020.
+
+
+
+- 
+[9]
+
+M. Benedetti, E. Lloyd, S. Sack, and M. Fiorentini, “Parameterized quantum circuits as machine learning models,” Quantum Science and Technology, vol. 4, no. 4, p. 043001, 2019.
+
+
+
+- 
+[10]
+
+M. Schuld, A. Bocharov, K. M. Svore, and N. Wiebe, “Circuit-centric quantum classifiers,” Physical Review A, vol. 101, no. 3, p. 032308, 2020.
+
+
+
+- 
+[11]
+
+K. Bharti et al., “Noisy intermediate-scale quantum algorithms,” Reviews of Modern Physics, vol. 94, no. 1, p. 015004, 2022.
+
+
+
+- 
+[12]
+
+F. Zhang, J. Li, Z. He, and H. Situ, “Learning the expressibility of quantum circuit ansatz using transformer,” Advanced Quantum Technologies, p. 2400366, 2024.
+
+
+
+- 
+[13]
+
+S. Tariq, B. E. Arfeto, U. Khalid, S. Kim, T. Q. Duong, and H. Shin, “Deep quantum-transformer networks for multi-modal beam prediction in isac systems,” IEEE Internet of Things Journal, 2024.
+
+
+
+- 
+[14]
+
+H. Liu, T. Yuan, X. Zhang, and H. Xu, “Quantum entanglement and self-attention neural networks: an investigation into passengers and stops characteristics for optimal bus stop localization,” Information Fusion, vol. 112, p. 102527, 2024.
+
+
+
+- 
+[15]
+
+G. Li, X. Zhao, and X. Wang, “Quantum self-attention neural networks for text classification,” Science China Information Sciences, vol. 67, no. 4, p. 142501, 2024.
+
+
+
+- 
+[16]
+
+H. Zhang, Q. Zhao, and C. Chen, “A light-weight quantum self-attention model for classical data classification,” Applied Intelligence, vol. 54, no. 4, pp. 3077–3091, 2024.
+
+
+
+- 
+[17]
+
+J. Wei, Z. He, C. Chen, M. Deng, and H. Situ, “Povm-based quantum self-attention neural network,” in 2023 International Conference on Wavelet Analysis and Pattern Recognition (ICWAPR).   IEEE, 2023, pp. 117–122.
+
+
+
+- 
+[18]
+
+X.-B. Nguyen, H.-Q. Nguyen, S. Y.-C. Chen, S. U. Khan, H. Churchill, and K. Luu, “Qclusformer: A quantum transformer-based framework for unsupervised visual clustering,” arXiv preprint arXiv:2405.19722, 2024.
+
+
+
+- 
+[19]
+
+M. Comajoan Cara, G. R. Dahale, Z. Dong, R. T. Forestano, S. Gleyzer, D. Justice, K. Kong, T. Magorsch, K. T. Matchev, K. Matcheva et al., “Quantum vision transformers for quark–gluon classification,” Axioms, vol. 13, no. 5, p. 323, 2024.
+
+
+
+- 
+[20]
+
+E. B. Unlu, M. Comajoan Cara, G. R. Dahale, Z. Dong, R. T. Forestano, S. Gleyzer, D. Justice, K. Kong, T. Magorsch, K. T. Matchev et al., “Hybrid quantum vision transformers for event classification in high energy physics,” Axioms, vol. 13, no. 3, p. 187, 2024.
+
+
+
+- 
+[21]
+
+J. He, Y. Kan, and C. Xue, “Training quantum self-attention model in near-term quantum computer,” in 2024 16th International Conference on Wireless Communications and Signal Processing (WCSP).   IEEE, 2024, pp. 139–144.
+
+
+
+- 
+[22]
+
+F. Chen, Q. Zhao, L. Feng, C. Chen, Y. Lin, and J. Lin, “Quantum mixed-state self-attention network,” Neural Networks, vol. 185, p. 107123, 2025.
+
+
+
+- 
+[23]
+
+Z. Hui, Z. Qinglin, Z. Mengchu, and F. Li, “Hqvit: Hybrid quantum vision transformer for image classification,” arXiv preprint arXiv:2504.02730, 2025.
+
+
+
+- 
+[24]
+
+## References
+
+A. M. Smaldone, Y. Shee, G. W. Kyro, M. H. Farag, Z. Chandani, E. Kyoseva, and V. S. Batista, “A hybrid transformer architecture with a quantized self-attention mechanism applied to molecular generation,” arXiv preprint arXiv:2502.19214, 2025.
+
+
+
+- 
+[25]
+
+R.-X. Zhao, J. Shi, and X. Li, “Qksan: A quantum kernel self-attention network,” IEEE Transactions on Pattern Analysis and Machine Intelligence, 2024.
+
+
+
+- 
+[26]
+
+J. Shi, R.-X. Zhao, W. Wang, S. Zhang, and X. Li, “Qsan: A near-term achievable quantum self-attention network,” IEEE Transactions on Neural Networks and Learning Systems, 2024.
+
+
+
+- 
+[27]
+
+J. Zheng, Q. Gao, and Z. Miao, “Design of a quantum self-attention neural network on quantum circuits,” in 2023 IEEE International Conference on Systems, Man, and Cybernetics (SMC).   IEEE, 2023, pp. 1058–1063.
+
+
+
+- 
+[28]
+
+S. Shi, Z. Wang, J. Li, Y. Li, R. Shang, H. Zheng, G. Zhong, and Y. Gu, “A natural nisq model of quantum self-attention mechanism,” arXiv preprint arXiv:2305.15680, 2023.
+
+
+
+- 
+[29]
+
+I. Kerenidis, N. Mathur, J. Landman, M. Strahm, Y. Y. Li et al., “Quantum vision transformers,” Quantum, vol. 8, p. 1265, 2024.
+
+
+
+- 
+[30]
+
+A. Tesi, G. R. Dahale, S. Gleyzer, K. Kong, T. Magorsch, K. T. Matchev, and K. Matcheva, “Quantum attention for vision transformers in high energy physics,” arXiv preprint arXiv:2411.13520, 2024.
+
+
+
+- 
+[31]
+
+E. N. Evans, M. Cook, Z. P. Bradshaw, and M. L. LaBorde, “Learning with sasquatch: a novel variational quantum transformer architecture with kernel-based self-attention,” arXiv preprint arXiv:2403.14753, 2024.
+
+
+
+- 
+[32]
+
+Y. Gao, Z. Song, X. Yang, and R. Zhang, “Fast quantum algorithm for attention computation,” arXiv preprint arXiv:2307.08045, 2023.
+
+
+
+- 
+[33]
+
+N. Guo, Z. Yu, M. Choi, A. Agrawal, K. Nakaji, A. Aspuru-Guzik, and P. Rebentrost, “Quantum linear algebra is all you need for transformer architectures,” arXiv preprint arXiv:2402.16714, 2024.
+
+
+
+- 
+[34]
+
+Y. Liao and C. Ferrie, “Gpt on a quantum computer,” arXiv preprint arXiv:2403.09418, 2024.
+
+
+
+- 
+[35]
+
+N. Khatri, G. Matos, L. Coopmans, and S. Clark, “Quixer: A quantum transformer model,” arXiv preprint arXiv:2406.04305, 2024.
+
+
+
+- 
+[36]
+
+C. Xue et al., “End-to-end quantum vision transformer: Towards practical quantum speedup in large-scale models,” arXiv preprint arXiv:2402.18940, 2024.
+
+
+
+- 
+[37]
+
+M. Schuld, F. Petruccione, M. Schuld, and F. Petruccione, “Quantum models as kernel methods,” Machine Learning with Quantum Computers, pp. 217–245, 2021.
+
+
+
+- 
+[38]
+
+S. Chakraborty, A. Gilyén, and S. Jeffery, “The power of block-encoded matrix powers: improved regression techniques via faster hamiltonian simulation,” arXiv preprint arXiv:1804.01973, 2018.
+
+
+
+- 
+[39]
+
+A. Gilyén, Y. Su, G. H. Low, and N. Wiebe, “Quantum singular value transformation and beyond: exponential improvements for quantum matrix arithmetics,” in Proceedings of the 51st annual ACM SIGACT symposium on theory of computing, 2019, pp. 193–204.
+
+
+
+- 
+[40]
+
+R. Lorenz, A. Pearson, K. Meichanetzidis, D. Kartsaklis, and B. Coecke, “Qnlp in practice: Running compositional models of meaning on a quantum computer,” Journal of Artificial Intelligence Research, vol. 76, pp. 1305–1342, 2023.
+
+
+
+- 
+[41]
+
+J. Landman, N. Mathur, Y. Y. Li, M. Strahm, S. Kazdaghli, A. Prakash, and I. Kerenidis, “Quantum methods for neural networks and application to medical image classification,” Quantum, vol. 6, p. 881, 2022.
+
+
+
+- 
+[42]
+
+I. O. Tolstikhin, N. Houlsby, A. Kolesnikov, L. Beyer, X. Zhai, T. Unterthiner, J. Yung, A. Steiner, D. Keysers, J. Uszkoreit et al., “Mlp-mixer: An all-mlp architecture for vision,” Advances in neural information processing systems, vol. 34, pp. 24 261–24 272, 2021.
+
+
+
+- 
+[43]
+
+J. Lee-Thorp, J. Ainslie, I. Eckstein, and S. Ontanon, “Fnet: Mixing tokens with fourier transforms,” arXiv preprint arXiv:2105.03824, 2021.
+
+
+
+- 
+[44]
+
+J. Guibas, M. Mardani, Z. Li, A. Tao, A. Anandkumar, and B. Catanzaro, “Adaptive fourier neural operators: Efficient token mixers for transformers,” arXiv preprint arXiv:2111.13587, 2021.
+
+
+
+- 
+[45]
+
+## References
+
+J. Pathak, S. Subramanian, P. Harrington, S. Raja, A. Chattopadhyay, M. Mardani, T. Kurth, D. Hall, Z. Li, K. Azizzadenesheli et al., “Fourcastnet: A global data-driven high-resolution weather model using adaptive fourier neural operators,” arXiv preprint arXiv:2202.11214, 2022.
+
+
+
+- 
+[46]
+
+R. Child, S. Gray, A. Radford, and I. Sutskever, “Generating long sequences with sparse transformers,” arXiv preprint arXiv:1904.10509, 2019.
+
+
+
+- 
+[47]
+
+Z. Zhang, Y. Sheng, T. Zhou, T. Chen, L. Zheng, R. Cai, Z. Song, Y. Tian, C. Ré, C. Barrett et al., “H2o: Heavy-hitter oracle for efficient generative inference of large language models,” Advances in Neural Information Processing Systems, vol. 36, pp. 34 661–34 710, 2023.
+
+
+
+- 
+[48]
+
+M. A. Nielsen and I. Chuang, Quantum computation and quantum information.   American Association of Physics Teachers, 2002.
+
+
+
+- 
+[49]
+
+A. M. Childs and N. Wiebe, “Hamiltonian simulation using linear combinations of unitary operations,” arXiv preprint arXiv:1202.5822, 2012.
+
+
+
+- 
+[50]
+
+J. R. McClean, S. Boixo, V. N. Smelyanskiy, R. Babbush, and H. Neven, “Barren plateaus in quantum neural network training landscapes,” Nature communications, vol. 9, no. 1, p. 4812, 2018.
+
+
+
+[LaTeXML](http://dlmf.nist.gov/LaTeXML/)

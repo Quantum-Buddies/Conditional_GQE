@@ -3,20 +3,12 @@
     {
       "system": "h2",
       "baseline": "adapt_vqe",
-      "reference_energy": -1.8571019850484376,
-      "baseline_energy": -1.8571018651333961,
-      "delta_energy": 1.199150414521455e-07,
+      "reference_energy": -1.1372838344885015,
+      "baseline_energy": -1.1372834152871443,
+      "delta_energy": 4.1920135718243046e-07,
       "n_spin_orbitals": 4,
-      "mode": "compat_vqe"
-    },
-    {
-      "system": "lih",
-      "baseline": "adapt_vqe",
-      "reference_energy": -1.6562087348130008,
-      "baseline_energy": -1.656155842405909,
-      "delta_energy": 5.289240709172027e-05,
-      "n_spin_orbitals": 4,
-      "mode": "compat_vqe"
+      "n_pauli_terms": 15,
+      "mode": "real_hamiltonian"
     }
   ]
 }

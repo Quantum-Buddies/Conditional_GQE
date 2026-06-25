@@ -1,0 +1,15 @@
+name: conditional-gqe-qbraid
+channels:
+  - conda-forge
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pyyaml=6.0
+  - numpy=2.*
+  - scipy=1.14
+  - matplotlib=3.9
+  - tqdm=4.*
+  - pip:
+      - -r requirements-qbraid.txt

@@ -1,0 +1,31 @@
+{
+  "name": "h-cgqe-phase3-skill",
+  "version": "0.1.0",
+  "description": "Reproduce the H-cGQE two-stage pipeline for GIC 2026 Phase 3 on qBraid.",
+  "authors": ["Ryoushi Quantum Buddies"],
+  "repository": "https://github.com/placeholder/Conditional-GQE_materials",
+  "license": "MIT",
+  "entrypoint": "python qbraid_skill/main.py",
+  "commands": {
+    "install": "bash qbraid_skill/install.sh",
+    "prepare-dataset": "python qbraid_skill/prepare_dataset.py",
+    "train": "python qbraid_skill/train.py",
+    "train-rlqf": "python qbraid_skill/train_rlqf.py",
+    "infer": "python qbraid_skill/infer.py",
+    "optimize": "python qbraid_skill/optimize.py",
+    "evaluate": "python qbraid_skill/evaluate.py",
+    "qbraid-eval": "python qbraid_skill/qbraid_eval.py",
+    "plot": "python qbraid_skill/plot.py",
+    "run-all": "bash qbraid_skill/run_all.sh"
+  },
+  "requirements": [
+    "requirements-qbraid.txt"
+  ],
+  "tags": [
+    "quantum-computing",
+    "vqe",
+    "cudaq",
+    "qbraid",
+    "gic-2026"
+  ]
+}

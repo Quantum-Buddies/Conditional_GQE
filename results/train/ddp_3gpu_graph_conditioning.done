@@ -1,0 +1,5 @@
+{
+  "status": "done",
+  "metrics": "results/train/ddp_graph_conditioning_metrics.json",
+  "model": "results/train/ddp_graph_conditioning.pt"
+}

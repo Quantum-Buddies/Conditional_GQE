@@ -1,0 +1,49 @@
+{
+  "results": [
+    {
+      "system": "h2",
+      "baseline": "exact_diagonalization",
+      "n_spin_orbitals": 4,
+      "n_pauli_terms": 15,
+      "reference_energy": -1.137283834488502,
+      "energy_gap": 0.5990783869236054,
+      "status": "success"
+    },
+    {
+      "system": "lih",
+      "baseline": "exact_diagonalization",
+      "n_spin_orbitals": 12,
+      "n_pauli_terms": 631,
+      "reference_energy": -7.882324378883462,
+      "energy_gap": 0.076007244857478,
+      "status": "success"
+    },
+    {
+      "system": "beh2",
+      "baseline": "exact_diagonalization",
+      "n_spin_orbitals": 14,
+      "n_pauli_terms": 666,
+      "reference_energy": -15.595047080934496,
+      "energy_gap": 0.20206065013747931,
+      "status": "success"
+    },
+    {
+      "system": "n2",
+      "baseline": "exact_diagonalization",
+      "n_spin_orbitals": 20,
+      "n_pauli_terms": 2951,
+      "reference_energy": null,
+      "energy_gap": null,
+      "status": "skipped_too_large"
+    },
+    {
+      "system": "iodobenzene",
+      "baseline": "exact_diagonalization",
+      "n_spin_orbitals": 8,
+      "n_pauli_terms": 105,
+      "reference_energy": -7078.011842695125,
+      "energy_gap": 0.25199533795148454,
+      "status": "success"
+    }
+  ]
+}

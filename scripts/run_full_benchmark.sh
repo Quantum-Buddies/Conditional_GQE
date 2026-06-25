@@ -6,42 +6,57 @@ PYTHON_BIN="${PYTHON_BIN:-/mnt/scratch/kcwp264/.conda_envs/cudaq-env/bin/python}
 
 mkdir -p "${ROOT}/results/data" "${ROOT}/results/baselines" "${ROOT}/results/train" "${ROOT}/results/tables" "${ROOT}/results/plots"
 
-echo "[1/7] Generating Hamiltonian dataset..."
+HAM_FILE="${ROOT}/results/data/hamiltonians.json"
+ADAPT_FILE="${ROOT}/results/baselines/adapt_vqe.json"
+CUDAQ_FILE="${ROOT}/results/baselines/cudaq_vqe.json"
+GQE_FILE="${ROOT}/results/baselines/cudaq_gqe.json"
+EXACT_FILE="${ROOT}/results/baselines/exact_diagonalization.json"
+
+echo "[1/8] Generating Hamiltonian dataset..."
 "${PYTHON_BIN}" "${ROOT}/src/gqe/data/generate_hamiltonians.py" \
   --config "${ROOT}/configs/experiment.yaml" \
   --out "${ROOT}/results/data"
 
-echo "[2/7] Running ADAPT-VQE baseline..."
-"${PYTHON_BIN}" "${ROOT}/src/gqe/baselines/run_adapt_vqe.py" \
-  --out "${ROOT}/results/baselines/adapt_vqe.json"
+echo "[2/8] Running exact diagonalization references (where tractable)..."
+"${PYTHON_BIN}" "${ROOT}/src/gqe/baselines/run_exact_diagonalization.py" \
+  --ham "${HAM_FILE}" \
+  --out "${EXACT_FILE}"
 
-echo "[3/7] Running CUDA-Q VQE baseline..."
+echo "[3/8] Running ADAPT-VQE baseline..."
+"${PYTHON_BIN}" "${ROOT}/src/gqe/baselines/run_adapt_vqe.py" \
+  --ham "${HAM_FILE}" \
+  --out "${ADAPT_FILE}"
+
+echo "[4/8] Running CUDA-Q VQE baseline..."
 "${PYTHON_BIN}" "${ROOT}/src/gqe/baselines/run_cudaq_vqe.py" \
-  --out "${ROOT}/results/baselines/cudaq_vqe.json"
+  --ham "${HAM_FILE}" \
+  --out "${CUDAQ_FILE}"
 
 if [[ "${RUN_CUDAQ_GQE:-0}" == "1" ]]; then
-  echo "[4/7] Running CUDA-Q GQE baseline (optional)..."
+  echo "[5/8] Running CUDA-Q GQE baseline (optional)..."
   "${PYTHON_BIN}" "${ROOT}/src/gqe/baselines/run_cudaq_gqe.py" \
-    --out "${ROOT}/results/baselines/cudaq_gqe.json"
+    --ham "${HAM_FILE}" \
+    --out "${GQE_FILE}"
 else
-  echo "[4/7] Skipping CUDA-Q GQE baseline (set RUN_CUDAQ_GQE=1 to enable)."
+  echo "[5/8] Skipping CUDA-Q GQE baseline (set RUN_CUDAQ_GQE=1 to enable)."
 fi
 
-echo "[5/7] Training strict supervised model..."
+echo "[6/8] Training strict supervised model..."
 "${PYTHON_BIN}" "${ROOT}/src/gqe/models/train_supervised.py" \
   --config "${ROOT}/configs/experiment.yaml" \
   --out "${ROOT}/results/train/supervised_train.done"
 
-echo "[6/7] Aggregating metrics..."
+echo "[7/8] Aggregating metrics..."
 "${PYTHON_BIN}" "${ROOT}/src/gqe/eval/aggregate_metrics.py" \
-  --ham "${ROOT}/results/data/hamiltonians.json" \
-  --baseline "${ROOT}/results/baselines/adapt_vqe.json" \
-  --cudaq-baseline "${ROOT}/results/baselines/cudaq_vqe.json" \
-  --gqe-baseline "${ROOT}/results/baselines/cudaq_gqe.json" \
+  --ham "${HAM_FILE}" \
+  --baseline "${ADAPT_FILE}" \
+  --cudaq-baseline "${CUDAQ_FILE}" \
+  --gqe-baseline "${GQE_FILE}" \
+  --reference "${EXACT_FILE}" \
   --train "${ROOT}/results/train/train_metrics.json" \
   --out "${ROOT}/results/tables/benchmark_summary.csv"
 
-echo "[7/7] Generating benchmark plots..."
+echo "[8/8] Generating benchmark plots..."
 "${PYTHON_BIN}" "${ROOT}/src/gqe/eval/plot_benchmark_results.py" \
   --summary-csv "${ROOT}/results/tables/benchmark_summary.csv" \
   --train-json "${ROOT}/results/train/train_metrics.json" \

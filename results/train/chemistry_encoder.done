@@ -1,0 +1,5 @@
+{
+  "status": "done",
+  "metrics": "results/train/chemistry_encoder_metrics.json",
+  "model": "results/train/chemistry_encoder.pt"
+}

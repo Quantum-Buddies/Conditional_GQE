@@ -1,0 +1,5 @@
+{
+  "status": "done",
+  "metrics": "/scratch/kcwp264/Conditional-GQE_materials/results/train/ddp_graph_conditioning_metrics.json",
+  "model": "/scratch/kcwp264/Conditional-GQE_materials/results/train/ddp_graph_conditioning.pt"
+}

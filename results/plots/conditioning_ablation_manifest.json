@@ -1,0 +1,10 @@
+[
+  {
+    "kind": "curves",
+    "path": "conditioning_ablation_curves.png"
+  },
+  {
+    "kind": "final_metrics",
+    "path": "conditioning_ablation_final_metrics.png"
+  }
+]

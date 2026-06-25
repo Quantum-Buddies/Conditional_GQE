@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+title: "Conditional-GQE: Hierarchical Conditional Generative Quantum Eigensolver for EUV Lithography"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - given-names: "Ryoushi"
+    family-names: "Quantum Buddies"
+    affiliation: "Global Industry Challenge 2026"
+repository-code: "https://github.com/Quantum-Buddies/Conditional_GQE"
+license: MIT
+version: 3.0.0
+date-released: "2026-06-25"
+keywords:
+  - quantum-computing
+  - generative-quantum-eigensolver
+  - EUV-lithography
+  - CUDA-Q
+  - reinforcement-learning
+  - quantum-chemistry
+  - transformer
+abstract: >-
+  A hierarchical conditional generative quantum eigensolver (H-cGQE) that uses a
+  Transformer-based autoregressive model to map molecular Hamiltonians to quantum
+  circuits, fine-tuned via reinforcement learning from quantum feedback (RLQF).
+  Applied to EUV lithography photoresist molecules including iodobenzene and
+  4-iodo-2-methylphenol.

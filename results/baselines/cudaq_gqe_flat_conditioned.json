@@ -1,0 +1,587 @@
+{
+  "results": [
+    {
+      "system": "h2",
+      "baseline": "cudaq_gqe_conditioned",
+      "reference_energy": -1.137283834488502,
+      "baseline_energy": -1.1168551596535075,
+      "delta_energy": 0.020428674834994442,
+      "n_spin_orbitals": 4,
+      "n_pauli_terms": 15,
+      "conditioning_weight": 0.3,
+      "mode": "cudaq_gqe_conditioned",
+      "gqe_config": {
+        "max_iters": 25,
+        "ngates": 10,
+        "num_samples": 5,
+        "objective_shift": -0.09706626816763153,
+        "objective_scale": 1.984173485064078,
+        "min_scaled_energy": -0.5139615535736084
+      },
+      "n_electrons": 2,
+      "target": "nvidia",
+      "target_option": null,
+      "gqe_selected_operators": [
+        {
+          "index": 73,
+          "coefficient_real": 0.0005662826937974907,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYY"
+        },
+        {
+          "index": 41,
+          "coefficient_real": -0.008570641322388455,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 80,
+          "coefficient_real": 0.0011325653875949814,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYYX"
+        },
+        {
+          "index": 4,
+          "coefficient_real": -0.011171576845406716,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIZI"
+        },
+        {
+          "index": 80,
+          "coefficient_real": 0.0011325653875949814,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYYX"
+        },
+        {
+          "index": 14,
+          "coefficient_real": 0.004360321903065394,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIZZ"
+        },
+        {
+          "index": 40,
+          "coefficient_real": 0.008570641322388455,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 8,
+          "coefficient_real": -0.005585788422703357,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIZ"
+        },
+        {
+          "index": 40,
+          "coefficient_real": 0.008570641322388455,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 17,
+          "coefficient_real": -0.008720643806130787,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIZZ"
+        },
+        {
+          "index": 40,
+          "coefficient_real": 0.008570641322388455,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 70,
+          "coefficient_real": -0.0022651307751899627,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YYXX"
+        },
+        {
+          "index": 40,
+          "coefficient_real": 0.008570641322388455,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 57,
+          "coefficient_real": -0.0030156308708476033,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIZ"
+        },
+        {
+          "index": 17,
+          "coefficient_real": -0.008720643806130787,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIZZ"
+        },
+        {
+          "index": 40,
+          "coefficient_real": 0.008570641322388455,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 57,
+          "coefficient_real": -0.0030156308708476033,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIZ"
+        },
+        {
+          "index": 40,
+          "coefficient_real": 0.008570641322388455,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 17,
+          "coefficient_real": -0.008720643806130787,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIZZ"
+        },
+        {
+          "index": 34,
+          "coefficient_real": 0.008296392516885168,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZZI"
+        }
+      ]
+    },
+    {
+      "system": "lih",
+      "baseline": "cudaq_gqe_conditioned",
+      "reference_energy": -7.882324378883462,
+      "baseline_energy": -7.861871397728473,
+      "delta_energy": 0.020452981154988947,
+      "n_spin_orbitals": 12,
+      "n_pauli_terms": 631,
+      "conditioning_weight": 0.3,
+      "mode": "cudaq_gqe_conditioned",
+      "gqe_config": {
+        "max_iters": 25,
+        "ngates": 10,
+        "num_samples": 5,
+        "objective_shift": -4.1358671794659365,
+        "objective_scale": 16.47723241411137,
+        "min_scaled_energy": -0.22613047063350677
+      },
+      "n_electrons": 4,
+      "target": "nvidia",
+      "target_option": null,
+      "gqe_selected_operators": [
+        {
+          "index": 162,
+          "coefficient_real": 0.0012078171908941864,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIIIIZIIIII"
+        },
+        {
+          "index": 186,
+          "coefficient_real": 0.0011686608569099958,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIIZIIIIIII"
+        },
+        {
+          "index": 52,
+          "coefficient_real": -0.011523411314811681,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIIIZII"
+        },
+        {
+          "index": 119,
+          "coefficient_real": 9.355215093752383e-05,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIYIYIIIIII"
+        },
+        {
+          "index": 104,
+          "coefficient_real": 0.002836527669705384,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIZIIIIIIZI"
+        },
+        {
+          "index": 175,
+          "coefficient_real": -0.0012078171908941864,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIIIIIZIIII"
+        },
+        {
+          "index": 169,
+          "coefficient_real": -0.001207817190894187,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIIIIIIZIII"
+        },
+        {
+          "index": 18,
+          "coefficient_real": -0.0048125665627383055,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIIIIIZ"
+        },
+        {
+          "index": 45,
+          "coefficient_real": 0.005761705657405841,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIIZIII"
+        },
+        {
+          "index": 110,
+          "coefficient_real": 0.002836170068729279,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIIIIZZ"
+        },
+        {
+          "index": 45,
+          "coefficient_real": 0.005761705657405841,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIIZIII"
+        },
+        {
+          "index": 147,
+          "coefficient_real": -0.0024769961490171957,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIIIIZIIIII"
+        },
+        {
+          "index": 104,
+          "coefficient_real": 0.002836527669705384,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIZIIIIIIZI"
+        },
+        {
+          "index": 45,
+          "coefficient_real": 0.005761705657405841,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIIZIII"
+        },
+        {
+          "index": 72,
+          "coefficient_real": -0.0014807567375006677,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIZIIIIIIII"
+        },
+        {
+          "index": 150,
+          "coefficient_real": 0.0012363553726269967,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIIIZIIIIII"
+        },
+        {
+          "index": 169,
+          "coefficient_real": -0.001207817190894187,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIIIIIIZIII"
+        },
+        {
+          "index": 147,
+          "coefficient_real": -0.0024769961490171957,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIIIIZIIIII"
+        },
+        {
+          "index": 23,
+          "coefficient_real": 0.019250266250953222,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIIIIIZ"
+        },
+        {
+          "index": 23,
+          "coefficient_real": 0.019250266250953222,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIIIIIZ"
+        }
+      ]
+    },
+    {
+      "system": "beh2",
+      "baseline": "cudaq_gqe_conditioned",
+      "reference_energy": -15.595047080934496,
+      "baseline_energy": -15.561284977878515,
+      "delta_energy": 0.03376210305598093,
+      "n_spin_orbitals": 14,
+      "n_pauli_terms": 666,
+      "conditioning_weight": 0.3,
+      "mode": "cudaq_gqe_conditioned",
+      "gqe_config": {
+        "max_iters": 25,
+        "ngates": 10,
+        "num_samples": 5,
+        "objective_shift": -8.652449789690799,
+        "objective_scale": 30.2615169032863,
+        "min_scaled_energy": -0.22830432653427124
+      },
+      "n_electrons": 6,
+      "target": "nvidia",
+      "target_option": null,
+      "gqe_selected_operators": [
+        {
+          "index": 73,
+          "coefficient_real": 0.003392394248543034,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIIIIZIII"
+        },
+        {
+          "index": 147,
+          "coefficient_real": 0.000382115064772769,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIYZZYIIIIIYYI"
+        },
+        {
+          "index": 164,
+          "coefficient_real": -0.0005324340830064851,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIZIIIIIIII"
+        },
+        {
+          "index": 25,
+          "coefficient_real": 4.595790602546481e-05,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IYYIYYIIIIIIII"
+        },
+        {
+          "index": 10,
+          "coefficient_real": 0.11086775742396487,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIIIIIIIIIIII"
+        },
+        {
+          "index": 10,
+          "coefficient_real": 0.11086775742396487,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIIIIIIIIIIII"
+        },
+        {
+          "index": 67,
+          "coefficient_real": -0.007098320416845012,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZZIIIIIIIIIIII"
+        },
+        {
+          "index": 65,
+          "coefficient_real": -8.655711229411799e-05,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IYIYIIIIIIIIII"
+        },
+        {
+          "index": 147,
+          "coefficient_real": 0.000382115064772769,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIYZZYIIIIIYYI"
+        },
+        {
+          "index": 10,
+          "coefficient_real": 0.11086775742396487,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIIIIIIIIIIII"
+        },
+        {
+          "index": 81,
+          "coefficient_real": 0.00678478849708607,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIIIIIZII"
+        },
+        {
+          "index": 103,
+          "coefficient_real": 0.001836246307695529,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIZIIIIII"
+        },
+        {
+          "index": 10,
+          "coefficient_real": 0.11086775742396487,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIIIIIIIIIIII"
+        },
+        {
+          "index": 73,
+          "coefficient_real": 0.003392394248543034,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIIIIZIII"
+        },
+        {
+          "index": 164,
+          "coefficient_real": -0.0005324340830064851,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIZIIIIIIII"
+        },
+        {
+          "index": 122,
+          "coefficient_real": 0.0008948103265386032,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIYZYIIIIIIYZY"
+        },
+        {
+          "index": 35,
+          "coefficient_real": 8.909309166523115e-05,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IYYIIIIIIIIIYY"
+        },
+        {
+          "index": 103,
+          "coefficient_real": 0.001836246307695529,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIZIIIIII"
+        },
+        {
+          "index": 147,
+          "coefficient_real": 0.000382115064772769,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIYZZYIIIIIYYI"
+        },
+        {
+          "index": 90,
+          "coefficient_real": 0.0004064809903787992,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IYZYIIIIIIIIII"
+        }
+      ]
+    },
+    {
+      "system": "n2",
+      "baseline": "cudaq_gqe_conditioned",
+      "status": "skipped_qubits>16",
+      "n_spin_orbitals": 20,
+      "n_pauli_terms": 2951
+    },
+    {
+      "system": "iodobenzene",
+      "baseline": "cudaq_gqe_conditioned",
+      "reference_energy": -7078.011842695125,
+      "baseline_energy": -7078.012886401234,
+      "delta_energy": 0.001043706109157938,
+      "n_spin_orbitals": 8,
+      "n_pauli_terms": 105,
+      "conditioning_weight": 0.3,
+      "mode": "cudaq_gqe_conditioned",
+      "gqe_config": {
+        "max_iters": 25,
+        "ngates": 10,
+        "num_samples": 5,
+        "objective_shift": -7076.791690257471,
+        "objective_scale": 7080.216289133431,
+        "min_scaled_energy": -0.00017248006770387292
+      },
+      "n_electrons": 4,
+      "target": "nvidia",
+      "target_option": null,
+      "gqe_selected_operators": [
+        {
+          "index": 21,
+          "coefficient_real": 7.079428286291968e-05,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIYIYII"
+        },
+        {
+          "index": 178,
+          "coefficient_real": -6.096162554233272e-06,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YYIIIIXX"
+        },
+        {
+          "index": 101,
+          "coefficient_real": -0.00020243422506551856,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXXYIIII"
+        },
+        {
+          "index": 173,
+          "coefficient_real": -6.096162554233272e-06,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXIIIIXY"
+        },
+        {
+          "index": 119,
+          "coefficient_real": -0.00020243422506551856,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYYXIIII"
+        },
+        {
+          "index": 191,
+          "coefficient_real": -6.096162554233272e-06,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYIIIIYX"
+        },
+        {
+          "index": 92,
+          "coefficient_real": 0.00016908305848770274,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIXYIIYX"
+        },
+        {
+          "index": 139,
+          "coefficient_real": -7.570865855489896e-06,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYIYXIII"
+        },
+        {
+          "index": 175,
+          "coefficient_real": 1.524040638558318e-06,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YYIIIIXX"
+        },
+        {
+          "index": 92,
+          "coefficient_real": 0.00016908305848770274,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIXYIIYX"
+        },
+        {
+          "index": 172,
+          "coefficient_real": 6.096162554233272e-06,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXIIIIXY"
+        },
+        {
+          "index": 92,
+          "coefficient_real": 0.00016908305848770274,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIXYIIYX"
+        },
+        {
+          "index": 101,
+          "coefficient_real": -0.00020243422506551856,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXXYIIII"
+        },
+        {
+          "index": 107,
+          "coefficient_real": 0.00020243422506551856,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YYXXIIII"
+        },
+        {
+          "index": 92,
+          "coefficient_real": 0.00016908305848770274,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIXYIIYX"
+        },
+        {
+          "index": 25,
+          "coefficient_real": -0.00013222568707839887,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIYXXYII"
+        },
+        {
+          "index": 101,
+          "coefficient_real": -0.00020243422506551856,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXXYIIII"
+        },
+        {
+          "index": 92,
+          "coefficient_real": 0.00016908305848770274,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIXYIIYX"
+        },
+        {
+          "index": 146,
+          "coefficient_real": 3.3048024992060335e-06,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXIIXYII"
+        },
+        {
+          "index": 92,
+          "coefficient_real": 0.00016908305848770274,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIXYIIYX"
+        }
+      ]
+    }
+  ]
+}

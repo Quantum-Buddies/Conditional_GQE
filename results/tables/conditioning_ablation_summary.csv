@@ -1,0 +1,4 @@
+mode,dataset,num_samples,final_train_mse,final_train_mae,final_val_mse,final_val_mae,final_train_mse_delta,final_train_mae_delta,final_val_mse_delta,final_val_mae_delta,interpretation
+graph,results/data/fragments/fmo_hamiltonians.json,2,0.036233630031347275,8.090808023553109e-08,5.996143231367119e+18,923.0537719726562,,,,,
+flat,results/data/fragments/fmo_hamiltonians.json,2,7.467950344085693,1.9400467863306403e-06,5.996143231367119e+18,923.0537719726562,,,,,
+graph_minus_flat,results/data/fragments/fmo_hamiltonians.json,2,,,,,7.431716714054346,1.8591387060951092e-06,0.0,0.0,Positive deltas mean the graph-conditioned model is lower error than the flat baseline.

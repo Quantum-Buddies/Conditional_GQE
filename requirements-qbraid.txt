@@ -1,0 +1,33 @@
+# qBraid-compatible dependencies for the Conditional-GQE Phase 3 execution suite.
+# Install in qBraid Lab with: pip install -r requirements-qbraid.txt
+
+# Core
+pyyaml>=6.0
+numpy>=2.0
+scipy>=1.14
+torch>=2.0
+matplotlib>=3.9
+tqdm>=4.66
+
+# Quantum chemistry
+openfermion>=1.7
+openfermionpyscf>=0.5
+pyscf>=2.13
+
+# Qiskit (used for baselines and exact diagonalization)
+qiskit>=2.0
+qiskit-algorithms>=0.4
+qiskit-nature>=0.7
+
+# NVIDIA CUDA-Q (required for H-cGQE two-stage pipeline)
+# Note: install via pip inside qBraid Lab's GPU instance.
+cudaq>=0.10.0
+cudaq-solvers[gqe]
+
+# qBraid SDK (optional but useful for job submission and device listing)
+qbraid>=0.9.0
+
+# RL / curriculum learning extras
+# (uncomment when RLQF stage is implemented)
+# gymnasium>=0.29
+# stable-baselines3>=2.0

@@ -1,0 +1,13 @@
+# Toy fragment plan for a hypothetical H2 dimer at long range.
+# Demonstrates the fragment-plan schema without requiring a heavy-atom backend.
+
+fragments:
+  - name: "h2_monomer_a"
+    atom_indices: [0, 1]
+    active_space:
+      mode: "full"
+
+  - name: "h2_monomer_b"
+    atom_indices: [2, 3]
+    active_space:
+      mode: "full"

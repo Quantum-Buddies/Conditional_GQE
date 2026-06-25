@@ -1,0 +1,80 @@
+{
+  "graph": {
+    "mode": "graph",
+    "dataset": "results/data/hamiltonians.json",
+    "num_samples": 5,
+    "final_train_mse": 0.7350810170173645,
+    "final_train_mae": 380.9388885498047,
+    "final_val_mse": 1.4476290941238403,
+    "final_val_mae": 274.5416259765625,
+    "target_names": [
+      "n_qubits",
+      "n_pauli_terms",
+      "l1_norm",
+      "mean_abs_coeff",
+      "max_abs_coeff",
+      "n_one_body_terms",
+      "n_two_body_terms",
+      "n_three_body_terms",
+      "n_four_body_terms",
+      "charge",
+      "multiplicity",
+      "n_active_electrons",
+      "n_active_orbitals",
+      "fragment_count",
+      "is_fragment"
+    ],
+    "train_loss_history": [
+      0.7612913846969604,
+      0.7350810170173645
+    ],
+    "val_loss_history": [
+      1.461267113685608,
+      1.4476290941238403
+    ]
+  },
+  "flat": {
+    "mode": "flat",
+    "dataset": "results/data/hamiltonians.json",
+    "num_samples": 5,
+    "final_train_mse": 1076.831993997097,
+    "final_train_mae": 6053.896903991699,
+    "final_val_mse": 1.4297853708267212,
+    "final_val_mae": 308.58172607421875,
+    "target_names": [
+      "n_qubits",
+      "n_pauli_terms",
+      "l1_norm",
+      "mean_abs_coeff",
+      "max_abs_coeff",
+      "n_one_body_terms",
+      "n_two_body_terms",
+      "n_three_body_terms",
+      "n_four_body_terms",
+      "charge",
+      "multiplicity",
+      "n_active_electrons",
+      "n_active_orbitals",
+      "fragment_count",
+      "is_fragment"
+    ],
+    "train_loss_history": [
+      2347.6157983765006,
+      1076.831993997097
+    ],
+    "val_loss_history": [
+      1.432045340538025,
+      1.4297853708267212
+    ]
+  },
+  "comparison": {
+    "mode": "graph_minus_flat",
+    "dataset": "results/data/hamiltonians.json",
+    "num_samples": 5,
+    "final_train_mse_delta": 1076.0969129800797,
+    "final_train_mae_delta": 5672.9580154418945,
+    "final_val_mse_delta": -0.01784372329711914,
+    "final_val_mae_delta": 34.04010009765625,
+    "interpretation": "Positive deltas mean the graph-conditioned model is lower error than the flat baseline."
+  }
+}

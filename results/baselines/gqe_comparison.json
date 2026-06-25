@@ -1,0 +1,59 @@
+{
+  "comparison": [
+    {
+      "system": "beh2",
+      "n_qubits": 14,
+      "reference_energy": -15.595047080934496,
+      "baseline_energy": -15.56128916260141,
+      "conditioned_energy": -15.561287307552531,
+      "baseline_delta_Ha": 0.03375791833308561,
+      "conditioned_delta_Ha": 0.033759773381964564,
+      "improvement_Ha": -1.855048878951493e-06,
+      "better": "baseline"
+    },
+    {
+      "system": "h2",
+      "n_qubits": 4,
+      "reference_energy": -1.137283834488502,
+      "baseline_energy": -1.1168254482172622,
+      "conditioned_energy": -1.1169047910786734,
+      "baseline_delta_Ha": 0.020458386271239748,
+      "conditioned_delta_Ha": 0.020379043409828546,
+      "improvement_Ha": 7.934286141120239e-05,
+      "better": "conditioned"
+    },
+    {
+      "system": "iodobenzene",
+      "n_qubits": 8,
+      "reference_energy": -7078.011842695125,
+      "baseline_energy": -7078.01464610747,
+      "conditioned_energy": -7078.012710331646,
+      "baseline_delta_Ha": 0.00280341234520165,
+      "conditioned_delta_Ha": 0.0008676365214341786,
+      "improvement_Ha": 0.0019357758237674716,
+      "better": "conditioned"
+    },
+    {
+      "system": "lih",
+      "n_qubits": 12,
+      "reference_energy": -7.882324378883462,
+      "baseline_energy": -7.861872267467148,
+      "conditioned_energy": -7.86187133025984,
+      "baseline_delta_Ha": 0.02045211141631409,
+      "conditioned_delta_Ha": 0.020453048623622294,
+      "improvement_Ha": -9.372073082047905e-07,
+      "better": "baseline"
+    },
+    {
+      "system": "n2",
+      "n_qubits": 20,
+      "reference_energy": null,
+      "baseline_energy": null,
+      "conditioned_energy": null,
+      "baseline_delta_Ha": null,
+      "conditioned_delta_Ha": null,
+      "improvement_Ha": null,
+      "better": "tie"
+    }
+  ]
+}

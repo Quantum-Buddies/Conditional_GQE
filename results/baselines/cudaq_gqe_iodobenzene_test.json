@@ -1,0 +1,147 @@
+{
+  "results": [
+    {
+      "system": "iodobenzene",
+      "baseline": "cudaq_gqe",
+      "reference_energy": -7078.011842695125,
+      "baseline_energy": -7078.014776888451,
+      "delta_energy": 0.002934193325927481,
+      "n_spin_orbitals": 8,
+      "n_pauli_terms": 105,
+      "mode": "cudaq_gqe",
+      "gqe_config": {
+        "max_iters": 50,
+        "ngates": 15,
+        "num_samples": 5,
+        "objective_shift": -7076.791690257471,
+        "objective_scale": 7080.216289133431,
+        "min_scaled_energy": -0.000172747066244483
+      },
+      "n_electrons": 4,
+      "target": "nvidia",
+      "target_option": "mqpu,fp32",
+      "gqe_selected_operators": [
+        {
+          "index": 314,
+          "coefficient_real": 0.00017619813331733213,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIYXXY"
+        },
+        {
+          "index": 267,
+          "coefficient_real": -0.0002298439295432124,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIYZYII"
+        },
+        {
+          "index": 209,
+          "coefficient_real": -0.0018413046625818952,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIIIIZI"
+        },
+        {
+          "index": 252,
+          "coefficient_real": -0.00013222568707839887,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIXXYYII"
+        },
+        {
+          "index": 270,
+          "coefficient_real": 0.0001149219647716062,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIXZXII"
+        },
+        {
+          "index": 200,
+          "coefficient_real": 0.0009237004125680643,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIIIIZI"
+        },
+        {
+          "index": 61,
+          "coefficient_real": -0.001104472144496768,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIZZII"
+        },
+        {
+          "index": 53,
+          "coefficient_real": -0.00519917989200577,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZZIIIIII"
+        },
+        {
+          "index": 19,
+          "coefficient_real": 0.0023255583608375557,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIIZ"
+        },
+        {
+          "index": 208,
+          "coefficient_real": 0.0018413046625818952,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIIIIZI"
+        },
+        {
+          "index": 206,
+          "coefficient_real": 0.0009206523312909476,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIIIIZI"
+        },
+        {
+          "index": 282,
+          "coefficient_real": 0.0001149219647716062,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZXZXIII"
+        },
+        {
+          "index": 181,
+          "coefficient_real": -0.0005137714043396782,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIIZIII"
+        },
+        {
+          "index": 282,
+          "coefficient_real": 0.0001149219647716062,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZXZXIII"
+        },
+        {
+          "index": 175,
+          "coefficient_real": -0.0005154238055892813,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIIZIII"
+        },
+        {
+          "index": 60,
+          "coefficient_real": 0.001104472144496768,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIZZII"
+        },
+        {
+          "index": 216,
+          "coefficient_real": 0.0003987578970277974,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIYZYIII"
+        },
+        {
+          "index": 284,
+          "coefficient_real": 0.0002298439295432124,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZXZXIII"
+        },
+        {
+          "index": 290,
+          "coefficient_real": 0.00021470219783223263,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIYZYIII"
+        },
+        {
+          "index": 181,
+          "coefficient_real": -0.0005137714043396782,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIIZIII"
+        }
+      ]
+    }
+  ]
+}

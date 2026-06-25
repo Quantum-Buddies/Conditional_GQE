@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# PyTorch checkpoints (large binary files)
+*.pt
+*.pth
+*.pth.tar
+
+# Temporary SCF files
+*.chk
+*.log
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment files (keep yml templates, ignore lock files)
+*.lock
+
+# Large result artifacts (keep JSON summaries, ignore binaries)
+results/**/*.png
+results/**/*.pdf
+results/**/*_history.json
+
+# Keep specific plots for README
+!results/plots/benchmark_*.png
+!results/plots_phase3/*.png
+
+# QBraid skill artifacts
+qbraid_skill/*.tar.gz
+
+# Proposal PDFs (generated, not source)
+proposals/*.pdf
+
+# HPC job logs
+jobs/*.out
+jobs/*.err
+results/logs/*.log
