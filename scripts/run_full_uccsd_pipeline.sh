@@ -102,8 +102,11 @@ $PY src/gqe/models/train_rl_dapo.py \
     --use-bf16 \
     --w-energy 1.0 \
     --w-entangle 0.1 \
-    --w-depth 0.01 \
+    --w-depth 0.05 \
     --w-commute 0.05 \
+    --w-diversity 0.2 \
+    --target-len 10 \
+    --freq-penalty 1.0 \
     --buffer-size 1000 \
     --target nvidia \
     --target-option mqpu \
@@ -139,6 +142,7 @@ $PY src/gqe/models/infer_h_cgqe.py \
     --max-seq-len 64 \
     --temperature 1.0 \
     --force-entanglement \
+    --freq-penalty 1.0 \
     --max-repeat 4
 
 echo ""

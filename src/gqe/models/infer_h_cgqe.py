@@ -119,6 +119,8 @@ def main() -> None:
                         help="Use stochastic sampling instead of greedy decoding")
     parser.add_argument("--max-repeat", type=int, default=4,
                         help="Stop generation if the same token repeats this many times")
+    parser.add_argument("--freq-penalty", type=float, default=1.0,
+                        help="Frequency penalty: subtracts penalty * count from logits to prevent repeated operators")
     parser.add_argument("--no-trim", action="store_true",
                         help="Disable trimming of trailing identity / single-qubit Z-only operators")
     parser.add_argument("--use-cuda", action="store_true")
@@ -184,6 +186,7 @@ def main() -> None:
                 max_repeat=args.max_repeat,
                 sample=args.sample,
                 n_qubits=n_qubits,
+                freq_penalty=args.freq_penalty,
             )
             words = decode_operator_sequence(generated[0], inv_vocab, trim_trailing=not args.no_trim)
             molecule_results.append({"sample_id": i, "operators": words})

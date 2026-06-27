@@ -126,6 +126,7 @@ def sample_sequences_with_logprobs(
     max_temp: float = 2.0,
     target_entropy: float = 1.5,
     explore_eps: float = 0.0,
+    freq_penalty: float = 0.0,
 ) -> tuple[torch.Tensor, torch.Tensor, list[list[str]], float]:
     """Sample n_sequences from the model and track per-token log probabilities.
 
@@ -176,6 +177,18 @@ def sample_sequences_with_logprobs(
                     sequences, memory, term_mask_batch,
                     tgt_key_padding_mask=(sequences == pad_id),
                 )[:, -1, :]
+
+            # Frequency penalty: penalize tokens that have already appeared in the sequence.
+            # This is the OpenAI frequency penalty approach (additive in logit space):
+            #   logit[token] -= freq_penalty * count[token]
+            # This prevents mode collapse to a single operator (e.g. XZXI×5).
+            # See Keskar et al. (CTRL, 2019) and LZ penalty (arXiv:2504.20131).
+            if freq_penalty > 0.0:
+                # Count occurrences of each token in current sequences (excluding BOS)
+                token_counts = torch.zeros(n_samples, logits.size(-1), device=device)
+                for t in range(1, sequences.size(1)):
+                    token_counts.scatter_(1, sequences[:, t:t+1], 1.0, reduce='add')
+                logits = logits - freq_penalty * token_counts
 
             if temperature != 1.0:
                 logits = logits / temperature
@@ -400,13 +413,21 @@ def compute_reward(
     w_entangle: float = 0.1,
     w_depth: float = 0.01,
     w_commute: float = 0.05,
+    w_diversity: float = 0.2,
+    target_len: int = 10,
 ) -> float:
     """Multi-component reward for a generated circuit.
 
     R = w1 * (-E / |E_ref|)             # normalized energy (lower is better)
       + w2 * entanglement_fraction       # fraction of operators with X/Y
-      + w3 * (-n_gates / max_seq_len)    # circuit depth penalty
+      + w3 * length_reward               # Gaussian reward peaking at target_len
       + w4 * non_commuting_fraction      # fraction of non-commuting pairs
+      + w5 * operator_diversity          # fraction of unique operators
+
+    The diversity component (w5) prevents mode collapse to a single operator.
+    Without it, the policy finds shortcuts like [XZXI]×5 which maximizes
+    entanglement fraction but has zero expressivity. See DARLING (arXiv:2509.02534)
+    and GAPO (EMNLP 2025) for theoretical justification.
     """
     if not operators:
         return -1.0
@@ -424,11 +445,13 @@ def compute_reward(
     n_entangling = sum(1 for w in operators if "X" in w or "Y" in w)
     entangle_frac = n_entangling / len(operators)
 
-    # Depth penalty
-    depth_penalty = -len(operators) / max_seq_len
+    # Length reward: Gaussian peaking at target_len (replaces depth penalty)
+    # Old: depth_penalty = -n_gates / max_seq_len (penalized ALL length → premature EOS)
+    # New: reward peaks at target_len, decays for too short or too long
+    n_ops = len(operators)
+    length_reward = np.exp(-0.5 * ((n_ops - target_len) / max(target_len * 0.5, 1.0)) ** 2)
 
     # Non-commuting fraction (sampled pairs for efficiency)
-    n_ops = len(operators)
     if n_ops >= 2:
         n_pairs = min(n_ops * (n_ops - 1) // 2, 50)  # cap for efficiency
         n_commute = 0
@@ -446,10 +469,17 @@ def compute_reward(
     else:
         non_commute_frac = 0.0
 
+    # Operator diversity: fraction of unique operators in the sequence.
+    # [XZXI, XZXI, XZXI] → 1/3 = 0.33 (penalized)
+    # [XZXI, YZYI, XZXI] → 2/3 = 0.67 (moderate)
+    # [XZXI, YZYI, XYYX] → 3/3 = 1.0 (max diversity)
+    unique_frac = len(set(operators)) / len(operators)
+
     reward = (w_energy * energy_reward
               + w_entangle * entangle_frac
-              + w_depth * depth_penalty
-              + w_commute * non_commute_frac)
+              + w_depth * length_reward
+              + w_commute * non_commute_frac
+              + w_diversity * unique_frac)
     return reward
 
 
@@ -679,8 +709,17 @@ def main() -> None:
     # Reward weights
     parser.add_argument("--w-energy", type=float, default=1.0)
     parser.add_argument("--w-entangle", type=float, default=0.1)
-    parser.add_argument("--w-depth", type=float, default=0.01)
+    parser.add_argument("--w-depth", type=float, default=0.05,
+                        help="Weight for length reward (Gaussian peaking at target-len)")
     parser.add_argument("--w-commute", type=float, default=0.05)
+    parser.add_argument("--w-diversity", type=float, default=0.2,
+                        help="Weight for operator diversity reward (unique operator fraction). "
+                             "Prevents mode collapse to a single repeated operator.")
+    parser.add_argument("--target-len", type=int, default=10,
+                        help="Target sequence length for length reward (Gaussian peak)")
+    parser.add_argument("--freq-penalty", type=float, default=1.0,
+                        help="Frequency penalty for sampling: subtracts freq_penalty * count[token] "
+                             "from logits. Prevents mode collapse to repeated operators.")
     # Replay buffer
     parser.add_argument("--buffer-size", type=int, default=1000)
     parser.add_argument("--buffer-batch-size", type=int, default=0,
@@ -944,6 +983,7 @@ def main() -> None:
                     max_temp=args.max_temp,
                     target_entropy=args.target_entropy,
                     explore_eps=sample_eps,
+                    freq_penalty=args.freq_penalty,
                 )
                 entropy_history.append(sample_entropy)
 
@@ -975,6 +1015,8 @@ def main() -> None:
                         e, ops, mol_data["hf_energy"], mol_data["fci_energy"],
                         args.max_seq_len,
                         args.w_energy, args.w_entangle, args.w_depth, args.w_commute,
+                        w_diversity=args.w_diversity,
+                        target_len=args.target_len,
                     )
                     for e, ops in zip(energies, operator_lists)
                 ])

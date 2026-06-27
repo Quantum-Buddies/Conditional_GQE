@@ -224,6 +224,7 @@ class OperatorPoolDecoder(nn.Module):
         max_repeat: int = 4,
         sample: bool = False,
         length_mask: torch.Tensor | None = None,
+        freq_penalty: float = 0.0,
     ) -> torch.Tensor:
         """Autoregressive generation.
 
@@ -238,6 +239,8 @@ class OperatorPoolDecoder(nn.Module):
                 use greedy decoding.
             length_mask: Boolean tensor of shape (vocab_size,) where True marks
                 tokens that are compatible with the target molecule's qubit count.
+            freq_penalty: Subtract freq_penalty * count[token] from logits at each
+                step to discourage repeated operators (prevents mode collapse).
         """
         batch_size = memory.size(0)
         device = memory.device
@@ -249,6 +252,14 @@ class OperatorPoolDecoder(nn.Module):
 
         for _ in range(max_len):
             logits = self.forward(tokens, memory, memory_mask)[:, -1, :]  # (batch, vocab_size)
+
+            # Frequency penalty: penalize tokens already in the sequence
+            if freq_penalty > 0.0:
+                token_counts = torch.zeros(batch_size, logits.size(-1), device=device)
+                for t in range(1, tokens.size(1)):
+                    token_counts.scatter_(1, tokens[:, t:t+1], 1.0, reduce='add')
+                logits = logits - freq_penalty * token_counts
+
             if temperature != 1.0:
                 logits = logits / temperature
 
@@ -350,6 +361,7 @@ class HcGQEModel(nn.Module):
         max_repeat: int = 4,
         sample: bool = False,
         n_qubits: int | None = None,
+        freq_penalty: float = 0.0,
     ) -> torch.Tensor:
         self.eval()
         _, memory = self.encoder(pauli_ids, coeffs, term_mask)
@@ -374,6 +386,7 @@ class HcGQEModel(nn.Module):
             max_repeat=max_repeat,
             sample=sample,
             length_mask=length_mask,
+            freq_penalty=freq_penalty,
         )
 
 
