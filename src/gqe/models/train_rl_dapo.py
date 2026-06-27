@@ -524,19 +524,41 @@ def dapo_loss(
 def compute_advantages(
     rewards: np.ndarray,  # (G,) rewards for a group of samples
     use_grpo: bool = True,
+    repo_beta: float = 0.0,
+    old_log_probs: torch.Tensor | None = None,
+    attention_mask: torch.Tensor | None = None,
 ) -> torch.Tensor:
     """Compute group-relative advantages (GRPO style).
 
     A_i = (R_i - mean(R)) / (std(R) + eps)
+
+    With REPO modification (arXiv:2603.11682):
+    A_REPO = A - beta * (log_pi(a|s) - E[log_pi(a|s)])
+    The centered log-prob term penalizes high-probability actions, directly
+    pushing the policy toward diversity. beta > 0 increases entropy.
     """
     if use_grpo:
         mean_r = rewards.mean()
         std_r = rewards.std()
         advantages = (rewards - mean_r) / (std_r + 1e-8)
     else:
-        # Simple baseline subtraction
         advantages = rewards - rewards.mean()
-    return torch.tensor(advantages, dtype=torch.float32)
+    advantages = torch.tensor(advantages, dtype=torch.float32)
+
+    # REPO: modify advantages with centered log-prob penalty
+    if repo_beta > 0.0 and old_log_probs is not None and attention_mask is not None:
+        # Per-sequence mean log-prob: L_i = mean(log_pi(a_t|s)) over tokens
+        seq_log_probs = old_log_probs * attention_mask  # (G, seq_len)
+        seq_mean_log_prob = seq_log_probs.sum(dim=1) / attention_mask.sum(dim=1).clamp_min(1.0)  # (G,)
+        # Center across the group: L_centered_i = L_i - mean_j(L_j)
+        # Samples with higher-than-average log-prob (more confident/deterministic)
+        # get penalized; samples with lower log-prob (more diverse) get boosted.
+        group_mean_log_prob = seq_mean_log_prob.mean()
+        centered_log_prob = seq_mean_log_prob - group_mean_log_prob  # (G,)
+        # REPO advantage: A_REPO = A - beta * L_centered
+        advantages = advantages - repo_beta * centered_log_prob
+
+    return advantages
 
 
 # ---------------------------------------------------------------------------
@@ -656,9 +678,21 @@ def main() -> None:
     # Device
     parser.add_argument("--use-cuda", action="store_true")
     parser.add_argument("--multi-gpu", action="store_true")
-    parser.add_argument("--use-fp16", action="store_true")
+    parser.add_argument("--use-fp16", action="store_true", help="Deprecated: use --use-bf16 instead")
+    parser.add_argument("--use-bf16", action="store_true", default=True,
+                        help="Use bfloat16 mixed precision (prevents FP16 multiplicative bias entropy collapse)")
     parser.add_argument("--force-entanglement", action="store_true", default=True)
     parser.add_argument("--max-repeat", type=int, default=4)
+    # REPO-style advantage modification
+    parser.add_argument("--repo-beta", type=float, default=0.05,
+                        help="REPO advantage regularization coefficient (0=off, 0.05=mild entropy preservation)")
+    # Curriculum learning
+    parser.add_argument("--curriculum", action="store_true", default=True,
+                        help="Enable curriculum learning: start with small molecules, gradually add larger ones")
+    parser.add_argument("--curriculum-warmup", type=int, default=30,
+                        help="Number of epochs to train only on smallest molecules before adding larger ones")
+    parser.add_argument("--curriculum-steps", type=int, default=3,
+                        help="Number of curriculum stages (molecules added in stages)")
     args = parser.parse_args()
 
     _seed_everything(args.seed)
@@ -697,7 +731,16 @@ def main() -> None:
         print(f"Using nn.DataParallel with {n_gpus} GPUs")
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
-    scaler = torch.amp.GradScaler('cuda') if args.use_fp16 else None
+    # BF16 mixed precision: arXiv:2603.11682 shows FP16 multiplicative bias causes entropy collapse.
+    # BF16 has 8 exponent bits (same as FP32) vs FP16's 5, avoiding the multiplicative
+    # bias in softmax gradients that systematically reduces entropy.
+    use_bf16 = args.use_bf16 or args.use_fp16  # bf16 supersedes fp16
+    scaler = torch.amp.GradScaler('cuda') if (args.use_fp16 and not args.use_bf16) else None
+    amp_dtype = torch.bfloat16 if use_bf16 else torch.float16
+    if use_bf16:
+        print(f"Using BF16 mixed precision (prevents FP16 entropy collapse)")
+        # BF16 doesn't need GradScaler (no overflow risk with 8-bit exponent)
+        scaler = None
 
     # Setup CUDA-Q
     n_gpus = torch.cuda.device_count() if torch.cuda.is_available() else 1
@@ -733,6 +776,32 @@ def main() -> None:
         print("No molecules to train on!")
         return
 
+    # Sort molecules by qubit count for curriculum learning
+    molecules_data.sort(key=lambda m: m["n_qubits"])
+    print(f"\nMolecules sorted by qubit count (curriculum order):")
+    for i, m in enumerate(molecules_data):
+        print(f"  [{i}] {m['name']}: {m['n_qubits']} qubits")
+
+    # Curriculum learning: define stages
+    # Stage 0: smallest molecule(s) only
+    # Stage 1: add next group
+    # ... until all molecules are included
+    n_mols = len(molecules_data)
+    if args.curriculum and n_mols > 1 and args.curriculum_steps > 0:
+        stage_size = max(1, n_mols // args.curriculum_steps)
+        curriculum_stages = []
+        for s in range(args.curriculum_steps):
+            end_idx = min(n_mols, (s + 1) * stage_size)
+            curriculum_stages.append(molecules_data[:end_idx])
+        # Last stage includes all
+        curriculum_stages[-1] = molecules_data
+        print(f"Curriculum: {len(curriculum_stages)} stages, warmup={args.curriculum_warmup} epochs")
+        for s, stage_mols in enumerate(curriculum_stages):
+            print(f"  Stage {s}: {[m['name'] for m in stage_mols]}")
+    else:
+        curriculum_stages = [molecules_data]
+        args.curriculum_warmup = 0
+
     # Initialize replay buffer
     replay_buffer = ReplayBuffer(max_size=args.buffer_size)
 
@@ -743,13 +812,21 @@ def main() -> None:
 
     pbar = tqdm(range(args.epochs), desc="RL Epoch", unit="epoch")
     for epoch in pbar:
+        # Curriculum: select which molecules to train on this epoch
+        if args.curriculum and len(curriculum_stages) > 1:
+            stage_idx = min(len(curriculum_stages) - 1, epoch // args.curriculum_warmup)
+            active_molecules = curriculum_stages[stage_idx]
+            if stage_idx < len(curriculum_stages) - 1 and epoch % args.curriculum_warmup == 0 and epoch > 0:
+                print(f"\n  Curriculum stage {stage_idx}: now training on {[m['name'] for m in active_molecules]}")
+        else:
+            active_molecules = molecules_data
         epoch_energies = []
         epoch_rewards = []
         epoch_losses = []
         epoch_skipped = 0
         epoch_sequences_generated = 0
 
-        for mol_data in molecules_data:
+        for mol_data in active_molecules:
             mol_name = mol_data["name"]
             n_qubits = mol_data["n_qubits"]
 
@@ -841,8 +918,15 @@ def main() -> None:
             if not valid_batch:
                 continue
 
-            # --- Phase 5: Compute advantages ---
-            advantages = compute_advantages(rewards)
+            # --- Phase 5: Compute advantages (with REPO modification) ---
+            pad_id = SPECIAL_TOKENS["<PAD>"]
+            attn_mask_for_adv = (sequences[:, 1:] != pad_id).float()
+            advantages = compute_advantages(
+                rewards,
+                repo_beta=args.repo_beta,
+                old_log_probs=old_log_probs,
+                attention_mask=attn_mask_for_adv,
+            )
 
             # Store in replay buffer
             for i, (ops, e) in enumerate(zip(operator_lists, energies)):
@@ -879,7 +963,7 @@ def main() -> None:
             ).to(device)
 
             if scaler is not None:
-                with torch.amp.autocast('cuda'):
+                with torch.amp.autocast('cuda', dtype=amp_dtype):
                     logits = model(
                         pauli_ids_batch, coeffs_batch, tgt_input,
                         term_mask=term_mask_batch,
@@ -899,6 +983,26 @@ def main() -> None:
                 scaler.scale(loss).backward()
                 scaler.step(optimizer)
                 scaler.update()
+            elif use_bf16:
+                with torch.amp.autocast('cuda', dtype=torch.bfloat16):
+                    logits = model(
+                        pauli_ids_batch, coeffs_batch, tgt_input,
+                        term_mask=term_mask_batch,
+                        tgt_key_padding_mask=(tgt_input == pad_id),
+                    )
+                    log_probs_new = _compute_sequence_log_probs(
+                        logits, tgt_labels, attention_mask,
+                    )
+                    loss = dapo_loss(
+                        log_probs_new, old_log_probs.to(device),
+                        advantages.to(device), attention_mask,
+                        clip_low=args.clip_low, clip_high=args.clip_high,
+                        token_level=args.token_level_loss,
+                        entropy_coef=args.entropy_coef,
+                        logits=logits,
+                    )
+                loss.backward()
+                optimizer.step()
             else:
                 logits = model(
                     pauli_ids_batch, coeffs_batch, tgt_input,

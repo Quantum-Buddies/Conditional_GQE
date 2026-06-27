@@ -94,7 +94,8 @@ RL_MODEL_OUT=results/train/h_cgqe_rl_dapo_model.pt
 echo ""
 echo "=================================================="
 echo "STEP 3b: RL Fine-tuning with DAPO (3 GPUs)"
-echo "  200 epochs, clip-higher, dynamic sampling, entropy bonus, top-p, adaptive temp"
+echo "  200 epochs, BF16, clip-higher, dynamic sampling, entropy bonus,"
+echo "  top-p, adaptive eps, REPO advantages, curriculum learning"
 echo "=================================================="
 $PY src/gqe/models/train_rl_dapo.py \
     --checkpoint $MODEL_OUT \
@@ -116,6 +117,11 @@ $PY src/gqe/models/train_rl_dapo.py \
     --target-entropy 1.5 \
     --explore-eps 0.3 \
     --adaptive-eps \
+    --repo-beta 0.05 \
+    --curriculum \
+    --curriculum-warmup 30 \
+    --curriculum-steps 3 \
+    --use-bf16 \
     --w-energy 1.0 \
     --w-entangle 0.1 \
     --w-depth 0.01 \
