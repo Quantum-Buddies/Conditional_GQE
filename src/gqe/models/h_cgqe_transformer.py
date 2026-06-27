@@ -257,7 +257,7 @@ class OperatorPoolDecoder(nn.Module):
                 # The BOS token is ignored (token index 1, not in z_only mask by default).
                 constrain = ~has_entangler
                 if constrain.any():
-                    logits[constrain, z_only_token_mask] = float("-inf")
+                    logits[constrain] = logits[constrain].masked_fill(z_only_token_mask, float("-inf"))
 
             if length_mask is not None:
                 logits[:, ~length_mask] = float("-inf")

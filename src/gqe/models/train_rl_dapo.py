@@ -175,7 +175,7 @@ def sample_sequences_with_logprobs(
             if force_entanglement and z_only_mask is not None:
                 constrain = ~has_entangler
                 if constrain.any():
-                    logits[constrain, z_only_mask] = float("-inf")
+                    logits[constrain] = logits[constrain].masked_fill(z_only_mask, float("-inf"))
 
             # Length compatibility mask
             if length_mask is not None:
