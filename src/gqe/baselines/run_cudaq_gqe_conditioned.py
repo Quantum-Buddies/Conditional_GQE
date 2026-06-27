@@ -72,6 +72,7 @@ from common.hamiltonian_utils import (  # noqa: E402
     load_hamiltonian_records,
     pauli_ops_to_spin_term,
 )
+from common.operator_pool import build_uccsd_operator_pool  # noqa: E402
 
 
 PERIODIC_TABLE = {
@@ -200,46 +201,13 @@ def _build_conditioned_operator_pool(
     scale_factors: Sequence[float],
     conditioning_weight: float = 0.3,
 ) -> List[tuple[Any, complex, str]]:
-    """Build a chemistry-conditioned operator pool for GQE.
+    """Build a UCCSD fermionic excitation operator pool for GQE.
 
-    Operators are ranked by a combined score:
-        score = (1 - w) * coeff_norm + w * chemistry_score
-    where coeff_norm is the Hamiltonian coefficient magnitude and
-    chemistry_score is derived from the conditioning latent vector.
+    The conditioning latent is not used to select from Hamiltonian terms (the
+    old broken approach) — instead, the full UCCSD pool is returned so that
+    every operator contains X/Y and diagonal collapse is impossible.
     """
-    entries = list(iter_terms(record))
-    if not entries:
-        return []
-
-    # Compute chemistry relevance scores from the latent vector
-    chem_scores = _compute_latent_operator_scores(latent, entries)
-
-    # Normalize coefficient magnitudes
-    coeffs = np.array([abs(float(np.real(c))) for _, c in entries])
-    coeff_norm = coeffs / (coeffs.max() + 1e-8)
-
-    # Combined score
-    combined = (1.0 - conditioning_weight) * coeff_norm + conditioning_weight * chem_scores
-
-    # Sort by combined score descending
-    indexed = list(enumerate(combined))
-    indexed.sort(key=lambda x: x[1], reverse=True)
-
-    pool: List[tuple[Any, complex, str]] = []
-    used = 0
-    for idx, _ in indexed:
-        if used >= max_terms:
-            break
-        ops, coeff = entries[idx]
-        term_op = pauli_ops_to_spin_term(ops)
-        if term_op is None:
-            continue
-        used += 1
-        sign = 1.0 if coeff.real >= 0 else -1.0
-        pauli_str = "".join(ops)
-        for scale in scale_factors:
-            pool.append((scale * sign * term_op, complex(scale * sign * abs(coeff)), pauli_str))
-    return pool
+    return build_uccsd_operator_pool(record, scale_factors=scale_factors)
 
 
 def _energy_shift_and_scale(record: Dict[str, Any]) -> tuple[float, float]:

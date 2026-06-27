@@ -1,0 +1,165 @@
+seed: 42
+dataset:
+  basis: "sto-3g"
+  molecules:
+    - name: "h2_0.74"
+      geometry:
+        - ["H", [0.0, 0.0, 0.0]]
+        - ["H", [0.0, 0.0, 0.74]]
+      charge: 0
+      multiplicity: 1
+      split: "train"
+
+    - name: "lih_1.6_full"
+      geometry:
+        - ["Li", [0.0, 0.0, 0.0]]
+        - ["H", [0.0, 0.0, 1.6]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      # Full STO-3G: 4e, 6orb = 12 qubits
+
+    - name: "n2_1.1_full"
+      geometry:
+        - ["N", [0.0, 0.0, 0.0]]
+        - ["N", [0.0, 0.0, 1.1]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      # Full STO-3G: 14e, 10orb = 20 qubits
+
+    - name: "beh2_1.3_full"
+      geometry:
+        - ["Be", [0.0, 0.0, 0.0]]
+        - ["H", [0.0, 0.0, 1.3]]
+        - ["H", [0.0, 0.0, -1.3]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      # Full STO-3G: 6e, 7orb = 14 qubits
+
+    - name: "iodobenzene_cas12"
+      geometry:
+        - ["I", [3.500, 0.000, 0.000]]
+        - ["C", [1.400, 0.000, 0.000]]
+        - ["C", [0.700, 1.212, 0.000]]
+        - ["C", [-0.700, 1.212, 0.000]]
+        - ["C", [-1.400, 0.000, 0.000]]
+        - ["C", [-0.700, -1.212, 0.000]]
+        - ["C", [0.700, -1.212, 0.000]]
+        - ["H", [1.240, 2.147, 0.000]]
+        - ["H", [-1.240, 2.147, 0.000]]
+        - ["H", [-2.480, 0.000, 0.000]]
+        - ["H", [-1.240, -2.147, 0.000]]
+        - ["H", [1.240, -2.147, 0.000]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 6
+        n_active_orbitals: 6
+
+    - name: "methyl_iodide_cas12"
+      geometry:
+        - ["I", [0.0, 0.0, 2.14]]
+        - ["C", [0.0, 0.0, 0.0]]
+        - ["H", [0.0, 1.03, -0.36]]
+        - ["H", [0.893, -0.515, -0.36]]
+        - ["H", [-0.893, -0.515, -0.36]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 6
+        n_active_orbitals: 6
+
+    - name: "imeph_cas12"
+      geometry:
+        - ["C", [0.000, 1.400, 0.000]]
+        - ["C", [1.212, 0.700, 0.000]]
+        - ["C", [1.212, -0.700, 0.000]]
+        - ["C", [0.000, -1.400, 0.000]]
+        - ["C", [-1.212, -0.700, 0.000]]
+        - ["C", [-1.212, 0.700, 0.000]]
+        - ["O", [2.420, 1.400, 0.000]]
+        - ["H", [2.900, 2.200, 0.000]]
+        - ["C", [-2.420, 1.400, 0.000]]
+        - ["H", [-3.020, 1.000, 0.870]]
+        - ["H", [-3.020, 1.000, -0.870]]
+        - ["H", [-2.200, 2.400, 0.000]]
+        - ["I", [0.000, 3.500, 0.000]]
+        - ["H", [2.147, -1.240, 0.000]]
+        - ["H", [0.000, -2.480, 0.000]]
+        - ["H", [-2.147, -1.240, 0.000]]
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 6
+        n_active_orbitals: 6
+
+    - name: "phenol_cas12"
+      geometry:
+        - ["C", [0.000, 1.400, 0.000]]
+        - ["C", [1.212, 0.700, 0.000]]
+        - ["C", [1.212, -0.700, 0.000]]
+        - ["C", [0.000, -1.400, 0.000]]
+        - ["C", [-1.212, -0.700, 0.000]]
+        - ["C", [-1.212, 0.700, 0.000]]
+        - ["O", [2.420, 1.400, 0.000]]
+        - ["H", [2.900, 2.200, 0.000]]
+        - ["H", [2.147, -1.240, 0.000]]
+        - ["H", [0.000, -2.480, 0.000]]
+        - ["H", [-2.147, -1.240, 0.000]]
+        - ["H", [-2.480, 1.240, 0.000]]
+        - ["H", [0.000, 2.480, 0.000]]
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 6
+        n_active_orbitals: 6
+
+    # === 6-31G basis for larger qubit counts (tensornet only) ===
+    - name: "lih_1.6_631g"
+      geometry:
+        - ["Li", [0.0, 0.0, 0.0]]
+        - ["H", [0.0, 0.0, 1.6]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      basis: "6-31g"
+      # 6-31G full: 4e, 11orb = 22 qubits (tensornet only)
+
+    - name: "n2_1.1_631g_cas8"
+      geometry:
+        - ["N", [0.0, 0.0, 0.0]]
+        - ["N", [0.0, 0.0, 1.1]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      basis: "6-31g"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 8
+        n_active_orbitals: 8
+      # 6-31G with CAS: 8e, 8orb = 16 qubits
+
+    - name: "h2o_1.0_631g_cas8"
+      geometry:
+        - ["O", [0.0, 0.0, 0.0]]
+        - ["H", [0.0, 0.0, 1.0]]
+        - ["H", [0.0, 0.78, -0.5]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      basis: "6-31g"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 8
+        n_active_orbitals: 8
+      # 6-31G with CAS: 8e, 8orb = 16 qubits

@@ -72,6 +72,11 @@ def _parse_pauli_label(label: str, n_qubits: int) -> List[str]:
     if label == "I":
         return ops
 
+    # If n_qubits == 1, a bare operator like 'X' or 'Z' is qubit 0.
+    if n_qubits == 1 and len(label) == 1 and label in "XYZ":
+        ops[0] = label
+        return ops
+
     for match in PAULI_PATTERN.finditer(label):
         op, index = match.groups()
         if index is None:

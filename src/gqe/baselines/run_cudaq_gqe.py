@@ -68,6 +68,7 @@ from common.hamiltonian_utils import (  # noqa: E402
     load_hamiltonian_records,
     pauli_ops_to_spin_term,
 )
+from common.operator_pool import build_uccsd_operator_pool  # noqa: E402
 
 
 PERIODIC_TABLE = {
@@ -93,9 +94,33 @@ def _ensure_cudaq_available() -> None:
         raise RuntimeError(msg) from _CUDAQ_IMPORT_ERROR
 
 
+def _ensure_cuda_context() -> None:
+    """Create a CUDA context on the GPU assigned to this MPI rank.
+
+    Open MPI's smcuda BTL needs each rank to have a CUDA context before
+    MPI_Init() so it can set up GPU-buffer communication. Without this,
+    it falls back to TCP which cannot handle device pointers.
+    """
+    import ctypes
+    import os
+
+    local_rank = int(os.environ.get("OMPI_COMM_WORLD_LOCAL_RANK", 0))
+    libcudart = ctypes.CDLL("/mnt/scratch/kcwp264/.conda_envs/cudaq-env/lib/libcudart.so")
+    libcudart.cudaSetDevice(local_rank)
+    d = ctypes.c_void_p()
+    libcudart.cudaMalloc(ctypes.byref(d), 4)
+    libcudart.cudaFree(d)
+
+
 def _configure_target(preferred: str, option: str | None = None) -> str:
     assert cudaq is not None
     try:
+        needs_mpi = (option and "mgpu" in option) or preferred == "tensornet"
+        if needs_mpi:
+            if not cudaq.mpi.is_initialized():
+                _ensure_cuda_context()
+                cudaq.mpi.initialize()
+                print(f"MPI initialized: rank={cudaq.mpi.rank()}, num_ranks={cudaq.mpi.num_ranks()}")
         if option:
             cudaq.set_target(preferred, option=option)
         else:
@@ -151,24 +176,7 @@ def _build_operator_pool(
     max_terms: int,
     scale_factors: Sequence[float],
 ) -> List[tuple[Any, complex, str]]:
-    entries = sorted(iter_terms(record), key=lambda item: abs(item[1]), reverse=True)
-    pool: List[tuple[Any, complex, str]] = []
-    used = 0
-    for ops, coeff in entries:
-        if used >= max_terms:
-            break
-        term_op = pauli_ops_to_spin_term(ops)
-        if term_op is None:
-            continue
-        used += 1
-        sign = 1.0 if coeff.real >= 0 else -1.0
-        
-        # Build the exact pauli string representation (e.g. "IZIZ")
-        pauli_str = "".join(ops)
-        
-        for scale in scale_factors:
-            pool.append((scale * sign * term_op, complex(scale * sign * abs(coeff)), pauli_str))
-    return pool
+    return build_uccsd_operator_pool(record, scale_factors=scale_factors)
 
 
 def _energy_shift_and_scale(record: Dict[str, Any]) -> tuple[float, float]:

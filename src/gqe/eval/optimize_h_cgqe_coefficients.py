@@ -46,6 +46,23 @@ def _pad_pauli_word(word: str, n_qubits: int) -> str:
     return word[:n_qubits]
 
 
+def _ensure_cuda_context() -> None:
+    """Create a CUDA context on the GPU assigned to this MPI rank.
+
+    Open MPI's smcuda BTL needs each rank to have a CUDA context before
+    MPI_Init() so it can set up GPU-buffer communication.
+    """
+    import ctypes
+    import os
+
+    local_rank = int(os.environ.get("OMPI_COMM_WORLD_LOCAL_RANK", 0))
+    libcudart = ctypes.CDLL("/mnt/scratch/kcwp264/.conda_envs/cudaq-env/lib/libcudart.so")
+    libcudart.cudaSetDevice(local_rank)
+    d = ctypes.c_void_p()
+    libcudart.cudaMalloc(ctypes.byref(d), 4)
+    libcudart.cudaFree(d)
+
+
 def _build_kernel_for_sequence(
     n_qubits: int,
     n_electrons: int,
@@ -180,10 +197,17 @@ def main() -> None:
     parser.add_argument("--parallel-gpus", type=int, default=None)
     parser.add_argument("--max-iter", type=int, default=100, help="Max optimization iterations per sequence")
     parser.add_argument("--top-k", type=int, default=10, help="Optimize top-k sequences per molecule (by heuristic)")
+    parser.add_argument("--max-qubits", type=int, default=None, help="Skip molecules with more than this many qubits")
     args = parser.parse_args()
 
     if cudaq and args.target:
         try:
+            needs_mpi = (args.target_option and "mgpu" in args.target_option) or args.target == "tensornet"
+            if needs_mpi:
+                if not cudaq.mpi.is_initialized():
+                    _ensure_cuda_context()
+                    cudaq.mpi.initialize()
+                    print(f"MPI initialized: rank={cudaq.mpi.rank()}, num_ranks={cudaq.mpi.num_ranks()}")
             if args.target == "nvidia" and (args.target_option == "mqpu" or args.parallel_gpus):
                 cudaq.set_target("nvidia", option="mqpu")
             elif args.target_option:
@@ -200,6 +224,13 @@ def main() -> None:
 
     # Load Hamiltonian records
     ham_records = load_hamiltonian_records(args.hamiltonians)
+
+    if args.max_qubits is not None:
+        generated_data = [
+            mol for mol in generated_data
+            if find_record_by_name(ham_records, mol["molecule"])["n_qubits"] <= args.max_qubits
+        ]
+        print(f"Filtered to {len(generated_data)} molecules with <= {args.max_qubits} qubits")
 
     optimized_results: list[dict[str, Any]] = []
 

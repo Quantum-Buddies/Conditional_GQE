@@ -98,6 +98,26 @@ def _commutator_penalty(
     return torch.tensor(total_penalty / total_seqs, device=device)
 
 
+class EarlyStopping:
+    """Simple early stopping based on validation loss."""
+    def __init__(self, patience: int = 30, min_delta: float = 1e-4):
+        self.patience = patience
+        self.min_delta = min_delta
+        self.best_loss = float("inf")
+        self.counter = 0
+        self.early_stop = False
+
+    def __call__(self, val_loss: float) -> bool:
+        if val_loss < self.best_loss - self.min_delta:
+            self.best_loss = val_loss
+            self.counter = 0
+        else:
+            self.counter += 1
+            if self.counter >= self.patience:
+                self.early_stop = True
+        return self.early_stop
+
+
 def _seed_everything(seed: int) -> None:
     random.seed(seed)
     np.random.seed(seed)
@@ -132,7 +152,7 @@ def train_epoch(
     criterion: nn.Module,
     device: torch.device,
     pad_id: int = 0,
-    scaler: torch.cuda.amp.GradScaler | None = None,
+    scaler: Any | None = None,
     grad_accum_steps: int = 1,
     inv_vocab: dict[int, str] | None = None,
     commutator_weight: float = 0.0,
@@ -170,7 +190,7 @@ def train_epoch(
         tgt_key_padding_mask = tgt_input == pad_id
 
         if scaler is not None:
-            with torch.cuda.amp.autocast():
+            with torch.amp.autocast('cuda'):
                 logits = model(
                     pauli_ids,
                     coeffs,
@@ -298,12 +318,19 @@ def main() -> None:
     parser.add_argument("--dropout", type=float, default=0.1)
     parser.add_argument("--train-split", type=float, default=0.8)
     parser.add_argument("--use-cuda", action="store_true")
+    parser.add_argument("--multi-gpu", action="store_true", help="Use nn.DataParallel for multi-GPU training")
     parser.add_argument("--use-fp16", action="store_true", help="Use mixed precision (FP16) training")
     parser.add_argument("--grad-accum", type=int, default=1, help="Gradient accumulation steps")
     parser.add_argument("--commutator-weight", type=float, default=0.0,
                         help="Weight for the commutator penalty term (set >0 to enable curriculum entanglement loss)")
     parser.add_argument("--commutator-ramp-epochs", type=int, default=100,
                         help="Number of epochs over which to linearly ramp the commutator penalty to full weight")
+    parser.add_argument("--label-smoothing", type=float, default=0.0,
+                        help="Label smoothing factor (0.1 recommended for small datasets)")
+    parser.add_argument("--patience", type=int, default=30,
+                        help="Early stopping patience (epochs without val improvement)")
+    parser.add_argument("--min-delta", type=float, default=1e-4,
+                        help="Minimum val loss improvement to reset patience counter")
     args = parser.parse_args()
 
     _seed_everything(args.seed)
@@ -364,12 +391,17 @@ def main() -> None:
     n_params = sum(p.numel() for p in model.parameters())
     print(f"Model parameters: {n_params:,}")
 
-    criterion = nn.CrossEntropyLoss(ignore_index=0)  # ignore PAD
+    if args.multi_gpu and torch.cuda.device_count() > 1:
+        n_gpus = torch.cuda.device_count()
+        model = nn.DataParallel(model)
+        print(f"Using nn.DataParallel with {n_gpus} GPUs (effective batch size = {args.batch_size * n_gpus})")
+
+    criterion = nn.CrossEntropyLoss(ignore_index=0, label_smoothing=args.label_smoothing)  # ignore PAD
     optimizer = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs)
 
     # Mixed precision setup
-    scaler = torch.cuda.amp.GradScaler() if args.use_fp16 else None
+    scaler = torch.amp.GradScaler('cuda') if args.use_fp16 else None
     if args.use_fp16:
         print(f"Mixed precision (FP16) enabled")
     if args.grad_accum > 1:
@@ -388,6 +420,8 @@ def main() -> None:
     val_losses = []
     val_accs = []
     comm_weights = []
+
+    early_stopping = EarlyStopping(patience=args.patience, min_delta=args.min_delta)
 
     pbar = tqdm(range(args.epochs), desc="Epoch", unit="epoch")
     for epoch in pbar:
@@ -421,7 +455,7 @@ def main() -> None:
             best_val_loss = val_metrics["loss"]
             args.out.parent.mkdir(parents=True, exist_ok=True)
             torch.save({
-                "model_state": model.state_dict(),
+                "model_state": (model.module if isinstance(model, nn.DataParallel) else model).state_dict(),
                 "vocab": vocab,
                 "inv_vocab": dataset["inv_vocab"],
                 "config": {
@@ -442,6 +476,11 @@ def main() -> None:
                     "val_accs": val_accs,
                 },
             }, args.out)
+
+        # Early stopping check
+        if early_stopping(val_metrics["loss"]):
+            print(f"\nEarly stopping triggered at epoch {epoch+1} (patience={args.patience})")
+            break
 
     print(f"\nBest val loss: {best_val_loss:.4f}")
     print(f"Final val accuracy: {val_accs[-1]:.4f}")
@@ -468,6 +507,8 @@ def main() -> None:
             "commutator_weight": args.commutator_weight,
             "commutator_ramp_epochs": args.commutator_ramp_epochs,
             "random_baseline_ce": random_baseline,
+            "early_stopped": early_stopping.early_stop,
+            "epochs_run": len(train_losses),
         }, f, indent=2)
     print(f"Metrics saved to: {metrics_path}")
 

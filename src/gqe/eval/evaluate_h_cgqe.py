@@ -36,6 +36,23 @@ from src.gqe.common.hamiltonian_utils import (
 )
 
 
+def _ensure_cuda_context() -> None:
+    """Create a CUDA context on the GPU assigned to this MPI rank.
+
+    Open MPI's smcuda BTL needs each rank to have a CUDA context before
+    MPI_Init() so it can set up GPU-buffer communication.
+    """
+    import ctypes
+    import os
+
+    local_rank = int(os.environ.get("OMPI_COMM_WORLD_LOCAL_RANK", 0))
+    libcudart = ctypes.CDLL("/mnt/scratch/kcwp264/.conda_envs/cudaq-env/lib/libcudart.so")
+    libcudart.cudaSetDevice(local_rank)
+    d = ctypes.c_void_p()
+    libcudart.cudaMalloc(ctypes.byref(d), 4)
+    libcudart.cudaFree(d)
+
+
 def _compute_circuit_energy(
     molecule_record: dict[str, Any],
     operators: list[str],
@@ -103,10 +120,19 @@ def main() -> None:
     parser.add_argument("--target", type=str, default="qpp-cpu")
     parser.add_argument("--target-option", type=str, default=None)
     parser.add_argument("--parallel-gpus", type=int, default=None, help="Number of GPUs to parallelize across")
+    parser.add_argument("--max-qubits", type=int, default=None, help="Skip molecules with more than this many qubits")
     args = parser.parse_args()
 
+    is_mgpu = False
     if cudaq and args.target:
         try:
+            needs_mpi = (args.target_option and "mgpu" in args.target_option) or args.target == "tensornet"
+            if needs_mpi:
+                is_mgpu = True
+                if not cudaq.mpi.is_initialized():
+                    _ensure_cuda_context()
+                    cudaq.mpi.initialize()
+                    print(f"MPI initialized: rank={cudaq.mpi.rank()}, num_ranks={cudaq.mpi.num_ranks()}")
             if args.target == "nvidia" and (args.target_option == "mqpu" or args.parallel_gpus):
                 cudaq.set_target("nvidia", option="mqpu")
             elif args.target_option:
@@ -127,6 +153,13 @@ def main() -> None:
 
     # Load Hamiltonian records
     ham_records = load_hamiltonian_records(args.hamiltonians)
+
+    if args.max_qubits is not None:
+        generated_data = [
+            mol for mol in generated_data
+            if find_record_by_name(ham_records, mol["molecule"])["n_qubits"] <= args.max_qubits
+        ]
+        print(f"Filtered to {len(generated_data)} molecules with <= {args.max_qubits} qubits")
 
     # Build comprehensive baseline lookup
     # Keys: molecule -> {reference_energy, baseline_energy, delta_energy}
@@ -165,8 +198,11 @@ def main() -> None:
         circuit_energies: list[float] = []
         
         # Determine number of QPUs/GPUs for parallel execution
+        # mgpu pools all GPUs for one statevector — no per-QPU parallelism
         num_qpus = 1
-        if cudaq and args.parallel_gpus:
+        if is_mgpu:
+            num_qpus = 1
+        elif cudaq and args.parallel_gpus:
             num_qpus = args.parallel_gpus
         elif cudaq:
             try:

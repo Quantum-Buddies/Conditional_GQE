@@ -68,6 +68,7 @@ from common.hamiltonian_utils import (  # noqa: E402
     load_hamiltonian_records,
     pauli_ops_to_spin_term,
 )
+from common.operator_pool import build_uccsd_operator_pool  # noqa: E402
 
 
 PERIODIC_TABLE = {
@@ -212,23 +213,8 @@ def _build_operator_pool(
     max_terms: int = 32,
     scale_factors: Sequence[float] = (0.0125, -0.0125, 0.025, -0.025, 0.05, -0.05),
 ) -> List[Any]:
-    """Build a pool of operators for GQE from Hamiltonian terms."""
-    _ensure_cudaq_available()
-    entries = sorted(iter_terms(record), key=lambda item: abs(item[1]), reverse=True)
-    pool: List[Any] = []
-    used = 0
-    for ops, coeff in entries:
-        if used >= max_terms:
-            break
-        term_op = pauli_ops_to_spin_term(ops)
-        if term_op is None:
-            continue
-        used += 1
-        sign = 1.0 if coeff.real >= 0 else -1.0
-        pauli_str = "".join(ops)
-        for scale in scale_factors:
-            pool.append((scale * sign * term_op, complex(scale * sign * abs(coeff)), pauli_str))
-    return pool
+    """Build a UCCSD fermionic excitation operator pool for GQE."""
+    return build_uccsd_operator_pool(record, scale_factors=scale_factors)
 
 
 def _serialize_selected_operators(
