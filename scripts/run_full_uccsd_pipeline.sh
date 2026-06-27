@@ -50,62 +50,40 @@ fi
 
 echo ""
 echo "=================================================="
-echo "STEP 2: Prepare supervised dataset from UCCSD GQE output"
+echo "STEP 2: SKIPPED (pure RL from scratch — no supervised dataset needed)"
 echo "=================================================="
-$PY src/gqe/data/prepare_gqe_dataset.py \
-    --ham $HAM \
-    --gqe-results $GQE_OUT \
-    --out-dir $DATASET_OUT \
-    --max-terms 128 \
-    --max-pauli-len 24 \
-    --max-seq-len 64 \
-    --augment-multiplier 10 \
-    --coeff-noise 0.05 \
-    --subsample-ratio 0.9
 
 echo ""
 echo "=================================================="
-echo "STEP 3: Train H-cGQE Transformer on UCCSD data (3 GPUs)"
-echo "  300 epochs, d_model=256, dropout=0.3, label smoothing, commutator penalty"
+echo "STEP 3: SKIPPED (pure RL from scratch — no supervised pretraining)"
+echo "  arXiv:2502.19402: RL from scratch outperforms SFT-then-RL"
+echo "  SFT memorizes patterns; RL discovers general strategies"
 echo "=================================================="
-$PY src/gqe/models/train_h_cgqe.py \
-    --dataset $DATASET_OUT/gqe_supervised_dataset.pt \
-    --out $MODEL_OUT \
-    --epochs 300 \
-    --batch-size 8 \
-    --lr 5e-5 \
-    --d-model 256 \
-    --nhead 8 \
-    --enc-layers 4 \
-    --dec-layers 4 \
-    --dim-ff 1024 \
-    --dropout 0.3 \
-    --use-cuda \
-    --multi-gpu \
-    --use-fp16 \
-    --grad-accum 2 \
-    --commutator-weight 0.15 \
-    --commutator-ramp-epochs 75 \
-    --label-smoothing 0.1 \
-    --patience 50
 
-RL_MODEL_OUT=results/train/h_cgqe_rl_dapo_model.pt
+RL_MODEL_OUT=results/train/h_cgqe_rl_from_scratch.pt
 
 echo ""
 echo "=================================================="
-echo "STEP 3b: RL Fine-tuning with DAPO (3 GPUs)"
-echo "  200 epochs, BF16, clip-higher, dynamic sampling, entropy bonus,"
+echo "STEP 3b: Pure RL from Scratch with DAPO (3 GPUs)"
+echo "  300 epochs, BF16, clip-higher, dynamic sampling, entropy bonus,"
 echo "  top-p, adaptive eps, REPO advantages, curriculum learning"
+echo "  NO supervised pretraining — model learns from energy rewards only"
 echo "=================================================="
 $PY src/gqe/models/train_rl_dapo.py \
-    --checkpoint $MODEL_OUT \
+    --from-scratch \
     --hamiltonians $HAM \
     --molecules $MOLECULES \
     --out $RL_MODEL_OUT \
-    --epochs 200 \
+    --epochs 300 \
     --n-samples 50 \
-    --lr 1e-5 \
+    --lr 3e-4 \
     --temperature 1.0 \
+    --d-model 256 \
+    --nhead 8 \
+    --encoder-layers 4 \
+    --decoder-layers 6 \
+    --dim-feedforward 1024 \
+    --dropout 0.1 \
     --clip-low 0.2 \
     --clip-high 0.28 \
     --dynamic-sampling \
@@ -136,13 +114,13 @@ $PY src/gqe/models/train_rl_dapo.py \
     --force-entanglement \
     --max-repeat 4
 
-# Use RL-tuned model for inference if it exists, else fall back to supervised
+# Use RL-tuned model for inference
 if [ -f "$RL_MODEL_OUT" ]; then
     INFER_MODEL=$RL_MODEL_OUT
-    echo "Using RL-tuned model for inference: $RL_MODEL_OUT"
+    echo "Using RL from-scratch model for inference: $RL_MODEL_OUT"
 else
-    INFER_MODEL=$MODEL_OUT
-    echo "RL model not found, using supervised model: $MODEL_OUT"
+    echo "RL model not found at $RL_MODEL_OUT! Exiting."
+    exit 1
 fi
 
 echo ""

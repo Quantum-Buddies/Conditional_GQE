@@ -46,6 +46,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from src.gqe.models.h_cgqe_transformer import (
     HcGQEModel,
+    build_operator_vocab,
     tokenize_hamiltonian,
     tokenize_operator_sequence,
     PAULI_CHAR_VOCAB,
@@ -59,6 +60,7 @@ from src.gqe.common.hamiltonian_utils import (
     find_record_by_name,
     get_active_electron_count,
 )
+from src.gqe.common.operator_pool import _jw_excitation_pauli_words
 
 
 # ---------------------------------------------------------------------------
@@ -547,6 +549,8 @@ def compute_advantages(
 
     # REPO: modify advantages with centered log-prob penalty
     if repo_beta > 0.0 and old_log_probs is not None and attention_mask is not None:
+        # Ensure advantages on same device as old_log_probs
+        advantages = advantages.to(old_log_probs.device)
         # Per-sequence mean log-prob: L_i = mean(log_pi(a_t|s)) over tokens
         seq_log_probs = old_log_probs * attention_mask  # (G, seq_len)
         seq_mean_log_prob = seq_log_probs.sum(dim=1) / attention_mask.sum(dim=1).clamp_min(1.0)  # (G,)
@@ -623,7 +627,18 @@ def load_molecule_data(ham_path: Path, molecule: str, vocab: dict[str, int],
 def main() -> None:
     parser = argparse.ArgumentParser(description="DAPO-RL training for H-cGQE Transformer")
     # Model
-    parser.add_argument("--checkpoint", type=Path, required=True, help="Supervised pretrained checkpoint")
+    parser.add_argument("--checkpoint", type=Path, default=None, help="Supervised pretrained checkpoint (skip for --from-scratch)")
+    parser.add_argument("--from-scratch", action="store_true", default=False,
+                        help="Initialize model randomly (pure RL, no supervised pretraining). "
+                             "Builds vocab from UCCSD operator pool. arXiv:2502.19402 shows "
+                             "RL from scratch outperforms SFT-then-RL by avoiding imitation bias.")
+    # Model config (used when --from-scratch, otherwise loaded from checkpoint)
+    parser.add_argument("--d-model", type=int, default=256, help="Model hidden dimension")
+    parser.add_argument("--nhead", type=int, default=8, help="Number of attention heads")
+    parser.add_argument("--encoder-layers", type=int, default=4, help="Encoder layers")
+    parser.add_argument("--decoder-layers", type=int, default=6, help="Decoder layers")
+    parser.add_argument("--dim-feedforward", type=int, default=1024, help="Feedforward dimension")
+    parser.add_argument("--dropout", type=float, default=0.1, help="Dropout rate")
     parser.add_argument("--hamiltonians", type=Path, default=Path("results/data/hamiltonians.json"))
     parser.add_argument("--molecules", nargs="+", required=True)
     parser.add_argument("--out", type=Path, required=True, help="Output checkpoint path")
@@ -700,28 +715,83 @@ def main() -> None:
     device = torch.device("cuda" if args.use_cuda and torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
 
-    # Load pretrained checkpoint
-    print(f"Loading checkpoint from {args.checkpoint}")
-    ckpt = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
-    vocab = ckpt["vocab"]
-    inv_vocab = ckpt["inv_vocab"]
-    config = ckpt["config"]
+    # Load model: either from checkpoint or from scratch (pure RL)
+    if args.from_scratch or args.checkpoint is None:
+        print("\n=== PURE RL FROM SCRATCH (no supervised pretraining) ===")
+        print("Building vocabulary from UCCSD operator pool...")
+        # Build vocab from all molecules' UCCSD excitation operators
+        all_pauli_words: list[str] = []
+        ham_records = load_hamiltonian_records(args.hamiltonians)
+        for mol_name in args.molecules:
+            record = find_record_by_name(ham_records, mol_name)
+            if record is None:
+                continue
+            n_qubits_mol = int(record.get("n_qubits", 0))
+            if n_qubits_mol > args.max_qubits:
+                continue
+            n_electrons_mol = get_active_electron_count(record)
+            excitation_words = _jw_excitation_pauli_words(n_qubits_mol, n_electrons_mol)
+            for word, _ in excitation_words:
+                all_pauli_words.append(word)
+        # Also add Hamiltonian Pauli words (for encoder input tokenization)
+        for record in ham_records:
+            for term in record.get("terms", []):
+                word = term.get("term", "") if isinstance(term, dict) else str(term[0])
+                if word:
+                    all_pauli_words.append(word)
+        vocab = build_operator_vocab(all_pauli_words)
+        inv_vocab = {v: k for k, v in vocab.items()}
+        config = {
+            "vocab_size": max(vocab.values()) + 1,
+            "d_model": args.d_model,
+            "nhead": args.nhead,
+            "encoder_layers": args.encoder_layers,
+            "decoder_layers": args.decoder_layers,
+            "dim_feedforward": args.dim_feedforward,
+            "dropout": args.dropout,
+            "max_pauli_len": args.max_pauli_len,
+            "max_seq_len": args.max_seq_len,
+        }
+        print(f"Vocab size: {config['vocab_size']} ({len(all_pauli_words)} Pauli words from UCCSD pool + Hamiltonian terms)")
+        model = HcGQEModel(
+            vocab_size=config["vocab_size"],
+            d_model=config["d_model"],
+            nhead=config["nhead"],
+            encoder_layers=config["encoder_layers"],
+            decoder_layers=config["decoder_layers"],
+            dim_feedforward=config["dim_feedforward"],
+            dropout=config["dropout"],
+            max_pauli_len=config["max_pauli_len"],
+            max_seq_len=config["max_seq_len"],
+        )
+        # Random initialization — no supervised pretraining
+        model.to(device)
+        n_params = sum(p.numel() for p in model.parameters())
+        print(f"Model initialized from scratch: {n_params:,} parameters")
+        print("WARNING: Pure RL mode. Entropy collapse prevention is critical.")
+        print("  Enabled: distribution mixing, REPO, curriculum, BF16, top-p")
+    else:
+        print(f"Loading checkpoint from {args.checkpoint}")
+        ckpt = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
+        vocab = ckpt["vocab"]
+        inv_vocab = ckpt["inv_vocab"]
+        config = ckpt["config"]
 
-    model = HcGQEModel(
-        vocab_size=config["vocab_size"],
-        d_model=config["d_model"],
-        nhead=config["nhead"],
-        encoder_layers=config["encoder_layers"],
-        decoder_layers=config["decoder_layers"],
-        dim_feedforward=config["dim_feedforward"],
-        dropout=config["dropout"],
-        max_pauli_len=config["max_pauli_len"],
-        max_seq_len=config["max_seq_len"],
-    )
-    model.load_state_dict(ckpt["model_state"])
-    model.to(device)
-    n_params = sum(p.numel() for p in model.parameters())
-    print(f"Model loaded: {n_params:,} parameters")
+        model = HcGQEModel(
+            vocab_size=config["vocab_size"],
+            d_model=config["d_model"],
+            nhead=config["nhead"],
+            encoder_layers=config["encoder_layers"],
+            decoder_layers=config["decoder_layers"],
+            dim_feedforward=config["dim_feedforward"],
+            dropout=config["dropout"],
+            max_pauli_len=config["max_pauli_len"],
+            max_seq_len=config["max_seq_len"],
+        )
+        model.load_state_dict(ckpt["model_state"])
+        model.to(device)
+        n_params = sum(p.numel() for p in model.parameters())
+        print(f"Model loaded: {n_params:,} parameters")
 
     is_dp = False
     if args.multi_gpu and torch.cuda.device_count() > 1:
