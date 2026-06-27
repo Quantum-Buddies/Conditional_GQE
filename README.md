@@ -18,10 +18,11 @@
 
 **Conditional-GQE** is a research framework that uses a **Transformer-based autoregressive model** to generate quantum circuits for molecular energy estimation. Instead of running expensive variational loops on quantum hardware (VQE/ADAPT-VQE), our model learns to map a molecular Hamiltonian directly to a sequence of Pauli rotation operators that form a quantum eigensolver ansatz.
 
-The system is trained in three stages:
-1. **Supervised pretraining** — learn operator sequences from CUDA-Q GQE baseline solutions
-2. **RLQF fine-tuning** — Reinforcement Learning from Quantum Feedback using energy expectation as reward
-3. **Classical coefficient optimization** — L-BFGS-B rotation angle refinement on GPU
+The system trains in two stages:
+1. **Pure RL from scratch** — DAPO-based reinforcement learning with no supervised pretraining. The model discovers quantum circuit strategies from energy rewards alone, building its own vocabulary from the UCCSD operator pool (arXiv:2502.19402 shows RL from scratch outperforms SFT-then-RL)
+2. **Classical coefficient optimization** — L-BFGS-B rotation angle refinement on GPU
+
+> **Why no supervised pretraining?** Research shows SFT memorizes patterns while RL discovers general strategies (arXiv:2502.19402). SFT-then-RL coupling causes irreversible degradation (arXiv:2601.07389). Our previous supervised pipeline taught the model to mimic GQE baselines that suffered diagonal collapse — the opposite of what we want.
 
 ### Key Results (Phase 3)
 
@@ -39,11 +40,15 @@ The system is trained in three stages:
 
 ### The Breakthrough: Breaking Diagonal Sequence Collapse
 
-In Phase 2, the model suffered from **diagonal sequence collapse** — it generated only commuting Z-only operators (e.g., `IZII`, `ZIZI`), getting trapped at the Hartree-Fock energy with zero gradients. Phase 3 resolved this through:
+In Phase 2, the model suffered from **diagonal sequence collapse** — it generated only commuting Z-only operators (e.g., `IZII`, `ZIZI`), getting trapped at the Hartree-Fock energy with zero gradients. We resolved this through a **5-layer defense** against entropy collapse:
 
-- **Active space reduction** to make GQE baselines much stronger
-- **Bond dissociation curves** (H₂×5, LiH×4, N₂×3) for diverse entanglement patterns
-- **RLQF fine-tuning** (409 steps, REINFORCE) pushing the policy toward non-commuting operators
+1. **UCCSD operator pool** — All operators come from fermionic excitation operators mapped through Jordan-Wigner. Every operator contains X/Y components — Z-only collapse is impossible by construction
+2. **BF16 mixed precision** — FP16's 5 exponent bits cause multiplicative bias in softmax gradients that systematically reduces entropy. BF16 (8 exponent bits) eliminates this (arXiv:2603.11682)
+3. **Distribution mixing** (ε-exploration) — Mixes sampling distribution with uniform distribution (ε=0.3) to enforce a hard entropy floor
+4. **REPO advantages** — Regulated Entropy Policy Optimization modifies advantages with a centered log-prob penalty, penalizing deterministic samples and boosting diverse ones (arXiv:2603.11682)
+5. **Curriculum learning** — Train on small molecules (4 qubits) first, gradually add larger ones over 30-epoch warmup stages
+
+Additional exploration measures: top-p (nucleus) sampling, adaptive temperature scheduling, entropy bonus in DAPO loss, and adaptive ε decay.
 
 The model now generates **entangling operators** like `XYYX`, `YXXY`, `XXYY` — creating superpositions between the HF determinant and excited determinants.
 
@@ -59,40 +64,43 @@ The model now generates **entangling operators** like `XYYX`, `YXXY`, `XXYY` —
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                         │
 │  ┌──────────┐    ┌──────────────┐    ┌─────────────┐    ┌────────────┐ │
-│  │  PySCF   │───▶│  OpenFermion │───▶│  Hamiltonian│───▶│  GQE       │ │
-│  │  SCF     │    │  JW Transform│    │  JSON       │    │  Baseline  │ │
+│  │  PySCF   │───▶│  OpenFermion │───▶│  Hamiltonian│───▶│  UCCSD     │ │
+│  │  SCF     │    │  JW Transform│    │  JSON       │    │  Op Pool   │ │
 │  └──────────┘    └──────────────┘    └─────────────┘    └─────┬──────┘ │
 │                                                             │          │
 │                                                             ▼          │
 │  ┌──────────────────────────────────────────────────────────────┐      │
-│  │              Supervised Dataset Preparation                  │      │
-│  │  (operator sequences + molecule conditioning vectors)        │      │
-│  └──────────────────────────┬───────────────────────────────────┘      │
-│                             │                                          │
-│                             ▼                                          │
-│  ┌──────────────────────────────────────────────────────────────┐      │
-│  │              Stage 1: H-cGQE Transformer Pretraining         │      │
+│  │              Stage 1: Pure RL from Scratch (DAPO)            │      │
+│  │              NO supervised pretraining                      │      │
 │  │                                                              │      │
 │  │   ┌─────────┐   ┌───────────┐   ┌──────────┐   ┌─────────┐ │      │
-│  │   │ Molecule│──▶│  Encoder  │──▶│  Decoder │──▶│ Pauli   │ │      │
-│  │   │ Embedding│  │ (4-layer) │   │(4-layer) │   │ Sequence│ │      │
-│  │   └─────────┘   └───────────┘   └──────────┘   └─────────┘ │      │
-│  │   GPT-2 style autoregressive generation (7.7M params)       │      │
-│  └──────────────────────────┬───────────────────────────────────┘      │
+│  │   │ Molecule│──▶│  Encoder  │──▶│  Decoder │──▶│ Sample  │ │      │
+│  │   │ Embedding│  │ (4-layer) │   │(6-layer) │   │ Circuit │ │      │
+│  │   └─────────┘   └───────────┘   └──────────┘   └────┬────┘ │      │
+│  │                                                   │        │      │
+│  │   ┌──────────────────────────────────────────────┐ │        │      │
+│  │   │  Entropy collapse prevention (5 layers):     │ │        │      │
+│  │   │  1. BF16 mixed precision                     │ │        │      │
+│  │   │  2. Distribution mixing (ε=0.3)              │ │        │      │
+│  │   │  3. Top-p sampling + adaptive temperature    │ │        │      │
+│  │   │  4. REPO advantage modification              │ │        │      │
+│  │   │  5. Curriculum learning (small mols first)   │ │        │      │
+│  │   └──────────────────────────────────────────────┘ │        │      │
+│  │                                                   ▼        │      │
+│  │   ┌──────────┐     ┌────────────┐     ┌──────────────┐   │      │
+│  │   │  CUDA-Q  │────▶│  Energy    │────▶│  DAPO Loss   │   │      │
+│  │   │  Simulate│     │  <ψ|H|ψ>   │     │  + REPO + H  │   │      │
+│  │   │  (MQPU)  │     │            │     │  bonus       │   │      │
+│  │   └──────────┘     └────────────┘     └──────┬───────┘   │      │
+│  │        ↑                                      │           │      │
+│  │        └────── policy update ←────────────────┘           │      │
+│  │   300 epochs on 3× L40S GPUs (nvidia-mqpu target)        │      │
+│  │   31.7M parameters, BF16, lr=3e-4                        │      │
+│  └──────────────────────────┬────────────────────────────────┘      │
 │                             │                                          │
 │                             ▼                                          │
 │  ┌──────────────────────────────────────────────────────────────┐      │
-│  │              Stage 2: RLQF Fine-tuning (REINFORCE)           │      │
-│  │                                                              │      │
-│  │   Sample circuit ──▶ CUDA-Q energy ──▶ reward = -<H>        │      │
-│  │        ↑                         │                           │      │
-│  │        └──── policy update ←─────┘                           │      │
-│  │   409 steps on 3× L40S GPUs (nvidia-mqpu target)            │      │
-│  └──────────────────────────┬───────────────────────────────────┘      │
-│                             │                                          │
-│                             ▼                                          │
-│  ┌──────────────────────────────────────────────────────────────┐      │
-│  │              Stage 3: Coefficient Optimization               │      │
+│  │              Stage 2: Coefficient Optimization               │      │
 │  │   L-BFGS-B on rotation angles (thetas) for fixed sequences   │      │
 │  │   Parallelized across 3× L40S via CUDA-Q nvidia-mqpu         │      │
 │  └──────────────────────────────────────────────────────────────┘      │
@@ -135,30 +143,36 @@ Prefix tokens: [BOS] [MOL]
                  Pauli word sequence (e.g., XYYX, IZII, IZIZ)
 ```
 
-**Model specs**: d_model=256, nhead=8, 4 encoder + 4 decoder layers, dim_ff=1024, dropout=0.1, vocab_size=78, 7.67M parameters
+**Model specs**: d_model=256, nhead=8, 4 encoder + 6 decoder layers, dim_ff=1024, dropout=0.1, vocab_size=~1000 (UCCSD pool), 31.7M parameters
 
-### RLQF Training Loop
+### DAPO-RL Training Loop
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│              RLQF: REINFORCE with Quantum Feedback        │
-│                                                          │
-│   ┌──────────┐     ┌────────────┐     ┌──────────────┐  │
-│   │  Sample  │────▶│  CUDA-Q    │────▶│  Energy      │  │
-│   │  circuit │     │  Simulator │     │  Evaluation  │  │
-│   │  seq πθ  │     │  (MQPU)    │     │  <ψ|H|ψ>     │  │
-│   └──────────┘     └────────────┘     └──────┬───────┘  │
-│        ↑                                      │          │
-│        │                                      ▼          │
-│   ┌────┴───────┐                      ┌──────────────┐  │
-│   │  Policy    │◀──── reward ────────│  r = E_HF - E │  │
-│   │  Update    │     signal          │  (baseline-   │  │
-│   │  ∇log(π)r  │                      │   subtracted)│  │
-│   └────────────┘                      └──────────────┘  │
-│                                                          │
-│   Convergence: 409 steps, reward 1.68 → 0.0 (baseline   │
-│   matched), energy explored from -2.77 to -107.48 Ha    │
-└──────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│         DAPO: Decoupled Clip + Dynamic Sampling              │
+│         Pure RL from Scratch (no supervised pretraining)     │
+│                                                              │
+│   ┌──────────┐     ┌────────────┐     ┌──────────────┐      │
+│   │  Sample  │────▶│  CUDA-Q    │────▶│  Multi-comp  │      │
+│   │  circuit │     │  Simulator │     │  Reward      │      │
+│   │  seq πθ  │     │  (MQPU)    │     │  r = w₁·E    │      │
+│   │  (top-p, │     │            │     │    + w₂·ent  │      │
+│   │   ε-mix) │     │            │     │    + w₃·depth│      │
+│   └──────────┘     └────────────┘     │    + w₄·comm │      │
+│        ↑                               └──────┬───────┘      │
+│        │                                      │              │
+│        │                                      ▼              │
+│   ┌────┴──────────┐                ┌──────────────────────┐  │
+│   │  DAPO Loss    │◀── advantages ─│  GRPO + REPO         │  │
+│   │  Clip-Higher  │   A_REPO =     │  A = (R - R̄)/σ       │  │
+│   │  Token-Level  │   A - β·L̄     │    - β·(L_i - L̄_grp) │  │
+│   │  + H bonus    │                └──────────────────────┘  │
+│   └───────────────┘                                           │
+│                                                              │
+│   Entropy floor: ε-exploration (0.3) + top-p (0.9)          │
+│   + adaptive temp + REPO (β=0.05) + curriculum (3 stages)  │
+│   Mixed precision: BF16 (not FP16 — avoids softmax bias)    │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -175,9 +189,9 @@ Conditional_GQE/
 │   │   ├── fragment_molecule.py        # FMO-style molecular fragmentation
 │   │   └── fragmentation.py            # Fragment plan execution
 │   ├── models/
-│   │   ├── h_cgqe_transformer.py       # GPT-2 style Transformer (7.7M params)
-│   │   ├── train_h_cgqe.py             # Stage 1: Supervised pretraining
-│   │   ├── train_rlqf_h_cgqe.py        # Stage 2: RLQF fine-tuning (REINFORCE)
+│   │   ├── h_cgqe_transformer.py       # GPT-2 style Transformer (31.7M params)
+│   │   ├── train_rl_dapo.py            # Stage 1: Pure RL from scratch (DAPO + REPO)
+│   │   ├── train_h_cgqe.py             # Legacy: Supervised pretraining (optional)
 │   │   ├── infer_h_cgqe.py             # Autoregressive circuit synthesis
 │   │   ├── chemistry_encoder.py        # Graph neural network conditioning
 │   │   └── train_chemistry_encoder.py  # Pretrain chemistry encoder
@@ -192,7 +206,8 @@ Conditional_GQE/
 │   │   ├── run_adapt_vqe.py            # Qiskit ADAPT-VQE baseline
 │   │   └── run_exact_diagonalization.py  # Exact FCI reference
 │   └── common/
-│       └── hamiltonian_utils.py        # Shared Hamiltonian conversion utilities
+│       ├── hamiltonian_utils.py        # Shared Hamiltonian conversion utilities
+│       └── operator_pool.py            # UCCSD fermionic excitation pool (no Z-only collapse)
 ├── configs/
 │   ├── experiment_phase3.yaml          # Phase 3 molecule set (17 molecules)
 │   └── experiment.yaml                 # Phase 2 configuration
@@ -228,7 +243,7 @@ conda env create -f environment-dgx-spark-cudaq.yml
 conda activate conditional-gqe-cudaq
 ```
 
-### End-to-End Pipeline
+### End-to-End Pipeline (Pure RL from Scratch)
 
 ```bash
 # 1. Generate molecular Hamiltonians (PySCF + OpenFermion)
@@ -236,49 +251,75 @@ python src/gqe/data/generate_hamiltonians.py \
     --config configs/experiment_phase3.yaml \
     --out-dir results/data
 
-# 2. Run CUDA-Q GQE baseline (generates training targets)
+# 2. Run CUDA-Q GQE baseline (for comparison only — not used for training)
 python src/gqe/baselines/run_cudaq_gqe.py \
     --ham results/data/hamiltonians_phase3.json/hamiltonians.json \
     --out results/baselines/cudaq_gqe_phase3.json
 
-# 3. Prepare supervised dataset
-python src/gqe/data/prepare_gqe_dataset.py \
+# 3. Pure RL training from scratch (no supervised pretraining needed)
+#    Model discovers circuits from energy rewards alone (arXiv:2502.19402)
+python src/gqe/models/train_rl_dapo.py \
+    --from-scratch \
     --hamiltonians results/data/hamiltonians_phase3.json/hamiltonians.json \
-    --gqe-baseline results/baselines/cudaq_gqe_phase3.json \
-    --out results/train/gqe_supervised_dataset.pt
+    --molecules h2_0.74 lih_1.6_full n2_1.1_full beh2_1.3_full \
+    --out results/train/h_cgqe_rl_from_scratch.pt \
+    --epochs 300 --lr 3e-4 --n-samples 50 \
+    --d-model 256 --nhead 8 --encoder-layers 4 --decoder-layers 6 \
+    --use-bf16 --repo-beta 0.05 --curriculum --curriculum-warmup 30 \
+    --explore-eps 0.3 --adaptive-eps --top-p 0.9 \
+    --adaptive-temp --entropy-coef 0.01 \
+    --target nvidia --target-option mqpu \
+    --use-cuda --multi-gpu --force-entanglement
 
-# 4. Train H-cGQE Transformer (Stage 1: supervised pretraining)
-python src/gqe/models/train_h_cgqe.py \
-    --dataset results/train/gqe_supervised_dataset.pt \
-    --out results/train/h_cgqe_model_phase3.pt \
-    --epochs 500 --lr 1e-4 --batch-size 4
-
-# 5. RLQF fine-tuning (Stage 2: reinforcement learning from quantum feedback)
-python src/gqe/models/train_rlqf_h_cgqe.py \
-    --checkpoint results/train/h_cgqe_model_phase3.pt \
-    --hamiltonians results/data/hamiltonians_phase3.json/hamiltonians.json \
-    --out results/train/h_cgqe_model_rlqf_phase3.pt \
-    --steps 500 --lr 1e-5
-
-# 6. Inference: generate operator sequences
+# 4. Inference: generate operator sequences
 python src/gqe/models/infer_h_cgqe.py \
-    --checkpoint results/train/h_cgqe_model_rlqf_phase3.pt \
+    --checkpoint results/train/h_cgqe_rl_from_scratch.pt \
     --hamiltonians results/data/hamiltonians_phase3.json/hamiltonians.json \
     --out results/inference/h_cgqe_generated_phase3.json \
     --n-samples 100
 
-# 7. Optimize rotation coefficients (Stage 3: classical optimization)
+# 5. Optimize rotation coefficients (Stage 2: classical optimization)
 python src/gqe/eval/optimize_h_cgqe_coefficients.py \
     --generated results/inference/h_cgqe_generated_phase3.json \
     --hamiltonians results/data/hamiltonians_phase3.json/hamiltonians.json \
     --out results/eval/h_cgqe_optimized_phase3.json \
     --n-sequences 10
 
-# 8. Evaluate final energies
+# 6. Evaluate final energies
 python src/gqe/eval/evaluate_h_cgqe.py \
     --generated results/inference/h_cgqe_generated_phase3.json \
     --hamiltonians results/data/hamiltonians_phase3.json/hamiltonians.json \
     --out results/eval/h_cgqe_evaluation_phase3.json
+```
+
+### Full Pipeline Script
+
+```bash
+# Runs all steps end-to-end on 3× L40S GPUs
+bash scripts/run_full_uccsd_pipeline.sh
+```
+
+### Legacy: Supervised Pretraining (optional)
+
+The supervised pipeline is still available for comparison:
+```bash
+# Prepare dataset from GQE baseline output
+python src/gqe/data/prepare_gqe_dataset.py \
+    --hamiltonians results/data/hamiltonians.json \
+    --gqe-results results/baselines/cudaq_gqe.json \
+    --out results/train/uccsd_dataset
+
+# Train supervised model
+python src/gqe/models/train_h_cgqe.py \
+    --dataset results/train/uccsd_dataset/gqe_supervised_dataset.pt \
+    --out results/train/h_cgqe_supervised.pt --epochs 300
+
+# Then fine-tune with RL (uses checkpoint as warm start)
+python src/gqe/models/train_rl_dapo.py \
+    --checkpoint results/train/h_cgqe_supervised.pt \
+    --hamiltonians results/data/hamiltonians.json \
+    --molecules h2_0.74 lih_1.6_full ... \
+    --out results/train/h_cgqe_rl_finetuned.pt --epochs 200 --lr 1e-5
 ```
 
 ### Multi-GPU Workflow
@@ -391,7 +432,7 @@ zip -r Ryoushi_Quantum_Buddies_Challenge_Phase3.zip \
   title = {Conditional-GQE: Hierarchical Conditional Generative Quantum Eigensolver for EUV Lithography},
   author = {{Ryoushi Quantum Buddies}},
   url = {https://github.com/Quantum-Buddies/Conditional_GQE},
-  version = {3.0.0},
+  version = {4.0.0},
   year = {2026}
 }
 ```
