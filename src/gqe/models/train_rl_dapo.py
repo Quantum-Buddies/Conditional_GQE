@@ -119,13 +119,18 @@ def sample_sequences_with_logprobs(
     max_repeat: int = 4,
     device: torch.device = torch.device("cpu"),
     is_data_parallel: bool = False,
-) -> tuple[torch.Tensor, torch.Tensor, list[list[str]]]:
+    top_p: float = 1.0,
+    min_temp: float = 0.7,
+    max_temp: float = 2.0,
+    target_entropy: float = 1.5,
+) -> tuple[torch.Tensor, torch.Tensor, list[list[str]], float]:
     """Sample n_sequences from the model and track per-token log probabilities.
 
     Returns:
         sequences: (n_samples, seq_len) token IDs
         log_probs: (n_samples, seq_len) per-token log probabilities
         operator_lists: list of n_samples lists of Pauli word strings
+        mean_entropy: average per-token entropy across sampling (for adaptive temp)
     """
     model.eval()
     bos_id = SPECIAL_TOKENS["<BOS>"]
@@ -150,6 +155,7 @@ def sample_sequences_with_logprobs(
     # Autoregressive sampling with log-prob tracking
     sequences = torch.full((n_samples, 1), bos_id, dtype=torch.long, device=device)
     log_probs_list = []
+    entropy_accum: list[float] = []
     finished = torch.zeros(n_samples, dtype=torch.bool, device=device)
     has_entangler = torch.zeros(n_samples, dtype=torch.bool, device=device)
     repeat_count = torch.zeros(n_samples, dtype=torch.long, device=device)
@@ -181,8 +187,27 @@ def sample_sequences_with_logprobs(
             if length_mask is not None:
                 logits[:, ~length_mask] = float("-inf")
 
-            # Sample
+            # Compute probs with optional top-p (nucleus) sampling
             probs = torch.softmax(logits, dim=-1)
+
+            # Top-p truncation: keep only tokens in the top-p cumulative probability mass
+            if top_p < 1.0:
+                sorted_probs, sorted_indices = torch.sort(probs, descending=True)
+                cumsum = torch.cumsum(sorted_probs, dim=-1)
+                # Mask tokens beyond the nucleus
+                nucleus_mask = cumsum <= top_p
+                # Always keep at least the top-1 token
+                nucleus_mask[..., 0] = True
+                # Scatter mask back to original ordering
+                mask = torch.zeros_like(probs, dtype=torch.bool)
+                mask.scatter_(1, sorted_indices, nucleus_mask)
+                probs = probs * mask
+                probs = probs / probs.sum(dim=-1, keepdim=True).clamp_min(1e-8)
+
+            # Track entropy for adaptive temperature
+            step_entropy = -(probs * torch.log(probs + 1e-8)).sum(dim=-1)  # (n_samples,)
+            entropy_accum.append(step_entropy.mean().item())
+
             dist = torch.distributions.Categorical(probs=probs)
             next_token = dist.sample()  # (n_samples,)
             token_log_prob = dist.log_prob(next_token)  # (n_samples,)
@@ -209,6 +234,9 @@ def sample_sequences_with_logprobs(
 
     log_probs = torch.stack(log_probs_list, dim=1)  # (n_samples, seq_len-1)
 
+    # Compute mean entropy across all sampling steps
+    mean_entropy = sum(entropy_accum) / max(len(entropy_accum), 1)
+
     # Decode operator sequences
     operator_lists = []
     for i in range(n_samples):
@@ -228,7 +256,7 @@ def sample_sequences_with_logprobs(
         operator_lists.append(words)
 
     model.train()
-    return sequences, log_probs, operator_lists
+    return sequences, log_probs, operator_lists, mean_entropy
 
 
 def _is_trailing_noise(word: str) -> bool:
@@ -436,12 +464,15 @@ def dapo_loss(
     clip_low: float = 0.2,
     clip_high: float = 0.28,
     token_level: bool = True,
+    entropy_coef: float = 0.0,
+    logits: torch.Tensor | None = None,  # (G, seq_len, vocab_size) for entropy bonus
 ) -> torch.Tensor:
-    """DAPO clipped surrogate loss.
+    """DAPO clipped surrogate loss with optional entropy regularization.
 
     Key differences from GRPO:
     1. Clip-Higher: asymmetric clipping (clip_low < clip_high) prevents entropy collapse
     2. Token-Level Loss: averages over all tokens, not per-sequence
+    3. Entropy Bonus: encourages diverse sampling, prevents premature convergence
     """
     # Importance sampling ratio
     ratio = torch.exp(log_probs_new - log_probs_old)  # (G, seq_len)
@@ -457,15 +488,25 @@ def dapo_loss(
     # Apply attention mask
     pg_losses = pg_losses * attention_mask
 
+    # Entropy bonus: encourage diverse sampling
+    entropy_loss = torch.tensor(0.0, device=log_probs_new.device)
+    if entropy_coef > 0.0 and logits is not None:
+        probs = torch.softmax(logits, dim=-1)
+        log_probs_all = torch.log_softmax(logits, dim=-1)
+        # Per-token entropy: H = -sum(p * log(p))
+        token_entropy = -(probs * log_probs_all).sum(dim=-1)  # (G, seq_len)
+        token_entropy = token_entropy * attention_mask
+        entropy_loss = -entropy_coef * token_entropy.sum() / attention_mask.sum().clamp_min(1.0)
+
     if token_level:
         # Token-level: average over all tokens across all sequences
-        loss = pg_losses.sum() / attention_mask.sum().clamp_min(1.0)
+        pg_loss = pg_losses.sum() / attention_mask.sum().clamp_min(1.0)
     else:
         # Sequence-level: average per-sequence, then average across sequences
         seq_losses = pg_losses.sum(dim=1) / attention_mask.sum(dim=1).clamp_min(1.0)
-        loss = seq_losses.mean()
+        pg_loss = seq_losses.mean()
 
-    return loss
+    return pg_loss + entropy_loss
 
 
 def compute_advantages(
@@ -569,6 +610,19 @@ def main() -> None:
                         help="Skip groups where all energies are identical (std=0)")
     parser.add_argument("--max-resample-attempts", type=int, default=3,
                         help="Max resampling attempts for dynamic sampling before giving up")
+    # Exploration
+    parser.add_argument("--top-p", type=float, default=0.9,
+                        help="Top-p (nucleus) sampling threshold. 1.0 = full distribution, 0.9 = nucleus")
+    parser.add_argument("--entropy-coef", type=float, default=0.01,
+                        help="Entropy bonus coefficient to prevent policy collapse (0 = disabled)")
+    parser.add_argument("--adaptive-temp", action="store_true", default=True,
+                        help="Dynamically adjust temperature based on sampling entropy")
+    parser.add_argument("--min-temp", type=float, default=0.7,
+                        help="Minimum temperature for adaptive temp scheduling")
+    parser.add_argument("--max-temp", type=float, default=2.0,
+                        help="Maximum temperature for adaptive temp scheduling")
+    parser.add_argument("--target-entropy", type=float, default=1.5,
+                        help="Target per-token entropy for adaptive temperature")
     # Reward weights
     parser.add_argument("--w-energy", type=float, default=1.0)
     parser.add_argument("--w-entangle", type=float, default=0.1)
@@ -669,6 +723,7 @@ def main() -> None:
     # Training loop
     best_energy_per_mol = {m["name"]: float("inf") for m in molecules_data}
     train_metrics_log = []
+    entropy_history: list[float] = []
 
     pbar = tqdm(range(args.epochs), desc="RL Epoch", unit="epoch")
     for epoch in pbar:
@@ -688,14 +743,25 @@ def main() -> None:
 
             while attempts < args.max_resample_attempts:
                 attempts += 1
-                sequences, old_log_probs, operator_lists = sample_sequences_with_logprobs(
+                # Adaptive temperature: increase when entropy is low (collapsed), decrease when high
+                sample_temp = args.temperature
+                if args.adaptive_temp and epoch > 0 and len(entropy_history) > 0:
+                    recent_entropy = np.mean(entropy_history[-10:])
+                    if recent_entropy < args.target_entropy * 0.5:
+                        # Entropy too low — increase temperature to force exploration
+                        sample_temp = min(args.max_temp, args.temperature * (args.target_entropy / max(recent_entropy, 0.1)))
+                    elif recent_entropy > args.target_entropy * 2.0:
+                        # Entropy too high — decrease temperature for stability
+                        sample_temp = max(args.min_temp, args.temperature * (args.target_entropy / max(recent_entropy, 0.1)))
+
+                sequences, old_log_probs, operator_lists, sample_entropy = sample_sequences_with_logprobs(
                     model,
                     mol_data["pauli_ids"].unsqueeze(0),
                     mol_data["coeffs"].unsqueeze(0),
                     mol_data["term_mask"].unsqueeze(0),
                     n_samples=args.n_samples,
                     max_seq_len=args.max_seq_len,
-                    temperature=args.temperature,
+                    temperature=sample_temp,
                     vocab=vocab,
                     inv_vocab=inv_vocab,
                     n_qubits=n_qubits,
@@ -703,7 +769,12 @@ def main() -> None:
                     max_repeat=args.max_repeat,
                     device=device,
                     is_data_parallel=is_dp,
+                    top_p=args.top_p,
+                    min_temp=args.min_temp,
+                    max_temp=args.max_temp,
+                    target_entropy=args.target_entropy,
                 )
+                entropy_history.append(sample_entropy)
 
                 # Filter out empty sequences
                 valid_indices = [i for i, ops in enumerate(operator_lists) if len(ops) > 0]
@@ -802,6 +873,8 @@ def main() -> None:
                         advantages.to(device), attention_mask,
                         clip_low=args.clip_low, clip_high=args.clip_high,
                         token_level=args.token_level_loss,
+                        entropy_coef=args.entropy_coef,
+                        logits=logits,
                     )
                 scaler.scale(loss).backward()
                 scaler.step(optimizer)
@@ -820,6 +893,8 @@ def main() -> None:
                     advantages.to(device), attention_mask,
                     clip_low=args.clip_low, clip_high=args.clip_high,
                     token_level=args.token_level_loss,
+                    entropy_coef=args.entropy_coef,
+                    logits=logits,
                 )
                 loss.backward()
                 optimizer.step()
@@ -838,11 +913,13 @@ def main() -> None:
         mean_reward = np.mean(epoch_rewards) if epoch_rewards else 0.0
         mean_loss = np.mean(epoch_losses) if epoch_losses else 0.0
 
+        recent_entropy = np.mean(entropy_history[-10:]) if entropy_history else 0.0
         pbar.set_postfix_str(
             f"loss={mean_loss:.4f} "
             f"E_mean={mean_energy:.4f} "
             f"E_min={min_energy:.4f} "
             f"R={mean_reward:.4f} "
+            f"H={recent_entropy:.2f} "
             f"skip={epoch_skipped} "
             f"buf={len(replay_buffer)}"
         )
@@ -853,6 +930,7 @@ def main() -> None:
             "min_energy": min_energy,
             "mean_reward": mean_reward,
             "mean_loss": mean_loss,
+            "mean_entropy": recent_entropy,
             "n_skipped": epoch_skipped,
             "n_generated": epoch_sequences_generated,
             "buffer_size": len(replay_buffer),
