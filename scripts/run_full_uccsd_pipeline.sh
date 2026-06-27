@@ -114,6 +114,8 @@ $PY src/gqe/models/train_rl_dapo.py \
     --min-temp 0.7 \
     --max-temp 2.0 \
     --target-entropy 1.5 \
+    --explore-eps 0.3 \
+    --adaptive-eps \
     --w-energy 1.0 \
     --w-entangle 0.1 \
     --w-depth 0.01 \

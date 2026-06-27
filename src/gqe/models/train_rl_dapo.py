@@ -123,6 +123,7 @@ def sample_sequences_with_logprobs(
     min_temp: float = 0.7,
     max_temp: float = 2.0,
     target_entropy: float = 1.5,
+    explore_eps: float = 0.0,
 ) -> tuple[torch.Tensor, torch.Tensor, list[list[str]], float]:
     """Sample n_sequences from the model and track per-token log probabilities.
 
@@ -202,6 +203,17 @@ def sample_sequences_with_logprobs(
                 mask = torch.zeros_like(probs, dtype=torch.bool)
                 mask.scatter_(1, sorted_indices, nucleus_mask)
                 probs = probs * mask
+                probs = probs / probs.sum(dim=-1, keepdim=True).clamp_min(1e-8)
+
+            # Exploration floor: mix with uniform distribution to enforce minimum entropy.
+            # When the model is extremely confident (e.g. 99% on one token), temperature
+            # scaling alone is insufficient — even T=50 can't flatten a logit gap of 30.
+            # Distribution mixing directly controls the entropy floor: with eps=0.3,
+            # the top token gets at most 0.7*0.99 + 0.3/V ≈ 0.70, giving H ≈ 1.5+.
+            if explore_eps > 0.0:
+                uniform = torch.ones_like(probs) / probs.size(-1)
+                probs = (1.0 - explore_eps) * probs + explore_eps * uniform
+                # Renormalize for safety
                 probs = probs / probs.sum(dim=-1, keepdim=True).clamp_min(1e-8)
 
             # Track entropy for adaptive temperature
@@ -623,6 +635,10 @@ def main() -> None:
                         help="Maximum temperature for adaptive temp scheduling")
     parser.add_argument("--target-entropy", type=float, default=1.5,
                         help="Target per-token entropy for adaptive temperature")
+    parser.add_argument("--explore-eps", type=float, default=0.3,
+                        help="Exploration floor: mix sampling distribution with uniform (0=off, 0.3=30%% uniform)")
+    parser.add_argument("--adaptive-eps", action="store_true", default=True,
+                        help="Adaptively tune explore_eps based on observed entropy")
     # Reward weights
     parser.add_argument("--w-energy", type=float, default=1.0)
     parser.add_argument("--w-entangle", type=float, default=0.1)
@@ -743,16 +759,19 @@ def main() -> None:
 
             while attempts < args.max_resample_attempts:
                 attempts += 1
-                # Adaptive temperature: increase when entropy is low (collapsed), decrease when high
+                # Adaptive exploration: tune explore_eps based on observed entropy.
+                # Temperature scaling is insufficient when logits are sharp (gap ~30);
+                # distribution mixing directly enforces an entropy floor.
                 sample_temp = args.temperature
-                if args.adaptive_temp and epoch > 0 and len(entropy_history) > 0:
+                sample_eps = args.explore_eps
+                if args.adaptive_eps and len(entropy_history) > 0:
                     recent_entropy = np.mean(entropy_history[-10:])
                     if recent_entropy < args.target_entropy * 0.5:
-                        # Entropy too low — increase temperature to force exploration
-                        sample_temp = min(args.max_temp, args.temperature * (args.target_entropy / max(recent_entropy, 0.1)))
+                        # Entropy collapsed — increase exploration mixing
+                        sample_eps = min(0.6, args.explore_eps * (args.target_entropy / max(recent_entropy, 0.05)))
                     elif recent_entropy > args.target_entropy * 2.0:
-                        # Entropy too high — decrease temperature for stability
-                        sample_temp = max(args.min_temp, args.temperature * (args.target_entropy / max(recent_entropy, 0.1)))
+                        # Entropy too high — reduce exploration
+                        sample_eps = max(0.0, args.explore_eps * 0.5)
 
                 sequences, old_log_probs, operator_lists, sample_entropy = sample_sequences_with_logprobs(
                     model,
@@ -773,6 +792,7 @@ def main() -> None:
                     min_temp=args.min_temp,
                     max_temp=args.max_temp,
                     target_entropy=args.target_entropy,
+                    explore_eps=sample_eps,
                 )
                 entropy_history.append(sample_entropy)
 
