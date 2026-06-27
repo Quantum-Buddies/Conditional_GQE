@@ -719,7 +719,12 @@ def main() -> None:
     if args.from_scratch or args.checkpoint is None:
         print("\n=== PURE RL FROM SCRATCH (no supervised pretraining) ===")
         print("Building vocabulary from UCCSD operator pool...")
-        # Build vocab from all molecules' UCCSD excitation operators
+        # Build vocab from all molecules' UCCSD excitation operators.
+        # Limit pool size to keep vocab manageable (GPT-QE paper uses 12 operators).
+        # Hamiltonian terms are NOT included — they're tokenized at character level
+        # (PAULI_CHAR_VOCAB: I/X/Y/Z) for the encoder, not as operator tokens.
+        MAX_SINGLES = 10  # 10 single excitations → 20 Pauli words per molecule
+        MAX_DOUBLES = 10  # 10 double excitations → 80 Pauli words per molecule
         all_pauli_words: list[str] = []
         ham_records = load_hamiltonian_records(args.hamiltonians)
         for mol_name in args.molecules:
@@ -730,15 +735,12 @@ def main() -> None:
             if n_qubits_mol > args.max_qubits:
                 continue
             n_electrons_mol = get_active_electron_count(record)
-            excitation_words = _jw_excitation_pauli_words(n_qubits_mol, n_electrons_mol)
+            excitation_words = _jw_excitation_pauli_words(
+                n_qubits_mol, n_electrons_mol,
+                max_singles=MAX_SINGLES, max_doubles=MAX_DOUBLES,
+            )
             for word, _ in excitation_words:
                 all_pauli_words.append(word)
-        # Also add Hamiltonian Pauli words (for encoder input tokenization)
-        for record in ham_records:
-            for term in record.get("terms", []):
-                word = term.get("term", "") if isinstance(term, dict) else str(term[0])
-                if word:
-                    all_pauli_words.append(word)
         vocab = build_operator_vocab(all_pauli_words)
         inv_vocab = {v: k for k, v in vocab.items()}
         config = {
@@ -752,7 +754,9 @@ def main() -> None:
             "max_pauli_len": args.max_pauli_len,
             "max_seq_len": args.max_seq_len,
         }
-        print(f"Vocab size: {config['vocab_size']} ({len(all_pauli_words)} Pauli words from UCCSD pool + Hamiltonian terms)")
+        print(f"Vocab size: {config['vocab_size']} "
+              f"({len(all_pauli_words)} Pauli words from UCCSD pool, "
+              f"max_singles={MAX_SINGLES}, max_doubles={MAX_DOUBLES} per molecule)")
         model = HcGQEModel(
             vocab_size=config["vocab_size"],
             d_model=config["d_model"],
