@@ -199,10 +199,6 @@ def sample_sequences_with_logprobs(
             if force_entanglement and z_only_mask is not None:
                 has_entangler |= ~z_only_mask[next_token_flat]
             if finished.all():
-                # Pad remaining log_probs with zeros
-                remaining = max_seq_len - 1 - step - 1
-                if remaining > 0:
-                    log_probs_list.append(torch.zeros(n_samples, device=device))
                 break
 
     # Pad log_probs to match sequence length
