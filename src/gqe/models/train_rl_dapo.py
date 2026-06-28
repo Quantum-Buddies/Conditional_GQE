@@ -307,6 +307,26 @@ def _pad_pauli_word(word: str, n_qubits: int) -> str:
     return word[:n_qubits]
 
 
+# Module-level CUDA-Q kernel definition.
+# MUST be defined here (not inside a function) because cudaq.make_kernel()
+# is NOT thread-safe when called inside a loop that also dispatches
+# observe_async. See CUDA-Q issues #4359, #2821.
+_gqe_kernel = None
+
+def _get_gqe_kernel():
+    global _gqe_kernel
+    if _gqe_kernel is None and cudaq is not None:
+        @cudaq.kernel
+        def kernel(n_q: int, n_el: int, pauli_words: list[cudaq.pauli_word], thetas: list[float]):
+            q = cudaq.qvector(n_q)
+            for i in range(n_el):
+                x(q[i])
+            for i in range(len(pauli_words)):
+                exp_pauli(thetas[i], q, pauli_words[i])
+        _gqe_kernel = kernel
+    return _gqe_kernel
+
+
 def evaluate_energies_batch(
     operators_batch: list[list[str]],
     molecule_record: dict[str, Any],
@@ -316,17 +336,10 @@ def evaluate_energies_batch(
     if cudaq is None:
         return [0.0] * len(operators_batch)
 
+    kernel = _get_gqe_kernel()
     n_qubits = int(molecule_record["n_qubits"])
     n_electrons = get_active_electron_count(molecule_record)
     spin_ham = hamiltonian_to_spin_operator(molecule_record)
-
-    @cudaq.kernel
-    def kernel(n_q: int, n_el: int, pauli_words: list[cudaq.pauli_word], thetas: list[float]):
-        q = cudaq.qvector(n_q)
-        for i in range(n_el):
-            x(q[i])
-        for i in range(len(pauli_words)):
-            exp_pauli(thetas[i], q, pauli_words[i])
 
     energies = []
     for operators in operators_batch:
@@ -355,17 +368,10 @@ def evaluate_energies_parallel(
     if cudaq is None:
         return [0.0] * len(operators_batch)
 
+    kernel = _get_gqe_kernel()
     n_qubits = int(molecule_record["n_qubits"])
     n_electrons = get_active_electron_count(molecule_record)
     spin_ham = hamiltonian_to_spin_operator(molecule_record)
-
-    @cudaq.kernel
-    def kernel(n_q: int, n_el: int, pauli_words: list[cudaq.pauli_word], thetas: list[float]):
-        q = cudaq.qvector(n_q)
-        for i in range(n_el):
-            x(q[i])
-        for i in range(len(pauli_words)):
-            exp_pauli(thetas[i], q, pauli_words[i])
 
     # Submit all observations as async futures
     futures = []
@@ -998,6 +1004,9 @@ def main() -> None:
                 operator_lists = [operator_lists[i] for i in valid_indices]
 
                 # --- Phase 2: Evaluate energies ---
+                # Sync PyTorch GPU ops before CUDA-Q to avoid context conflicts
+                if torch.cuda.is_available():
+                    torch.cuda.synchronize()
                 if args.target == "nvidia" and args.target_option == "mqpu" and n_gpus > 1:
                     energies = evaluate_energies_parallel(
                         operator_lists, mol_data["record"],
