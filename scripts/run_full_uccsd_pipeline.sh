@@ -97,10 +97,12 @@ $PY src/gqe/models/train_rl_dapo.py \
     --hamiltonians $HAM \
     --molecules $MOLECULES \
     --out $RL_MODEL_OUT \
-    --epochs 500 \
-    --n-samples 50 \
+    --epochs 1500 \
+    --n-samples 100 \
+    --n-iters 5 \
     --lr 1e-5 \
     --temperature 1.0 \
+    --max-seq-len 128 \
     --clip-low 0.2 \
     --clip-high 0.28 \
     --dynamic-sampling \
@@ -122,7 +124,7 @@ $PY src/gqe/models/train_rl_dapo.py \
     --w-depth 0.05 \
     --w-commute 0.05 \
     --w-diversity 0.2 \
-    --target-len 10 \
+    --target-len 20 \
     --freq-penalty 1.0 \
     --buffer-size 1000 \
     --pretrain-data $GQE_OUT \
@@ -157,11 +159,11 @@ $PY src/gqe/models/infer_h_cgqe.py \
     --hamiltonians $HAM \
     --out $INFER_OUT \
     --molecules $MOLECULES \
-    --n-samples 50 \
+    --n-samples 100 \
     --sample \
     --use-cuda \
     --max-pauli-len 22 \
-    --max-seq-len 64 \
+    --max-seq-len 128 \
     --temperature 1.0 \
     --force-entanglement \
     --freq-penalty 1.0 \
@@ -175,7 +177,8 @@ $PY src/gqe/eval/optimize_h_cgqe_coefficients.py \
     --generated $INFER_OUT \
     --hamiltonians $HAM \
     --out $OPT_OUT \
-    --top-k 5 \
+    --top-k 10 \
+    --max-iter 200 \
     --target nvidia --target-option mqpu
 
 echo ""
@@ -188,6 +191,21 @@ $PY src/gqe/eval/evaluate_h_cgqe.py \
     --hamiltonians $HAM \
     --out $EVAL_OUT \
     --target nvidia --target-option mqpu
+
+echo ""
+echo "=================================================="
+echo "STEP 7: Scalability Benchmark (GIC Mitsubishi Challenge)"
+echo "  Sweep molecule sizes 4 → 20 qubits"
+echo "  Measure accuracy + wall-clock time scaling"
+echo "=================================================="
+bash scripts/run_scalability_benchmark.sh $RL_MODEL_OUT
+
+echo ""
+echo "=================================================="
+echo "STEP 8: Generate Scalability Plots"
+echo "=================================================="
+$PY scripts/plot_scalability.py \
+    --report results/scaling_benchmark/scalability_report.json
 
 echo ""
 echo "=================================================="

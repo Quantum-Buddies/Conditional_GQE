@@ -768,6 +768,9 @@ def main() -> None:
     # Training
     parser.add_argument("--epochs", type=int, default=200)
     parser.add_argument("--n-samples", type=int, default=50, help="Circuits sampled per molecule per epoch")
+    parser.add_argument("--n-iters", type=int, default=1,
+                        help="Number of gradient update iterations per epoch on different replay buffer batches "
+                             "(GPT-QE paper uses N_iter=5)")
     parser.add_argument("--lr", type=float, default=1e-5, help="Lower LR for RL fine-tuning")
     parser.add_argument("--temperature", type=float, default=1.0, help="Sampling temperature")
     parser.add_argument("--max-seq-len", type=int, default=64)
@@ -1210,30 +1213,109 @@ def main() -> None:
             epoch_rewards.extend(rewards.tolist())
             epoch_sequences_generated += len(operator_lists)
 
-            # --- Phase 6: Compute DAPO loss and update ---
+            # --- Phase 6: Compute DAPO loss and update (n_iters gradient steps) ---
             model.train()
-            optimizer.zero_grad()
-
-            # Recompute log_probs with current model (gradient tracking)
             bos_id = SPECIAL_TOKENS["<BOS>"]
             pad_id = SPECIAL_TOKENS["<PAD>"]
-            tgt_input = sequences[:, :-1].to(device)
-            tgt_labels = sequences[:, 1:].to(device)
-            attention_mask = (tgt_labels != pad_id).float().to(device)
 
-            # Expand Hamiltonian input for the batch
-            pauli_ids_batch = mol_data["pauli_ids"].unsqueeze(0).expand(
-                sequences.size(0), -1, -1
-            ).to(device)
-            coeffs_batch = mol_data["coeffs"].unsqueeze(0).expand(
-                sequences.size(0), -1
-            ).to(device)
-            term_mask_batch = mol_data["term_mask"].unsqueeze(0).expand(
-                sequences.size(0), -1
-            ).to(device)
+            for iter_idx in range(max(1, args.n_iters)):
+                optimizer.zero_grad()
 
-            if scaler is not None:
-                with torch.amp.autocast('cuda', dtype=amp_dtype):
+                if iter_idx == 0:
+                    # First iteration: use freshly sampled sequences
+                    iter_sequences = sequences
+                    iter_old_log_probs = old_log_probs
+                    iter_advantages = advantages
+                    iter_mol_data = mol_data
+                else:
+                    # Subsequent iterations: sample from replay buffer
+                    if len(replay_buffer) < args.n_samples:
+                        break
+                    replay_samples = replay_buffer.sample(args.n_samples)
+                    iter_sequences = torch.stack([s["sequence"] for s in replay_samples])
+                    iter_old_log_probs = torch.stack([s["log_probs"] for s in replay_samples])
+                    iter_operators = [s["operators"] for s in replay_samples]
+                    iter_mol_name = replay_samples[0]["molecule"]
+                    iter_mol_data = next((m for m in molecules_data if m["name"] == iter_mol_name), mol_data)
+                    # Recompute advantages from replay energies
+                    replay_energies = np.array([s["energy"] for s in replay_samples])
+                    replay_rewards = np.array([
+                        compute_reward(
+                            e, ops, iter_mol_data["hf_energy"], iter_mol_data["fci_energy"],
+                            args.max_seq_len,
+                            args.w_energy, args.w_entangle, args.w_depth, args.w_commute,
+                            w_diversity=args.w_diversity,
+                            target_len=args.target_len,
+                        )
+                        for e, ops in zip(replay_energies, iter_operators)
+                    ])
+                    if replay_rewards.std() < 1e-8:
+                        break  # skip if no advantage signal
+                    iter_attn = (iter_sequences[:, 1:] != pad_id).float()
+                    iter_advantages = compute_advantages(
+                        replay_rewards,
+                        repo_beta=args.repo_beta,
+                        old_log_probs=iter_old_log_probs,
+                        attention_mask=iter_attn,
+                    )
+
+                tgt_input = iter_sequences[:, :-1].to(device)
+                tgt_labels = iter_sequences[:, 1:].to(device)
+                attention_mask = (tgt_labels != pad_id).float().to(device)
+
+                # Expand Hamiltonian input for the batch
+                pauli_ids_batch = iter_mol_data["pauli_ids"].unsqueeze(0).expand(
+                    iter_sequences.size(0), -1, -1
+                ).to(device)
+                coeffs_batch = iter_mol_data["coeffs"].unsqueeze(0).expand(
+                    iter_sequences.size(0), -1
+                ).to(device)
+                term_mask_batch = iter_mol_data["term_mask"].unsqueeze(0).expand(
+                    iter_sequences.size(0), -1
+                ).to(device)
+
+                if scaler is not None:
+                    with torch.amp.autocast('cuda', dtype=amp_dtype):
+                        logits = model(
+                            pauli_ids_batch, coeffs_batch, tgt_input,
+                            term_mask=term_mask_batch,
+                            tgt_key_padding_mask=(tgt_input == pad_id),
+                        )
+                        log_probs_new = _compute_sequence_log_probs(
+                            logits, tgt_labels, attention_mask,
+                        )
+                        loss = dapo_loss(
+                            log_probs_new, iter_old_log_probs.to(device),
+                            iter_advantages.to(device), attention_mask,
+                            clip_low=args.clip_low, clip_high=args.clip_high,
+                            token_level=args.token_level_loss,
+                            entropy_coef=args.entropy_coef,
+                            logits=logits,
+                        )
+                    scaler.scale(loss).backward()
+                    scaler.step(optimizer)
+                    scaler.update()
+                elif use_bf16:
+                    with torch.amp.autocast('cuda', dtype=torch.bfloat16):
+                        logits = model(
+                            pauli_ids_batch, coeffs_batch, tgt_input,
+                            term_mask=term_mask_batch,
+                            tgt_key_padding_mask=(tgt_input == pad_id),
+                        )
+                        log_probs_new = _compute_sequence_log_probs(
+                            logits, tgt_labels, attention_mask,
+                        )
+                        loss = dapo_loss(
+                            log_probs_new, iter_old_log_probs.to(device),
+                            iter_advantages.to(device), attention_mask,
+                            clip_low=args.clip_low, clip_high=args.clip_high,
+                            token_level=args.token_level_loss,
+                            entropy_coef=args.entropy_coef,
+                            logits=logits,
+                        )
+                    loss.backward()
+                    optimizer.step()
+                else:
                     logits = model(
                         pauli_ids_batch, coeffs_batch, tgt_input,
                         term_mask=term_mask_batch,
@@ -1243,57 +1325,17 @@ def main() -> None:
                         logits, tgt_labels, attention_mask,
                     )
                     loss = dapo_loss(
-                        log_probs_new, old_log_probs.to(device),
-                        advantages.to(device), attention_mask,
+                        log_probs_new, iter_old_log_probs.to(device),
+                        iter_advantages.to(device), attention_mask,
                         clip_low=args.clip_low, clip_high=args.clip_high,
                         token_level=args.token_level_loss,
                         entropy_coef=args.entropy_coef,
                         logits=logits,
                     )
-                scaler.scale(loss).backward()
-                scaler.step(optimizer)
-                scaler.update()
-            elif use_bf16:
-                with torch.amp.autocast('cuda', dtype=torch.bfloat16):
-                    logits = model(
-                        pauli_ids_batch, coeffs_batch, tgt_input,
-                        term_mask=term_mask_batch,
-                        tgt_key_padding_mask=(tgt_input == pad_id),
-                    )
-                    log_probs_new = _compute_sequence_log_probs(
-                        logits, tgt_labels, attention_mask,
-                    )
-                    loss = dapo_loss(
-                        log_probs_new, old_log_probs.to(device),
-                        advantages.to(device), attention_mask,
-                        clip_low=args.clip_low, clip_high=args.clip_high,
-                        token_level=args.token_level_loss,
-                        entropy_coef=args.entropy_coef,
-                        logits=logits,
-                    )
-                loss.backward()
-                optimizer.step()
-            else:
-                logits = model(
-                    pauli_ids_batch, coeffs_batch, tgt_input,
-                    term_mask=term_mask_batch,
-                    tgt_key_padding_mask=(tgt_input == pad_id),
-                )
-                log_probs_new = _compute_sequence_log_probs(
-                    logits, tgt_labels, attention_mask,
-                )
-                loss = dapo_loss(
-                    log_probs_new, old_log_probs.to(device),
-                    advantages.to(device), attention_mask,
-                    clip_low=args.clip_low, clip_high=args.clip_high,
-                    token_level=args.token_level_loss,
-                    entropy_coef=args.entropy_coef,
-                    logits=logits,
-                )
-                loss.backward()
-                optimizer.step()
+                    loss.backward()
+                    optimizer.step()
 
-            epoch_losses.append(loss.item())
+                epoch_losses.append(loss.item())
 
         # --- Replay buffer training (optional) ---
         if args.buffer_batch_size > 0 and len(replay_buffer) >= args.buffer_batch_size:
