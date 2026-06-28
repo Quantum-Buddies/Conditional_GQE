@@ -50,40 +50,57 @@ fi
 
 echo ""
 echo "=================================================="
-echo "STEP 2: SKIPPED (pure RL from scratch — no supervised dataset needed)"
+echo "STEP 2: Prepare supervised dataset from GQE output"
 echo "=================================================="
+if [ -f "$DATASET_OUT/gqe_supervised_dataset.pt" ]; then
+    echo "Dataset already exists at $DATASET_OUT/gqe_supervised_dataset.pt, skipping."
+else
+    $PY src/gqe/data/prepare_gqe_dataset.py \
+        --gqe-results $GQE_OUT \
+        --ham $HAM \
+        --out-dir $DATASET_OUT \
+        --augment-multiplier 5
+fi
 
 echo ""
 echo "=================================================="
-echo "STEP 3: SKIPPED (pure RL from scratch — no supervised pretraining)"
-echo "  arXiv:2502.19402: RL from scratch outperforms SFT-then-RL"
-echo "  SFT memorizes patterns; RL discovers general strategies"
+echo "STEP 3: Train H-cGQE Transformer (supervised warm start)"
+echo "  Pretrain on GQE baseline circuits, then RL fine-tune"
+echo "  GPT-QE paper: supervised pretraining + GRPO > pure RL"
 echo "=================================================="
+if [ -f "$MODEL_OUT" ]; then
+    echo "Supervised model already exists at $MODEL_OUT, skipping."
+else
+    $PY src/gqe/models/train_h_cgqe.py \
+        --dataset $DATASET_OUT/gqe_supervised_dataset.pt \
+        --out $MODEL_OUT \
+        --epochs 200 \
+        --batch-size 4 \
+        --lr 1e-4 \
+        --use-cuda \
+        --commutator-weight 0.1
+fi
 
-RL_MODEL_OUT=results/train/h_cgqe_rl_from_scratch.pt
+RL_MODEL_OUT=results/train/h_cgqe_rl_warmstart.pt
 
 echo ""
 echo "=================================================="
-echo "STEP 3b: Pure RL from Scratch with DAPO (3 GPUs)"
-echo "  300 epochs, BF16, clip-higher, dynamic sampling, entropy bonus,"
-echo "  top-p, adaptive eps, REPO advantages, curriculum learning"
-echo "  NO supervised pretraining — model learns from energy rewards only"
+echo "STEP 3b: RL Fine-tuning with DAPO (warm start from supervised)"
+echo "  500 epochs, BF16, clip-higher, dynamic sampling, entropy bonus,"
+echo "  top-p, adaptive eps, REPO advantages, curriculum learning,"
+echo "  pre-constructed data mixing (30% → 0% over 150 epochs),"
+echo "  adaptive theta optimization for better energy signal"
+echo "  Warm start from supervised checkpoint (GPT-QE two-stage approach)"
 echo "=================================================="
 $PY src/gqe/models/train_rl_dapo.py \
-    --from-scratch \
+    --checkpoint $MODEL_OUT \
     --hamiltonians $HAM \
     --molecules $MOLECULES \
     --out $RL_MODEL_OUT \
-    --epochs 300 \
+    --epochs 500 \
     --n-samples 50 \
-    --lr 3e-4 \
+    --lr 1e-5 \
     --temperature 1.0 \
-    --d-model 256 \
-    --nhead 8 \
-    --encoder-layers 4 \
-    --decoder-layers 6 \
-    --dim-feedforward 1024 \
-    --dropout 0.1 \
     --clip-low 0.2 \
     --clip-high 0.28 \
     --dynamic-sampling \
@@ -97,7 +114,7 @@ $PY src/gqe/models/train_rl_dapo.py \
     --adaptive-eps \
     --repo-beta 0.05 \
     --curriculum \
-    --curriculum-warmup 30 \
+    --curriculum-warmup 50 \
     --curriculum-steps 3 \
     --use-bf16 \
     --w-energy 1.0 \
@@ -108,6 +125,11 @@ $PY src/gqe/models/train_rl_dapo.py \
     --target-len 10 \
     --freq-penalty 1.0 \
     --buffer-size 1000 \
+    --pretrain-data $GQE_OUT \
+    --pretrain-fraction 0.3 \
+    --pretrain-decay-epochs 150 \
+    --adaptive-theta \
+    --adaptive-theta-iters 10 \
     --target nvidia \
     --target-option mqpu \
     --theta 0.01 \
@@ -120,7 +142,7 @@ $PY src/gqe/models/train_rl_dapo.py \
 # Use RL-tuned model for inference
 if [ -f "$RL_MODEL_OUT" ]; then
     INFER_MODEL=$RL_MODEL_OUT
-    echo "Using RL from-scratch model for inference: $RL_MODEL_OUT"
+    echo "Using RL warm-start model for inference: $RL_MODEL_OUT"
 else
     echo "RL model not found at $RL_MODEL_OUT! Exiting."
     exit 1

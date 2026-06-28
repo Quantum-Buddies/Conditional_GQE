@@ -36,6 +36,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from tqdm import tqdm
+from scipy.optimize import minimize
 
 try:
     import cudaq
@@ -325,6 +326,92 @@ def _get_gqe_kernel():
                 exp_pauli(thetas[i], q, pauli_words[i])
         _gqe_kernel = kernel
     return _gqe_kernel
+
+
+def _load_pretrain_sequences(
+    gqe_json_path: Path,
+    molecules: list[str],
+    vocab: dict[str, int],
+    max_seq_len: int,
+) -> dict[str, list[dict[str, Any]]]:
+    """Load pre-constructed operator sequences from GQE baseline JSON.
+
+    Returns a dict mapping molecule name -> list of pre-constructed samples,
+    each with 'operators', 'sequence' (tokenized), and 'energy'.
+    """
+    if not gqe_json_path.exists():
+        print(f"  Warning: pretrain data not found at {gqe_json_path}")
+        return {}
+
+    with gqe_json_path.open("r") as f:
+        data = json.load(f)
+
+    results = data.get("results", data) if isinstance(data, dict) else data
+    pretrain_data: dict[str, list[dict[str, Any]]] = {}
+
+    for result in results:
+        name = result.get("system", result.get("molecule", ""))
+        if name not in molecules:
+            continue
+        ops_raw = result.get("gqe_selected_operators", [])
+        if not ops_raw:
+            continue
+        operators = [op["pauli_word"] for op in ops_raw if "pauli_word" in op]
+        if not operators:
+            continue
+        energy = result.get("baseline_energy", result.get("best_energy"))
+        # Tokenize the operator sequence
+        tokens = tokenize_operator_sequence(operators, vocab, max_seq_len)
+        pretrain_data.setdefault(name, []).append({
+            "operators": operators,
+            "sequence": tokens,
+            "energy": float(energy) if energy is not None else 0.0,
+        })
+
+    total = sum(len(v) for v in pretrain_data.values())
+    print(f"  Loaded {total} pre-constructed sequences for {len(pretrain_data)} molecules")
+    return pretrain_data
+
+
+def _optimize_theta_quick(
+    operators: list[str],
+    molecule_record: dict[str, Any],
+    initial_theta: float = 0.01,
+    max_iters: int = 10,
+) -> tuple[float, float]:
+    """Quick L-BFGS-B optimization of rotation angles for a single circuit.
+
+    Returns (optimized_energy, best_theta_scalar).
+    Uses scipy.optimize.minimize on the CUDA-Q energy function.
+    """
+    if cudaq is None or not operators:
+        return 0.0, initial_theta
+
+    kernel = _get_gqe_kernel()
+    n_qubits = int(molecule_record["n_qubits"])
+    n_electrons = get_active_electron_count(molecule_record)
+    spin_ham = hamiltonian_to_spin_operator(molecule_record)
+
+    padded = [_pad_pauli_word(w, n_qubits) for w in operators]
+    pauli_words = [cudaq.pauli_word(w) for w in padded]
+
+    def energy_fn(thetas_arr):
+        thetas = [float(t) for t in thetas_arr]
+        try:
+            result = cudaq.observe(kernel, spin_ham, n_qubits, n_electrons, pauli_words, thetas)
+            return float(result.expectation())
+        except Exception:
+            return 1e10
+
+    x0 = np.array([initial_theta] * len(pauli_words))
+    try:
+        opt_result = minimize(
+            energy_fn, x0, method="L-BFGS-B",
+            options={"maxiter": max_iters, "ftol": 1e-6},
+        )
+        return float(opt_result.fun), float(np.mean(opt_result.x))
+    except Exception:
+        return energy_fn(x0), initial_theta
 
 
 def evaluate_energies_batch(
@@ -730,6 +817,23 @@ def main() -> None:
     parser.add_argument("--buffer-size", type=int, default=1000)
     parser.add_argument("--buffer-batch-size", type=int, default=0,
                         help="Batch size from replay buffer (0 = no replay training)")
+    # Pre-constructed data mixing (GPT-QE paper Section 2.2)
+    parser.add_argument("--pretrain-data", type=Path, default=None,
+                        help="Path to GQE baseline JSON with pre-constructed operator sequences. "
+                             "These are mixed into the replay buffer at --pretrain-fraction, "
+                             "linearly decaying to 0 over --pretrain-decay-epochs.")
+    parser.add_argument("--pretrain-fraction", type=float, default=0.3,
+                        help="Initial fraction of pre-constructed data in replay buffer (0.3 = 30%%). "
+                             "Linearly decays to 0 over --pretrain-decay-epochs.")
+    parser.add_argument("--pretrain-decay-epochs", type=int, default=150,
+                        help="Number of epochs to linearly decay pre-constructed data fraction to 0.")
+    # Adaptive theta optimization during RL
+    parser.add_argument("--adaptive-theta", action="store_true", default=False,
+                        help="Run quick L-BFGS-B optimization of theta for the best circuit in each "
+                             "batch. Uses optimized energy for reward instead of fixed theta. "
+                             "More expensive but gives much better energy signal.")
+    parser.add_argument("--adaptive-theta-iters", type=int, default=10,
+                        help="Max L-BFGS-B iterations for adaptive theta optimization.")
     # CUDA-Q
     parser.add_argument("--target", type=str, default="nvidia")
     parser.add_argument("--target-option", type=str, default="mqpu")
@@ -924,6 +1028,35 @@ def main() -> None:
     # Initialize replay buffer
     replay_buffer = ReplayBuffer(max_size=args.buffer_size)
 
+    # Load pre-constructed sequences from GQE baseline (GPT-QE paper Section 2.2)
+    pretrain_data: dict[str, list[dict[str, Any]]] = {}
+    if args.pretrain_data is not None:
+        print(f"\nLoading pre-constructed data from {args.pretrain_data}...")
+        pretrain_data = _load_pretrain_sequences(
+            args.pretrain_data, args.molecules, vocab, args.max_seq_len,
+        )
+        if pretrain_data:
+            total_pre = sum(len(v) for v in pretrain_data.values())
+            print(f"  Pre-constructed mixing: {args.pretrain_fraction*100:.0f}% initial, "
+                  f"decaying to 0% over {args.pretrain_decay_epochs} epochs")
+            # Pre-fill replay buffer with pre-constructed data
+            n_pre = int(args.buffer_size * args.pretrain_fraction)
+            all_pre_samples = []
+            for mol_name, samples in pretrain_data.items():
+                for s in samples:
+                    all_pre_samples.append((mol_name, s))
+            if all_pre_samples and n_pre > 0:
+                # Sample with replacement if needed to fill n_pre slots
+                indices = np.random.choice(len(all_pre_samples), size=min(n_pre, len(all_pre_samples)), replace=True)
+                for idx in indices:
+                    mol_name, s = all_pre_samples[idx]
+                    replay_buffer.push(
+                        s["sequence"], s["energy"],
+                        torch.zeros(args.max_seq_len),  # dummy log_probs
+                        mol_name, s["operators"],
+                    )
+                print(f"  Pre-filled replay buffer with {len(replay_buffer)} pre-constructed samples")
+
     # Training loop
     best_energy_per_mol = {m["name"]: float("inf") for m in molecules_data}
     train_metrics_log = []
@@ -1019,6 +1152,18 @@ def main() -> None:
                     )
 
                 # --- Phase 3: Compute rewards ---
+                # Adaptive theta: optimize coefficients for the best circuit in the batch
+                if args.adaptive_theta and len(energies) > 0:
+                    best_idx = int(np.argmin(energies))
+                    if operator_lists[best_idx]:
+                        opt_energy, opt_theta = _optimize_theta_quick(
+                            operator_lists[best_idx], mol_data["record"],
+                            initial_theta=args.theta,
+                            max_iters=args.adaptive_theta_iters,
+                        )
+                        if opt_energy < energies[best_idx]:
+                            energies[best_idx] = opt_energy
+
                 rewards = np.array([
                     compute_reward(
                         e, ops, mol_data["hf_energy"], mol_data["fci_energy"],
@@ -1155,6 +1300,27 @@ def main() -> None:
             replay_samples = replay_buffer.sample(args.buffer_batch_size)
             # TODO: could add replay training here
             pass
+
+        # --- Pre-constructed data mixing (GPT-QE paper Section 2.2) ---
+        # Linearly decay the fraction of pre-constructed data to 0
+        if pretrain_data and args.pretrain_decay_epochs > 0:
+            current_frac = max(0.0, args.pretrain_fraction * (1.0 - epoch / args.pretrain_decay_epochs))
+            if current_frac > 0:
+                n_inject = int(args.buffer_size * current_frac * 0.05)  # inject 5% of fraction per epoch
+                if n_inject > 0:
+                    all_pre = []
+                    for mol_name, samples in pretrain_data.items():
+                        for s in samples:
+                            all_pre.append((mol_name, s))
+                    if all_pre:
+                        indices = np.random.choice(len(all_pre), size=min(n_inject, len(all_pre)), replace=True)
+                        for idx in indices:
+                            mol_name, s = all_pre[idx]
+                            replay_buffer.push(
+                                s["sequence"], s["energy"],
+                                torch.zeros(args.max_seq_len),
+                                mol_name, s["operators"],
+                            )
 
         # Logging
         mean_energy = np.mean(epoch_energies) if epoch_energies else 0.0
