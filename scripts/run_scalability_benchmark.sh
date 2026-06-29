@@ -28,34 +28,50 @@ REPORT_OUT=$SCALING_DIR/scalability_report.json
 mkdir -p $SCALING_DIR
 
 # Molecule sweep ordered by qubit count (small → large)
-# Format: "name:n_qubits:description"
+# Format: "name:n_qubits:description:backend"
+# Backend: mqpu = statevector nvidia-mqpu (≤24q), mps = tensornet-mps (>24q)
 MOLECULES_SWEEP=(
-    "h2_0.74:4:H2 at equilibrium"
-    "lih_1.6_full:12:LiH full STO-3G"
-    "beh2_1.3_full:14:BeH2 full STO-3G"
-    "n2_1.1_full:20:N2 full STO-3G"
+    "h2_0.74:4:H2 at equilibrium:mqpu"
+    "lih_1.6_full:12:LiH full STO-3G:mqpu"
+    "beh2_1.3_full:14:BeH2 full STO-3G:mqpu"
+    "n2_1.1_full:20:N2 full STO-3G:mqpu"
+    "n2_ccpvdz:32:N2 cc-pVDZ frozen core:mps"
+    "beh2_ccpvdz:30:BeH2 cc-pVDZ:mps"
+    "ethylene:28:Ethylene STO-3G:mps"
+    "n2_ccpvdz_full:40:N2 cc-pVDZ full:mps"
+    "benzene_cas20:40:Benzene CAS(12e,20o):mps"
 )
 
 echo "=================================================="
 echo "GIC Scalability Benchmark"
 echo "  Model: $RL_MODEL"
-echo "  Molecules: ${#MOLECULES_SWEEP[@]} (4 → 20 qubits)"
-echo "  GPUs: 3x L40S (nvidia-mqpu)"
+echo "  Molecules: ${#MOLECULES_SWEEP[@]} (4 → 40+ qubits)"
+echo "  Backends: nvidia-mqpu (≤24q) + tensornet-mps (>24q)"
+echo "  GPUs: 3x L40S"
 echo "=================================================="
 
 # Run inference + optimization for each molecule individually
 # to measure per-molecule timing
 RESULTS_JSON="[]"
 for entry in "${MOLECULES_SWEEP[@]}"; do
-    IFS=':' read -r MOL NQUBITS DESC <<< "$entry"
+    IFS=':' read -r MOL NQUBITS DESC BACKEND <<< "$entry"
     echo ""
-    echo "--- $MOL ($NQUBITS qubits): $DESC ---"
+    echo "--- $MOL ($NQUBITS qubits): $DESC [backend: $BACKEND] ---"
 
     INFER_OUT=$SCALING_DIR/infer_${MOL}.json
     OPT_OUT=$SCALING_DIR/opt_${MOL}.json
 
+    # Select CUDA-Q backend based on qubit count
+    if [ "$BACKEND" = "mps" ]; then
+        CUDAQ_TARGET="tensornet-mps"
+        CUDAQ_OPT=""
+    else
+        CUDAQ_TARGET="nvidia"
+        CUDAQ_OPT="--target-option mqpu"
+    fi
+
     # Step 1: Inference
-    echo "  Inference..."
+    echo "  Inference ($CUDAQ_TARGET)..."
     T0=$(date +%s.%N)
     $PY src/gqe/models/infer_h_cgqe.py \
         --checkpoint $RL_MODEL \
@@ -70,15 +86,15 @@ for entry in "${MOLECULES_SWEEP[@]}"; do
     INFER_TIME=$(echo "$T1 - $T0" | bc)
 
     # Step 2: L-BFGS-B coefficient optimization
-    echo "  L-BFGS-B optimization..."
+    echo "  L-BFGS-B optimization ($CUDAQ_TARGET)..."
     T0=$(date +%s.%N)
     $PY src/gqe/eval/optimize_h_cgqe_coefficients.py \
         --generated $INFER_OUT \
         --hamiltonians $HAM \
         --out $OPT_OUT \
         --top-k 10 \
-        --target nvidia --target-option mqpu \
-        --max-iter 200 --max-qubits 24
+        --target $CUDAQ_TARGET $CUDAQ_OPT \
+        --max-iter 200 --max-qubits 48
     T1=$(date +%s.%N)
     OPT_TIME=$(echo "$T1 - $T0" | bc)
 

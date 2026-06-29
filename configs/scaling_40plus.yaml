@@ -1,0 +1,131 @@
+seed: 42
+dataset:
+  basis: "sto-3g"
+  molecules:
+    # Small molecules (4-20 qubits) — statevector nvidia-mqpu
+    - name: "h2"
+      geometry:
+        - ["H", [0.0, 0.0, 0.0]]
+        - ["H", [0.0, 0.0, 0.74]]
+      charge: 0
+      multiplicity: 1
+      split: "train"
+    - name: "lih"
+      geometry:
+        - ["Li", [0.0, 0.0, 0.0]]
+        - ["H", [0.0, 0.0, 1.6]]
+      charge: 0
+      multiplicity: 1
+      split: "train"
+    - name: "beh2"
+      geometry:
+        - ["Be", [0.0, 0.0, 0.0]]
+        - ["H", [0.0, 0.0, 1.3]]
+        - ["H", [0.0, 0.0, -1.3]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+    - name: "n2"
+      geometry:
+        - ["N", [0.0, 0.0, 0.0]]
+        - ["N", [0.0, 0.0, 1.1]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+    # Medium molecules (24-40 qubits) — MPS backend
+    # N2 in cc-pVDZ with frozen core: 2N*(5+5)=20 orbitals → 40 qubits
+    # With frozen core (remove 2 core orbitals): 16 orbitals → 32 qubits
+    - name: "n2_ccpvdz"
+      geometry:
+        - ["N", [0.0, 0.0, 0.0]]
+        - ["N", [0.0, 0.0, 1.1]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      basis: "cc-pvdz"
+      active_space:
+        mode: "frozen-core"
+    # BeH2 in cc-pVDZ: Be(5)+2H(5)=15 orbitals → 30 qubits
+    - name: "beh2_ccpvdz"
+      geometry:
+        - ["Be", [0.0, 0.0, 0.0]]
+        - ["H", [0.0, 0.0, 1.3]]
+        - ["H", [0.0, 0.0, -1.3]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      basis: "cc-pvdz"
+    # Large molecules (40+ qubits) — MPS backend only
+    # Naphthalene C10H8 STO-3G: 10C×5 + 8H×1 = 58 orbitals → 116 qubits (too large)
+    # With frozen core (remove 10 core orbitals): 48 orbitals → 96 qubits (still too large)
+    # With active space (10e, 10o): 20 qubits — not 40+
+    # Ethylene C2H4 STO-3G: 2C×5 + 4H×1 = 14 orbitals → 28 qubits
+    - name: "ethylene"
+      geometry:
+        - ["C", [0.0, 0.0, 0.0]]
+        - ["C", [0.0, 0.0, 1.34]]
+        - ["H", [0.0, 0.95, -0.54]]
+        - ["H", [0.0, -0.95, -0.54]]
+        - ["H", [0.0, 0.95, 1.88]]
+        - ["H", [0.0, -0.95, 1.88]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+    # Formaldehyde CH2O STO-3G: C×5 + 2H×1 + O×5 = 12 orbitals → 24 qubits
+    - name: "formaldehyde"
+      geometry:
+        - ["C", [0.0, 0.0, 0.0]]
+        - ["O", [0.0, 0.0, 1.21]]
+        - ["H", [0.0, 0.94, -0.54]]
+        - ["H", [0.0, -0.94, -0.54]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+    # Benzene C6H6 STO-3G: 6C×5 + 6H×1 = 36 orbitals → 72 qubits (too large for full)
+    # With frozen core (remove 6 core orbitals): 30 orbitals → 60 qubits
+    # With active space (6e, 6o): 12 qubits — not 40+
+    # Use active space (12e, 20o): 40 qubits
+    - name: "benzene_cas20"
+      geometry:
+        - ["C", [0.0, 1.40, 0.0]]
+        - ["C", [1.21, 0.70, 0.0]]
+        - ["C", [1.21, -0.70, 0.0]]
+        - ["C", [0.0, -1.40, 0.0]]
+        - ["C", [-1.21, -0.70, 0.0]]
+        - ["C", [-1.21, 0.70, 0.0]]
+        - ["H", [0.0, 2.49, 0.0]]
+        - ["H", [2.15, 1.25, 0.0]]
+        - ["H", [2.15, -1.25, 0.0]]
+        - ["H", [0.0, -2.49, 0.0]]
+        - ["H", [-2.15, -1.25, 0.0]]
+        - ["H", [-2.15, 1.25, 0.0]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 12
+        n_active_orbitals: 20
+    # N2 cc-pVDZ full (no frozen core): 20 orbitals → 40 qubits
+    - name: "n2_ccpvdz_full"
+      geometry:
+        - ["N", [0.0, 0.0, 0.0]]
+        - ["N", [0.0, 0.0, 1.1]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      basis: "cc-pvdz"
+training:
+  synthetic_samples: 256
+  epochs: 5
+  batch_size: 8
+  learning_rate: 0.0005
+  max_seq_len: 128
+model:
+  vocab_size: 64
+  hidden_size: 64
+  num_layers: 1
+  dropout: 0.0
+baselines:
+  max_iterations: 150
+  optimizer: "SLSQP"

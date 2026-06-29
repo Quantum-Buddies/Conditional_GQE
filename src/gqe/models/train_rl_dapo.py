@@ -838,10 +838,17 @@ def main() -> None:
     parser.add_argument("--adaptive-theta-iters", type=int, default=10,
                         help="Max L-BFGS-B iterations for adaptive theta optimization.")
     # CUDA-Q
-    parser.add_argument("--target", type=str, default="nvidia")
-    parser.add_argument("--target-option", type=str, default="mqpu")
+    parser.add_argument("--target", type=str, default="nvidia",
+                        help="CUDA-Q target: nvidia (statevector), tensornet-mps (MPS for 40+ qubits)")
+    parser.add_argument("--target-option", type=str, default="mqpu",
+                        help="Target option: mqpu (multi-GPU pooling), mps (MPS backend)")
     parser.add_argument("--theta", type=float, default=0.01, help="Fixed rotation angle for energy eval")
-    parser.add_argument("--max-qubits", type=int, default=24, help="Skip molecules with more qubits")
+    parser.add_argument("--max-qubits", type=int, default=48,
+                        help="Skip molecules with more qubits. Default 48 (MPS can handle 40+)")
+    parser.add_argument("--mps-threshold", type=int, default=24,
+                        help="Auto-switch to tensornet-mps for molecules above this qubit count")
+    parser.add_argument("--mps-bond", type=int, default=64,
+                        help="MPS max bond dimension (higher=more accurate, more memory)")
     # Device
     parser.add_argument("--use-cuda", action="store_true")
     parser.add_argument("--multi-gpu", action="store_true")
@@ -975,11 +982,23 @@ def main() -> None:
             if args.target == "nvidia" and args.target_option == "mqpu":
                 cudaq.set_target("nvidia", option="mqpu")
                 print(f"CUDA-Q target: nvidia (mqpu, {n_gpus} GPUs)")
+            elif args.target == "tensornet-mps":
+                cudaq.set_target("tensornet-mps")
+                print(f"CUDA-Q target: tensornet-mps (MPS, bond={args.mps_bond})")
+            elif args.target == "nvidia-mqpu-mps":
+                cudaq.set_target("nvidia-mqpu-mps")
+                print(f"CUDA-Q target: nvidia-mqpu-mps (MPS + mqpu, {n_gpus} GPUs)")
             else:
                 cudaq.set_target(args.target)
                 print(f"CUDA-Q target: {args.target}")
         except Exception as e:
             print(f"Warning: CUDA-Q target setup failed: {e}")
+
+    # Set MPS bond dimension if using MPS
+    if args.mps_bond != 64:
+        import os
+        os.environ["CUDAQ_MPS_MAX_BOND"] = str(args.mps_bond)
+        print(f"  MPS max bond dimension set to {args.mps_bond}")
 
     # Load molecule data
     print("\nLoading molecule data:")
@@ -1143,7 +1162,22 @@ def main() -> None:
                 # Sync PyTorch GPU ops before CUDA-Q to avoid context conflicts
                 if torch.cuda.is_available():
                     torch.cuda.synchronize()
-                if args.target == "nvidia" and args.target_option == "mqpu" and n_gpus > 1:
+                # Auto-switch to MPS for large qubit counts
+                mol_nqubits = int(mol_data["record"]["n_qubits"])
+                use_mps = mol_nqubits > args.mps_threshold
+                if use_mps and args.target == "nvidia" and args.target_option == "mqpu":
+                    # Switch to MPS for this molecule
+                    if cudaq:
+                        try:
+                            cudaq.set_target("tensornet-mps")
+                            print(f"  Auto-switched to tensornet-mps for {mol_name} ({mol_nqubits} qubits)")
+                        except Exception:
+                            pass
+                    energies = evaluate_energies_batch(
+                        operator_lists, mol_data["record"],
+                        theta=args.theta,
+                    )
+                elif args.target == "nvidia" and args.target_option == "mqpu" and n_gpus > 1 and not use_mps:
                     energies = evaluate_energies_parallel(
                         operator_lists, mol_data["record"],
                         theta=args.theta, n_gpus=n_gpus,
