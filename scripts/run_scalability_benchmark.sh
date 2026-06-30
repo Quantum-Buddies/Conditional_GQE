@@ -28,7 +28,7 @@ REPORT_OUT=$SCALING_DIR/scalability_report.json
 mkdir -p $SCALING_DIR
 
 # --- Auto-generate missing 40+ qubit Hamiltonians ---
-LARGE_MOLS="n2_ccpvdz beh2_ccpvdz ethylene n2_ccpvdz_full benzene_cas20"
+LARGE_MOLS="n2_ccpvdz beh2_ccpvdz ethylene n2_ccpvdz_cas20 benzene_cas20"
 NEED_GEN=false
 for MOL in $LARGE_MOLS; do
     if ! $PY -c "import json; data=json.load(open('$HAM')); records=data.get('records',[]); assert any(r.get('name')=='$MOL' for r in records)" 2>/dev/null; then
@@ -62,11 +62,11 @@ MOLECULES_SWEEP=(
     "lih_1.6_full:12:LiH full STO-3G:mqpu"
     "beh2_1.3_full:14:BeH2 full STO-3G:mqpu"
     "n2_1.1_full:20:N2 full STO-3G:mqpu"
-    "n2_ccpvdz:32:N2 cc-pVDZ frozen core:mps"
-    "beh2_ccpvdz:30:BeH2 cc-pVDZ:mps"
     "ethylene:28:Ethylene STO-3G:mps"
-    "n2_ccpvdz_full:40:N2 cc-pVDZ full:mps"
+    "n2_ccpvdz:32:N2 cc-pVDZ CAS(10e,16o):mps"
+    "beh2_ccpvdz:32:BeH2 cc-pVDZ CAS(6e,16o):mps"
     "benzene_cas20:40:Benzene CAS(12e,20o):mps"
+    "n2_ccpvdz_cas20:40:N2 cc-pVDZ CAS(10e,20o):mps"
 )
 
 echo "=================================================="
@@ -121,20 +121,20 @@ for entry in "${MOLECULES_SWEEP[@]}"; do
         --out $OPT_OUT \
         --top-k 10 \
         --target $CUDAQ_TARGET $CUDAQ_OPT \
-        --max-iter 200 --max-qubits 48
+        --max-iter 200 --max-qubits 60
     T1=$(date +%s.%N)
     OPT_TIME=$(echo "$T1 - $T0" | bc)
 
-    # Extract best energy
+    # Extract best energy (handle empty results gracefully)
     BEST_E=$($PY -c "
 import json
 with open('$OPT_OUT') as f:
     data = json.load(f)
 results = data.get('results', data) if isinstance(data, dict) else data
-if isinstance(results, list):
+if isinstance(results, list) and results:
     best = min(r.get('optimized_energy', r.get('best_energy', 0)) for r in results)
 else:
-    best = results.get('optimized_energy', 0)
+    best = 0.0
 print(f'{best:.6f}')
 ")
 

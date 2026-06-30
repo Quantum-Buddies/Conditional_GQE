@@ -33,8 +33,8 @@ dataset:
       multiplicity: 1
       split: "val"
     # Medium molecules (24-40 qubits) — MPS backend
-    # N2 in cc-pVDZ with frozen core: 2N*(5+5)=20 orbitals → 40 qubits
-    # With frozen core (remove 2 core orbitals): 16 orbitals → 32 qubits
+    # N2 in cc-pVDZ: 28 spatial orbitals → 56 qubits (full)
+    # With explicit CAS(10e, 16o): 32 qubits
     - name: "n2_ccpvdz"
       geometry:
         - ["N", [0.0, 0.0, 0.0]]
@@ -44,8 +44,11 @@ dataset:
       split: "val"
       basis: "cc-pvdz"
       active_space:
-        mode: "frozen-core"
-    # BeH2 in cc-pVDZ: Be(5)+2H(5)=15 orbitals → 30 qubits
+        mode: "explicit"
+        n_active_electrons: 10
+        n_active_orbitals: 16
+    # BeH2 in cc-pVDZ: Be(9)+2H(5)=19 spatial orbitals → 38 qubits
+    # With explicit CAS(6e, 16o): 32 qubits
     - name: "beh2_ccpvdz"
       geometry:
         - ["Be", [0.0, 0.0, 0.0]]
@@ -55,6 +58,10 @@ dataset:
       multiplicity: 1
       split: "val"
       basis: "cc-pvdz"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 6
+        n_active_orbitals: 16
     # Large molecules (40+ qubits) — MPS backend only
     # Naphthalene C10H8 STO-3G: 10C×5 + 8H×1 = 58 orbitals → 116 qubits (too large)
     # With frozen core (remove 10 core orbitals): 48 orbitals → 96 qubits (still too large)
@@ -106,8 +113,8 @@ dataset:
         mode: "explicit"
         n_active_electrons: 12
         n_active_orbitals: 20
-    # N2 cc-pVDZ full (no frozen core): 20 orbitals → 40 qubits
-    - name: "n2_ccpvdz_full"
+    # N2 cc-pVDZ with larger active space CAS(10e, 20o): 40 qubits
+    - name: "n2_ccpvdz_cas20"
       geometry:
         - ["N", [0.0, 0.0, 0.0]]
         - ["N", [0.0, 0.0, 1.1]]
@@ -115,6 +122,10 @@ dataset:
       multiplicity: 1
       split: "val"
       basis: "cc-pvdz"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 10
+        n_active_orbitals: 20
 training:
   synthetic_samples: 256
   epochs: 5
