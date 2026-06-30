@@ -27,6 +27,33 @@ REPORT_OUT=$SCALING_DIR/scalability_report.json
 
 mkdir -p $SCALING_DIR
 
+# --- Auto-generate missing 40+ qubit Hamiltonians ---
+LARGE_MOLS="n2_ccpvdz beh2_ccpvdz ethylene n2_ccpvdz_full benzene_cas20"
+NEED_GEN=false
+for MOL in $LARGE_MOLS; do
+    if ! $PY -c "import json; data=json.load(open('$HAM')); records=data.get('records',[]); assert any(r.get('name')=='$MOL' for r in records)" 2>/dev/null; then
+        NEED_GEN=true
+        break
+    fi
+done
+
+if [ "$NEED_GEN" = true ]; then
+    echo "=================================================="
+    echo "Generating missing 40+ qubit Hamiltonians..."
+    echo "  (This uses PySCF — CPU only, may take 10-30 min)"
+    echo "=================================================="
+    $PY src/gqe/data/generate_hamiltonians.py \
+        --config configs/scaling_40plus.yaml \
+        --out results/data/hamiltonians_40plus
+    # Merge with existing Hamiltonians
+    $PY scripts/merge_hamiltonians.py \
+        results/data/hamiltonians_merged.json \
+        $HAM \
+        results/data/hamiltonians_40plus/hamiltonians.json
+    HAM=results/data/hamiltonians_merged.json
+    echo "Using merged Hamiltonians: $HAM"
+fi
+
 # Molecule sweep ordered by qubit count (small → large)
 # Format: "name:n_qubits:description:backend"
 # Backend: mqpu = statevector nvidia-mqpu (≤24q), mps = tensornet-mps (>24q)
