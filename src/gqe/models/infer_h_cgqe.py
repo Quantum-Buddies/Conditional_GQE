@@ -156,7 +156,7 @@ def main() -> None:
     # Resize positional encoding buffer if inference max_seq_len > training max_seq_len
     train_max_len = config["max_seq_len"]
     if args.max_seq_len > train_max_len:
-        pe_buf = model.pos_enc.pe  # (1, train_max_len, d_model)
+        pe_buf = model.decoder.pos_enc.pe  # (1, train_max_len, d_model)
         d_model = pe_buf.shape[-1]
         new_pe = torch.zeros(1, args.max_seq_len + 8, d_model)
         new_pe[:, :train_max_len, :] = pe_buf
@@ -164,7 +164,7 @@ def main() -> None:
         div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
         new_pe[0, train_max_len:, 0::2] = torch.sin(position * div_term)
         new_pe[0, train_max_len:, 1::2] = torch.cos(position * div_term)
-        model.pos_enc.pe = new_pe.to(device)
+        model.decoder.pos_enc.pe = new_pe.to(device)
         print(f"  Resized positional encoding: {train_max_len} → {args.max_seq_len + 8}")
     print(f"Model loaded: {sum(p.numel() for p in model.parameters()):,} parameters")
 
