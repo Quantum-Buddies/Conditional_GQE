@@ -1,12 +1,13 @@
 #!/bin/bash
 # Scalability benchmark for H-cGQE pipeline (GIC Mitsubishi Challenge).
 #
-# Sweeps molecule sizes from 4 to 20 qubits, runs the full pipeline
-# (inference + L-BFGS-B optimization + evaluation) for each, and
-# generates a scalability report showing:
-#   - Energy accuracy vs molecule size (qubits)
-#   - Wall-clock time vs molecule size
-#   - GPU parallelism efficiency
+# Sweeps molecule sizes from 4 to 40+ qubits, runs the full pipeline
+# (inference + L-BFGS-B optimization + evaluation) for each.
+#
+# Strategy:
+#   - Small molecules (≤24q): nvidia-mqpu, sequential, uses all 3 GPUs
+#   - Large molecules (>24q): tensornet-mps, run 3 in parallel (1 GPU each)
+#   - Skip already-completed molecules
 #
 # Usage: on a GPU node with 3 L40S GPUs:
 #   bash scripts/run_scalability_benchmark.sh [RL_MODEL]
@@ -24,6 +25,7 @@ GQE_OUT=results/baselines/cudaq_gqe_uccsd_3gpu.json
 RL_MODEL=${1:-results/train/h_cgqe_rl_warmstart.pt}
 SCALING_DIR=results/scaling_benchmark
 REPORT_OUT=$SCALING_DIR/scalability_report.json
+N_GPUS=${N_GPUS:-3}
 
 mkdir -p $SCALING_DIR
 
@@ -73,92 +75,143 @@ echo "=================================================="
 echo "GIC Scalability Benchmark"
 echo "  Model: $RL_MODEL"
 echo "  Molecules: ${#MOLECULES_SWEEP[@]} (4 → 40+ qubits)"
-echo "  Backends: nvidia-mqpu (≤24q) + tensornet-mps (>24q)"
-echo "  GPUs: 3x L40S"
+echo "  Backends: nvidia-mqpu (≤24q) + tensornet-mps (>24q, 3 parallel)"
+echo "  GPUs: ${N_GPUS}x L40S"
 echo "=================================================="
 
-# Run inference + optimization for each molecule individually
-# to measure per-molecule timing
-RESULTS_JSON="[]"
-for entry in "${MOLECULES_SWEEP[@]}"; do
-    IFS=':' read -r MOL NQUBITS DESC BACKEND <<< "$entry"
-    echo ""
-    echo "--- $MOL ($NQUBITS qubits): $DESC [backend: $BACKEND] ---"
+# Helper: check if a molecule's results already exist
+is_complete() {
+    local mol=$1
+    [ -f "$SCALING_DIR/opt_${mol}.json" ] && \
+      $PY -c "import json; d=json.load(open('$SCALING_DIR/opt_${mol}.json')); r=d.get('results',d); assert r and (isinstance(r,list) and len(r)>0 or isinstance(r,dict) and r)" 2>/dev/null
+}
 
-    INFER_OUT=$SCALING_DIR/infer_${MOL}.json
-    OPT_OUT=$SCALING_DIR/opt_${MOL}.json
+# Helper: run inference + optimization for a single molecule on a specific GPU
+run_single_molecule() {
+    local MOL=$1 NQUBITS=$2 DESC=$3 BACKEND=$4 GPU_ID=$5
+    local INFER_OUT=$SCALING_DIR/infer_${MOL}.json
+    local OPT_OUT=$SCALING_DIR/opt_${MOL}.json
 
-    # Select CUDA-Q backend based on qubit count
     if [ "$BACKEND" = "mps" ]; then
-        CUDAQ_TARGET="tensornet-mps"
-        CUDAQ_OPT=""
+        local CUDAQ_TARGET="tensornet-mps"
+        local CUDAQ_OPT=""
+        local TOPK=5
+        local NSAMP=50
+        local MAXITER=150
     else
-        CUDAQ_TARGET="nvidia"
-        CUDAQ_OPT="--target-option mqpu"
+        local CUDAQ_TARGET="nvidia"
+        local CUDAQ_OPT="--target-option mqpu"
+        local TOPK=10
+        local NSAMP=100
+        local MAXITER=200
     fi
 
+    echo "[GPU $GPU_ID] $MOL ($NQUBITS qubits): $DESC [backend: $BACKEND]"
+
+    local T0=$(date +%s.%N)
+
     # Step 1: Inference
-    echo "  Inference ($CUDAQ_TARGET)..."
-    T0=$(date +%s.%N)
-    $PY src/gqe/models/infer_h_cgqe.py \
+    CUDA_VISIBLE_DEVICES=$GPU_ID $PY src/gqe/models/infer_h_cgqe.py \
         --checkpoint $RL_MODEL \
         --hamiltonians $HAM \
         --out $INFER_OUT \
         --molecules $MOL \
-        --n-samples 100 --sample --use-cuda \
+        --n-samples $NSAMP --sample --use-cuda \
         --max-pauli-len 22 --max-seq-len 128 \
         --temperature 1.0 \
-        --force-entanglement --freq-penalty 1.0 --max-repeat 4
-    T1=$(date +%s.%N)
-    INFER_TIME=$(echo "$T1 - $T0" | bc)
+        --force-entanglement --freq-penalty 1.0 --max-repeat 4 2>&1 | sed "s/^/[GPU $GPU_ID] /"
 
-    # Step 2: L-BFGS-B coefficient optimization
-    echo "  L-BFGS-B optimization ($CUDAQ_TARGET)..."
-    T0=$(date +%s.%N)
-    $PY src/gqe/eval/optimize_h_cgqe_coefficients.py \
+    # Step 2: L-BFGS-B optimization
+    CUDA_VISIBLE_DEVICES=$GPU_ID $PY src/gqe/eval/optimize_h_cgqe_coefficients.py \
         --generated $INFER_OUT \
         --hamiltonians $HAM \
         --out $OPT_OUT \
-        --top-k 10 \
+        --top-k $TOPK \
         --target $CUDAQ_TARGET $CUDAQ_OPT \
-        --max-iter 200 --max-qubits 60
-    T1=$(date +%s.%N)
-    OPT_TIME=$(echo "$T1 - $T0" | bc)
+        --max-iter $MAXITER --max-qubits 60 2>&1 | sed "s/^/[GPU $GPU_ID] /"
 
-    # Extract best energy (handle empty results gracefully)
-    BEST_E=$($PY -c "
-import json
-with open('$OPT_OUT') as f:
-    data = json.load(f)
-results = data.get('results', data) if isinstance(data, dict) else data
-if isinstance(results, list) and results:
-    best = min(r.get('optimized_energy', r.get('best_energy', 0)) for r in results)
-else:
-    best = 0.0
-print(f'{best:.6f}')
-")
+    local T1=$(date +%s.%N)
+    local TOTAL_TIME=$(echo "$T1 - $T0" | bc)
+    echo "[GPU $GPU_ID] $MOL done in ${TOTAL_TIME}s"
+}
 
-    TOTAL_TIME=$(echo "$INFER_TIME + $OPT_TIME" | bc)
-    echo "  Result: E=$BEST_E Ha  time=${TOTAL_TIME}s"
+# =========================================================
+# Phase 1: Small molecules (≤24q) — sequential on all GPUs
+# =========================================================
+echo ""
+echo "=== Phase 1: Small molecules (nvidia-mqpu, all GPUs) ==="
 
-    # Append to results JSON
-    RESULTS_JSON=$($PY -c "
-import json
-results = $RESULTS_JSON
-results.append({
-    'molecule': '$MOL',
-    'n_qubits': $NQUBITS,
-    'description': '$DESC',
-    'best_energy': float('$BEST_E'),
-    'infer_time_s': float('$INFER_TIME'),
-    'optimize_time_s': float('$OPT_TIME'),
-    'total_time_s': float('$TOTAL_TIME'),
-})
-print(json.dumps(results))
-")
+for entry in "${MOLECULES_SWEEP[@]}"; do
+    IFS=':' read -r MOL NQUBITS DESC BACKEND <<< "$entry"
+    
+    # Skip MPS molecules in phase 1
+    if [ "$BACKEND" = "mps" ]; then
+        continue
+    fi
+
+    # Skip completed
+    if is_complete "$MOL"; then
+        echo "  Skipping $MOL (already complete)"
+        continue
+    fi
+
+    echo ""
+    echo "--- $MOL ($NQUBITS qubits): $DESC [backend: $BACKEND] ---"
+    run_single_molecule "$MOL" "$NQUBITS" "$DESC" "$BACKEND" "0,1,2"
 done
 
-# Get GQE baseline energies for comparison
+# =========================================================
+# Phase 2: Large molecules (>24q) — 3 in parallel (1 GPU each)
+# =========================================================
+echo ""
+echo "=== Phase 2: Large molecules (tensornet-mps, 3 parallel) ==="
+
+# Collect MPS molecules that still need to run
+MPS_TODO=()
+for entry in "${MOLECULES_SWEEP[@]}"; do
+    IFS=':' read -r MOL NQUBITS DESC BACKEND <<< "$entry"
+    if [ "$BACKEND" = "mps" ] && ! is_complete "$MOL"; then
+        MPS_TODO+=("$entry")
+    fi
+done
+
+if [ ${#MPS_TODO[@]} -eq 0 ]; then
+    echo "  All MPS molecules already complete."
+else
+    echo "  ${#MPS_TODO[@]} molecules to run, ${N_GPUS} in parallel"
+    
+    # Run in batches of N_GPUS
+    BATCH_IDX=0
+    while [ $BATCH_IDX -lt ${#MPS_TODO[@]} ]; do
+        echo ""
+        echo "  --- Batch starting at index $BATCH_IDX ---"
+        PIDS=()
+        
+        for GPU_ID in $(seq 0 $((N_GPUS - 1))); do
+            IDX=$((BATCH_IDX + GPU_ID))
+            if [ $IDX -ge ${#MPS_TODO[@]} ]; then
+                break
+            fi
+            IFS=':' read -r MOL NQUBITS DESC BACKEND <<< "${MPS_TODO[$IDX]}"
+            echo "  Launching $MOL on GPU $GPU_ID"
+            run_single_molecule "$MOL" "$NQUBITS" "$DESC" "$BACKEND" "$GPU_ID" &
+            PIDS+=($!)
+        done
+
+        # Wait for this batch to finish
+        echo "  Waiting for batch to complete..."
+        for PID in "${PIDS[@]}"; do
+            wait $PID
+        done
+        echo "  Batch complete."
+        
+        BATCH_IDX=$((BATCH_IDX + N_GPUS))
+    done
+fi
+
+# =========================================================
+# Phase 3: Collect results and generate report
+# =========================================================
 echo ""
 echo "=================================================="
 echo "Generating scalability report..."
@@ -166,13 +219,52 @@ echo "=================================================="
 
 $PY -c "
 import json
+from pathlib import Path
 
-results = $RESULTS_JSON
+scaling_dir = Path('$SCALING_DIR')
+sweep = [
+    ('h2_0.74', 4, 'H2 at equilibrium'),
+    ('lih_1.6_full', 12, 'LiH full STO-3G'),
+    ('beh2_1.3_full', 14, 'BeH2 full STO-3G'),
+    ('n2_1.1_full', 20, 'N2 full STO-3G'),
+    ('ethylene', 28, 'Ethylene STO-3G'),
+    ('n2_ccpvdz', 32, 'N2 cc-pVDZ CAS(10e,16o)'),
+    ('beh2_ccpvdz', 32, 'BeH2 cc-pVDZ CAS(6e,16o)'),
+    ('benzene_cas20', 40, 'Benzene CAS(12e,20o)'),
+    ('n2_ccpvdz_cas20', 40, 'N2 cc-pVDZ CAS(10e,20o)'),
+]
+
+results = []
+for mol, nq, desc in sweep:
+    opt_file = scaling_dir / f'opt_{mol}.json'
+    if not opt_file.exists():
+        print(f'  {mol}: MISSING')
+        continue
+    with open(opt_file) as f:
+        data = json.load(f)
+    res = data.get('results', data) if isinstance(data, dict) else data
+    if isinstance(res, list) and res:
+        best = min(r.get('optimized_energy', r.get('best_energy', 0)) for r in res)
+    elif isinstance(res, dict) and res:
+        best = res.get('optimized_energy', res.get('best_energy', 0))
+    else:
+        print(f'  {mol}: EMPTY')
+        continue
+    results.append({
+        'molecule': mol,
+        'n_qubits': nq,
+        'description': desc,
+        'best_energy': best,
+    })
+    print(f'  {mol}: {nq}q, E={best:.6f} Ha')
 
 # Load GQE baseline
-with open('$GQE_OUT') as f:
-    gqe = json.load(f)
-gqe_map = {r['system']: r for r in gqe['results']}
+gqe_map = {}
+gqe_file = Path('$GQE_OUT')
+if gqe_file.exists():
+    with open(gqe_file) as f:
+        gqe = json.load(f)
+    gqe_map = {r['system']: r for r in gqe.get('results', [])}
 
 # Add baseline and reference energies
 for r in results:
@@ -190,9 +282,9 @@ for r in results:
 with open('$REPORT_OUT', 'w') as f:
     json.dump({
         'model': '$RL_MODEL',
-        'n_gpus': 3,
+        'n_gpus': $N_GPUS,
         'gpu_type': 'L40S',
-        'backend': 'nvidia-mqpu',
+        'backends': 'nvidia-mqpu (<=24q) + tensornet-mps (>24q, parallel)',
         'results': results,
     }, f, indent=2)
 
@@ -201,7 +293,7 @@ print()
 print('=' * 100)
 print('GIC SCALABILITY BENCHMARK REPORT')
 print('=' * 100)
-print(f'{\"Molecule\":<20s} {\"Qubits\":>6s} {\"H-cGQE (Ha)\":>14s} {\"GQE (Ha)\":>14s} {\"Ref (Ha)\":>14s} {\"Err(mHa)\":>10s} {\"Imprv(mHa)\":>12s} {\"Time(s)\":>10s}')
+print(f'{\"Molecule\":<22s} {\"Qubits\":>6s} {\"H-cGQE (Ha)\":>14s} {\"GQE (Ha)\":>14s} {\"Ref (Ha)\":>14s} {\"Err(mHa)\":>10s} {\"Imprv(mHa)\":>12s}')
 print('-' * 100)
 for r in results:
     mol = r['molecule']
@@ -211,12 +303,11 @@ for r in results:
     ref = r.get('reference_energy')
     err = r.get('error_vs_ref_mHa')
     imprv = r.get('improvement_over_gqe')
-    t = r['total_time_s']
     gqe_s = f'{gqe:.6f}' if gqe else 'N/A'
     ref_s = f'{ref:.6f}' if ref else 'N/A'
     err_s = f'{err:.2f}' if err else 'N/A'
     imprv_s = f'{imprv*1000:.2f}' if imprv else 'N/A'
-    print(f'{mol:<20s} {nq:>6d} {e:>14.6f} {gqe_s:>14s} {ref_s:>14s} {err_s:>10s} {imprv_s:>12s} {t:>10.1f}')
+    print(f'{mol:<22s} {nq:>6d} {e:>14.6f} {gqe_s:>14s} {ref_s:>14s} {err_s:>10s} {imprv_s:>12s}')
 print()
 print('Chemical accuracy threshold: 1.6 mHa')
 print(f'Report saved to: $REPORT_OUT')
