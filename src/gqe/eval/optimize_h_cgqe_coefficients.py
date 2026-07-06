@@ -202,7 +202,7 @@ def main() -> None:
 
     if cudaq and args.target:
         try:
-            needs_mpi = (args.target_option and "mgpu" in args.target_option) or args.target == "tensornet"
+            needs_mpi = (args.target_option and "mgpu" in args.target_option)
             if needs_mpi:
                 if not cudaq.mpi.is_initialized():
                     _ensure_cuda_context()
@@ -250,9 +250,25 @@ def main() -> None:
         print("  Ranking sequences with fixed coefficients...")
         heuristic_energies = []
         for seq in sequences:
-            # Use the currently selected CUDA-Q target; do not force CPU here.
-            energy = _evaluate_fixed_theta_energy(mol_record, seq["operators"], theta=0.01)
-            heuristic_energies.append(energy)
+            try:
+                energy = _evaluate_fixed_theta_energy(mol_record, seq["operators"], theta=0.01)
+                heuristic_energies.append(energy)
+            except Exception as e:
+                print(f"    Ranking failed for seq ({len(seq['operators'])} ops): {e}")
+                heuristic_energies.append(float("inf"))
+
+        # If all heuristic evaluations failed, skip this molecule
+        if all(e == float("inf") for e in heuristic_energies):
+            print(f"  All heuristic evaluations failed for {molecule}, skipping optimization")
+            optimized_results.append({
+                "molecule": molecule,
+                "n_qubits": int(mol_record["n_qubits"]),
+                "n_sequences_evaluated": len(sequences),
+                "n_sequences_optimized": 0,
+                "best_energy": None,
+                "error": "All heuristic energy evaluations failed (possible MPS backend error)",
+            })
+            continue
         
         # Select top-k sequences by lowest heuristic energy
         top_indices = np.argsort(heuristic_energies)[:args.top_k]

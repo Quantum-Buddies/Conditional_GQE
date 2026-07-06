@@ -6,8 +6,8 @@
 #
 # Strategy:
 #   - Small molecules (≤24q): nvidia-mqpu, sequential, uses all 3 GPUs
-#   - Large molecules (>24q): tensornet-mps, run 2 in parallel (1 GPU each)
-#     40q molecules run sequentially with reduced bond dimension
+#   - Large molecules (>24q): tensornet-mps, run sequentially (1 GPU at a time)
+#     to avoid OOM on L40S 48GB. Bond dimension tuned per qubit count.
 #   - Skip already-completed molecules
 #
 # Usage: on a GPU node with 3 L40S GPUs:
@@ -27,7 +27,6 @@ RL_MODEL=${1:-results/train/h_cgqe_rl_warmstart.pt}
 SCALING_DIR=results/scaling_benchmark
 REPORT_OUT=$SCALING_DIR/scalability_report.json
 N_GPUS=${N_GPUS:-3}
-MPS_PARALLEL=${MPS_PARALLEL:-2}  # 2 MPS processes in parallel (avoid OOM)
 
 mkdir -p $SCALING_DIR
 
@@ -77,7 +76,7 @@ echo "=================================================="
 echo "GIC Scalability Benchmark"
 echo "  Model: $RL_MODEL"
 echo "  Molecules: ${#MOLECULES_SWEEP[@]} (4 → 40+ qubits)"
-echo "  Backends: nvidia-mqpu (≤24q) + tensornet-mps (>24q, ${MPS_PARALLEL} parallel)"
+echo "  Backends: nvidia-mqpu (≤24q) + tensornet-mps (>24q, sequential)"
 echo "  GPUs: ${N_GPUS}x L40S"
 echo "=================================================="
 
@@ -100,13 +99,22 @@ run_single_molecule() {
         local TOPK=5
         local NSAMP=50
         local MAXITER=150
-        # Set MPS bond dimension based on qubit count to control memory
+        # Set MPS bond dimension and params based on qubit count to control memory
         if [ $NQUBITS -ge 40 ]; then
             local MPS_BOND=32
+            TOPK=3
+            NSAMP=30
+            MAXITER=100
         elif [ $NQUBITS -ge 32 ]; then
             local MPS_BOND=48
+            TOPK=5
+            NSAMP=50
+            MAXITER=150
         else
             local MPS_BOND=64
+            TOPK=5
+            NSAMP=50
+            MAXITER=150
         fi
         local MPS_ENV="CUDAQ_MPS_MAX_BOND=$MPS_BOND"
     else
@@ -197,7 +205,7 @@ done
 # Phase 2: Large molecules (>24q) — 3 in parallel (1 GPU each)
 # =========================================================
 echo ""
-echo "=== Phase 2: Large molecules (tensornet-mps, ${MPS_PARALLEL} parallel) ==="
+echo "=== Phase 2: Large molecules (tensornet-mps, sequential) ==="
 
 # Collect MPS molecules that still need to run
 MPS_TODO=()
@@ -211,34 +219,16 @@ done
 if [ ${#MPS_TODO[@]} -eq 0 ]; then
     echo "  All MPS molecules already complete."
 else
-    echo "  ${#MPS_TODO[@]} molecules to run, ${MPS_PARALLEL} in parallel"
+    echo "  ${#MPS_TODO[@]} molecules to run, sequentially (1 GPU at a time)"
     
-    # Run in batches of MPS_PARALLEL
-    BATCH_IDX=0
-    while [ $BATCH_IDX -lt ${#MPS_TODO[@]} ]; do
+    # Run sequentially to avoid OOM
+    IDX=0
+    for entry in "${MPS_TODO[@]}"; do
+        IFS=':' read -r MOL NQUBITS DESC BACKEND <<< "$entry"
         echo ""
-        echo "  --- Batch starting at index $BATCH_IDX ---"
-        PIDS=()
-        
-        for GPU_ID in $(seq 0 $((MPS_PARALLEL - 1))); do
-            IDX=$((BATCH_IDX + GPU_ID))
-            if [ $IDX -ge ${#MPS_TODO[@]} ]; then
-                break
-            fi
-            IFS=':' read -r MOL NQUBITS DESC BACKEND <<< "${MPS_TODO[$IDX]}"
-            echo "  Launching $MOL on GPU $GPU_ID"
-            run_single_molecule "$MOL" "$NQUBITS" "$DESC" "$BACKEND" "$GPU_ID" &
-            PIDS+=($!)
-        done
-
-        # Wait for this batch to finish
-        echo "  Waiting for batch to complete..."
-        for PID in "${PIDS[@]}"; do
-            wait $PID
-        done
-        echo "  Batch complete."
-        
-        BATCH_IDX=$((BATCH_IDX + MPS_PARALLEL))
+        echo "  --- [$((IDX + 1))/${#MPS_TODO[@]}] $MOL on GPU 0 ---"
+        run_single_molecule "$MOL" "$NQUBITS" "$DESC" "$BACKEND" "0"
+        IDX=$((IDX + 1))
     done
 fi
 
