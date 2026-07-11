@@ -1,0 +1,86 @@
+[
+  {
+    "molecule": "h2_0.74",
+    "n_qubits": 4,
+    "n_sequences_evaluated": 50,
+    "n_sequences_optimized": 5,
+    "best_energy": -1.1167426830022862,
+    "best_operators": [
+      "YZYI"
+    ],
+    "best_thetas": [
+      0.004664296578962382
+    ],
+    "all_optimized_energies": [
+      -1.1167147883617572,
+      -1.1156235647786215,
+      -1.1152908300684097,
+      -1.115515375655164,
+      -1.1167426830022862
+    ]
+  },
+  {
+    "molecule": "lih_1.6_full",
+    "n_qubits": 12,
+    "n_sequences_evaluated": 50,
+    "n_sequences_optimized": 5,
+    "best_energy": -7.861666137948158,
+    "best_operators": [
+      "IXZYYZZZXIII"
+    ],
+    "best_thetas": [
+      -0.009546527254007224
+    ],
+    "all_optimized_energies": [
+      -7.861168087895369,
+      -7.861666137948158,
+      -7.861485376376419,
+      -7.860176077514794,
+      -7.860340352575029
+    ]
+  },
+  {
+    "molecule": "n2_1.1_full",
+    "n_qubits": 20,
+    "n_sequences_evaluated": 50,
+    "n_sequences_optimized": 5,
+    "best_energy": -107.49432124195792,
+    "best_operators": [
+      "IIIIIIIYZZZZXZZZXZZY",
+      "XZZZZXZZZZZZZZYZZZZY",
+      "IIIXZZZZZZYZZZZXZZZY"
+    ],
+    "best_thetas": [
+      -0.012969935390093598,
+      -0.007319889130489719,
+      -0.007892221779727296
+    ],
+    "all_optimized_energies": [
+      -107.49432124195792,
+      -107.45101411874053,
+      -107.4621920297278,
+      -107.47500467925998,
+      -107.35597550383709
+    ]
+  },
+  {
+    "molecule": "beh2_1.3_full",
+    "n_qubits": 14,
+    "n_sequences_evaluated": 50,
+    "n_sequences_optimized": 5,
+    "best_energy": -15.561200691149377,
+    "best_operators": [
+      "IIIXYZYZZXIIII"
+    ],
+    "best_thetas": [
+      -0.010210223334403525
+    ],
+    "all_optimized_energies": [
+      -15.560928512640196,
+      -15.559694047602678,
+      -15.561200691149377,
+      -15.559668358172624,
+      -15.553909829530317
+    ]
+  }
+]

@@ -53,4 +53,16 @@ proposals/*.pdf
 # HPC job logs
 jobs/*.out
 jobs/*.err
-results/logs/*.log
+results/logs/
+slurm-*.out
+slurm-*.err
+
+# Downloaded papers (not our content)
+*.pdf
+!proposals/cover_page_assets/**/*.png
+!results/plots/benchmark_*.png
+!results/plots_phase3/*.png
+
+# Scaling benchmark large outputs
+results/scaling_benchmark/**/*.npy
+results/scaling_benchmark/**/*.pt

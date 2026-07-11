@@ -418,8 +418,14 @@ def evaluate_energies_batch(
     operators_batch: list[list[str]],
     molecule_record: dict[str, Any],
     theta: float = 0.01,
+    execution=None,
 ) -> list[float]:
-    """Evaluate energies for a batch of operator sequences using CUDA-Q."""
+    """Evaluate energies for a batch of operator sequences using CUDA-Q.
+
+    Args:
+        execution: Optional cudaq.parallel execution mode (e.g. cudaq.parallel.thread)
+                   to distribute Hamiltonian terms across multiple GPUs.
+    """
     if cudaq is None:
         return [0.0] * len(operators_batch)
 
@@ -437,7 +443,12 @@ def evaluate_energies_batch(
         pauli_words = [cudaq.pauli_word(w) for w in padded]
         thetas = [theta] * len(pauli_words)
         try:
-            result = cudaq.observe(kernel, spin_ham, n_qubits, n_electrons, pauli_words, thetas)
+            if execution is not None:
+                result = cudaq.observe(kernel, spin_ham, n_qubits, n_electrons,
+                                       pauli_words, thetas, execution=execution)
+            else:
+                result = cudaq.observe(kernel, spin_ham, n_qubits, n_electrons,
+                                       pauli_words, thetas)
             energies.append(float(result.expectation()))
         except Exception as e:
             print(f"  CUDA-Q error: {e}")
@@ -590,6 +601,252 @@ def _words_commute(w1: str, w2: str) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# Chemeleon2-inspired batch-level rewards (Park & Walsh, Nat. Mach. Intell. 2026)
+# ---------------------------------------------------------------------------
+
+def _pauli_histogram_embedding(
+    operators: list[str],
+    vocab: dict[str, int],
+) -> np.ndarray:
+    """Embed a circuit as a normalized histogram over the operator vocabulary.
+
+    This gives a fixed-length vector representation suitable for kernel-based
+    distributional alignment (MMD) and diversity computation.
+    """
+    vec = np.zeros(len(vocab), dtype=np.float32)
+    for op in operators:
+        idx = vocab.get(op, -1)
+        if idx >= 0:
+            vec[idx] += 1.0
+    norm = np.linalg.norm(vec)
+    if norm > 0:
+        vec /= norm
+    return vec
+
+
+def _polynomial_kernel(x: np.ndarray, y: np.ndarray, degree: int = 2,
+                       constant: float = 1.0) -> np.ndarray:
+    """Polynomial kernel K(x,y) = (x^T y + c)^d."""
+    return (x @ y.T + constant) ** degree
+
+
+def compute_batch_diversity_mmd(
+    operator_lists: list[list[str]],
+    vocab: dict[str, int],
+    ref_operator_lists: list[list[str]] | None = None,
+    kernel_degree: int = 2,
+) -> np.ndarray:
+    """Leave-one-out MMD diversity reward for each circuit in the batch.
+
+    Following Chemeleon2 (Park & Walsh 2026), this computes the negative
+    unbiased MMD between the generated batch and a reference set, then
+    attributes credit to each sample via leave-one-out:
+
+        r̂(z_m) = MMD(X) - MMD(X \\ {z_m})
+
+    Samples that increase diversity get positive credit; redundant samples
+    get negative credit. This directly prevents mode collapse (their Fig. 2c
+    ablation shows severe collapse without this reward).
+
+    Args:
+        operator_lists: G circuits in the rollout group
+        vocab: operator vocabulary for histogram embedding
+        ref_operator_lists: reference set (e.g. from replay buffer). If None,
+            only within-batch diversity is computed.
+        kernel_degree: polynomial kernel degree
+
+    Returns:
+        (G,) array of per-circuit diversity rewards, normalized to [0, 1]
+    """
+    G = len(operator_lists)
+    if G == 0:
+        return np.array([])
+
+    # Embed all circuits
+    X_gen = np.stack([_pauli_histogram_embedding(ops, vocab) for ops in operator_lists])
+
+    # Reference embeddings (default: use the batch itself)
+    if ref_operator_lists and len(ref_operator_lists) > 0:
+        X_ref = np.stack([_pauli_histogram_embedding(ops, vocab) for ops in ref_operator_lists])
+    else:
+        X_ref = X_gen
+
+    N = X_ref.shape[0]
+
+    # Compute full MMD between batch and reference
+    K_gen_gen = _polynomial_kernel(X_gen, X_gen, kernel_degree)
+    K_ref_ref = _polynomial_kernel(X_ref, X_ref, kernel_degree)
+    K_gen_ref = _polynomial_kernel(X_gen, X_ref, kernel_degree)
+
+    # Unbiased MMD estimator: MMD^2 = 1/(G(G-1)) * sum_{i!=j} K(z_i,z_j)
+    #                             - 2/(G*N) * sum_{i,j} K(z_i, x_j)
+    #                             + 1/(N(N-1)) * sum_{i!=j} K(x_i, x_j)
+    # We use negative MMD as the reward (higher = more diverse)
+    if G > 1:
+        gen_term = (K_gen_gen.sum() - np.trace(K_gen_gen)) / (G * (G - 1))
+    else:
+        gen_term = 0.0
+    cross_term = K_gen_ref.mean()
+    if N > 1:
+        ref_term = (K_ref_ref.sum() - np.trace(K_ref_ref)) / (N * (N - 1))
+    else:
+        ref_term = 0.0
+    mmd_full = gen_term - 2 * cross_term + ref_term
+
+    # Leave-one-out: for each sample m, compute MMD without it
+    loo_rewards = np.zeros(G, dtype=np.float32)
+    for m in range(G):
+        mask = np.ones(G, dtype=bool)
+        mask[m] = False
+        X_loo = X_gen[mask]
+        G_loo = G - 1
+        if G_loo > 1:
+            K_loo_loo = _polynomial_kernel(X_loo, X_loo, kernel_degree)
+            gen_loo = (K_loo_loo.sum() - np.trace(K_loo_loo)) / (G_loo * (G_loo - 1))
+        else:
+            gen_loo = 0.0
+        K_loo_ref = _polynomial_kernel(X_loo, X_ref, kernel_degree)
+        cross_loo = K_loo_ref.mean()
+        mmd_loo = gen_loo - 2 * cross_loo + ref_term
+        # Marginal contribution: removing this sample changes MMD by:
+        loo_rewards[m] = mmd_full - mmd_loo
+
+    # Normalize to [0, 1] via min-max scaling
+    r_min, r_max = loo_rewards.min(), loo_rewards.max()
+    if r_max - r_min > 1e-10:
+        loo_rewards = (loo_rewards - r_min) / (r_max - r_min)
+    else:
+        loo_rewards = np.ones(G, dtype=np.float32) * 0.5
+
+    return loo_rewards
+
+
+def _normalized_edit_distance(ops1: list[str], ops2: list[str]) -> float:
+    """Normalized edit distance between two operator sequences (0=same, 1=disjoint)."""
+    if not ops1 and not ops2:
+        return 0.0
+    # Use set-based Jaccard distance as a fast proxy for edit distance
+    s1, s2 = set(ops1), set(ops2)
+    union = s1 | s2
+    if not union:
+        return 0.0
+    return 1.0 - len(s1 & s2) / len(union)
+
+
+def compute_creativity_batch(
+    operator_lists: list[list[str]],
+    seen_operators: set[tuple[str, ...]] | None = None,
+) -> np.ndarray:
+    """Creativity reward: uniqueness (in-batch) + novelty (vs reference set).
+
+    Following Chemeleon2's continuous formulation:
+    - 1.0 if circuit is both unique (in batch) and novel (vs reference)
+    - 0.0 if neither unique nor novel
+    - Otherwise: continuous Jaccard distance to nearest match (smooth gradient)
+
+    Args:
+        operator_lists: G circuits in the rollout group
+        seen_operators: set of frozen operator tuples from replay buffer / training data
+
+    Returns:
+        (G,) array of creativity rewards in [0, 1]
+    """
+    G = len(operator_lists)
+    rewards = np.zeros(G, dtype=np.float32)
+
+    # Convert to tuples for hashing
+    op_tuples = [tuple(ops) for ops in operator_lists]
+
+    for i in range(G):
+        ops_i = operator_lists[i]
+
+        # Uniqueness: is this circuit duplicated in the batch?
+        is_unique = sum(1 for j in range(G) if op_tuples[j] == op_tuples[i]) == 1
+
+        # Novelty: has this circuit been seen before?
+        is_novel = seen_operators is None or op_tuples[i] not in seen_operators
+
+        if is_unique and is_novel:
+            rewards[i] = 1.0
+        elif not is_unique and not is_novel:
+            rewards[i] = 0.0
+        else:
+            # Borderline: continuous distance to nearest match
+            min_dist = 1.0
+            # Check against batch duplicates
+            for j in range(G):
+                if j != i and op_tuples[j] == op_tuples[i]:
+                    dist = 0.0
+                else:
+                    dist = _normalized_edit_distance(ops_i, operator_lists[j])
+                min_dist = min(min_dist, dist)
+            # Check against seen set (sample a subset for efficiency)
+            if seen_operators:
+                seen_list = list(seen_operators)
+                for seen_ops in seen_list[-200:]:  # last 200 for efficiency
+                    dist = _normalized_edit_distance(ops_i, list(seen_ops))
+                    min_dist = min(min_dist, dist)
+            rewards[i] = 1.0 - min_dist  # invert: more different = higher reward
+
+    return rewards
+
+
+def compute_msun_metric(
+    energies: list[float],
+    operator_lists: list[list[str]],
+    hf_energy: float | None,
+    convergence_threshold: float = 0.1,
+) -> dict[str, Any]:
+    """mSUN-style metric for circuits: Metastable, Unique, Novel fraction.
+
+    Mirrors Chemeleon2's evaluation: a circuit is 'mSUN' if it:
+    1. Converges below HF energy + threshold (metastable analog)
+    2. Is unique within the batch
+    3. Is novel (not a trivial repeated single-operator circuit)
+
+    Args:
+        energies: list of circuit energies
+        operator_lists: corresponding operator sequences
+        hf_energy: Hartree-Fock reference energy
+        convergence_threshold: energy threshold above HF (in Hartree)
+
+    Returns:
+        Dict with mSUN fraction and component metrics
+    """
+    G = len(energies)
+    if G == 0:
+        return {"msun": 0.0, "converged": 0.0, "unique": 0.0, "novel": 0.0}
+
+    # Converged: energy below HF + threshold
+    if hf_energy is not None:
+        converged = [e < hf_energy + convergence_threshold for e in energies]
+    else:
+        converged = [True] * G  # no reference, assume converged
+
+    # Unique: non-duplicated in batch
+    op_tuples = [tuple(ops) for ops in operator_lists]
+    unique = [sum(1 for t in op_tuples if t == op_tuples[i]) == 1 for i in range(G)]
+
+    # Novel: not a trivial circuit (more than 1 unique operator, has entangling ops)
+    novel = []
+    for ops in operator_lists:
+        has_entangler = any("X" in w or "Y" in w for w in ops)
+        has_diversity = len(set(ops)) > 1
+        novel.append(has_entangler and has_diversity)
+
+    msun = sum(c and u and n for c, u, n in zip(converged, unique, novel))
+
+    return {
+        "msun": msun / G,
+        "converged": sum(converged) / G,
+        "unique": sum(unique) / G,
+        "novel": sum(novel) / G,
+        "n_total": G,
+        "n_msun": msun,
+    }
+
+
+# ---------------------------------------------------------------------------
 # DAPO Loss
 # ---------------------------------------------------------------------------
 
@@ -603,13 +860,23 @@ def dapo_loss(
     token_level: bool = True,
     entropy_coef: float = 0.0,
     logits: torch.Tensor | None = None,  # (G, seq_len, vocab_size) for entropy bonus
+    ref_log_probs: torch.Tensor | None = None,  # (G, seq_len) reference policy log-probs for KL
+    kl_coef: float = 0.0,            # β: KL penalty weight (Chemeleon2 uses 1.0)
 ) -> torch.Tensor:
-    """DAPO clipped surrogate loss with optional entropy regularization.
+    """DAPO clipped surrogate loss with KL regularization and entropy bonus.
 
-    Key differences from GRPO:
+    Following Chemeleon2 (Park & Walsh 2026), the total loss is:
+
+        L = L_clipped + β·KL[π_θ || π_ref] - γ·H(π_θ)
+
+    Key components:
     1. Clip-Higher: asymmetric clipping (clip_low < clip_high) prevents entropy collapse
     2. Token-Level Loss: averages over all tokens, not per-sequence
-    3. Entropy Bonus: encourages diverse sampling, prevents premature convergence
+    3. KL Penalty: anchors to pretrained reference policy, preserving valid-circuit grammar
+    4. Entropy Bonus: encourages diverse sampling, prevents premature convergence
+
+    The KL uses the k3 estimator (http://joschu.net/blog/kl-approx.html):
+        KL ≈ exp(Δ) - 1 - Δ, where Δ = log π_ref - log π_θ
     """
     # Importance sampling ratio
     ratio = torch.exp(log_probs_new - log_probs_old)  # (G, seq_len)
@@ -624,6 +891,15 @@ def dapo_loss(
 
     # Apply attention mask
     pg_losses = pg_losses * attention_mask
+
+    # KL divergence to reference policy (k3 estimator)
+    kl_loss = torch.tensor(0.0, device=log_probs_new.device)
+    if kl_coef > 0.0 and ref_log_probs is not None:
+        ref_log_probs = ref_log_probs.to(log_probs_new.device)
+        log_ratio = ref_log_probs - log_probs_new  # Δ = log π_ref - log π_θ
+        kl_per_token = torch.exp(log_ratio) - 1.0 - log_ratio  # k3 estimator
+        kl_per_token = kl_per_token * attention_mask
+        kl_loss = kl_coef * kl_per_token.sum() / attention_mask.sum().clamp_min(1.0)
 
     # Entropy bonus: encourage diverse sampling
     entropy_loss = torch.tensor(0.0, device=log_probs_new.device)
@@ -643,7 +919,7 @@ def dapo_loss(
         seq_losses = pg_losses.sum(dim=1) / attention_mask.sum(dim=1).clamp_min(1.0)
         pg_loss = seq_losses.mean()
 
-    return pg_loss + entropy_loss
+    return pg_loss + kl_loss + entropy_loss
 
 
 def compute_advantages(
@@ -842,6 +1118,8 @@ def main() -> None:
                         help="CUDA-Q target: nvidia (statevector), tensornet-mps (MPS for 40+ qubits)")
     parser.add_argument("--target-option", type=str, default="mqpu",
                         help="Target option: mqpu (multi-GPU pooling), mps (MPS backend)")
+    parser.add_argument("--single-gpu", action="store_true",
+                        help="Force single-GPU evaluation (avoids L40S PCIe IPC segfault with mqpu)")
     parser.add_argument("--theta", type=float, default=0.01, help="Fixed rotation angle for energy eval")
     parser.add_argument("--max-qubits", type=int, default=48,
                         help="Skip molecules with more qubits. Default 48 (MPS can handle 40+)")
@@ -860,6 +1138,25 @@ def main() -> None:
     # REPO-style advantage modification
     parser.add_argument("--repo-beta", type=float, default=0.05,
                         help="REPO advantage regularization coefficient (0=off, 0.05=mild entropy preservation)")
+    # Chemeleon2-inspired rewards (Park & Walsh, Nat. Mach. Intell. 2026)
+    parser.add_argument("--kl-coef", type=float, default=0.0,
+                        help="KL divergence penalty weight to reference policy (β). "
+                             "Chemeleon2 uses β=1.0 (strong anchoring to pretrained model). "
+                             "0=disabled (backward compatible).")
+    parser.add_argument("--w-creativity", type=float, default=0.0,
+                        help="Weight for creativity reward (uniqueness + novelty with continuous "
+                             "edit distance). Chemeleon2 uses w=1.0. 0=disabled.")
+    parser.add_argument("--w-mmd-diversity", type=float, default=0.0,
+                        help="Weight for leave-one-out MMD diversity reward. "
+                             "Chemeleon2's critical anti-mode-collapse component (Fig. 2c ablation). "
+                             "0=disabled, 0.5=recommended starting point.")
+    parser.add_argument("--chemeleon2-mode", action="store_true", default=False,
+                        help="Preset conservative Chemeleon2 hyperparameters: "
+                             "kl_coef=1.0, w_creativity=1.0, w_mmd_diversity=1.0, "
+                             "clip_low=0.001, clip_high=0.001, entropy_coef=1e-5, "
+                             "repo_beta=0.0. Overrides individual args if set.")
+    parser.add_argument("--msun-threshold", type=float, default=0.1,
+                        help="Energy convergence threshold for mSUN metric (in Hartree above HF)")
     # Curriculum learning
     parser.add_argument("--curriculum", action="store_true", default=True,
                         help="Enable curriculum learning: start with small molecules, gradually add larger ones")
@@ -868,6 +1165,22 @@ def main() -> None:
     parser.add_argument("--curriculum-steps", type=int, default=3,
                         help="Number of curriculum stages (molecules added in stages)")
     args = parser.parse_args()
+
+    # Apply Chemeleon2 preset (Park & Walsh 2026, conservative regime)
+    if args.chemeleon2_mode:
+        print("\n=== CHEMELEON2 MODE ENABLED (Park & Walsh, Nat. Mach. Intell. 2026) ===")
+        print("  Conservative regime: strong KL anchoring, MMD diversity, creativity reward")
+        args.kl_coef = 1.0
+        args.w_creativity = 1.0
+        args.w_mmd_diversity = 1.0
+        args.clip_low = 0.001
+        args.clip_high = 0.001
+        args.entropy_coef = 1e-5
+        args.repo_beta = 0.0
+        print(f"  kl_coef={args.kl_coef}, w_creativity={args.w_creativity}, "
+              f"w_mmd_diversity={args.w_mmd_diversity}")
+        print(f"  clip=[{args.clip_low}, {args.clip_high}], "
+              f"entropy_coef={args.entropy_coef}, repo_beta={args.repo_beta}")
 
     _seed_everything(args.seed)
 
@@ -956,6 +1269,21 @@ def main() -> None:
         n_params = sum(p.numel() for p in model.parameters())
         print(f"Model loaded: {n_params:,} parameters")
 
+    # Create frozen reference model for KL divergence (Chemeleon2 §Methods)
+    ref_model = None
+    if args.kl_coef > 0.0 and not args.from_scratch and args.checkpoint is not None:
+        import copy
+        ref_model = copy.deepcopy(model)
+        ref_model.to(device)
+        ref_model.eval()
+        for p in ref_model.parameters():
+            p.requires_grad = False
+        print(f"Reference model created (frozen, for KL divergence, β={args.kl_coef})")
+    elif args.kl_coef > 0.0 and (args.from_scratch or args.checkpoint is None):
+        print("WARNING: --kl-coef > 0 but no checkpoint loaded. KL penalty disabled "
+              "(reference model requires a pretrained checkpoint).")
+        args.kl_coef = 0.0
+
     is_dp = False
     if args.multi_gpu and torch.cuda.device_count() > 1:
         n_gpus = torch.cuda.device_count()
@@ -977,6 +1305,9 @@ def main() -> None:
 
     # Setup CUDA-Q
     n_gpus = torch.cuda.device_count() if torch.cuda.is_available() else 1
+    if args.single_gpu:
+        n_gpus = 1
+        print("Single-GPU mode forced (L40S PCIe IPC workaround)")
     if cudaq and args.target:
         try:
             if args.target == "nvidia" and args.target_option == "mqpu":
@@ -1099,6 +1430,7 @@ def main() -> None:
         epoch_losses = []
         epoch_skipped = 0
         epoch_sequences_generated = 0
+        epoch_msun_metrics: list[dict[str, Any]] = []
 
         for mol_data in active_molecules:
             mol_name = mol_data["name"]
@@ -1178,9 +1510,14 @@ def main() -> None:
                         theta=args.theta,
                     )
                 elif args.target == "nvidia" and args.target_option == "mqpu" and n_gpus > 1 and not use_mps:
-                    energies = evaluate_energies_parallel(
+                    # Use cudaq.parallel.thread to distribute Hamiltonian terms
+                    # across GPUs. Unlike observe_async(qpu_id=...), this uses
+                    # thread-based parallelism within a single observe() call,
+                    # avoiding the L40S PCIe IPC segfault.
+                    energies = evaluate_energies_batch(
                         operator_lists, mol_data["record"],
-                        theta=args.theta, n_gpus=n_gpus,
+                        theta=args.theta,
+                        execution=cudaq.parallel.thread,
                     )
                 else:
                     energies = evaluate_energies_batch(
@@ -1212,6 +1549,22 @@ def main() -> None:
                     for e, ops in zip(energies, operator_lists)
                 ])
 
+                # Chemeleon2 batch-level rewards: MMD diversity + creativity
+                if args.w_mmd_diversity > 0.0 and len(operator_lists) > 1:
+                    # Reference set from replay buffer (last 100 samples)
+                    ref_ops = [s["operators"] for s in list(replay_buffer.buffer)[-100:]]
+                    mmd_rewards = compute_batch_diversity_mmd(
+                        operator_lists, vocab,
+                        ref_operator_lists=ref_ops if ref_ops else None,
+                    )
+                    rewards = rewards + args.w_mmd_diversity * mmd_rewards
+
+                if args.w_creativity > 0.0 and len(operator_lists) > 1:
+                    # Build seen set from replay buffer for novelty check
+                    seen_set = {tuple(s["operators"]) for s in replay_buffer.buffer}
+                    creativity_rewards = compute_creativity_batch(operator_lists, seen_set)
+                    rewards = rewards + args.w_creativity * creativity_rewards
+
                 # --- Phase 4: Dynamic sampling check ---
                 if args.dynamic_sampling and rewards.std() < 1e-8:
                     print(f"  {mol_name}: std(rewards)={rewards.std():.2e}, "
@@ -1235,10 +1588,17 @@ def main() -> None:
                 attention_mask=attn_mask_for_adv,
             )
 
-            # Store in replay buffer
+            # Store in replay buffer (pad to max_seq_len for consistent stacking)
+            pad_id_rb = SPECIAL_TOKENS["<PAD>"]
             for i, (ops, e) in enumerate(zip(operator_lists, energies)):
+                seq = sequences[i]
+                lp = old_log_probs[i]
+                if seq.size(0) < args.max_seq_len:
+                    seq = F.pad(seq, (0, args.max_seq_len - seq.size(0)), value=pad_id_rb)
+                if lp.size(0) < args.max_seq_len - 1:
+                    lp = F.pad(lp, (0, args.max_seq_len - 1 - lp.size(0)), value=0.0)
                 replay_buffer.push(
-                    sequences[i], e, old_log_probs[i], mol_name, ops,
+                    seq, e, lp, mol_name, ops,
                 )
                 if e < best_energy_per_mol[mol_name]:
                     best_energy_per_mol[mol_name] = e
@@ -1246,6 +1606,14 @@ def main() -> None:
             epoch_energies.extend(energies)
             epoch_rewards.extend(rewards.tolist())
             epoch_sequences_generated += len(operator_lists)
+
+            # Compute mSUN metric (Chemeleon2-style: Metastable, Unique, Novel)
+            msun = compute_msun_metric(
+                list(energies), operator_lists, mol_data["hf_energy"],
+                convergence_threshold=args.msun_threshold,
+            )
+            msun["molecule"] = mol_name
+            epoch_msun_metrics.append(msun)
 
             # --- Phase 6: Compute DAPO loss and update (n_iters gradient steps) ---
             model.train()
@@ -1308,6 +1676,19 @@ def main() -> None:
                     iter_sequences.size(0), -1
                 ).to(device)
 
+                # Compute reference policy log-probs for KL divergence (Chemeleon2)
+                ref_log_probs = None
+                if ref_model is not None and args.kl_coef > 0.0:
+                    with torch.no_grad():
+                        ref_logits = ref_model(
+                            pauli_ids_batch, coeffs_batch, tgt_input,
+                            term_mask=term_mask_batch,
+                            tgt_key_padding_mask=(tgt_input == pad_id),
+                        )
+                        ref_log_probs = _compute_sequence_log_probs(
+                            ref_logits, tgt_labels, attention_mask,
+                        )
+
                 if scaler is not None:
                     with torch.amp.autocast('cuda', dtype=amp_dtype):
                         logits = model(
@@ -1325,6 +1706,8 @@ def main() -> None:
                             token_level=args.token_level_loss,
                             entropy_coef=args.entropy_coef,
                             logits=logits,
+                            ref_log_probs=ref_log_probs,
+                            kl_coef=args.kl_coef,
                         )
                     scaler.scale(loss).backward()
                     scaler.step(optimizer)
@@ -1346,6 +1729,8 @@ def main() -> None:
                             token_level=args.token_level_loss,
                             entropy_coef=args.entropy_coef,
                             logits=logits,
+                            ref_log_probs=ref_log_probs,
+                            kl_coef=args.kl_coef,
                         )
                     loss.backward()
                     optimizer.step()
@@ -1365,6 +1750,8 @@ def main() -> None:
                         token_level=args.token_level_loss,
                         entropy_coef=args.entropy_coef,
                         logits=logits,
+                        ref_log_probs=ref_log_probs,
+                        kl_coef=args.kl_coef,
                     )
                     loss.backward()
                     optimizer.step()
@@ -1404,6 +1791,15 @@ def main() -> None:
         mean_reward = np.mean(epoch_rewards) if epoch_rewards else 0.0
         mean_loss = np.mean(epoch_losses) if epoch_losses else 0.0
 
+        # Aggregate mSUN across all molecules this epoch
+        if epoch_msun_metrics:
+            mean_msun = np.mean([m["msun"] for m in epoch_msun_metrics])
+            mean_converged = np.mean([m["converged"] for m in epoch_msun_metrics])
+            mean_unique = np.mean([m["unique"] for m in epoch_msun_metrics])
+            mean_novel = np.mean([m["novel"] for m in epoch_msun_metrics])
+        else:
+            mean_msun = mean_converged = mean_unique = mean_novel = 0.0
+
         recent_entropy = np.mean(entropy_history[-10:]) if entropy_history else 0.0
         pbar.set_postfix_str(
             f"loss={mean_loss:.4f} "
@@ -1411,6 +1807,7 @@ def main() -> None:
             f"E_min={min_energy:.4f} "
             f"R={mean_reward:.4f} "
             f"H={recent_entropy:.2f} "
+            f"mSUN={mean_msun:.2f} "
             f"skip={epoch_skipped} "
             f"buf={len(replay_buffer)}"
         )
@@ -1426,6 +1823,11 @@ def main() -> None:
             "n_generated": epoch_sequences_generated,
             "buffer_size": len(replay_buffer),
             "best_energies": dict(best_energy_per_mol),
+            "msun": mean_msun,
+            "msun_converged": mean_converged,
+            "msun_unique": mean_unique,
+            "msun_novel": mean_novel,
+            "msun_per_mol": epoch_msun_metrics,
         })
 
         # Save best model
@@ -1461,6 +1863,15 @@ def main() -> None:
             err = abs(e - fci) * 1000  # mHa
             err_str = f"  err={err:.2f} mHa"
         print(f"  {mol_name}: E={e:.6f}  HF={hf_str}  FCI={fci_str}{err_str}")
+
+    # Final mSUN summary
+    if train_metrics_log:
+        final_msun = train_metrics_log[-1]
+        print(f"\nFinal mSUN metrics (last epoch):")
+        print(f"  mSUN={final_msun.get('msun', 0.0):.3f}  "
+              f"converged={final_msun.get('msun_converged', 0.0):.3f}  "
+              f"unique={final_msun.get('msun_unique', 0.0):.3f}  "
+              f"novel={final_msun.get('msun_novel', 0.0):.3f}")
 
     # Save metrics JSON
     metrics_path = args.out.parent / f"{args.out.stem}_rl_metrics.json"

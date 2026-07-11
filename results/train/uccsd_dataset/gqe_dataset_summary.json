@@ -1,0 +1,46 @@
+{
+  "molecules": [
+    "beh2_1.3_full",
+    "h2_0.74",
+    "h2o_1.0_631g_cas8",
+    "imeph_cas12",
+    "iodobenzene_cas12",
+    "lih_1.6_631g",
+    "lih_1.6_full",
+    "methyl_iodide_cas12",
+    "n2_1.1_631g_cas8",
+    "n2_1.1_full",
+    "phenol_cas12"
+  ],
+  "vocab_size": 149,
+  "n_samples": 121,
+  "n_original": 11,
+  "n_augmented": 110,
+  "augmentation": {
+    "multiplier": 10,
+    "coeff_noise": 0.05,
+    "subsample_ratio": 0.9
+  },
+  "max_terms": 128,
+  "max_pauli_len": 24,
+  "max_seq_len": 64,
+  "sample_shapes": {
+    "pauli_ids": [
+      121,
+      128,
+      24
+    ],
+    "coeffs": [
+      121,
+      128
+    ],
+    "term_mask": [
+      121,
+      128
+    ],
+    "tgt_tokens": [
+      121,
+      64
+    ]
+  }
+}

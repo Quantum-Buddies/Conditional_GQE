@@ -1,7 +1,7 @@
 ## Learned User Preferences
 - Prioritize short, planning-first phases before running or making substantive edits.
 - Use tqdm for progress in data generation, adaptive VQE, and supervised training loops.
-- Prefer `cudaq-env` conda environment for all CUDA-Q workloads.
+- Prefer `cudaq-env` conda environment for all CUDA-Q workloads on AIRE; use `environment-dgx-spark-cudaq.yml` for one-step DGX Spark CUDA-Q setup.
 - Keep `--max-qubits 24` for mgpu runs on L40S (cuStateVec distribution threshold is 25; distributed statevector segfaults on PCIe-only L40S due to broken CUDA IPC in Open MPI's smcuda BTL).
 - Use `nvidia-mqpu` backend for multi-GPU pooling (not `tensornet` with MPI — pip-installed CUDA-Q doesn't support MPI tensornet).
 - Use `nvidia` single-GPU backend for H-cGQE inference (RLQF model doesn't need MPI).
@@ -10,7 +10,8 @@
 
 ### Project structure
 - Project root: `/scratch/kcwp264/Conditional-GQE_materials`
-- Upstream GitHub: `Quantum-Buddies/Conditional-GQE_materials`
+- Upstream GitHub: `Quantum-Buddies/Conditional_GQE` (remote folder name `Conditional-GQE_materials`)
+- DGX Spark env manifests: `environment-dgx-spark.yml` (base stack), `environment-dgx-spark-cudaq.yml` (includes `cudaq-solvers[gqe]`)
 - Two-stage pipeline: (1) Autoregressive circuit synthesis via H-cGQE Transformer (GPT-2 style), (2) Classical L-BFGS-B optimization of rotation coefficients (thetas) parallelized across GPUs using CUDA-Q's `nvidia-mqpu` target.
 - Key files:
   - `src/gqe/baselines/run_cudaq_gqe.py` — CUDA-Q GQE baseline

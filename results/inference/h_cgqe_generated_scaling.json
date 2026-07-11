@@ -1,0 +1,10821 @@
+[
+  {
+    "molecule": "h2_0.74",
+    "n_terms": 15,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "IZIZ"
+        ]
+      }
+    ]
+  },
+  {
+    "molecule": "lih_1.6_full",
+    "n_terms": 631,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIZII",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIIZIIZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZZIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "YYXX",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "YYXX",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "ZZIIIIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIIIIIIIIIIZ",
+          "IIIIIIIZIIZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY",
+          "YXXY",
+          "ZIIZ",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIZII",
+          "IZIIIIZI",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY",
+          "YXXY",
+          "ZIIZ",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZZIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZIIIIZI",
+          "IZIIIZII",
+          "ZIIIIIII",
+          "IZII",
+          "IIIIIZIIIIIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY",
+          "YXXY",
+          "ZIIZ",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IIIIIZIIIIIZ",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      }
+    ]
+  },
+  {
+    "molecule": "n2_1.1_full",
+    "n_terms": 2951,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "YYXX"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY",
+          "YXXY",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY",
+          "YXXY",
+          "ZIIZ",
+          "XYYX",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY",
+          "YXXY",
+          "ZIIZ",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIIIIIZIIIIIII",
+          "XYYX",
+          "XXYY",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZI",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "XXYY",
+          "YXXY",
+          "ZIIZ",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IIZI",
+          "XXYY",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY",
+          "YXXY",
+          "ZIIZ",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY",
+          "YXXY",
+          "ZIIZ",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IIZZ",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY",
+          "YXXY",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY",
+          "YXXY",
+          "ZIIZ",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIIIIIZIIIIII"
+        ]
+      }
+    ]
+  },
+  {
+    "molecule": "beh2_1.3_full",
+    "n_terms": 666,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IIZZ"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZZIIIIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZZIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZZIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIIIIIZIIIIII"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIIZIIIIIIIIII",
+          "ZIIZIIIIIIIIII"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IIIIIZII",
+          "IZIIIZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZIIIZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "IZIIIIZI"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZZIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIIIIIIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIIIIIZIIIIII"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIIIIIIIIIIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "IZIIIIZI"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZZIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZIIIIIZIIIIII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      }
+    ]
+  },
+  {
+    "molecule": "iodobenzene_cas12",
+    "n_terms": 471,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "IZIZ"
+        ]
+      }
+    ]
+  },
+  {
+    "molecule": "methyl_iodide_cas12",
+    "n_terms": 923,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY",
+          "YXXY",
+          "ZIIZ",
+          "XYYX",
+          "IIZZ",
+          "IIIIIIIZIIZI",
+          "IIZZIIIIIIII",
+          "IIIIIIIZIIZI",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "ZIII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      }
+    ]
+  },
+  {
+    "molecule": "imeph_cas12",
+    "n_terms": 923,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "IZIIIIZI"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIIIIIIZ"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIIIZII"
+        ]
+      }
+    ]
+  },
+  {
+    "molecule": "phenol_cas12",
+    "n_terms": 923,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZZI"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZIIIIZI"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIZIIIIIZ"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IIZZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZIIIIZI",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IIZZ"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "IZII",
+          "IZZI",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "IZIIIIZI",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IIZZ"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ",
+          "IZZI"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIIIZIIZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IIIIZZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ",
+          "IZII",
+          "XYYX",
+          "XXYY"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IIZZ"
+        ]
+      }
+    ]
+  },
+  {
+    "molecule": "lih_1.6_631g",
+    "n_terms": 8758,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      }
+    ]
+  },
+  {
+    "molecule": "n2_1.1_631g_cas8",
+    "n_terms": 1177,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      }
+    ]
+  },
+  {
+    "molecule": "h2o_1.0_631g_cas8",
+    "n_terms": 3057,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "XYYX",
+          "ZIZI",
+          "ZZII",
+          "IIZZ",
+          "XXYY",
+          "YXXY",
+          "IIZZ",
+          "IIIZ",
+          "IZII",
+          "YYXX",
+          "ZIIZ",
+          "IZZI",
+          "IIIZ",
+          "IIZZ",
+          "IZII",
+          "IZZI",
+          "IIIZ",
+          "ZIII",
+          "YXXY"
+        ]
+      }
+    ]
+  }
+]

@@ -37,7 +37,10 @@ def _load_config(config_path: Path) -> dict[str, Any]:
 
 def _select_molecules(cfg: dict[str, Any], selected_name: str | None) -> list[dict[str, Any]]:
     dataset = cfg.get("dataset", {})
-    molecules = [dict(m) for m in dataset.get("molecules", [])]
+    if isinstance(dataset, list):
+        molecules = [dict(m) for m in dataset]
+    else:
+        molecules = [dict(m) for m in dataset.get("molecules", [])]
     if selected_name is None:
         return molecules
 
@@ -201,7 +204,11 @@ def generate_from_config(
 ) -> Path:
     cfg = _load_config(config_path)
     dataset = cfg.get("dataset", {})
-    fragment_plan_source = fragment_plan_value if fragment_plan_value is not None else dataset.get("fragment_plan")
+    if isinstance(dataset, list):
+        dataset_meta: dict[str, Any] = {}
+    else:
+        dataset_meta = dataset
+    fragment_plan_source = fragment_plan_value if fragment_plan_value is not None else dataset_meta.get("fragment_plan")
     fragment_plan = _normalize_fragment_plan(fragment_plan_source)
     molecules = _select_molecules(cfg, selected_name)
 
@@ -219,7 +226,7 @@ def generate_from_config(
             m["active_space"] = {**m.get("active_space", {}), **active_space_overrides}
         record = _generate_record(
             molecule=m,
-            dataset_defaults=dataset,
+            dataset_defaults=dataset_meta,
             fragment_plan=fragment_plan,
         )
         records.append(record)
