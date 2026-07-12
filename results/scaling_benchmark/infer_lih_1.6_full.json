@@ -1,0 +1,713 @@
+[
+  {
+    "molecule": "lih_1.6_full",
+    "n_terms": 631,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "IXYZZZZZZXZY"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII",
+          "IYYZZZZYZZZY"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII",
+          "IXZYZZYZZZXI"
+        ]
+      },
+      {
+        "sample_id": 50,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 51,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 52,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 53,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 54,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 55,
+        "operators": [
+          "IXZYYZZZXIII"
+        ]
+      },
+      {
+        "sample_id": 56,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 57,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 58,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 59,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII",
+          "IYYZZZZYZZZY",
+          "YZZYZZZZYZZY",
+          "IIXZYZZZZXYI",
+          "XZZZYZZYZZZX",
+          "IIIXXZZYZYII",
+          "IIIXZZZZZZZX"
+        ]
+      },
+      {
+        "sample_id": 60,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 61,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 62,
+        "operators": [
+          "IXZYYZZZXIII"
+        ]
+      },
+      {
+        "sample_id": 63,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 64,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 65,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 66,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 67,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 68,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII",
+          "IXZYZZYZZZXI"
+        ]
+      },
+      {
+        "sample_id": 69,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 70,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 71,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 72,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 73,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 74,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 75,
+        "operators": [
+          "IXZYYZZZXIII"
+        ]
+      },
+      {
+        "sample_id": 76,
+        "operators": [
+          "IXZYYZZZXIII"
+        ]
+      },
+      {
+        "sample_id": 77,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 78,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 79,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 80,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII",
+          "IIIXXZZZYYII"
+        ]
+      },
+      {
+        "sample_id": 81,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 82,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 83,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII",
+          "IXZYZZYZZZXI"
+        ]
+      },
+      {
+        "sample_id": 84,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 85,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 86,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 87,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 88,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 89,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 90,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 91,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 92,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 93,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 94,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 95,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 96,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 97,
+        "operators": [
+          "IXZYYZZZXIII"
+        ]
+      },
+      {
+        "sample_id": 98,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      },
+      {
+        "sample_id": 99,
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII"
+        ]
+      }
+    ]
+  }
+]

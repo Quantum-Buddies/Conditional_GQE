@@ -1,0 +1,1667 @@
+[
+  {
+    "molecule": "n2_1.1_full",
+    "n_terms": 2951,
+    "generated_sequences": [
+      {
+        "sample_id": 0,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 1,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IXZXZZZZZZYY"
+        ]
+      },
+      {
+        "sample_id": 2,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 3,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "XZZZZZXZYZZZZYII",
+          "IIIXZZYZZZZYZXII",
+          "IIIIIXYZZZZXYIII",
+          "YXZZZZZZYZZZXIII",
+          "IIIXZZYZZZZYZZXI",
+          "XZZZZXZZZXZZZZXI",
+          "YXZZZZZZZYZZZZXI",
+          "IIIIXXZZZZZYZZZY",
+          "IIYZXZZZZZZYZXII",
+          "XZZZYZZZYZZZZZZX",
+          "IXZZZZZYZXZZZZYI",
+          "IIIXZZZXYZYIIIII",
+          "IIXZZZZXXZZZZXII",
+          "IIYXZZZZYZXIIIII"
+        ]
+      },
+      {
+        "sample_id": 4,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIIIIIYZZZZXZZZXZZY",
+          "XZZZZXZZZZZZZZYZZZZY",
+          "IIIXZZZZZZYZZZZXZZZY",
+          "IIIXZZYZZZZYZXII",
+          "IIIIIIIYZYZZZZZZXZXI",
+          "IIIIIIIIIIXZZYZZYZZX",
+          "IIIIIIYZZZZZZXZZYXII",
+          "IIYZZZZZZZZYZZZZXZZX",
+          "IIIIIIIIIIIIXXZYYIII",
+          "XZZZZXZZZZZZZZYZZZZY",
+          "IIIXZZZZZZYZZZZXZZZY"
+        ]
+      },
+      {
+        "sample_id": 5,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 6,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII"
+        ]
+      },
+      {
+        "sample_id": 7,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IYYZZZZZZYZZZZYI",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIIIXXZZZZZYZZZY",
+          "IIYZXZZZZZZYZXII",
+          "XZZZYZZZYZZZZZZX",
+          "IXZZZZZYZXZZZZYI",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 8,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "XZZZYZXZZZZY",
+          "IIIXZZYZZZZYZZXI",
+          "XZZZZXZZZXZZZZXI",
+          "YXZZZZZZZYZZZZXI",
+          "IXZXZZZZZZYY"
+        ]
+      },
+      {
+        "sample_id": 9,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII"
+        ]
+      },
+      {
+        "sample_id": 10,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 11,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZZZXZYZZZZYII",
+          "IIIXZZYZZZZYZXII",
+          "IIIIIXYZZZZXYIII",
+          "YXZZZZZZYZZZXIII",
+          "IIIXZZYZZZZYZZXI",
+          "XZZZZXZZZXZZZZXI",
+          "YXZZZZZZZYZZZZXI",
+          "IYYZZZZZZYZZZZYI",
+          "YXZZZZZZZYZZZZXI",
+          "IIIIXXZZZZZYZZZY"
+        ]
+      },
+      {
+        "sample_id": 12,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 13,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIXZZYZZZZYZXII",
+          "XZZZZXZZZXZZZZXI",
+          "IIYXZZZZZYXI",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "IIIYZXZYXIIIII",
+          "IIIYXZZZZZYXII",
+          "IIYZZYZYZYIIII",
+          "XXZZZZZYZYII",
+          "IIIXXZZYZYII",
+          "XZZZYZZZYZZZZZZX",
+          "IXZZZZZYZXZZZZYI",
+          "IIIXZZZXYZYIIIII",
+          "IIXZZZZXXZZZZXII",
+          "IIYXZZZZYZXIIIII"
+        ]
+      },
+      {
+        "sample_id": 14,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 15,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII"
+        ]
+      },
+      {
+        "sample_id": 16,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 17,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI",
+          "XZZZZZZZZXIIII",
+          "XZYZZZZXZZYI",
+          "IIIIYZZZZZYI",
+          "IIIXZXZXZZZX",
+          "IXYZZZYZZZXI",
+          "IIXZZYZXYIII",
+          "IIIXZXZZZZXX",
+          "IYYZZZZYZZZY",
+          "YZZYZZZZYZZY",
+          "IIXZYZZZZXYI",
+          "IIIIIIIYZZZZXZZZXZZY",
+          "XZZZZXZZZZZZZZYZZZZY",
+          "IIIXZZZZZZYZZZZXZZZY",
+          "IXZYZZZZYXII",
+          "IIIXXZZZYYII",
+          "IIIXZXZXZZZX",
+          "IXZXZZZZZZYY"
+        ]
+      },
+      {
+        "sample_id": 18,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 19,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 20,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII"
+        ]
+      },
+      {
+        "sample_id": 21,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII"
+        ]
+      },
+      {
+        "sample_id": 22,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 23,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 24,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZXZZYYIIII",
+          "IIIIXYZZYZXI",
+          "IYYZZZZYZZZY",
+          "YZZYZZZZYZZY",
+          "IIXZYZZZZXYI",
+          "XZZZYZZYZZZX",
+          "IIIXXZZYZYII",
+          "IIIXZZZZZZZX",
+          "IIIIIIXZYZZZZZZZZYZX",
+          "YZYZZZZZZZZZZZZZZXXI",
+          "IIIXZZYZZZZYZZXI",
+          "XZZZZXZZZXZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 25,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIYXZZZZZYXII",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 26,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIYZXZYXIIIII",
+          "IIIYXZZZZZYXII",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII"
+        ]
+      },
+      {
+        "sample_id": 27,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 28,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "XZZZZXZZZXZZZZXI",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IYYZZZZZZYZZZZYI",
+          "IIIXXZZZYYII",
+          "IIIXZXZXZZZX",
+          "IXYZZZYZZZXI",
+          "IIXYZZZYZZZZXI",
+          "XZZZZZZZZXIIII"
+        ]
+      },
+      {
+        "sample_id": 29,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY"
+        ]
+      },
+      {
+        "sample_id": 30,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 31,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII"
+        ]
+      },
+      {
+        "sample_id": 32,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 33,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY"
+        ]
+      },
+      {
+        "sample_id": 34,
+        "operators": [
+          "IIIIIIIYZZZZXZZZXZZY",
+          "XZZZZXZZZZZZZZYZZZZY",
+          "IIIXZZZZZZYZZZZXZZZY",
+          "XZZZYZZYZZZX",
+          "IIIXXZZYZYII",
+          "IIIXZZZZZZZX",
+          "YXZZZZZZZXYI",
+          "IIIIXYZZYZXI",
+          "IXZYZZXYIIII",
+          "IIXZXZZZZZYY",
+          "IIXZYZZZZXYI",
+          "XZYZZZZXZZYI",
+          "IIIIYZZZZZYI",
+          "YZZZZYZXXIII",
+          "IXZXZZZZZZYY"
+        ]
+      },
+      {
+        "sample_id": 35,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 36,
+        "operators": [
+          "IIIIIIIYZZZZXZZZXZZY",
+          "XZZZZXZZZZZZZZYZZZZY"
+        ]
+      },
+      {
+        "sample_id": 37,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IYZZZZZZZXZZZZZXYIII",
+          "IIIXYZZZZZZZZZZYZZXI",
+          "IIYZXZZZZZZZZZZZXZYI",
+          "IIIIXZZZZZXZZZYZZZZY",
+          "IIIIIIXZYZZZZZZZZYZX",
+          "YZYZZZZZZZZZZZZZZXXI",
+          "IIIIIIIIIIIIXXZYYIII",
+          "IXZZZYXZYIII",
+          "IXZZYZZZZZXY",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IIIXZZYZZZZYZXII",
+          "IIIIIXYZZZZXYIII",
+          "YXZZZZZZYZZZXIII",
+          "IIIXZZYZZZZYZZXI",
+          "XZZZZXZZZXZZZZXI",
+          "YXZZZZZZZYZZZZXI",
+          "IIIIXXZZZZZYZZZY",
+          "IIIXZZZXYZYIIIII",
+          "IIXZZZZXXZZZZXII",
+          "IIYXZZZZYZXIIIII"
+        ]
+      },
+      {
+        "sample_id": 38,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "IIIYZXZYXIIIII",
+          "IIIIXZZZZZXZZZYZZZZY",
+          "XYZZXZZZYIII",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 39,
+        "operators": [
+          "IIIIIIIYZZZZXZZZXZZY",
+          "XZZZZXZZZZZZZZYZZZZY",
+          "IIIXZZZZZZYZZZZXZZZY",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "IYXZZZYZZZXI",
+          "XZZXZZZZZYZY",
+          "YXZZZZZZYZZZXIII",
+          "IIIXZZYZZZZYZZXI",
+          "XZZZZXZZZXZZZZXI",
+          "YXZZZZZZZYZZZZXI",
+          "IIIIXXZZZZZYZZZY",
+          "XZZXXXIIIIII",
+          "YZZYZZZZYZZY",
+          "IIIIIIYZZZZZZXZZYXII",
+          "IIYZZZZZZZZYZZZZXZZX",
+          "IIIIIIIIIIIIXXZYYIII"
+        ]
+      },
+      {
+        "sample_id": 40,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII"
+        ]
+      },
+      {
+        "sample_id": 41,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIXZYXZZYII",
+          "IIIXZZZZZZZX",
+          "YXZZZZZZZXYI",
+          "IIIIXYZZYZXI",
+          "IIIIIIIIXZZZZYZZXZYI",
+          "IIIIIIIIYZZXZZZYZXII",
+          "IIYZZZZZZZZYZZZZXZZX",
+          "IIIIIIIIIIIIXXZYYIII"
+        ]
+      },
+      {
+        "sample_id": 42,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIIIIIIIIIIXXZYYIII",
+          "IIIIIIIIIIIXZZZZXIII",
+          "IYZZZZZZZXZZZZZXYIII",
+          "IIIXYZZZZZZZZZZYZZXI",
+          "IIYZXZZZZZZZZZZZXZYI",
+          "IIIIXZZZZZXZZZYZZZZY",
+          "IIIIIIXZYZZZZZZZZYZX",
+          "XZZZZZXZYZZZZYII",
+          "IIIXZZYZZZZYZXII",
+          "XZXI",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 43,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IYYZZZZZZYZZZZYI",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "IYZZZYXXIIII"
+        ]
+      },
+      {
+        "sample_id": 44,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 45,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYYZZXZXIIIII",
+          "IIYXZZZZZYXI",
+          "IXZZZYXZZZZY",
+          "XZZZXZYZYIII",
+          "IIIXXZZYZYII",
+          "IIIXZZZZZZZX",
+          "YXZZZZZZZXYI",
+          "IIIIXYZZYZXI",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "IIIYZXZYXIIIII",
+          "IIIXZYXZZYII",
+          "IIIXZZZZZZZX",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 46,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 47,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 48,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 49,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII"
+        ]
+      },
+      {
+        "sample_id": 50,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY"
+        ]
+      },
+      {
+        "sample_id": 51,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IIIIIIYZZZZZZXZZYXII",
+          "IIYZZZZZZZZYZZZZXZZX",
+          "IIIIIIIIIIIIXXZYYIII",
+          "IIIIIIIIIIIXZZZZXIII",
+          "IYZZZZZZZXZZZZZXYIII",
+          "IIIXYZZZZZZZZZZYZZXI",
+          "IIYZXZZZZZZZZZZZXZYI",
+          "IIIIXZZZZZXZZZYZZZZY",
+          "IIIIIIXZYZZZZZZZZYZX",
+          "YZYZZZZZZZZZZZZZZXXI",
+          "IIIIIIIIIIIIXXZYYIII",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 52,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "XYZZXZZZYIII",
+          "XYYX",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 53,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 54,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 55,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII"
+        ]
+      },
+      {
+        "sample_id": 56,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIIXYZZYZXI",
+          "IXZYZZXYIIII",
+          "IIXZXZZZZZYY",
+          "IIXZYZZZZXYI",
+          "XZYZZZZXZZYI",
+          "IIIIYZZZZZYI",
+          "YZZZZYZXXIII",
+          "IXZXZZZZZZYY"
+        ]
+      },
+      {
+        "sample_id": 57,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIXZZYZZZZYZXII",
+          "YZXZZZZZYZZZXI",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "IIIYZXZYXIIIII",
+          "IIIYXZZZZZYXII",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 58,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 59,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "IIIYZXZYXIIIII",
+          "XZZZZZXZYZZZZYII",
+          "IIIXZZYZZZZYZXII",
+          "IIIIIXYZZZZXYIII",
+          "YXZZZZZZYZZZXIII",
+          "IIIXZZYZZZZYZZXI",
+          "XZZZZXZZZXZZZZXI",
+          "YXZZZZZZZYZZZZXI",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 60,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 61,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI",
+          "XYZZXZZZYIII",
+          "IIYYZZXZXIIIII",
+          "IIYZXZZZZZZYZXII",
+          "XZZZYZZZYZZZZZZX",
+          "IXZZZZZYZXZZZZYI",
+          "IIIXZZZXYZYIIIII",
+          "IIXXZZZXZZZX",
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "IIIYZXZYXIIIII",
+          "IIIYXZZZZZYXII",
+          "IYZZZZZZZXZZZZZXYIII",
+          "IIIXYZZZZZZZZZZYZZXI",
+          "IIYZXZZZZZZZZZZZXZYI",
+          "IIIIXZZZZZXZZZYZZZZY",
+          "IIIIIIXZYZZZZZZZZYZX",
+          "YZYZZZZZZZZZZZZZZXXI",
+          "IIIIIIIIIIIIXXZYYIII"
+        ]
+      },
+      {
+        "sample_id": 62,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIIXYZZYZXI"
+        ]
+      },
+      {
+        "sample_id": 63,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY"
+        ]
+      },
+      {
+        "sample_id": 64,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 65,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IYZZZZZZZXZZZZZXYIII",
+          "IIIXYZZZZZZZZZZYZZXI",
+          "IIYZXZZZZZZZZZZZXZYI",
+          "IIIIXZZZZZXZZZYZZZZY",
+          "IIIIIIXZYZZZZZZZZYZX",
+          "YZYZZZZZZZZZZZZZZXXI",
+          "IIIIIIIIIIIIXXZYYIII"
+        ]
+      },
+      {
+        "sample_id": 66,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "XZZZZZXZYZZZZYII",
+          "IIIXZZYZZZZYZXII",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "XZZZZZXZYZZZZYII",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 67,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIYXZZZZZYXII",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 68,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIIIIIYZZZZXZZZXZZY",
+          "XZZZZXZZZZZZZZYZZZZY",
+          "IIIXZZZZZZYZZZZXZZZY",
+          "IYYZZZZYZZZY",
+          "YZZYZZZZYZZY",
+          "IIXZYZZZZXYI",
+          "YZXZZZZZYZZZXI",
+          "IIIXZZYZZZZYZXII",
+          "IIIIYZZZZZYI",
+          "YZZZZYZXXIII",
+          "IXZXZZZZZZYY"
+        ]
+      },
+      {
+        "sample_id": 69,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY"
+        ]
+      },
+      {
+        "sample_id": 70,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 71,
+        "operators": [
+          "IIIIIIIYZZZZXZZZXZZY",
+          "XZZZZXZZZZZZZZYZZZZY",
+          "IIIXZZZZZZYZZZZXZZZY",
+          "IIYZZZZZZZZYZZZZXZZX",
+          "IIIIIIIIIIIIXXZYYIII",
+          "IIIIIIIIIIIXZZZZXIII",
+          "IYZZZZZZZXZZZZZXYIII",
+          "IIIXYZZZZZZZZZZYZZXI",
+          "IIYZXZZZZZZZZZZZXZYI",
+          "IIIIXZZZZZXZZZYZZZZY",
+          "IIIXXZZYZYII",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 72,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "XYZZXZZZYIII",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 73,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII"
+        ]
+      },
+      {
+        "sample_id": 74,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "XYZZXZZZYIII",
+          "XZZZYZZYZZZX",
+          "IIIXXZZYZYII",
+          "IIIXZZZZZZZX",
+          "YXZZZZZZZXYI",
+          "IIIIXYZZYZXI",
+          "IXZYZZXYIIII",
+          "IIXZXZZZZZYY",
+          "XZZZXZYZYIII",
+          "IIIXXZZYZYII",
+          "IIIXZZZZZZZX",
+          "IIIIYZZZZZYI",
+          "YZZZZYZXXIII",
+          "IXZXZZZZZZYY"
+        ]
+      },
+      {
+        "sample_id": 75,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "IIIIIIIIXZZZZYZZXZYI",
+          "IIIYXZZZZZYXII",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIIIXYZZYZXI"
+        ]
+      },
+      {
+        "sample_id": 76,
+        "operators": [
+          "IIIIIIIYZZZZXZZZXZZY",
+          "XZZZZXZZZZZZZZYZZZZY",
+          "IIIXZZZZZZYZZZZXZZZY"
+        ]
+      },
+      {
+        "sample_id": 77,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "XZZZZZXZYZZZZYII",
+          "IIIXZZYZZZZYZXII",
+          "IIIIIXYZZZZXYIII",
+          "YXZZZZZZYZZZXIII",
+          "IIIXZZYZZZZYZZXI",
+          "XZZZZXZZZXZZZZXI",
+          "YXZZZZZZZYZZZZXI",
+          "IIIIXXZZZZZYZZZY",
+          "IIIXZZZZZZYZZZZXZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 78,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "YXZZZZZZZXYI",
+          "IIIXZXZXZZZX",
+          "IIYZZZZZZZZYZZZZXZZX",
+          "IIIIIIIIIIIIXXZYYIII",
+          "IIIIIIIIIIIXZZZZXIII",
+          "IYZZZZZZZXZZZZZXYIII",
+          "IIIXYZZZZZZZZZZYZZXI",
+          "IIYZXZZZZZZZZZZZXZYI",
+          "IIIIXZZZZZXZZZYZZZZY",
+          "IIIIIIXZYZZZZZZZZYZX",
+          "YZZZZYZXXIII",
+          "IXZXZZZZZZYY"
+        ]
+      },
+      {
+        "sample_id": 79,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIIIIIIXZZZZYZZXZYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI",
+          "YZXZZZZZYZZZXI",
+          "IYYZZZZZZYZZZZYI",
+          "YXZZZZZZZYZZZZXI",
+          "IIIYZZZYIIIIII",
+          "IIIIIIIIIIXZZYZZYZZX"
+        ]
+      },
+      {
+        "sample_id": 80,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "IXYZZZYZZZXI",
+          "IYYZZZZZZYZZZZYI",
+          "YXZZZZZZZYZZZZXI",
+          "IIIIXXZZZZZYZZZY",
+          "IIYZXZZZZZZYZXII",
+          "IXZZZZZYZXZZZZYI",
+          "IIIXZZZXYZYIIIII",
+          "IIIIXXZZZZZYZZZY"
+        ]
+      },
+      {
+        "sample_id": 81,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZZZYZXZZZZY",
+          "IYZZZYXXIIII",
+          "IIXZZYZXYIII",
+          "IIIXZXZZZZXX",
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "IIIYZXZYXIIIII",
+          "IIIYXZZZZZYXII",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 82,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIIIIIYZZZZXZZZXZZY",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 83,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 84,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI",
+          "IXZXZZZZZZYY"
+        ]
+      },
+      {
+        "sample_id": 85,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IXZYZZZZYXII",
+          "IXZZXZZZZYYI",
+          "IIIXYZZZZZZZZZZYZZXI",
+          "IIYZXZZZZZZZZZZZXZYI",
+          "IIIIXZZZZZXZZZYZZZZY",
+          "IIIIIIXZYZZZZZZZZYZX",
+          "YZYZZZZZZZZZZZZZZXXI",
+          "IIIIIIIIIIIIXXZYYIII",
+          "XZZZYZYZXIIIII",
+          "IIIYZXZYXIIIII",
+          "IIIYXZZZZZYXII",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 86,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "YZXZZZZZYZZZXI",
+          "IIIXXZZYZYII",
+          "IIIXZZZZZZZX",
+          "YXZZZZZZZXYI",
+          "IIIIXYZZYZXI",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII"
+        ]
+      },
+      {
+        "sample_id": 87,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "IIYXZZZZZYXI",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 88,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "XZZZZZXZYZZZZYII",
+          "IIIXZZYZZZZYZXII",
+          "IIIIIXYZZZZXYIII",
+          "YXZZZZZZYZZZXIII",
+          "IIIXZZYZZZZYZZXI",
+          "XZZZZXZZZXZZZZXI",
+          "YXZZZZZZZYZZZZXI",
+          "XZXI",
+          "XXXX",
+          "IIXZYZZZZXYI"
+        ]
+      },
+      {
+        "sample_id": 89,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIYZXZYXIIIII",
+          "IIIYXZZZZZYXII",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "XZZZZZXZYZZZZYII",
+          "IIIXZZYZZZZYZXII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 90,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IXZZYZZZZZXY",
+          "IYZXZZZXZZZY",
+          "IIIIXYZZZZYX",
+          "IXZZXZZZZXZX",
+          "IIYXZZZZZYXI",
+          "IXZZZYXZZZZY",
+          "IIIXZZYZZZZYZXII",
+          "IIIIIXYZZZZXYIII",
+          "YXZZZZZZYZZZXIII",
+          "IIIXZZYZZZZYZZXI",
+          "XZZZZXZZZXZZZZXI",
+          "YXZZZZZZZYZZZZXI",
+          "IIIIXXZZZZZYZZZY",
+          "IIYZXZZZZZZYZXII",
+          "XZZZYZZZYZZZZZZX",
+          "IIIXZYXZZYII",
+          "IIIXZZZZZZZX"
+        ]
+      },
+      {
+        "sample_id": 91,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIXXZZYZYII",
+          "IIIXZZZZZZZX",
+          "IIIXZZYZZZZYZXII",
+          "IIIIIXYZZZZXYIII",
+          "YXZZZZZZYZZZXIII",
+          "IIIXZZYZZZZYZZXI",
+          "XZZZZXZZZXZZZZXI",
+          "IIIXZZYZZZZYZXII",
+          "IIXZXZZZZZYY",
+          "IIXZYZZZZXYI"
+        ]
+      },
+      {
+        "sample_id": 92,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 93,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 94,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 95,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "IIIYZXZYXIIIII",
+          "XZZZYZZZYZZZZZZX",
+          "IXZZZZZYZXZZZZYI",
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIIIIIIXZZZZYZZXZYI",
+          "IXZZXZZZZYYI",
+          "XZZXZZYYIIII"
+        ]
+      },
+      {
+        "sample_id": 96,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IYYZZZZYZZZY",
+          "IIIYXZZZZZYXII",
+          "IIYZZYZYZYIIII",
+          "IIIYZZZYIIIIII",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 97,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII"
+        ]
+      },
+      {
+        "sample_id": 98,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "IYYZZZZYZZZY",
+          "YZZYZZZZYZZY",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIIXYZZZZZZZZZZYZZXI",
+          "IIYZXZZZZZZZZZZZXZYI",
+          "XZZZZXZZZZZZZZYZZZZY",
+          "IIIXZZZZZZYZZZZXZZZY",
+          "IIIIIIIIIIIIXXZYYIII",
+          "IIIIIIIIIIIXZZZZXIII",
+          "IYZZZZZZZXZZZZZXYIII",
+          "IIIXYZZZZZZZZZZYZZXI",
+          "IXZXZZZZZZYY",
+          "YZXZZZZZYZZZXI",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIYZZYZZYZZZYI",
+          "IXZZZXZYZYIIII",
+          "IIIIXXZZZZZYYI",
+          "IXZZZXZZZYZZZY",
+          "IIXZZYYZZXIIII",
+          "YZZZYZYZZZZZZY",
+          "IIXYZZZYZZZZXI"
+        ]
+      },
+      {
+        "sample_id": 99,
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY"
+        ]
+      }
+    ]
+  }
+]
