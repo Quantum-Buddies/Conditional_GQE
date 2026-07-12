@@ -1,0 +1,6 @@
+*.pth filter=lfs diff=lfs merge=lfs -text
+*.pt filter=lfs diff=lfs merge=lfs -text
+results/data/hamiltonians_40plus.json/** filter=lfs diff=lfs merge=lfs -text
+results/data/hamiltonians_scaling.json/** filter=lfs diff=lfs merge=lfs -text
+results/scaling_benchmark/**/*.npy filter=lfs diff=lfs merge=lfs -text
+results/scaling_benchmark/**/*.pt filter=lfs diff=lfs merge=lfs -text
