@@ -114,6 +114,28 @@ bash scripts/run_hpc_qbraid_workflow.sh --qpu-retrieve
 
 ---
 
+## 5b. Alternative: CUDA-Q Native Target Execution
+
+If you prefer to bypass Qiskit circuit translation and run CUDA-Q kernels natively on the remote QPU:
+1. Ensure `cudaq` is installed in your active environment.
+2. In your python script, set the target device:
+   ```python
+   import cudaq
+   cudaq.set_target("qbraid", machine="aws:rigetti:qpu:cepheus-1-108q")
+   # Your standard cudaq kernel execution remains unchanged:
+   # energy = cudaq.observe(kernel, hamiltonian, *args).expectation()
+   ```
+
+For C++ programs, compile with the `--target` flag:
+```bash
+nvq++ --target qbraid --qbraid-machine "aws:rigetti:qpu:cepheus-1-108q" kernel.cpp -o kernel
+export QBRAID_API_KEY="your_api_key"
+./kernel
+```
+*Note: Ensure `QBRAID_API_KEY` is exported in the environment where the binary runs.*
+
+---
+
 ## 6. Simulator Validation (Zero-Credit Verification)
 
 For judge verification, we provide a validation script that runs all generated/aligned circuits on qBraid's free simulator target (`qbraid:qbraid:sim:qir-sv` - up to 30 qubits):

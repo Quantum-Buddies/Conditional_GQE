@@ -56,9 +56,18 @@ def main() -> None:
         default=2000,
         help="Number of simulator shots per term (default: 2000)"
     )
+    parser.add_argument(
+        "--molecule",
+        type=str,
+        default=None,
+        help="Specific molecule to validate (default: None, validate all)"
+    )
     args = parser.parse_args()
 
     # Verify input paths
+    args.hamiltonians = args.hamiltonians.resolve()
+    args.optimized = args.optimized.resolve()
+    args.out = args.out.resolve()
     if not args.hamiltonians.exists():
         sys.exit(f"Error: Hamiltonians file not found at {args.hamiltonians}")
     if not args.optimized.exists():
@@ -85,6 +94,11 @@ def main() -> None:
         entries = optimized_data["results"]
     else:
         sys.exit("Error: Invalid optimized data format (expected list of results).")
+
+    if args.molecule:
+        entries = [e for e in entries if e.get("molecule") == args.molecule]
+        if not entries:
+            sys.exit(f"Error: Molecule '{args.molecule}' not found in optimized results.")
 
     print(f"Loaded {len(entries)} molecules for validation.")
 

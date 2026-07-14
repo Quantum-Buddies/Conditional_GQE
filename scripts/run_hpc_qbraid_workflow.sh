@@ -18,12 +18,35 @@ PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 RESULTS_DIR="${PROJECT_ROOT}/results"
 EVAL_DIR="${RESULTS_DIR}/eval"
 
-PYTHON="${CONDA_PREFIX:-/usr}/bin/python"
+PYTHON="/scratch/kcwp264/.conda_envs/cudaq-env/bin/python"
+if [ ! -f "${PYTHON}" ]; then
+    PYTHON="${CONDA_PREFIX:-/usr}/bin/python"
+fi
 
-# Targets and paths
+# Targets and paths (with dynamic fallbacks)
 HAMILTONIANS="${RESULTS_DIR}/data/hamiltonians_scaling.json/hamiltonians.json"
+if [ ! -f "${HAMILTONIANS}" ]; then
+    HAMILTONIANS="${RESULTS_DIR}/data/hamiltonians_gic2026/hamiltonians.json"
+fi
+if [ ! -f "${HAMILTONIANS}" ]; then
+    HAMILTONIANS="${RESULTS_DIR}/data/hamiltonians.json"
+fi
+
 GENERATED="${RESULTS_DIR}/inference/h_cgqe_uccsd_inference.json"
+if [ ! -f "${GENERATED}" ]; then
+    GENERATED="${RESULTS_DIR}/inference/h_cgqe_generated.json"
+fi
+if [ ! -f "${GENERATED}" ]; then
+    GENERATED="${RESULTS_DIR}/inference/h_cgqe_inference.json"
+fi
+
 OPTIMIZED="${RESULTS_DIR}/eval/h_cgqe_uccsd_optimized.json"
+if [ ! -f "${OPTIMIZED}" ]; then
+    OPTIMIZED="${RESULTS_DIR}/eval/h_cgqe_optimized.json"
+fi
+if [ ! -f "${OPTIMIZED}" ]; then
+    OPTIMIZED="${RESULTS_DIR}/eval/h_cgqe_optimized_scaling.json"
+fi
 
 DEVICE="aws:rigetti:qpu:cepheus-1-108q"
 SHOTS=1024
@@ -71,7 +94,7 @@ qpu_submit() {
     fi
 
     # Retrieve molecules evaluated in optimized file
-    MOLECULES=$(python -c "
+    MOLECULES=$("${PYTHON}" -c "
 import json
 with open('${OPTIMIZED}') as f:
     data = json.load(f)
@@ -85,7 +108,7 @@ print(' '.join(mols))
         OUT_FILE="${EVAL_DIR}/qbraid_qpu_${mol}.json"
         
         # Submit asynchronously via our upgraded backend
-        python "${PROJECT_ROOT}/src/gqe/eval/qbraid_backend.py" \
+        "${PYTHON}" "${PROJECT_ROOT}/src/gqe/eval/qbraid_backend.py" \
             --hamiltonians "${HAMILTONIANS}" \
             --generated "${GENERATED}" \
             --optimized "${OPTIMIZED}" \
@@ -116,7 +139,7 @@ qpu_status_or_retrieve() {
         out_path="${EVAL_DIR}/${out_name}"
 
         if [ "${MODE}" = "status" ]; then
-            python -c "
+            "${PYTHON}" -c "
 import json, sys
 from qbraid.runtime import load_job
 with open('${meta}') as f:
@@ -127,7 +150,7 @@ for jid in data['job_ids']:
 "
         else:
             echo "Attempting retrieval for ${mol}..."
-            python "${PROJECT_ROOT}/src/gqe/eval/qbraid_backend.py" \
+            "${PYTHON}" "${PROJECT_ROOT}/src/gqe/eval/qbraid_backend.py" \
                 --retrieve "${meta}" \
                 --out "${out_path}"
         fi

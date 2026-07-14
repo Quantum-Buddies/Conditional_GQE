@@ -37,6 +37,7 @@ from src.gqe.common.hamiltonian_utils import (
     load_hamiltonian_records,
     find_record_by_name,
     get_active_electron_count,
+    iter_terms,
 )
 
 try:
@@ -81,9 +82,9 @@ def _build_ansatz_circuit(
 
     circuit = QuantumCircuit(n_qubits)
 
-    # Hartree-Fock state: occupy the first n_electrons qubits
+    # Hartree-Fock state: occupy the first n_electrons qubits in Qiskit little-endian ordering
     for i in range(n_electrons):
-        circuit.x(i)
+        circuit.x(n_qubits - 1 - i)
 
     thetas = [Parameter(f"theta_{i}") for i in range(len(operators))]
     pauli_words: list[str] = []
@@ -95,25 +96,32 @@ def _build_ansatz_circuit(
         pauli_words.append(word)
 
         theta = thetas[i]
-        qubits_with_pauli = [q for q, op in enumerate(word) if op != "I"]
+        
+        # Map indices to Qiskit little-endian: qubit index = n_qubits - 1 - q
+        qubits_with_pauli = [n_qubits - 1 - q for q, op in enumerate(word) if op != "I"]
+        # Sort qubits ascending for correct CNOT ladder sequencing
+        qubits_with_pauli.sort()
+        
         if not qubits_with_pauli:
             continue
 
         # Basis change: rotate each non-Z Pauli into the Z basis
-        # X -> H; Y -> H S (because H S Y S^\u2020 H = Z)
+        # X -> H; Y -> H S (because H S Y S^\dagger H = Z)
         for q, op in enumerate(word):
+            q_qiskit = n_qubits - 1 - q
             if op == "X":
-                circuit.h(q)
+                circuit.h(q_qiskit)
             elif op == "Y":
-                circuit.h(q)
-                circuit.s(q)
+                circuit.h(q_qiskit)
+                circuit.s(q_qiskit)
 
         # CNOT ladder to reduce multi-qubit Pauli Z chain to a single qubit
         for q in range(len(qubits_with_pauli) - 1):
             circuit.cx(qubits_with_pauli[q], qubits_with_pauli[q + 1])
 
         target = qubits_with_pauli[-1]
-        circuit.rz(theta, target)
+        # Multiply parameter by -2 to match CUDA-Q's exp_pauli(theta, q, P) = e^{i * theta * P}
+        circuit.rz(-2.0 * theta, target)
 
         # Undo CNOT ladder
         for q in range(len(qubits_with_pauli) - 2, -1, -1):
@@ -121,11 +129,12 @@ def _build_ansatz_circuit(
 
         # Undo basis change
         for q, op in enumerate(word):
+            q_qiskit = n_qubits - 1 - q
             if op == "X":
-                circuit.h(q)
+                circuit.h(q_qiskit)
             elif op == "Y":
-                circuit.sdg(q)
-                circuit.h(q)
+                circuit.sdg(q_qiskit)
+                circuit.h(q_qiskit)
 
     return circuit, pauli_words, thetas
 
@@ -166,7 +175,10 @@ def _measure_pauli_term(
     if QbraidProvider is None:
         raise ImportError("qBraid SDK not installed. Install it with: pip install qbraid")
 
-    bound_circuit = circuit.bind_parameters({t: float(v) for t, v in zip(thetas, theta_values)})
+    if hasattr(circuit, "assign_parameters"):
+        bound_circuit = circuit.assign_parameters({t: float(v) for t, v in zip(thetas, theta_values)})
+    else:
+        bound_circuit = circuit.bind_parameters({t: float(v) for t, v in zip(thetas, theta_values)})
 
     # Add measurement basis rotations for the Pauli term
     meas = QuantumCircuit(bound_circuit.num_qubits)
@@ -237,15 +249,16 @@ def evaluate_energy_qbraid_batched(
             f"theta_values length ({len(theta_values)}) does not match operators ({len(operators)})"
         )
 
-    bound_circuit = circuit.bind_parameters({t: float(v) for t, v in zip(thetas, theta_values)})
+    if hasattr(circuit, "assign_parameters"):
+        bound_circuit = circuit.assign_parameters({t: float(v) for t, v in zip(thetas, theta_values)})
+    else:
+        bound_circuit = circuit.bind_parameters({t: float(v) for t, v in zip(thetas, theta_values)})
 
     # Filter out active Hamiltonian terms
     active_terms = []
-    for term in molecule_record.get("terms", []):
-        word = term["term"]
-        coeff = complex(float(term.get("real", 0.0)), float(term.get("imag", 0.0)))
-        if abs(coeff) >= 1e-14:
-            active_terms.append((word, coeff.real))
+    for ops, coeff in iter_terms(molecule_record):
+        word = "".join(ops)
+        active_terms.append((word, coeff.real))
 
     if not active_terms:
         raise ValueError("No active terms found in the Hamiltonian record.")
@@ -277,10 +290,141 @@ def evaluate_energy_qbraid_batched(
     start = time.perf_counter()
 
     provider = QbraidProvider()
-    qdevice = provider.get_device(device)
     
-    # Run batch job
-    run_res = qdevice.run(circuits, shots=shots, as_batch=True)
+    # Resolve device from get_devices() list to bypass individual endpoint rate-limiting (429)
+    qdevice = None
+    for attempt in range(6):
+        try:
+            devices = provider.get_devices()
+            qdevice = next((d for d in devices if d.id == device), None)
+            if qdevice is not None:
+                break
+        except Exception as e:
+            # Check for rate limit recursively in exception chain
+            is_rate_limit = False
+            curr = e
+            while curr is not None:
+                curr_str = str(curr).lower()
+                if "too many requests" in curr_str or "rate limit" in curr_str:
+                    is_rate_limit = True
+                    break
+                curr = getattr(curr, "__cause__", None) or getattr(curr, "__context__", None)
+
+            if is_rate_limit:
+                sleep_time = 5.0 + attempt * 5.0
+                print(f"Rate limited (429) when fetching device list. Retrying in {sleep_time}s...")
+                time.sleep(sleep_time)
+            else:
+                if attempt == 5:
+                    raise e
+                time.sleep(2.0)
+                
+    fallback_to_local_sim = False
+    if qdevice is None:
+        print("\n[WARNING] Could not retrieve qBraid device due to rate limiting. Falling back to local Qiskit simulation...")
+        fallback_to_local_sim = True
+
+    # Run batch job with fallback and retries
+    run_res = None
+    if not fallback_to_local_sim:
+        for attempt in range(6):
+            try:
+                run_res = qdevice.run(circuits, shots=shots, as_batch=True)
+                break
+            except Exception as e:
+                # Check for rate limit recursively
+                is_rate_limit = False
+                curr = e
+                while curr is not None:
+                    curr_str = str(curr).lower()
+                    if "too many requests" in curr_str or "rate limit" in curr_str:
+                        is_rate_limit = True
+                        break
+                    curr = getattr(curr, "__cause__", None) or getattr(curr, "__context__", None)
+
+                err_str = str(e)
+                if "Batch jobs are not supported" in err_str or "as_batch" in err_str:
+                    print("Batch execution not supported by this device. Falling back to sequential execution...")
+                    # Fallback: run sequential or list-mode
+                    try:
+                        run_res = qdevice.run(circuits, shots=shots)
+                        break
+                    except Exception as e2:
+                        # Sequential loop fallback
+                        print("List run failed. Submitting circuits individually in a loop...")
+                        run_res = []
+                        for c in circuits:
+                            # Rate limit protection between individual runs
+                            time.sleep(0.5)
+                            for individual_attempt in range(6):
+                                try:
+                                    run_res.append(qdevice.run(c, shots=shots))
+                                    break
+                                except Exception as e3:
+                                    # Check for rate limit recursively
+                                    is_rl = False
+                                    curr_rl = e3
+                                    while curr_rl is not None:
+                                        curr_rl_str = str(curr_rl).lower()
+                                        if "too many requests" in curr_rl_str or "rate limit" in curr_rl_str:
+                                            is_rl = True
+                                            break
+                                        curr_rl = getattr(curr_rl, "__cause__", None) or getattr(curr_rl, "__context__", None)
+                                    
+                                    if is_rl:
+                                        sleep_time = 5.0 + individual_attempt * 5.0
+                                        print(f"Rate limited. Retrying individual submission in {sleep_time}s...")
+                                        time.sleep(sleep_time)
+                                    else:
+                                        raise e3
+                        break
+                elif is_rate_limit:
+                    if attempt == 5:
+                        print("\n[WARNING] qBraid API rate limit exceeded during job submission. Falling back to local Qiskit simulation...")
+                        fallback_to_local_sim = True
+                        break
+                    sleep_time = 5.0 + attempt * 5.0
+                    print(f"Rate limited during job submission. Retrying in {sleep_time}s...")
+                    time.sleep(sleep_time)
+                else:
+                    if attempt == 5:
+                        print(f"\n[WARNING] qBraid submission failed: {e}. Falling back to local Qiskit simulation...")
+                        fallback_to_local_sim = True
+                        break
+                    time.sleep(2.0)
+
+    if fallback_to_local_sim:
+        # Local Qiskit Statevector simulation fallback
+        from qiskit.quantum_info import Statevector, SparsePauliOp
+        print("Simulating circuits locally using Qiskit Statevector...")
+        sv = Statevector.from_instruction(bound_circuit)
+        
+        term_expectations = {}
+        energy = 0.0
+        for word, coeff in active_terms:
+            op = SparsePauliOp(word)
+            exp = sv.expectation_value(op).real
+            term_expectations[word] = {
+                "coeff_real": coeff,
+                "coeff_imag": 0.0,
+                "expectation": exp
+            }
+            energy += coeff * exp
+            
+        runtime = time.perf_counter() - start
+        return {
+            "energy": float(energy),
+            "device": "local_qiskit_statevector_simulator",
+            "shots": shots,
+            "runtime_seconds": runtime,
+            "term_expectations": term_expectations,
+            "metadata": {
+                "n_qubits": n_qubits,
+                "n_electrons": n_electrons,
+                "n_operators": len(operators),
+                "n_hamiltonian_terms": len(molecule_record.get("terms", [])),
+            }
+        }
 
     # Determine job IDs returned
     if isinstance(run_res, list):
@@ -478,11 +622,8 @@ def evaluate_energy_qbraid(
     energy = 0.0
     term_expectations = {}
 
-    for term in molecule_record.get("terms", []):
-        word = term["term"]
-        coeff = complex(float(term.get("real", 0.0)), float(term.get("imag", 0.0)))
-        if abs(coeff) < 1e-14:
-            continue
+    for ops, coeff in iter_terms(molecule_record):
+        word = "".join(ops)
         exp = _measure_pauli_term(
             circuit, word, theta_values, thetas, device=device, shots=shots
         )

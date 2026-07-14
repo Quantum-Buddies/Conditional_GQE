@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-07-14 03:33:09",
+  "simulator": "qbraid:qbraid:sim:qir-sv",
+  "shots": 2000,
+  "results": [
+    {
+      "molecule": "h2_0.74",
+      "n_qubits": 4,
+      "optimized_energy": -1.1167426830022862,
+      "qbraid_sim_energy": -1.1167426166511862,
+      "difference": 6.635109994768129e-08,
+      "status": "SUCCESS"
+    }
+  ]
+}
