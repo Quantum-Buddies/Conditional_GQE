@@ -1,0 +1,69 @@
+# Phase 3 Final — Experiment 1: Controlled AI-vs-ansatz benchmark
+# Molecule: Methyl iodide (CH3I) active space
+# Compare: H-cGQE vs hardware-efficient VQE vs UCCSD/ADAPT-derived GQE baseline
+# All methods use the SAME active space, Hamiltonian, seed, and optimization budget.
+
+experiment:
+  name: "phase3_benchmark_ch3i"
+  seed: 42
+  description: >
+    Controlled comparison of three ansatz generation methods on CH3I
+    active space (4 electrons, 4 orbitals, 8 qubits). All methods share
+    the same Hamiltonian, initialization, coefficient-optimization budget,
+    and backend constraints.
+
+molecule:
+  name: "methyl_iodide"
+  geometry: "I-CH3"
+  basis: "sto-3g"
+  charge: 0
+  multiplicity: 1
+  active_electrons: 4
+  active_spatial_orbitals: 4
+  n_qubits: 8
+  hamiltonian_source: "results/data/hamiltonians_phase3.json/hamiltonians.json"
+
+methods:
+  h_cgqe:
+    checkpoint: "results/train/h_cgqe_model_phase3.pt"
+    n_samples: 100
+    temperature: 1.0
+    force_entanglement: true
+    freq_penalty: 1.0
+    max_repeat: 4
+    max_seq_len: 128
+    coefficient_optimization:
+      method: "L-BFGS-B"
+      max_iter: 200
+      top_k: 10
+
+  hardware_efficient_vqe:
+    reps: 3
+    maxiter: 200
+    method: "COBYLA"
+    target: "nvidia"
+
+  gqe_baseline:
+    max_iters: 25
+    ngates: 10
+    pool: "uccsd"
+    scale_factors: [0.003125, -0.003125, 0.00625, -0.00625, 0.0125, -0.0125, 0.025, -0.025, 0.05, -0.05, 0.1, -0.1]
+    target: "nvidia"
+
+backend:
+  target: "nvidia"
+  target_option: "mqpu"
+  max_qubits: 24
+
+report_metrics:
+  - ideal_energy_error_mha
+  - sequence_length
+  - logical_depth
+  - transpiled_depth
+  - two_qubit_gate_count
+  - num_energy_evaluations
+  - optimization_runtime_seconds
+
+output:
+  dir: "results/phase3_final/baselines"
+  prefix: "benchmark_ch3i"

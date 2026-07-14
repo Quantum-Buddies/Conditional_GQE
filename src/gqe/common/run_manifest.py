@@ -168,3 +168,54 @@ def attach_manifest_to_result(
     """Attach a run manifest to a result dict under the 'run_manifest' key."""
     result["run_manifest"] = manifest
     return result
+
+
+def create_result_entry(
+    *,
+    molecule: str,
+    geometry: str = "",
+    basis: str = "sto-3g",
+    active_electrons: int | None = None,
+    active_spatial_orbitals: int | None = None,
+    qubits: int = 0,
+    backend: str = "",
+    device_id: str = "",
+    shots: int = 0,
+    seed: int = 42,
+    logical_depth: int = 0,
+    transpiled_depth: int = 0,
+    two_qubit_gates: int = 0,
+    energy_hartree: float = 0.0,
+    reference_energy_hartree: float = 0.0,
+    error_mha: float = 0.0,
+    wall_time_seconds: float = 0.0,
+    status: str = "completed",
+    extra: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Create a standardized result entry with all required Phase 3 fields.
+
+    Every result JSON in results/phase3_final/ must use this schema.
+    """
+    entry: dict[str, Any] = {
+        "molecule": molecule,
+        "geometry": geometry,
+        "basis": basis,
+        "active_electrons": active_electrons,
+        "active_spatial_orbitals": active_spatial_orbitals,
+        "qubits": qubits,
+        "backend": backend,
+        "device_id": device_id,
+        "shots": shots,
+        "seed": seed,
+        "logical_depth": logical_depth,
+        "transpiled_depth": transpiled_depth,
+        "two_qubit_gates": two_qubit_gates,
+        "energy_hartree": energy_hartree,
+        "reference_energy_hartree": reference_energy_hartree,
+        "error_mha": error_mha,
+        "wall_time_seconds": wall_time_seconds,
+        "status": status,
+    }
+    if extra:
+        entry.update(extra)
+    return entry
