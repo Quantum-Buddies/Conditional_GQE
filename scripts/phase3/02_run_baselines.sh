@@ -20,9 +20,9 @@ $PY src/gqe/baselines/run_cudaq_vqe.py \
     --ham "$HAM" \
     --out "$OUT_DIR/benchmark_ch3i_he_vqe.json" \
     --target nvidia \
-    --molecules methyl_iodide \
+    --molecule methyl_iodide \
     --maxiter 200 \
-    --reps 3
+    --ansatz-reps 3
 
 # CUDA-Q GQE baseline (UCCSD pool)
 echo ""
@@ -34,7 +34,7 @@ $PY src/gqe/baselines/run_cudaq_gqe.py \
     --max-qubits 24 \
     --max-iters 25 \
     --ngates 10 \
-    --molecules methyl_iodide
+    --molecule methyl_iodide
 
 echo ""
 echo "=== Baselines complete ==="

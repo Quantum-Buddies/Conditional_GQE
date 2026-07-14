@@ -1,0 +1,13 @@
+{
+  "parent_reference_energy": -7190.356334261206,
+  "exact_fmo2_energy": -7190.356334261206,
+  "hcgqe_fmo2_energy": -7190.330082382299,
+  "dE_solver_mha": 26.25187890680536,
+  "dE_fragmentation_mha": 0.0,
+  "dE_total_mha": 26.25187890680536,
+  "interpretation": {
+    "solver_error": "H-cGQE vs exact within fragments: 26.252 mHa",
+    "fragmentation_error": "FMO2 decomposition vs parent: 0.000 mHa",
+    "total_error": "H-cGQE FMO2 vs parent reference: 26.252 mHa"
+  }
+}

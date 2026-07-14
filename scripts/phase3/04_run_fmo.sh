@@ -39,7 +39,7 @@ echo "[4c] H-cGQE simulator FMO2..."
 $PY src/gqe/eval/run_fmo2.py \
     --fragments "$FRAG_HAM" \
     --method hcgqe \
-    --checkpoint results/train/h_cgqe_model_phase3.pt \
+    --checkpoint results/train/h_cgqe_model_rlqf_phase3.pt \
     --out "$OUT_DIR/fmo2_hcgqe.json" \
     --target nvidia --target-option mqpu
 

@@ -8,7 +8,7 @@ export LD_LIBRARY_PATH=/mnt/scratch/kcwp264/.conda_envs/cudaq-env/lib:$LD_LIBRAR
 cd /scratch/kcwp264/Conditional-GQE_materials
 
 HAM=results/data/hamiltonians_phase3.json/hamiltonians.json
-CKPT=results/train/h_cgqe_model_phase3.pt
+CKPT=results/train/h_cgqe_model_rlqf_phase3.pt
 OUT_DIR=results/phase3_final/hcgqe
 mkdir -p "$OUT_DIR"
 
@@ -25,7 +25,7 @@ $PY src/gqe/models/infer_h_cgqe.py \
     --sample \
     --use-cuda \
     --max-pauli-len 24 \
-    --max-seq-len 128 \
+    --max-seq-len 64 \
     --temperature 1.0 \
     --force-entanglement \
     --freq-penalty 1.0 \
