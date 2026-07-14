@@ -9,6 +9,7 @@
     <a href="https://pytorch.org/"><img src="https://img.shields.io/badge/PyTorch-2.6%2B-red.svg" alt="PyTorch"></a>
     <a href="https://nvidia.github.io/cuda-quantum/"><img src="https://img.shields.io/badge/CUDA--Q-0.8%2B-green.svg" alt="CUDA-Q"></a>
     <a href="https://github.com/Quantum-Buddies/Conditional_GQE"><img src="https://img.shields.io/badge/GIC-Phase%203-purple.svg" alt="GIC Phase 3"></a>
+    <a href="https://arxiv.org/abs/2511.07158"><img src="https://img.shields.io/badge/Chemeleon2-inspired-orange.svg" alt="Chemeleon2-inspired"></a>
   </p>
 </p>
 
@@ -18,9 +19,10 @@
 
 **Conditional-GQE** is a research framework that uses a **Transformer-based autoregressive model** to generate quantum circuits for molecular energy estimation. Instead of running expensive variational loops on quantum hardware (VQE/ADAPT-VQE), our model learns to map a molecular Hamiltonian directly to a sequence of Pauli rotation operators that form a quantum eigensolver ansatz.
 
-The system trains in two stages:
+The system trains in three stages:
 1. **Pure RL from scratch** — DAPO-based reinforcement learning with no supervised pretraining. The model discovers quantum circuit strategies from energy rewards alone, building its own vocabulary from the UCCSD operator pool (arXiv:2502.19402 shows RL from scratch outperforms SFT-then-RL)
-2. **Classical coefficient optimization** — L-BFGS-B rotation angle refinement on GPU
+2. **Post-training** — Iterative RAFT (STaR loop) + model soup + off-policy GRPO sample reuse, following DeepSeek-R1 and Chemeleon2 (Park & Walsh, Nat. Mach. Intell. 2026)
+3. **Classical coefficient optimization** — L-BFGS-B rotation angle refinement on GPU
 
 > **Why no supervised pretraining?** Research shows SFT memorizes patterns while RL discovers general strategies (arXiv:2502.19402). SFT-then-RL coupling causes irreversible degradation (arXiv:2601.07389). Our previous supervised pipeline taught the model to mimic GQE baselines that suffered diagonal collapse — the opposite of what we want.
 
@@ -40,15 +42,17 @@ The system trains in two stages:
 
 ### The Breakthrough: Breaking Diagonal Sequence Collapse
 
-In Phase 2, the model suffered from **diagonal sequence collapse** — it generated only commuting Z-only operators (e.g., `IZII`, `ZIZI`), getting trapped at the Hartree-Fock energy with zero gradients. We resolved this through a **5-layer defense** against entropy collapse:
+In Phase 2, the model suffered from **diagonal sequence collapse** — it generated only commuting Z-only operators (e.g., `IZII`, `ZIZI`), getting trapped at the Hartree-Fock energy with zero gradients. We resolved this through a **7-layer defense** against entropy collapse:
 
 1. **UCCSD operator pool** — All operators come from fermionic excitation operators mapped through Jordan-Wigner. Every operator contains X/Y components — Z-only collapse is impossible by construction
 2. **BF16 mixed precision** — FP16's 5 exponent bits cause multiplicative bias in softmax gradients that systematically reduces entropy. BF16 (8 exponent bits) eliminates this (arXiv:2603.11682)
 3. **Distribution mixing** (ε-exploration) — Mixes sampling distribution with uniform distribution (ε=0.3) to enforce a hard entropy floor
 4. **REPO advantages** — Regulated Entropy Policy Optimization modifies advantages with a centered log-prob penalty, penalizing deterministic samples and boosting diverse ones (arXiv:2603.11682)
 5. **Curriculum learning** — Train on small molecules (4 qubits) first, gradually add larger ones over 30-epoch warmup stages
+6. **Chemeleon2-inspired rewards** (Park & Walsh, Nat. Mach. Intell. 2026, arXiv:2511.07158) — Multi-objective reward with leave-one-out MMD diversity, creativity (uniqueness + novelty via edit distance), and KL penalty to reference policy (k3 estimator). Prevents mode collapse to a single circuit pattern
+7. **Entropy bonus** — Explicit entropy term in DAPO loss (`-γ·H(π_θ)`) encourages diverse sampling, preventing premature convergence to deterministic policies
 
-Additional exploration measures: top-p (nucleus) sampling, adaptive temperature scheduling, entropy bonus in DAPO loss, and adaptive ε decay.
+Additional exploration measures: top-p (nucleus) sampling, adaptive temperature scheduling, and adaptive ε decay.
 
 The model now generates **entangling operators** like `XYYX`, `YXXY`, `XXYY` — creating superpositions between the HF determinant and excited determinants.
 
@@ -79,18 +83,21 @@ The model now generates **entangling operators** like `XYYX`, `YXXY`, `XXYY` —
 │  │   └─────────┘   └───────────┘   └──────────┘   └────┬────┘ │      │
 │  │                                                   │        │      │
 │  │   ┌──────────────────────────────────────────────┐ │        │      │
-│  │   │  Entropy collapse prevention (5 layers):     │ │        │      │
+│  │   │  Entropy collapse prevention (7 layers):     │ │        │      │
 │  │   │  1. BF16 mixed precision                     │ │        │      │
 │  │   │  2. Distribution mixing (ε=0.3)              │ │        │      │
 │  │   │  3. Top-p sampling + adaptive temperature    │ │        │      │
 │  │   │  4. REPO advantage modification              │ │        │      │
 │  │   │  5. Curriculum learning (small mols first)   │ │        │      │
+│  │   │  6. Chemeleon2: MMD diversity + creativity   │ │        │      │
+│  │   │  7. Entropy bonus + KL penalty to ref policy │ │        │      │
 │  │   └──────────────────────────────────────────────┘ │        │      │
 │  │                                                   ▼        │      │
 │  │   ┌──────────┐     ┌────────────┐     ┌──────────────┐   │      │
 │  │   │  CUDA-Q  │────▶│  Energy    │────▶│  DAPO Loss   │   │      │
 │  │   │  Simulate│     │  <ψ|H|ψ>   │     │  + REPO + H  │   │      │
-│  │   │  (MQPU)  │     │            │     │  bonus       │   │      │
+│  │   │  (MQPU)  │     │            │     │  + KL + MMD  │   │      │
+│  │   │          │     │            │     │  + Creativity│   │      │
 │  │   └──────────┘     └────────────┘     └──────┬───────┘   │      │
 │  │        ↑                                      │           │      │
 │  │        └────── policy update ←────────────────┘           │      │
@@ -151,6 +158,7 @@ Prefix tokens: [BOS] [MOL]
 ┌──────────────────────────────────────────────────────────────┐
 │         DAPO: Decoupled Clip + Dynamic Sampling              │
 │         Pure RL from Scratch (no supervised pretraining)     │
+│         + Chemeleon2-inspired multi-objective rewards        │
 │                                                              │
 │   ┌──────────┐     ┌────────────┐     ┌──────────────┐      │
 │   │  Sample  │────▶│  CUDA-Q    │────▶│  Multi-comp  │      │
@@ -159,7 +167,9 @@ Prefix tokens: [BOS] [MOL]
 │   │  (top-p, │     │            │     │    + w₂·ent  │      │
 │   │   ε-mix) │     │            │     │    + w₃·depth│      │
 │   └──────────┘     └────────────┘     │    + w₄·comm │      │
-│        ↑                               └──────┬───────┘      │
+│        ↑                               │    + w₅·MMD │      │
+│        │                               │    + w₆·cre │      │
+│        │                               └──────┬───────┘      │
 │        │                                      │              │
 │        │                                      ▼              │
 │   ┌────┴──────────┐                ┌──────────────────────┐  │
@@ -167,10 +177,18 @@ Prefix tokens: [BOS] [MOL]
 │   │  Clip-Higher  │   A_REPO =     │  A = (R - R̄)/σ       │  │
 │   │  Token-Level  │   A - β·L̄     │    - β·(L_i - L̄_grp) │  │
 │   │  + H bonus    │                └──────────────────────┘  │
-│   └───────────────┘                                           │
+│   │  + KL penalty │                                            │
+│   │  + Off-policy │   Off-policy GRPO (arXiv:2505.22257):    │
+│   │    μ-reuse    │   reuse each batch μ times with IS       │
+│   └───────────────┘   correction → μ× cheaper simulation     │
+│                                                              │
+│   Chemeleon2 mode (--chemeleon2-mode):                       │
+│     KL=1.0, creativity=1.0, MMD=1.0, clip=0.001              │
+│     Conservative regime — strong anchoring to ref policy     │
 │                                                              │
 │   Entropy floor: ε-exploration (0.3) + top-p (0.9)          │
 │   + adaptive temp + REPO (β=0.05) + curriculum (3 stages)  │
+│   + entropy bonus (γ) + KL to ref (β)                       │
 │   Mixed precision: BF16 (not FP16 — avoids softmax bias)    │
 └──────────────────────────────────────────────────────────────┘
 ```
@@ -190,7 +208,8 @@ Conditional_GQE/
 │   │   └── fragmentation.py            # Fragment plan execution
 │   ├── models/
 │   │   ├── h_cgqe_transformer.py       # GPT-2 style Transformer (31.7M params)
-│   │   ├── train_rl_dapo.py            # Stage 1: Pure RL from scratch (DAPO + REPO)
+│   │   ├── train_rl_dapo.py            # Stage 1: Pure RL from scratch (DAPO + REPO + Chemeleon2)
+│   │   ├── model_soup.py               # Weight averaging across RAFT rounds (Wortsman et al. 2022)
 │   │   ├── train_h_cgqe.py             # Legacy: Supervised pretraining (optional)
 │   │   ├── infer_h_cgqe.py             # Autoregressive circuit synthesis
 │   │   ├── chemistry_encoder.py        # Graph neural network conditioning
@@ -210,10 +229,15 @@ Conditional_GQE/
 │       └── operator_pool.py            # UCCSD fermionic excitation pool (no Z-only collapse)
 ├── configs/
 │   ├── experiment_phase3.yaml          # Phase 3 molecule set (17 molecules)
+│   ├── experiment_scaling_gic2026.yaml # GIC 2026 scaling config (20-24 qubit molecules)
+│   ├── experiment_scaling_b200.yaml    # B200/H200 scaling config (26-40 qubit molecules)
 │   └── experiment.yaml                 # Phase 2 configuration
 ├── scripts/
 │   ├── run_full_benchmark.sh           # End-to-end benchmark pipeline
 │   ├── run_multigpu_workflow.sh        # Multi-GPU H-cGQE workflow
+│   ├── run_iterative_raft.sh           # STaR loop: iterative RAFT + model soup
+│   ├── run_qbraid_scaling.sh           # qBraid B200/H200 scaling pipeline
+│   ├── train_post_alignment.py         # RAFT (rejection sampling fine-tuning)
 │   └── run_h_cgqe_qbraid.sh           # QBraid cloud execution
 ├── results/                            # Evaluation outputs (JSON summaries)
 ├── proposals/                          # Generated PDF reports
@@ -332,6 +356,134 @@ bash scripts/run_multigpu_workflow.sh
 
 ---
 
+## Post-Training Methods
+
+Following DeepSeek-R1, Google Gemini, and NVIDIA's post-training scaling laws, we implement four post-training techniques adapted for quantum circuit generation:
+
+### Iterative RAFT (STaR Loop)
+
+Self-Taught Reasoner (STaR) / DeepSeek-R1 Stage 2 approach: each RAFT round produces a better model that generates higher-quality candidates for the next round, creating a self-improvement loop.
+
+```bash
+bash scripts/run_iterative_raft.sh \
+    --rounds 3 \
+    --checkpoint results/train/h_cgqe_rl_from_scratch.pt \
+    --n-samples 100 --top-k 10 \
+    --adaptive-n --use-cuda
+```
+
+Each round: sample N circuits → optimize (L-BFGS-B) → filter top-k → SFT → next round. Temperature decays 0.9× per round for progressive exploitation.
+
+### Model Soup
+
+Weight averaging across RAFT rounds (Wortsman et al., ICML 2022). Free performance boost with no extra inference cost:
+
+```bash
+python src/gqe/models/model_soup.py \
+    --checkpoints results/train/h_cgqe_raft_round_1.pt \
+                  results/train/h_cgqe_raft_round_2.pt \
+                  results/train/h_cgqe_raft_round_3.pt \
+    --out results/train/h_cgqe_star_soup.pt
+```
+
+Supports **uniform averaging** (default) and **greedy soup** (add checkpoint only if it improves validation energy).
+
+### Off-Policy GRPO (μ-Reuse)
+
+Reuses each rollout batch for μ gradient steps with importance sampling correction (arXiv:2505.22257). Cuts CUDA-Q simulation cost by μ× without degrading quality:
+
+```bash
+python src/gqe/models/train_rl_dapo.py \
+    --reuse-iters 3 \
+    --target nvidia --target-option mqpu \
+    --use-cuda --use-bf16 \
+    ...
+```
+
+The `dapo_loss` function's importance sampling ratio `exp(log_probs_new - log_probs_old)` automatically corrects for policy drift across reuse iterations.
+
+### Adaptive Test-Time Compute
+
+Following Snell et al. 2024 (Google DeepMind), allocates more samples to harder molecules (4× more efficient than uniform Best-of-N):
+
+```bash
+python scripts/train_post_alignment.py \
+    --adaptive-n-samples \
+    --n-samples 50 \
+    ...
+```
+
+Scaling: `N_effective = N_base × max(1, n_qubits ÷ 4)`. H₂ (4q) gets 50 samples, N₂ (20q) gets 250, benzene (32q) gets 400.
+
+### Chemeleon2-Inspired Rewards
+
+Following Park & Walsh (Nat. Mach. Intell. 2026, arXiv:2511.07158), we implement multi-objective rewards for diverse and novel circuit generation:
+
+| Reward | Flag | Weight | Purpose |
+|---|---|---|---|
+| **KL penalty** | `--kl-coef β` | 0.0–1.0 | Anchors to pretrained reference policy (k3 estimator) |
+| **Entropy bonus** | `--entropy-coef γ` | 0.0–0.01 | Encourages diverse sampling, prevents premature convergence |
+| **MMD diversity** | `--w-mmd-diversity w₅` | 0.0–1.0 | Leave-one-out Maximum Mean Discrepancy — anti-mode-collapse |
+| **Creativity** | `--w-creativity w₆` | 0.0–1.0 | Uniqueness + novelty via continuous edit distance |
+| **Chemeleon2 preset** | `--chemeleon2-mode` | — | Conservative regime: KL=1.0, creativity=1.0, MMD=1.0, clip=0.001 |
+
+```bash
+python src/gqe/models/train_rl_dapo.py \
+    --chemeleon2-mode \
+    --kl-coef 1.0 --w-creativity 1.0 --w-mmd-diversity 1.0 \
+    --entropy-coef 1e-5 \
+    ...
+```
+
+---
+
+## B200/H200 Large-Qubit Scaling
+
+The AIRE L40S cluster is capped at 24 qubits due to PCIe IPC segfault in CUDA-Q's distributed statevector mode. qBraid's B200 (192GB) and H200 (141GB) instances have proper NVLink interconnects, enabling 26-40 qubit simulations.
+
+### Instance Comparison
+
+| Instance | GPU | VRAM | Credits/Hr | Max Qubits (SV) | Max Qubits (MPS) |
+|---|---|---|---|---|---|
+| `gpu-l40s` | L40S | 48 GB | 228 | 24* | 40+ |
+| `gpu-gh200` | Grace Hopper | 96 GB | 287 | 28 | 50+ |
+| `gpu-h200` | H200 | 141 GB | 549 | 30 | 60+ |
+| `gpu-b200` | B200 | 192 GB | 874 | 32 | 60+ |
+| `gpu-b200-4x` | 4× B200 | 768 GB | 3,395 | 36 | 80+ |
+
+*L40S 24-qubit limit is due to PCIe IPC, not VRAM.
+
+### Scaling Config
+
+`configs/experiment_scaling_b200.yaml` defines molecules across 4 qubit tiers:
+
+| Tier | Qubits | Examples | L40S? | H200? | B200? |
+|---|---|---|---|---|---|
+| Small | 4-12 | H₂, LiH | ✅ | ✅ | ✅ |
+| Medium | 12-24 | BeH₂, N₂ | ✅ | ✅ | ✅ |
+| Large | 24-32 | N₂/6-31g, H₂O/6-31g, ethylene/6-31g | ❌ | ✅ | ✅ |
+| XL | 32-40 | benzene/CAS12, methanol/6-31g, acetylene/CAS14 | ❌ | ✅ (MPS) | ✅ |
+
+### Running the Full Scaling Pipeline on qBraid
+
+```bash
+# On qBraid H200 (recommended — best cost/performance for 28-32 qubit range)
+bash scripts/run_qbraid_scaling.sh --stage all --instance gpu-h200
+
+# On qBraid B200 (for 32-36 qubit statevector)
+bash scripts/run_qbraid_scaling.sh --stage all --instance gpu-b200
+
+# Only run RAFT post-training on existing checkpoint
+bash scripts/run_qbraid_scaling.sh --stage raft --instance gpu-h200
+
+# Only validate on free simulator (zero credits)
+bash scripts/run_qbraid_scaling.sh --stage validate
+```
+
+See [`docs/QBRAID_INTEGRATION.md`](docs/QBRAID_INTEGRATION.md) for full details including credit budget estimates.
+
+---
+
 ## EUV Lithography Application
 
 This work targets **EUV photoresist chemistry** — the halogenated aromatic molecules used in 13.5 nm extreme ultraviolet lithography. Key molecules:
@@ -432,7 +584,7 @@ zip -r Ryoushi_Quantum_Buddies_Challenge_Phase3.zip \
   title = {Conditional-GQE: Hierarchical Conditional Generative Quantum Eigensolver for EUV Lithography},
   author = {{Ryoushi Quantum Buddies}},
   url = {https://github.com/Quantum-Buddies/Conditional_GQE},
-  version = {4.0.0},
+  version = {5.0.0},
   year = {2026}
 }
 ```
@@ -446,3 +598,7 @@ zip -r Ryoushi_Quantum_Buddies_Challenge_Phase3.zip \
 - **NVIDIA CUDA-Q** team for the hybrid quantum-classical simulation platform
 - **Mitsubishi Chemical & AIST** for the GIC Phase 3 challenge on EUV lithography
 - **PySCF** and **OpenFermion** developers for the quantum chemistry toolchain
+- **Park & Walsh** (Imperial College London) for Chemeleon2 — GRPO with creativity, diversity, and KL rewards (arXiv:2511.07158)
+- **Wortsman et al.** for Model Soups — weight averaging for improved generalization (ICML 2022)
+- **DeepSeek-R1** team for STaR-style iterative rejection sampling fine-tuning
+- **Snell et al.** (Google DeepMind) for compute-optimal test-time scaling research
