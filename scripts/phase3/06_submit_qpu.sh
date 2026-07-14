@@ -17,12 +17,14 @@ echo "=== Step 6: QPU submission ==="
 echo "[6a] Running QPU preflight..."
 $PY scripts/qpu_preflight.py --dry-run --out "$OUT_DIR/preflight.json"
 
-# Step 6b: Submit to QPU
+# Step 6b: Submit to QPU (or qBraid simulator if no QPU available)
 echo ""
-echo "[6b] Submitting best circuit to QPU..."
+echo "[6b] Submitting best circuit to qBraid..."
 $PY src/gqe/eval/submit_qpu.py \
-    --benchmark results/phase3_final/hcgqe/benchmark_ch3i_optimized.json \
+    --benchmark results/phase3_final/benchmark_ch3i_consolidated.json \
     --config configs/phase3_final/qpu_validation.yaml \
+    --device "${QPU_DEVICE:-qbraid:qbraid:sim:qir-sv}" \
+    --shots "${QPU_SHOTS:-4096}" \
     --out "$OUT_DIR/qpu_submission.json"
 
 echo ""

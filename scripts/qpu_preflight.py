@@ -128,7 +128,9 @@ def main() -> None:
         for d in devices:
             status_marker = "ONLINE" if "online" in d["status"].lower() else d["status"]
             pricing = d.get("pricing", {})
-            print(f"  {d['id']:45s} | {status_marker:10s} | {d.get('num_qubits', '?'):>4s}q | "
+            nq = d.get('num_qubits', '?')
+            nq_str = str(nq) if nq is not None else '?'
+            print(f"  {d['id']:45s} | {status_marker:10s} | {nq_str:>4s}q | "
                   f"task={pricing.get('per_task', '?')}cr shot={pricing.get('per_shot', '?')}cr")
 
     # Cost estimate

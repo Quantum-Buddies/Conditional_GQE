@@ -53,6 +53,7 @@ def build_report(
     fmo_hcgqe = _load_json(fmo_dir / "fmo2_hcgqe.json")
     fmo_err = _load_json(fmo_dir / "fmo2_error_decomposition.json")
     mps = _load_json(mps_dir / "mps_scaling_results.json")
+    qpu = _load_json(qpu_dir / "qpu_validation_consolidated.json")
 
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=15)
@@ -75,7 +76,7 @@ def build_report(
         "1. AI vs Ansatz Benchmark: H-cGQE Transformer vs HEA-VQE and CUDA-Q GQE on CH3I (8 qubits)\n"
         "2. FMO2 Scalability: Many-body expansion of IMePh using fragment reconstruction\n"
         "3. MPS Scaling: Statevector vs MPS simulation from 4 to 28 qubits\n"
-        "4. QPU Validation: (pending qBraid credits)\n\n"
+        "4. QPU Validation: H-cGQE circuit executed on IQM Emerald QPU (54q) via qBraid\n\n"
         "Key finding: The H-cGQE Transformer, trained with supervised warm-start + DAPO RL "
         "fine-tuning (RLQF), generates operator sequences that achieve near-chemical-accuracy "
         "on small molecules. FMO2 fragmentation extends this to larger systems with measurable "
@@ -208,10 +209,56 @@ def build_report(
     else:
         pdf.cell(0, 6, "MPS results not found.", new_x="LMARGIN", new_y="NEXT")
 
-    # --- Page 5: Conclusions ---
+    # --- Page 5: Experiment 2 -- QPU Validation ---
     pdf.add_page()
     pdf.set_font("Helvetica", "B", 12)
-    pdf.cell(0, 8, "5. Conclusions and Limitations", new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 8, "5. Experiment 2: QPU Validation (IQM Emerald)", new_x="LMARGIN", new_y="NEXT")
+    pdf.set_font("Helvetica", "", 10)
+
+    if qpu:
+        src = qpu.get("_source", {})
+        pdf.cell(0, 6, f"Circuit: {src.get('operators', [])} on {src.get('n_qubits', 8)} qubits, depth={src.get('circuit_depth', 12)}", new_x="LMARGIN", new_y="NEXT")
+        pdf.cell(0, 6, f"GPU reference energy: {src.get('gpu_energy_hartree', 0):.4f} Ha ({src.get('gpu_error_mha', 0):.3f} mHa error)", new_x="LMARGIN", new_y="NEXT")
+        pdf.ln(3)
+
+        pdf.set_font("Helvetica", "B", 9)
+        pdf.cell(50, 6, "Device", border=1)
+        pdf.cell(25, 6, "Type", border=1)
+        pdf.cell(25, 6, "Shots", border=1)
+        pdf.cell(30, 6, "Fidelity", border=1)
+        pdf.cell(30, 6, "Cost (cr)", border=1, new_x="LMARGIN", new_y="NEXT")
+        pdf.set_font("Helvetica", "", 9)
+
+        for key, label in [("qbraid_simulator", "qBraid QIR Sim"), ("aws_sv1_simulator", "AWS SV1 Sim"), ("iqm_emerald_qpu", "IQM Emerald QPU")]:
+            r = qpu.get(key)
+            if r:
+                pdf.cell(50, 6, label, border=1)
+                pdf.cell(25, 6, "Sim" if r.get("ideal") else "QPU", border=1)
+                pdf.cell(25, 6, str(r.get("shots", "?")), border=1)
+                pdf.cell(30, 6, f"{r.get('state_fidelity', 1.0):.4f}", border=1)
+                pdf.cell(30, 6, str(r.get("cost_credits", "?")), border=1, new_x="LMARGIN", new_y="NEXT")
+
+        pdf.ln(5)
+        emerald = qpu.get("iqm_emerald_qpu", {})
+        if emerald:
+            pdf.set_font("Helvetica", "", 10)
+            pdf.multi_cell(0, 5,
+                f"IQM Emerald QPU results:\n"
+                f"- Expected state: {emerald.get('expected_state', '00001111')} (HF state)\n"
+                f"- State fidelity: {emerald.get('state_fidelity', 0):.2%} ({emerald.get('counts', {}).get('00001111', 0)}/{emerald.get('shots', 0)} shots)\n"
+                f"- 1-bit errors: {emerald.get('hamming_weight_distribution', {}).get('1_bit_error', 0)} shots\n"
+                f"- 2+ bit errors: {emerald.get('hamming_weight_distribution', {}).get('2+_bit_errors', 0)} shots\n"
+                f"- Execution time: {emerald.get('execution_ms', 0)}ms on 54-qubit IQM superconducting QPU\n"
+                f"- Cost: {emerald.get('cost_credits', 0)} qBraid credits\n"
+                f"- Circuit: 8q, depth 12, 6 CNOTs (decomposed from exp(i*0.01*XYYX))\n"
+            )
+    else:
+        pdf.cell(0, 6, "QPU results not found.", new_x="LMARGIN", new_y="NEXT")
+
+    # --- Page 6: Conclusions ---
+    pdf.add_page()
+    pdf.set_font("Helvetica", "B", 12)
+    pdf.cell(0, 8, "6. Conclusions and Limitations", new_x="LMARGIN", new_y="NEXT")
     pdf.set_font("Helvetica", "", 10)
 
     conclusions = (
@@ -229,7 +276,7 @@ def build_report(
         "larger fragment counts would introduce non-zero fragmentation error\n"
         "- MPS results show zero bond-dimension error for low-entanglement circuits; "
         "high-entanglement circuits would demonstrate truncation effects\n"
-        "- QPU validation pending (requires qBraid credits)\n"
+        "- QPU validation: 87.5% state fidelity on IQM Emerald (54q), 193.84 credits\n"
         "- No claim of quantum advantage is made"
     )
     pdf.multi_cell(0, 5, conclusions)
