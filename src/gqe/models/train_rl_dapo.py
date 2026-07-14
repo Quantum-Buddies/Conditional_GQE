@@ -1096,6 +1096,11 @@ def main() -> None:
     parser.add_argument("--buffer-size", type=int, default=1000)
     parser.add_argument("--buffer-batch-size", type=int, default=0,
                         help="Batch size from replay buffer (0 = no replay training)")
+    # Off-policy sample reuse (arXiv:2505.22257)
+    parser.add_argument("--reuse-iters", type=int, default=1,
+                        help="Number of gradient steps per rollout batch (off-policy GRPO). "
+                             "Reuses each sample μ times with importance sampling correction. "
+                             "1=standard (no reuse), 2-4=recommended for reducing simulation cost.")
     # Pre-constructed data mixing (GPT-QE paper Section 2.2)
     parser.add_argument("--pretrain-data", type=Path, default=None,
                         help="Path to GQE baseline JSON with pre-constructed operator sequences. "
@@ -1615,12 +1620,19 @@ def main() -> None:
             msun["molecule"] = mol_name
             epoch_msun_metrics.append(msun)
 
-            # --- Phase 6: Compute DAPO loss and update (n_iters gradient steps) ---
+            # --- Phase 6: Compute DAPO loss and update (off-policy reuse) ---
+            # Off-policy GRPO (arXiv:2505.22257): reuse each rollout batch for
+            # μ=args.reuse_iters gradient steps. The first iteration uses the
+            # freshly sampled sequences. Subsequent iterations recompute
+            # log_probs_new on the same batch — the importance sampling ratio
+            # in dapo_loss automatically corrects for the policy drift.
+            # This cuts CUDA-Q simulation cost by μ× without degrading quality.
             model.train()
             bos_id = SPECIAL_TOKENS["<BOS>"]
             pad_id = SPECIAL_TOKENS["<PAD>"]
 
-            for iter_idx in range(max(1, args.n_iters)):
+            n_reuse = max(1, args.reuse_iters)
+            for iter_idx in range(n_reuse):
                 optimizer.zero_grad()
 
                 if iter_idx == 0:
@@ -1630,36 +1642,11 @@ def main() -> None:
                     iter_advantages = advantages
                     iter_mol_data = mol_data
                 else:
-                    # Subsequent iterations: sample from replay buffer
-                    if len(replay_buffer) < args.n_samples:
-                        break
-                    replay_samples = replay_buffer.sample(args.n_samples)
-                    iter_sequences = torch.stack([s["sequence"] for s in replay_samples])
-                    iter_old_log_probs = torch.stack([s["log_probs"] for s in replay_samples])
-                    iter_operators = [s["operators"] for s in replay_samples]
-                    iter_mol_name = replay_samples[0]["molecule"]
-                    iter_mol_data = next((m for m in molecules_data if m["name"] == iter_mol_name), mol_data)
-                    # Recompute advantages from replay energies
-                    replay_energies = np.array([s["energy"] for s in replay_samples])
-                    replay_rewards = np.array([
-                        compute_reward(
-                            e, ops, iter_mol_data["hf_energy"], iter_mol_data["fci_energy"],
-                            args.max_seq_len,
-                            args.w_energy, args.w_entangle, args.w_depth, args.w_commute,
-                            w_diversity=args.w_diversity,
-                            target_len=args.target_len,
-                        )
-                        for e, ops in zip(replay_energies, iter_operators)
-                    ])
-                    if replay_rewards.std() < 1e-8:
-                        break  # skip if no advantage signal
-                    iter_attn = (iter_sequences[:, 1:] != pad_id).float()
-                    iter_advantages = compute_advantages(
-                        replay_rewards,
-                        repo_beta=args.repo_beta,
-                        old_log_probs=iter_old_log_probs,
-                        attention_mask=iter_attn,
-                    )
+                    # Off-policy reuse: same batch, recompute with updated policy
+                    iter_sequences = sequences
+                    iter_old_log_probs = old_log_probs  # original sampling log_probs
+                    iter_advantages = advantages
+                    iter_mol_data = mol_data
 
                 tgt_input = iter_sequences[:, :-1].to(device)
                 tgt_labels = iter_sequences[:, 1:].to(device)

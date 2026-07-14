@@ -147,3 +147,119 @@ python scripts/validate_on_qbraid.py \
     --out results/eval/qbraid_validation_report.json
 ```
 This generates a validation report containing energy differences and execution statuses for all systems.
+
+---
+
+## 7. Post-Training Methods (STaR + Model Soup + Off-Policy GRPO)
+
+We implement four post-training techniques inspired by DeepSeek-R1, Google Gemini, and NVIDIA's post-training scaling laws, adapted for quantum circuit generation:
+
+### 7a. Iterative RAFT (STaR Loop)
+
+Self-Taught Reasoner (STaR) / DeepSeek-R1 Stage 2 approach: each RAFT round produces a better model that generates higher-quality candidates for the next round.
+
+```bash
+bash scripts/run_iterative_raft.sh \
+    --rounds 3 \
+    --checkpoint results/train/h_cgqe_rl.pt \
+    --n-samples 100 --top-k 10 \
+    --adaptive-n --use-cuda
+```
+
+Each round: sample N circuits → optimize (L-BFGS-B) → filter top-k → SFT → next round. Temperature decays 0.9× per round for progressive exploitation.
+
+### 7b. Model Soup
+
+Weight averaging across RAFT rounds (Wortsman et al., ICML 2022). Free performance boost, no extra inference cost:
+
+```bash
+python src/gqe/models/model_soup.py \
+    --checkpoints results/train/h_cgqe_raft_round_1.pt \
+                  results/train/h_cgqe_raft_round_2.pt \
+                  results/train/h_cgqe_raft_round_3.pt \
+    --out results/train/h_cgqe_star_soup.pt
+```
+
+Supports uniform averaging (default) and greedy soup (add checkpoint only if it improves validation energy).
+
+### 7c. Off-Policy GRPO (μ-Reuse)
+
+Reuses each rollout batch for μ gradient steps with importance sampling correction (arXiv:2505.22257). Cuts CUDA-Q simulation cost by μ×:
+
+```bash
+python src/gqe/models/train_rl_dapo.py \
+    --reuse-iters 3 \
+    --target nvidia --target-option mqpu \
+    --use-cuda --use-bf16 \
+    ...
+```
+
+The `dapo_loss` function's importance sampling ratio `exp(log_probs_new - log_probs_old)` automatically corrects for policy drift across reuse iterations.
+
+### 7d. Adaptive Test-Time Compute
+
+Following Snell et al. 2024 (Google DeepMind), allocates more samples to harder molecules (4× more efficient than uniform Best-of-N):
+
+```bash
+python scripts/train_post_alignment.py \
+    --adaptive-n-samples \
+    --n-samples 50 \
+    ...
+```
+
+Scaling: `N_effective = N_base × max(1, n_qubits ÷ 4)`. H2 (4q) gets 50 samples, N2 (20q) gets 250, benzene (32q) gets 400.
+
+---
+
+## 8. B200/H200 Large-Qubit Scaling
+
+The AIRE L40S cluster is capped at 24 qubits due to PCIe IPC segfault in CUDA-Q's distributed statevector mode. qBraid's B200 (192GB) and H200 (141GB) instances have proper NVLink interconnects, enabling 26-40 qubit simulations.
+
+### Instance Comparison
+
+| Instance | GPU | VRAM | Credits/Hr | Max Qubits (SV) | Max Qubits (MPS) |
+|---|---|---|---|---|---|
+| `gpu-l40s` | L40S | 48 GB | 228 | 24* | 40+ |
+| `gpu-gh200` | Grace Hopper | 96 GB | 287 | 28 | 50+ |
+| `gpu-h200` | H200 | 141 GB | 549 | 30 | 60+ |
+| `gpu-b200` | B200 | 192 GB | 874 | 32 | 60+ |
+| `gpu-b200-4x` | 4× B200 | 768 GB | 3,395 | 36 | 80+ |
+
+*L40S 24-qubit limit is due to PCIe IPC, not VRAM.
+
+### Scaling Config
+
+`configs/experiment_scaling_b200.yaml` defines molecules across 4 qubit tiers:
+
+| Tier | Qubits | Examples | L40S? | H200? | B200? |
+|---|---|---|---|---|---|
+| Small | 4-12 | H2, LiH | ✅ | ✅ | ✅ |
+| Medium | 12-24 | BeH2, N2 | ✅ | ✅ | ✅ |
+| Large | 24-32 | N2/6-31g, H2O/6-31g, ethylene/6-31g | ❌ | ✅ | ✅ |
+| XL | 32-40 | benzene/CAS12, methanol/6-31g, acetylene/CAS14 | ❌ | ✅ (MPS) | ✅ |
+
+### Running the Full Scaling Pipeline
+
+```bash
+# On qBraid H200 (recommended — best cost/performance for 28-32 qubit range)
+bash scripts/run_qbraid_scaling.sh --stage all --instance gpu-h200
+
+# On qBraid B200 (for 32-36 qubit statevector)
+bash scripts/run_qbraid_scaling.sh --stage all --instance gpu-b200
+
+# Only run RAFT post-training on existing checkpoint
+bash scripts/run_qbraid_scaling.sh --stage raft --instance gpu-h200
+
+# Only validate on free simulator
+bash scripts/run_qbraid_scaling.sh --stage validate
+```
+
+### Credit Budget (11,000 credits)
+
+| Scenario | Instance | Duration | Credits | Remaining |
+|---|---|---|---|---|
+| Full pipeline (H200) | gpu-h200 | 10 hrs | ~5,490 | ~5,510 |
+| Full pipeline (B200) | gpu-b200 | 7 hrs | ~6,118 | ~4,882 |
+| RAFT only (H200) | gpu-h200 | 3 hrs | ~1,647 | ~9,353 |
+| 36-qubit eval (B200x4) | gpu-b200-4x | 2 hrs | ~6,790 | ~4,210 |
+| QPU runs (Rigetti) | — | — | ~683-2,049 | varies |

@@ -165,9 +165,15 @@ def main() -> None:
     parser.add_argument("--max-seq-len", type=int, default=64, help="Max sequence length of generated circuits")
     parser.add_argument("--max-terms", type=int, default=128, help="Max terms to keep in input tokenization")
     parser.add_argument("--max-pauli-len", type=int, default=24, help="Max Pauli word length in tokenization")
+    parser.add_argument("--max-qubits", type=int, default=48, help="Skip molecules with more qubits")
     parser.add_argument("--target", type=str, default="nvidia", help="CUDA-Q target device for optimization")
     parser.add_argument("--target-option", type=str, default="mqpu", help="CUDA-Q target option")
     parser.add_argument("--use-cuda", action="store_true", help="Use CUDA for training")
+    parser.add_argument("--adaptive-n-samples", action="store_true",
+                        help="Scale n_samples by qubit count (test-time compute scaling). "
+                             "Allocates more samples to harder molecules: N = n_samples * max(1, n_qubits/4). "
+                             "Following Snell et al. 2024 (Google DeepMind), compute-optimal allocation "
+                             "is 4x more efficient than uniform Best-of-N.")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
     args = parser.parse_args()
 
@@ -222,7 +228,17 @@ def main() -> None:
     for record in ham_records:
         molecule = record["name"]
         n_qubits = int(record["n_qubits"])
+        if n_qubits > args.max_qubits:
+            print(f"\nSkipping {molecule} ({n_qubits} qubits > max {args.max_qubits})")
+            continue
         print(f"\nProcessing molecule: {molecule} ({n_qubits} qubits)...")
+
+        # Adaptive test-time compute: scale samples by molecule difficulty
+        if args.adaptive_n_samples:
+            effective_n_samples = max(args.n_samples, args.n_samples * max(1, n_qubits // 4))
+            print(f"  Adaptive N: {effective_n_samples} (base={args.n_samples}, qubits={n_qubits})")
+        else:
+            effective_n_samples = args.n_samples
 
         # Extract terms
         terms = []
@@ -237,13 +253,13 @@ def main() -> None:
         term_mask = ham_tokens["term_mask"].unsqueeze(0)
 
         # Sample sequences from policy
-        print(f"  Sampling {args.n_samples} candidate sequences (T={args.temperature}, top_p={args.top_p})...")
+        print(f"  Sampling {effective_n_samples} candidate sequences (T={args.temperature}, top_p={args.top_p})...")
         candidates = sample_candidates(
             model=model,
             pauli_ids=pauli_ids,
             coeffs=coeffs,
             term_mask=term_mask,
-            n_samples=args.n_samples,
+            n_samples=effective_n_samples,
             max_seq_len=args.max_seq_len,
             temperature=args.temperature,
             vocab=vocab,
