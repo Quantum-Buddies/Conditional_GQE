@@ -1,0 +1,10 @@
+{
+  "job_id": "qbraid:qbraid:sim:qir-sv-135b-qjob-6a55f0cc5e6838c8f546a73e",
+  "status": "JobStatus.COMPLETED",
+  "completed": true,
+  "counts": {
+    "raw_result": "Result(\n  device_id=qbraid:qbraid:sim:qir-sv,\n  job_id=qbraid:qbraid:sim:qir-sv-135b-qjob-6a55f0cc5e6838c8f546a73e,\n  success=True,\n  data=GateModelResultData(measurement_counts={'11110000': 2000}, measurements=None, measurement_probabilities=None),\n  time_stamps=TimeStamps(createdAt=datetime.datetime(2026, 7, 14, 8, 18, 22, tzinfo=datetime.timezone.utc), endedAt=datetime.datetime(2026, 7, 14, 8, 18, 22, tzinfo=datetime.timezone.utc), executionDuration=140),\n  cost=Credits('0'),\n  status=COMPLETED,\n  memoryUsageMb=0,\n  cpuUsagePercent=31.5,\n  runnerVersion='0.7.5',\n  runnerSeed=None\n)"
+  },
+  "retrieve_time_seconds": 0.41571760177612305,
+  "retrieve_time_utc": "2026-07-14T08:22:08Z"
+}

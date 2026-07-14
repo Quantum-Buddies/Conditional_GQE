@@ -1,0 +1,8 @@
+ M requirements-qbraid.txt
+ M src/gqe/common/__init__.py
+?? docs/PIPELINE_VISION.md
+?? results/gic2026/
+?? scripts/lock_environment.sh
+?? scripts/qpu_preflight.py
+?? src/gqe/common/run_manifest.py
+?? tests/

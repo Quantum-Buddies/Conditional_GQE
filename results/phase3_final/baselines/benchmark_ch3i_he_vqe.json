@@ -1,0 +1,19 @@
+{
+  "results": [
+    {
+      "system": "methyl_iodide",
+      "baseline": "cudaq_vqe",
+      "reference_energy": -6889.840354306438,
+      "baseline_energy": -6888.8525609036105,
+      "delta_energy": 0.9877934028272648,
+      "n_spin_orbitals": 8,
+      "n_pauli_terms": 185,
+      "mode": "cudaq_hwe_vqe",
+      "ansatz_reps": 3,
+      "optimizer_method": "COBYLA",
+      "maxiter": 200,
+      "runtime_sec": 9.681711170822382,
+      "target": "nvidia"
+    }
+  ]
+}

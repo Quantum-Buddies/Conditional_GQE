@@ -1,0 +1,14 @@
+[
+  {
+    "molecule": "methyl_iodide",
+    "reference_energy": -6889.840354306438,
+    "baseline_energy": -6889.843000069323,
+    "baseline_delta": 0.0026457628855496296,
+    "best_generated_energy": -6889.83884643056,
+    "avg_generated_energy": -6889.838846391982,
+    "error_vs_reference": 0.0015078758779054624,
+    "baseline_error_vs_reference": 0.0026457628855496296,
+    "improvement_over_baseline": -0.004153638763455092,
+    "n_samples": 100
+  }
+]

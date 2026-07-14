@@ -1,0 +1,3 @@
+ requirements-qbraid.txt    | 6 ++++++
+ src/gqe/common/__init__.py | 1 +
+ 2 files changed, 7 insertions(+)
