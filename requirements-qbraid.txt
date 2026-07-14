@@ -27,6 +27,12 @@ cudaq-solvers[gqe]
 # qBraid SDK (optional but useful for job submission and device listing)
 qbraid>=0.9.0
 
+# PDF generation for submission report
+fpdf2>=2.8
+
+# Testing
+pytest>=8.0
+
 # RL / curriculum learning extras
 # (uncomment when RLQF stage is implemented)
 # gymnasium>=0.29

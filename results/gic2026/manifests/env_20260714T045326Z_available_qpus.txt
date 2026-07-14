@@ -1,0 +1,1 @@
+Error listing devices: 'QbraidDevice' object has no attribute 'provider'
