@@ -1,15 +1,13 @@
 # qBraid Execution Strategy — GIC 2026 Phase 3
 
-## Overview
-
-This document outlines how to use qBraid credits (11,000 available) for:
-1. GPU-based training and simulation on qBraid Lab
-2. Real QPU execution of H-cGQE generated circuits
-3. Reproducibility validation for competition judges
+This document outlines how to use qBraid credits (11,000 available) in a tight-knit HPC-Quantum-AI workflow for:
+1. GPU-based training and simulation on qBraid Lab On-Demand instances
+2. Asynchronous batch QPU execution of H-cGQE generated circuits on Rigetti Cepheus
+3. Reproducibility validation for competition judges using the free simulator target
 
 ---
 
-## qBraid GPU Instances
+## 1. qBraid GPU Instances (HPC-AI Stage)
 
 | Instance | GPU | Credits/min | Credits/hour | ~Hours with 11,000 cr |
 |---|---|---|---|---|
@@ -19,16 +17,14 @@ This document outlines how to use qBraid credits (11,000 available) for:
 | `gpu-gh200` | 1x GH200 96GB | 4.78 | 287 | ~38h |
 | `gpu-rtx-4090` | 1x RTX 4090 24GB | 1.45 | 87 | ~126h |
 
-Launch via qBraid CLI:
+On-demand instances are billed per minute and can be launched via the qBraid Lab dashboard or via the qBraid CLI:
 ```bash
 qbraid compute up gpu-l40s
 ```
 
-Or via the qBraid Lab dashboard → On-Demand tab.
-
 ---
 
-## qBraid QPU Access
+## 2. qBraid QPU Access (Quantum QPU Stage)
 
 | QPU | Provider | Per-task | Per-shot | Max qubits | Feasible for us? |
 |---|---|---|---|---|---|
@@ -44,80 +40,84 @@ Or via the qBraid Lab dashboard → On-Demand tab.
 
 ---
 
-## CUDA-Q + qBraid Integration
+## 3. Asynchronous Batch Submission: The 90%+ Cost Saving
 
-qBraid is now a native CUDA-Q cloud target (June 2026). Compile with:
-```bash
-nvq++ --target qbraid kernel.cpp -o kernel
-```
+To avoid paying the **30-credit per-task fee** for each Pauli term in the molecular Hamiltonian (15 terms for $H_2$, 185 terms for $LiH$), we submit the circuits as a single batch using `as_batch=True` via the qBraid SDK. 
 
-Set the machine via:
-```bash
-export QBRAID_API_KEY=<your-key>
-# Default: free state-vector simulator
-# For QPU: --qbraid-machine aws:rigetti:qpu:cepheus-1-108q
-```
+Further, QPU queue times can be long. Instead of waiting synchronously and tying up expensive GPU compute nodes on our local HPC cluster, we submit jobs **asynchronously** and retrieve them later.
 
-This means our CUDA-Q kernels can run on qBraid QPUs with zero code changes.
+### QPU Cost Comparison (Batch vs Individual Execution)
+
+| Molecule | Qubits | Terms | QPU | Individual Execution Cost | Batch Execution Cost | Savings |
+|---|---|---|---|---|---|---|
+| **H2** | 4 | 15 | Rigetti Cepheus | 15×30 + 15×1024×0.0425 = 1,083 cr | 1×30 + 15×1024×0.0425 = **683 cr** | **400 cr** |
+| **LiH** | 8 | 185 | Rigetti Cepheus | 185×30 + 185×100×0.0425 = 6,286 cr | 1×30 + 185×100×0.0425 = **816 cr** | **5,470 cr** |
+| **BeH2** | 14 | 731 | Rigetti Cepheus | 731×30 + 731×100×0.0425 = 24,914 cr | 1×30 + 731×100×0.0425 = **3,137 cr** | **21,777 cr** |
 
 ---
 
-## Recommended Budget Allocation (11,000 credits)
+## 4. HPC-Quantum-AI Tight-Knit Workflow
 
-| Activity | Instance/QPU | Est. credits | Est. time | What it gets us |
-|---|---|---|---|---|
-| Full pipeline run | `gpu-l40s` | ~2,000 | ~8h | Reproducible results on qBraid |
-| RL training (Chemeleon2, 500 epochs) | `gpu-l40s` | ~1,500 | ~6h | RL-tuned model |
-| 40+ qubit MPS benchmark | `gpu-h100-sxm` | ~500 | ~1h | Scaling data for 40q claim |
-| H2 (4q) on Rigetti Cepheus QPU | Rigetti | ~700 | 1 task | Real quantum hardware energy |
-| LiH (8q) on Rigetti (reduced shots) | Rigetti | ~1,170 | 1 task | 8q on real hardware |
-| Free qBraid simulator validation | `qbraid:sim:qir-sv` | 0 | — | Reproducibility for judges |
-| **Total** | | **~5,870** | | Leaves ~5,130 for iteration |
+We orchestrate the local HPC cluster development and remote qBraid QPU execution using the orchestrator script `[run_hpc_qbraid_workflow.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_hpc_qbraid_workflow.sh)`.
+
+### Step 1: Submit Pre-processing & RL Training to Slurm
+Submit the local GPU scaling workflow directly to Slurm from your repository directory:
+```bash
+bash scripts/run_hpc_qbraid_workflow.sh --hpc-submit
+```
+Monitor queue status:
+```bash
+bash scripts/run_hpc_qbraid_workflow.sh --hpc-status
+```
+
+### Step 2: Submit Circuits to qBraid QPU Asynchronously
+Once the local optimizations have completed on the HPC cluster, dispatch the best-predicted circuits to Rigetti Cepheus asynchronously:
+```bash
+bash scripts/run_hpc_qbraid_workflow.sh --qpu-submit
+```
+This saves job submission metadata files in `results/eval/` and exits immediately, releasing the local GPU allocation.
+
+### Step 3: Poll and Retrieve QPU Ground State Energy
+Monitor the queue status of the QPU jobs:
+```bash
+bash scripts/run_hpc_qbraid_workflow.sh --qpu-status
+```
+Once all jobs return `COMPLETED`, execute the retrieval command to parse the parities, compute the term expectations, and save the final energy values:
+```bash
+bash scripts/run_hpc_qbraid_workflow.sh --qpu-retrieve
+```
 
 ---
 
-## QPU Execution Plan
+## 5. Manual Execution Details
 
-### Step 1: H2 on Rigetti Cepheus-1-108Q (cheapest per-shot)
+If you prefer to call the modules manually:
 
-H2 has 4 qubits and 15 Pauli terms in the Hamiltonian.
-
+### Asynchronous QPU Submission
 ```bash
 python src/gqe/eval/qbraid_backend.py \
-    --hamiltonians results/data/hamiltonians_gic2026/hamiltonians.json \
-    --generated results/inference/h_cgqe_generated_uccsd.json \
+    --hamiltonians results/data/hamiltonians_scaling.json/hamiltonians.json \
+    --generated results/inference/h_cgqe_uccsd_inference.json \
     --optimized results/eval/h_cgqe_uccsd_optimized.json \
     --molecule h2_0.74 \
     --device aws:rigetti:qpu:cepheus-1-108q \
     --shots 1024 \
+    --submit-only \
     --out results/eval/qbraid_h2_rigetti.json
 ```
 
-Cost: 30 cr (task) + 15 terms × 1024 shots × 0.0425 cr/shot = 30 + 653 = **~683 credits**
-
-### Step 2: LiH on Rigetti (reduced shots)
-
-LiH (active space) has 8 qubits and ~185 Pauli terms.
-
+### Retrieval of Completed Results
 ```bash
 python src/gqe/eval/qbraid_backend.py \
-    --hamiltonians results/data/hamiltonians_gic2026/hamiltonians.json \
-    --generated results/inference/h_cgqe_generated_uccsd.json \
-    --optimized results/eval/h_cgqe_uccsd_optimized.json \
-    --molecule lih_1.6_full \
-    --device aws:rigetti:qpu:cepheus-1-108q \
-    --shots 100 \
-    --out results/eval/qbraid_lih_rigetti.json
+    --retrieve results/eval/qbraid_job_metadata_h2_0.74_aws_rigetti_qpu_cepheus-1-108q.json \
+    --out results/eval/qbraid_h2_rigetti.json
 ```
 
-Cost: 30 cr (task) + 185 terms × 100 shots × 0.0425 cr/shot = 30 + 789 = **~819 credits**
-
-### Step 3: Free simulator validation (all molecules)
-
+### Free Simulator Validation (0 Credits)
 ```bash
 python src/gqe/eval/qbraid_backend.py \
-    --hamiltonians results/data/hamiltonians_gic2026/hamiltonians.json \
-    --generated results/inference/h_cgqe_generated_uccsd.json \
+    --hamiltonians results/data/hamiltonians_scaling.json/hamiltonians.json \
+    --generated results/inference/h_cgqe_uccsd_inference.json \
     --optimized results/eval/h_cgqe_uccsd_optimized.json \
     --molecule h2_0.74 \
     --device qbraid:qbraid:sim:qir-sv \
@@ -125,110 +125,10 @@ python src/gqe/eval/qbraid_backend.py \
     --out results/eval/qbraid_h2_sim.json
 ```
 
-Cost: **0 credits** (free simulator, up to 30 qubits)
-
----
-
-## qBraid Lab Setup
-
-### 1. Launch GPU instance
-
-From qBraid Lab dashboard → On-Demand tab → Launch `gpu-l40s`.
-
-### 2. Clone and install
-
-```bash
-git clone https://github.com/Quantum-Buddies/Conditional_GQE.git
-cd Conditional_GQE
-pip install -r requirements-qbraid.txt
-```
-
-### 3. Run full pipeline
-
-```bash
-bash scripts/run_gic2026_scaling.sh
-```
-
-Or step-by-step:
-```bash
-# 1. Generate Hamiltonians
-python src/gqe/data/generate_hamiltonians.py \
-    --config configs/experiment_scaling_gic2026.yaml \
-    --out-dir results/data
-
-# 2. RL training from scratch
-python src/gqe/models/train_rl_dapo.py \
-    --from-scratch \
-    --hamiltonians results/data/hamiltonians_gic2026/hamiltonians.json \
-    --molecules h2_0.74 lih_1.6_full n2_1.1_full beh2_1.3_full \
-    --out results/train/h_cgqe_rl.pt \
-    --epochs 300 --lr 3e-4 --n-samples 50 \
-    --use-bf16 --curriculum --curriculum-warmup 30 \
-    --explore-eps 0.3 --adaptive-eps --top-p 0.9 \
-    --force-entanglement
-
-# 3. Inference
-python src/gqe/models/infer_h_cgqe.py \
-    --checkpoint results/train/h_cgqe_rl.pt \
-    --hamiltonians results/data/hamiltonians_gic2026/hamiltonians.json \
-    --out results/inference/h_cgqe_generated.json
-
-# 4. Stage 2 optimization
-python src/gqe/eval/optimize_h_cgqe_coefficients.py \
-    --generated results/inference/h_cgqe_generated.json \
-    --hamiltonians results/data/hamiltonians_gic2026/hamiltonians.json \
-    --out results/eval/h_cgqe_optimized.json
-
-# 5. Evaluate
-python src/gqe/eval/evaluate_h_cgqe.py \
-    --generated results/inference/h_cgqe_generated.json \
-    --hamiltonians results/data/hamiltonians_gic2026/hamiltonians.json \
-    --out results/eval/h_cgqe_evaluation.json
-```
-
-### 4. QPU submission
-
-```bash
-# Set qBraid API key
-export QBRAID_API_KEY=<your-key>
-
-# Run H2 on Rigetti Cepheus (real quantum hardware)
-python src/gqe/eval/qbraid_backend.py \
-    --hamiltonians results/data/hamiltonians_gic2026/hamiltonians.json \
-    --generated results/inference/h_cgqe_generated.json \
-    --optimized results/eval/h_cgqe_optimized.json \
-    --molecule h2_0.74 \
-    --device aws:rigetti:qpu:cepheus-1-108q \
-    --shots 1024 \
-    --out results/eval/qbraid_h2_rigetti.json
-```
-
----
-
-## Existing qBraid Infrastructure in This Repo
-
-| File | Purpose |
-|---|---|
-| `src/gqe/eval/qbraid_backend.py` | Qiskit circuit translation + qBraid device submission |
-| `requirements-qbraid.txt` | All dependencies for qBraid Lab |
-| `environment-qbraid.yml` | Conda environment spec |
-| `qbraid_skill/` | Full qBraid skill package with install scripts |
-| `scripts/run_h_cgqe_qbraid.sh` | Shell script for qBraid execution |
-
----
-
-## Phase 3 Submission Impact
-
-- **Platform Use**: qBraid GPU + QPU execution demonstrates full cloud pipeline
-- **Phase 3 Execution**: Real hardware results (even H2 only) differentiate from teams that only simulate
-- **Reproducibility**: Judges can clone repo, launch qBraid Lab, and re-run everything
-- **Scalability**: Free qBraid simulator (30q) + GPU instances for MPS (40q+) covers all qubit ranges
-
 ---
 
 ## References
 
-- [qBraid CUDA-Q integration](https://www.qbraid.com/blog-posts/qbraid-cudaq-integration) (June 2026)
-- [qBraid GPU pricing](https://docs.qbraid.com/v2/home/pricing)
-- [qBraid quantum devices](https://docs.qbraid.com/v2/lab/user-guide/quantum-devices)
-- [CUDA-Q qBraid target docs](https://nvidia.github.io/cuda-quantum/latest/using/backends/cloud/qbraid.html)
+- [qBraid CLI documentation](https://docs.qbraid.com/v2/cli/api-reference/qbraid)
+- [qBraid SDK program execution](https://docs.qbraid.com/v2/sdk/user-guide/programs)
+- [NVIDIA CUDA-Q qBraid target guide](https://nvidia.github.io/cuda-quantum/latest/using/backends/cloud/qbraid.html)

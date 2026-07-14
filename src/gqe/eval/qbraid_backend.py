@@ -6,12 +6,19 @@ or QPU. This provides a Phase 3 execution path that does not require the
 CUDA-Q `nvidia` target, enabling runs on IBM, IonQ, and other qBraid devices.
 
 Usage:
+    # Submit a batch of circuits asynchronously to Rigetti QPU:
     python src/gqe/eval/qbraid_backend.py \
         --hamiltonians results/data/hamiltonians.json \
         --generated results/inference/h_cgqe_generated.json \
         --optimized results/eval/h_cgqe_optimized.json \
         --molecule h2 \
-        --device qbraid_qir_simulator \
+        --device aws:rigetti:qpu:cepheus-1-108q \
+        --submit-only \
+        --out results/eval/qbraid_h2_energy.json
+
+    # Retrieve and compute results once completed:
+    python src/gqe/eval/qbraid_backend.py \
+        --retrieve results/eval/qbraid_job_metadata_h2_aws_rigetti_qpu_cepheus-1-108q.json \
         --out results/eval/qbraid_h2_energy.json
 """
 from __future__ import annotations
@@ -34,8 +41,10 @@ from src.gqe.common.hamiltonian_utils import (
 
 try:
     from qbraid import QbraidProvider
+    from qbraid.runtime import load_job
 except ImportError:
     QbraidProvider = None
+    load_job = None
 
 try:
     from qiskit import QuantumCircuit, transpile
@@ -121,6 +130,16 @@ def _build_ansatz_circuit(
     return circuit, pauli_words, thetas
 
 
+def _get_counts(result: Any) -> dict[str, int]:
+    """Extract measurement counts in a provider-agnostic way."""
+    if hasattr(result, "data") and hasattr(result.data, "get_counts"):
+        return result.data.get_counts()
+    elif hasattr(result, "measurement_counts"):
+        return result.measurement_counts()
+    else:
+        raise AttributeError("Could not find counts attribute on qBraid result object.")
+
+
 def _measure_pauli_term(
     circuit: Any,
     term: str,
@@ -129,7 +148,7 @@ def _measure_pauli_term(
     device: str,
     shots: int = 1024,
 ) -> float:
-    """Measure the expectation value of a single Pauli term on the qBraid device.
+    """Measure the expectation value of a single Pauli term on the qBraid device (individual task mode).
 
     Args:
         circuit: Parameterized ansatz circuit.
@@ -167,7 +186,7 @@ def _measure_pauli_term(
     job = qdevice.run(meas, shots=shots)
     result = job.result()
 
-    counts = result.measurement_counts()
+    counts = _get_counts(result)
     n_shots = sum(counts.values())
     if n_shots == 0:
         return 0.0
@@ -178,6 +197,249 @@ def _measure_pauli_term(
         sign = -1 if parity == 1 else 1
         exp += sign * count / n_shots
     return exp
+
+
+def evaluate_energy_qbraid_batched(
+    molecule_record: dict[str, Any],
+    operators: list[str],
+    theta_values: np.ndarray | None = None,
+    device: str = "qbraid_qir_simulator",
+    shots: int = 1024,
+    submit_only: bool = False,
+    metadata_out_path: Path | None = None,
+) -> dict[str, Any] | str:
+    """Evaluate the energy of an H-cGQE circuit by submitting all Pauli terms in a single batch.
+
+    Args:
+        molecule_record: Hamiltonian record with terms and metadata.
+        operators: H-cGQE operator sequence (Pauli words).
+        theta_values: Optional rotation parameters. If None, uses zeros.
+        device: qBraid device name or ID.
+        shots: Number of shots per Pauli term measurement.
+        submit_only: If True, submits to qBraid and returns the job ID / metadata mapping.
+        metadata_out_path: Path to write job metadata for retrieval.
+
+    Returns:
+        Dict with evaluation results (if completed) or string representation of job IDs.
+    """
+    _needs_qiskit()
+    if QbraidProvider is None or load_job is None:
+        raise ImportError("qBraid SDK not installed. Install it with: pip install qbraid")
+
+    n_qubits = int(molecule_record["n_qubits"])
+    n_electrons = get_active_electron_count(molecule_record)
+    circuit, _, thetas = _build_ansatz_circuit(n_qubits, n_electrons, operators)
+
+    if theta_values is None:
+        theta_values = np.zeros(len(operators))
+    elif len(theta_values) != len(operators):
+        raise ValueError(
+            f"theta_values length ({len(theta_values)}) does not match operators ({len(operators)})"
+        )
+
+    bound_circuit = circuit.bind_parameters({t: float(v) for t, v in zip(thetas, theta_values)})
+
+    # Filter out active Hamiltonian terms
+    active_terms = []
+    for term in molecule_record.get("terms", []):
+        word = term["term"]
+        coeff = complex(float(term.get("real", 0.0)), float(term.get("imag", 0.0)))
+        if abs(coeff) >= 1e-14:
+            active_terms.append((word, coeff.real))
+
+    if not active_terms:
+        raise ValueError("No active terms found in the Hamiltonian record.")
+
+    # Build circuits for each active term
+    circuits = []
+    term_mapping = []  # mapping circuit index to term information
+
+    for idx, (word, coeff) in enumerate(active_terms):
+        meas_circ = QuantumCircuit(bound_circuit.num_qubits)
+        meas_circ.compose(bound_circuit, inplace=True)
+        # Pad word to n_qubits if needed
+        padded_word = word
+        if len(padded_word) < n_qubits:
+            padded_word = padded_word + "I" * (n_qubits - len(padded_word))
+        
+        # Add basis changes
+        for q, op in enumerate(padded_word):
+            if op == "X":
+                meas_circ.h(q)
+            elif op == "Y":
+                meas_circ.h(q)
+                meas_circ.s(q)
+        meas_circ.measure_all()
+        circuits.append(meas_circ)
+        term_mapping.append({"idx": idx, "term": word, "coeff": coeff})
+
+    print(f"Submitting batch of {len(circuits)} circuits to qBraid device {device}...")
+    start = time.perf_counter()
+
+    provider = QbraidProvider()
+    qdevice = provider.get_device(device)
+    
+    # Run batch job
+    run_res = qdevice.run(circuits, shots=shots, as_batch=True)
+
+    # Determine job IDs returned
+    if isinstance(run_res, list):
+        job_ids = [j.id for j in run_res]
+        is_list = True
+    else:
+        job_ids = [run_res.id]
+        is_list = False
+
+    metadata = {
+        "job_ids": job_ids,
+        "is_list": is_list,
+        "molecule": molecule_record["name"],
+        "device": device,
+        "shots": shots,
+        "term_mapping": term_mapping,
+        "metadata": {
+            "n_qubits": n_qubits,
+            "n_electrons": n_electrons,
+            "n_operators": len(operators),
+            "n_hamiltonian_terms": len(molecule_record.get("terms", [])),
+        }
+    }
+
+    if submit_only:
+        if metadata_out_path:
+            metadata_out_path.parent.mkdir(parents=True, exist_ok=True)
+            with metadata_out_path.open("w", encoding="utf-8") as f:
+                json.dump(metadata, f, indent=2)
+            print(f"Submitted asynchronously! Job details saved to {metadata_out_path}")
+        print(f"Job IDs: {job_ids}")
+        return ", ".join(job_ids)
+
+    # Otherwise, wait synchronously for completion
+    print("Waiting synchronously for job completion...")
+    jobs = [load_job(jid) for jid in job_ids]
+    
+    results = []
+    if is_list:
+        for job in jobs:
+            results.append(job.result())
+    else:
+        batch_res = jobs[0].result()
+        if hasattr(batch_res, "results"):
+            results = list(batch_res.results)
+        elif isinstance(batch_res, list):
+            results = batch_res
+        else:
+            results = [batch_res]
+
+    energy, term_expectations = _parse_batch_results(results, term_mapping, shots)
+    runtime = time.perf_counter() - start
+
+    return {
+        "energy": float(energy),
+        "device": device,
+        "shots": shots,
+        "runtime_seconds": runtime,
+        "term_expectations": term_expectations,
+        "metadata": metadata["metadata"],
+    }
+
+
+def _parse_batch_results(results: list[Any], term_mapping: list[dict[str, Any]], shots: int) -> tuple[float, dict[str, Any]]:
+    """Helper to parse raw job results and compute ground state energy."""
+    energy = 0.0
+    term_expectations = {}
+
+    for mapping in term_mapping:
+        idx = mapping["idx"]
+        word = mapping["term"]
+        coeff = mapping["coeff"]
+
+        counts = _get_counts(results[idx])
+        n_shots = sum(counts.values())
+        if n_shots == 0:
+            exp = 0.0
+        else:
+            exp = 0.0
+            for bitstring, count in counts.items():
+                parity = sum(int(bitstring[q]) for q, op in enumerate(word) if op != "I") % 2
+                sign = -1 if parity == 1 else 1
+                exp += sign * count / n_shots
+
+        term_expectations[word] = {
+            "coeff_real": coeff,
+            "coeff_imag": 0.0,
+            "expectation": exp
+        }
+        energy += coeff * exp
+
+    return energy, term_expectations
+
+
+def retrieve_qbraid_job(metadata_file: Path, out_path: Path) -> None:
+    """Retrieve asynchronously submitted job results, parse them, and save ground state energy."""
+    if load_job is None:
+        raise ImportError("qBraid SDK not installed. Install it with: pip install qbraid")
+
+    with metadata_file.open("r", encoding="utf-8") as f:
+        metadata = json.load(f)
+
+    job_ids = metadata["job_ids"]
+    is_list = metadata["is_list"]
+    term_mapping = metadata["term_mapping"]
+    molecule = metadata["molecule"]
+    device = metadata["device"]
+    shots = metadata["shots"]
+
+    print(f"Checking status for jobs: {job_ids} on {device}...")
+    jobs = [load_job(jid) for jid in job_ids]
+    statuses = [str(job.status()) for job in jobs]
+    print(f"Current statuses: {statuses}")
+
+    # Check if all completed
+    active = [s for s in statuses if s not in ("COMPLETED", "SUCCESS", "DONE", "failed", "cancelled")]
+    if active:
+        print("Jobs are still in progress. Please run retrieval again later.")
+        return
+
+    failed = [s for s in statuses if s in ("failed", "cancelled")]
+    if failed:
+        print(f"Error: One or more QPU jobs failed or were cancelled: {statuses}")
+        return
+
+    print("All jobs completed! Fetching results...")
+    start = time.perf_counter()
+    results = []
+    if is_list:
+        for job in jobs:
+            results.append(job.result())
+    else:
+        batch_res = jobs[0].result()
+        if hasattr(batch_res, "results"):
+            results = list(batch_res.results)
+        elif isinstance(batch_res, list):
+            results = batch_res
+        else:
+            results = [batch_res]
+
+    energy, term_expectations = _parse_batch_results(results, term_mapping, shots)
+    runtime = time.perf_counter() - start
+
+    final_result = {
+        "energy": float(energy),
+        "device": device,
+        "shots": shots,
+        "runtime_seconds": runtime,
+        "term_expectations": term_expectations,
+        "metadata": metadata["metadata"],
+        "molecule": molecule,
+    }
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with out_path.open("w", encoding="utf-8") as f:
+        json.dump(final_result, f, indent=2)
+    print(f"\nSuccessfully retrieved and processed job results!")
+    print(f"qBraid ground state energy for {molecule}: {energy:.6f} Ha")
+    print(f"Saved results to: {out_path}")
 
 
 def evaluate_energy_qbraid(
@@ -246,14 +508,33 @@ def evaluate_energy_qbraid(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run H-cGQE circuits on qBraid backends")
-    parser.add_argument("--hamiltonians", type=Path, required=True)
-    parser.add_argument("--generated", type=Path, required=True)
-    parser.add_argument("--optimized", type=Path, required=True)
-    parser.add_argument("--molecule", type=str, required=True)
+    parser.add_argument("--hamiltonians", type=Path, default=None)
+    parser.add_argument("--generated", type=Path, default=None)
+    parser.add_argument("--optimized", type=Path, default=None)
+    parser.add_argument("--molecule", type=str, default=None)
     parser.add_argument("--device", type=str, default="qbraid_qir_simulator")
     parser.add_argument("--shots", type=int, default=1024)
-    parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--out", type=Path, default=None)
+    
+    # Asynchronous/batch execution options
+    parser.add_argument("--submit-only", action="store_true", help="Submit batch job asynchronously and exit")
+    parser.add_argument("--retrieve", type=Path, default=None, help="Retrieve asynchronously submitted job from metadata file")
     args = parser.parse_args()
+
+    # Retrieve Mode
+    if args.retrieve:
+        if not args.out:
+            # Load metadata to guess output path
+            with args.retrieve.open("r", encoding="utf-8") as f:
+                meta = json.load(f)
+            args.out = Path(f"results/eval/qbraid_{meta['molecule']}_{meta['device'].replace(':', '_')}.json")
+        retrieve_qbraid_job(args.retrieve, args.out)
+        return
+
+    # Submit/Run Mode
+    if not (args.hamiltonians and args.generated and args.optimized and args.molecule and args.out):
+        parser.print_help()
+        sys.exit("\nError: --hamiltonians, --generated, --optimized, --molecule, and --out are required for submission.")
 
     records = load_hamiltonian_records(args.hamiltonians)
     record = find_record_by_name(records, args.molecule)
@@ -276,16 +557,26 @@ def main() -> None:
     operators = best_seq.get("operators", [])
     thetas = best_seq.get("thetas", [])
 
-    result = evaluate_energy_qbraid(
-        record, operators, theta_values=np.asarray(thetas), device=args.device, shots=args.shots
-    )
-    result["molecule"] = args.molecule
+    metadata_file = args.out.parent / f"qbraid_job_metadata_{args.molecule}_{args.device.replace(':', '_')}.json"
 
-    args.out.parent.mkdir(parents=True, exist_ok=True)
-    with args.out.open("w", encoding="utf-8") as f:
-        json.dump(result, f, indent=2)
-    print(f"qBraid energy for {args.molecule}: {result['energy']:.6f} Ha")
-    print(f"Result saved to: {args.out}")
+    res = evaluate_energy_qbraid_batched(
+        record,
+        operators,
+        theta_values=np.asarray(thetas),
+        device=args.device,
+        shots=args.shots,
+        submit_only=args.submit_only,
+        metadata_out_path=metadata_file if args.submit_only else None
+    )
+
+    if not args.submit_only:
+        assert isinstance(res, dict)
+        res["molecule"] = args.molecule
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        with args.out.open("w", encoding="utf-8") as f:
+            json.dump(res, f, indent=2)
+        print(f"qBraid energy for {args.molecule}: {res['energy']:.6f} Ha")
+        print(f"Result saved to: {args.out}")
 
 
 if __name__ == "__main__":

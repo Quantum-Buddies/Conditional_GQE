@@ -21,18 +21,33 @@ def main() -> None:
     parser.add_argument("--device", type=str, default="qbraid_qir_simulator")
     parser.add_argument("--shots", type=int, default=1024)
     parser.add_argument("--out", type=Path, default=ROOT / "results" / "eval" / "qbraid_energy.json")
+    
+    # Forward the new async options
+    parser.add_argument("--submit-only", action="store_true", help="Submit batch job asynchronously and exit")
+    parser.add_argument("--retrieve", type=Path, default=None, help="Retrieve asynchronously submitted job from metadata file")
+    
     args = parser.parse_args()
 
-    sys.argv = [
-        "qbraid_backend.py",
-        "--hamiltonians", str(args.hamiltonians),
-        "--generated", str(args.generated),
-        "--optimized", str(args.optimized),
-        "--molecule", args.molecule,
-        "--device", args.device,
-        "--shots", str(args.shots),
-        "--out", str(args.out),
-    ]
+    # Reconstruct sys.argv for the underlying qbraid_backend.py script
+    sys.argv = ["qbraid_backend.py"]
+    
+    if args.retrieve:
+        sys.argv += ["--retrieve", str(args.retrieve)]
+        if args.out:
+            sys.argv += ["--out", str(args.out)]
+    else:
+        sys.argv += [
+            "--hamiltonians", str(args.hamiltonians),
+            "--generated", str(args.generated),
+            "--optimized", str(args.optimized),
+            "--molecule", args.molecule,
+            "--device", args.device,
+            "--shots", str(args.shots),
+            "--out", str(args.out),
+        ]
+        if args.submit_only:
+            sys.argv += ["--submit-only"]
+            
     _main()
 
 
