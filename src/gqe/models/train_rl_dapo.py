@@ -507,6 +507,14 @@ def evaluate_energies_parallel(
 # Multi-component reward function
 # ---------------------------------------------------------------------------
 
+def _has_energy_improvement(
+    energy: float,
+    hf_energy: float | None,
+    threshold: float,
+) -> bool:
+    return hf_energy is not None and energy < hf_energy - threshold
+
+
 def compute_reward(
     energy: float,
     operators: list[str],
@@ -519,6 +527,8 @@ def compute_reward(
     w_commute: float = 0.05,
     w_diversity: float = 0.2,
     target_len: int = 10,
+    gate_auxiliary_rewards: bool = True,
+    energy_improvement_threshold: float = 0.0,
 ) -> float:
     """Multi-component reward for a generated circuit.
 
@@ -579,11 +589,17 @@ def compute_reward(
     # [XZXI, YZYI, XYYX] → 3/3 = 1.0 (max diversity)
     unique_frac = len(set(operators)) / len(operators)
 
+    auxiliary_scale = 1.0
+    if gate_auxiliary_rewards and not _has_energy_improvement(
+        energy, hf_energy, energy_improvement_threshold
+    ):
+        auxiliary_scale = 0.0
+
     reward = (w_energy * energy_reward
-              + w_entangle * entangle_frac
-              + w_depth * length_reward
-              + w_commute * non_commute_frac
-              + w_diversity * unique_frac)
+              + auxiliary_scale * (w_entangle * entangle_frac
+                                   + w_depth * length_reward
+                                   + w_commute * non_commute_frac
+                                   + w_diversity * unique_frac))
     return reward
 
 
@@ -1089,6 +1105,10 @@ def main() -> None:
                              "Prevents mode collapse to a single repeated operator.")
     parser.add_argument("--target-len", type=int, default=10,
                         help="Target sequence length for length reward (Gaussian peak)")
+    parser.add_argument("--gate-auxiliary-rewards", action=argparse.BooleanOptionalAction, default=True,
+                        help="Grant non-energy rewards only after beating Hartree-Fock.")
+    parser.add_argument("--energy-improvement-threshold", type=float, default=0.0,
+                        help="Required energy improvement below Hartree-Fock in Hartree.")
     parser.add_argument("--freq-penalty", type=float, default=1.0,
                         help="Frequency penalty for sampling: subtracts freq_penalty * count[token] "
                              "from logits. Prevents mode collapse to repeated operators.")
@@ -1550,6 +1570,8 @@ def main() -> None:
                         args.w_energy, args.w_entangle, args.w_depth, args.w_commute,
                         w_diversity=args.w_diversity,
                         target_len=args.target_len,
+                        gate_auxiliary_rewards=args.gate_auxiliary_rewards,
+                        energy_improvement_threshold=args.energy_improvement_threshold,
                     )
                     for e, ops in zip(energies, operator_lists)
                 ])
@@ -1562,13 +1584,29 @@ def main() -> None:
                         operator_lists, vocab,
                         ref_operator_lists=ref_ops if ref_ops else None,
                     )
-                    rewards = rewards + args.w_mmd_diversity * mmd_rewards
+                    mmd_eligible = np.array([
+                        _has_energy_improvement(
+                            energy, mol_data["hf_energy"], args.energy_improvement_threshold
+                        )
+                        for energy in energies
+                    ], dtype=float)
+                    if not args.gate_auxiliary_rewards:
+                        mmd_eligible.fill(1.0)
+                    rewards = rewards + args.w_mmd_diversity * mmd_rewards * mmd_eligible
 
                 if args.w_creativity > 0.0 and len(operator_lists) > 1:
                     # Build seen set from replay buffer for novelty check
                     seen_set = {tuple(s["operators"]) for s in replay_buffer.buffer}
                     creativity_rewards = compute_creativity_batch(operator_lists, seen_set)
-                    rewards = rewards + args.w_creativity * creativity_rewards
+                    creativity_eligible = np.array([
+                        _has_energy_improvement(
+                            energy, mol_data["hf_energy"], args.energy_improvement_threshold
+                        )
+                        for energy in energies
+                    ], dtype=float)
+                    if not args.gate_auxiliary_rewards:
+                        creativity_eligible.fill(1.0)
+                    rewards = rewards + args.w_creativity * creativity_rewards * creativity_eligible
 
                 # --- Phase 4: Dynamic sampling check ---
                 if args.dynamic_sampling and rewards.std() < 1e-8:

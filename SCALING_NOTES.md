@@ -16,7 +16,7 @@ Scale GQE and H-cGQE quantum simulations to larger qubit counts (12–22+ qubits
 
 | Backend | Flag | Use Case | Qubit Limit (L40S) |
 |---|---|---|---|
-| `nvidia` | `--target nvidia` | Single GPU statevector | ~26 qubits (fp32, 48 GB) |
+| `nvidia` | `--target nvidia` | Single GPU statevector | ~24 qubits (fp32, 48 GB, explicit cap) |
 | `nvidia-mqpu` | `--target nvidia --target-option mqpu` | 3 parallel QPUs (independent simulations) | ~26 qubits per QPU |
 | `nvidia-mgpu` | `--target nvidia --target-option mgpu,fp32` | 3 GPUs pooled memory for one statevector | ~35 qubits (144 GB total) |
 | `tensornet` | `--target tensornet` | Exact tensor network, single GPU | 50+ qubits (shallow circuits) |
@@ -195,6 +195,17 @@ When running `mpiexec -np 3` on AIRE with `--cpus-per-task=8`, MPI may complain 
 ```
 results/data/hamiltonians_scaling.json/hamiltonians.json
 ```
+
+## Safeguards Implemented
+
+### Statevector Qubit Cap
+Exact statevector simulation is explicitly capped at 24 qubits (`--statevector-max-qubits 24`) to prevent OOM on L40S. The MPS scaling script skips statevector for molecules exceeding the cap and reports `N/A`.
+
+### MPS Bond Dimension Convergence
+The scaling script reports energy differences across bond dimensions (D=32, 64, 128, 256) and flags convergence. A single bond dimension result is never presented as an accuracy claim.
+
+### Orbital Reordering (Excluded)
+Orbital reordering was intentionally not added. The MPS benchmark uses a synthetic CNOT chain (worst-case stress test), while Hamiltonians are already JW-mapped. Reordering only the circuit or only the Hamiltonian would change the physical problem. A valid orbital-reordering experiment requires regenerating the fermionic Hamiltonian and operator pool with the same orbital permutation, then remapping both together.
 
 ## Next Steps
 

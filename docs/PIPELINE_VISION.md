@@ -128,6 +128,7 @@ Given molecular and Hamiltonian context (and optionally device constraints), gen
 - DAPO + REPO + Chemeleon2 rewards (KL, MMD diversity, creativity, entropy bonus)
 - Off-policy GRPO with μ-reuse for sample efficiency
 - Multi-component reward: `r = w₁·(-E/|E_ref|) + w₂·entanglement + w₃·(-depth) + w₄·non_commute + w₅·MMD + w₆·creativity`
+- **Safeguard**: Auxiliary rewards (w₂-w₆) are gated on energy improvement over HF. If `E >= E_HF - threshold`, auxiliary rewards are zeroed — preventing reward hacking where the model optimizes structural metrics without lowering energy. Controlled via `--gate-auxiliary-rewards` and `--energy-improvement-threshold`.
 
 #### 2.4 Hardware-Aware Conditioning (NEW)
 
@@ -238,6 +239,7 @@ Memory formula: `2^n qubits × 16 bytes (complex128) = VRAM needed`
   - Runtime per circuit
   - Convergence vs exact (for small cases)
 - **Key caveat**: A completed 40-qubit MPS run is NOT automatically an accurate 40-qubit result. Report bond dimension and truncation error.
+- **Safeguard implemented**: The scaling script now requires multiple bond dimensions and reports convergence. A single bond dimension result is never presented as an accuracy claim. Statevector is explicitly capped at 24q (`--statevector-max-qubits`).
 
 #### 3.3 Multi-GPU Evaluation (Existing)
 - **CUDA-Q**: `nvidia-mqpu` target for Hamiltonian-term batching
@@ -417,6 +419,15 @@ Use `GroupJobSession` for unified tracking.
 - ❌ Send whole 30-40q chemistry experiments to QPUs
 - ❌ Submit full experiment batch before validating circuit compilation, parameter binding, qubit ordering, bit ordering, measurement convention, Hamiltonian grouping, result parsing, retry behavior, job persistence
 - ❌ Store API keys in repo, notebook, logs, or report
+
+### Safeguards Implemented
+- **Circuit complexity preflight**: `_circuit_complexity()` computes depth and two-qubit gate count via Qiskit decomposition before submission
+- **ZNE auto-skip**: ZNE is skipped if two-qubit gate count exceeds threshold (default: 20) — gate folding would make the circuit too deep for meaningful extrapolation
+- **REM auto-skip**: Full assignment-matrix REM calibration is skipped if qubit count exceeds threshold (default: 10) — `2^n × 2^n` calibration is exponential
+- **Configurable**: `--max-zne-two-qubit-gates 20 --max-rem-qubits 10`
+
+### Known Limitation: QPU Energy Evaluation
+The current QPU submission pipeline uses an approximate ideal energy proxy (probability of the all-zeros state) rather than full Hamiltonian expectation value measurement. Full Pauli-basis measurement grouping is needed before QPU energy results can be compared to simulator energies. This is the next priority for the QPU pipeline.
 
 ---
 

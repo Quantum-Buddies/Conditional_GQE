@@ -280,6 +280,60 @@ The model now generates **entangling operators** like XYYX, YXXY, XXYY -- creati
 
 ---
 
+## Pipeline Safeguards (Phase 3)
+
+Four pre-flight safeguards ensure robustness and scientific validity before expensive GPU and QPU runs:
+
+### 1. RL Reward Gating on Energy Improvement
+
+All auxiliary RL rewards (entanglement fraction, circuit depth, non-commutativity, MMD diversity, creativity) are **gated on energy improvement** over the Hartree-Fock reference. If a generated circuit does not improve energy beyond a configurable threshold, auxiliary rewards are zeroed out — preventing reward hacking where the model optimizes for circuit structure metrics without actually lowering energy.
+
+```bash
+python src/gqe/models/train_rl_dapo.py \
+    --gate-auxiliary-rewards \
+    --energy-improvement-threshold 0.0  # mHa; default: any improvement
+```
+
+**File**: `src/gqe/models/train_rl_dapo.py` — `_has_energy_improvement()` + `compute_reward()`
+
+### 2. Statevector Simulation Qubit Cap
+
+Exact statevector simulation is explicitly capped at 24 qubits (configurable) to prevent OOM on L40S GPUs. The MPS scaling script automatically skips statevector for molecules exceeding the cap and reports `N/A` instead of crashing.
+
+```bash
+python src/gqe/eval/run_mps_scaling.py \
+    --statevector-max-qubits 24  # L40S safe limit; use 32 for B200
+```
+
+**File**: `src/gqe/eval/run_mps_scaling.py` — `_run_statevector()` with `max_qubits` parameter
+
+### 3. MPS Bond Dimension Convergence Reporting
+
+MPS accuracy claims require **multiple bond dimensions** to demonstrate convergence. The scaling script now computes and reports energy differences across bond dimensions (D=32, 64, 128, 256), flagging whether results have converged or require higher bond dimension. A single bond dimension result is no longer presented as an accuracy claim.
+
+**File**: `src/gqe/eval/run_mps_scaling.py` — convergence metrics in scaling artifact JSON
+
+### 4. QPU Preflight Circuit Complexity Checks
+
+Before QPU submission, the pipeline computes circuit depth and two-qubit gate count via Qiskit decomposition. Error mitigation is automatically skipped when infeasible:
+
+- **ZNE skipped** if two-qubit gate count exceeds threshold (default: 20) — gate folding would make the circuit too deep for meaningful extrapolation
+- **REM calibration skipped** if qubit count exceeds threshold (default: 10) — full assignment matrix calibration requires `2^n × 2^n` measurements, exponential in qubit count
+
+```bash
+python src/gqe/eval/submit_qpu.py \
+    --max-zne-two-qubit-gates 20 \
+    --max-rem-qubits 10
+```
+
+**File**: `src/gqe/eval/submit_qpu.py` — `_circuit_complexity()` + preflight checks
+
+### Orbital Reordering: Deliberate Exclusion
+
+Orbital reordering was **intentionally not added** to the MPS scaling script. The current benchmark uses a synthetic nearest-neighbor CNOT chain (worst-case entanglement stress test), while the Hamiltonians are already qubit-mapped via Jordan-Wigner. Reordering only the circuit or only the Hamiltonian would change the physical problem. A valid orbital-reordering experiment requires regenerating the fermionic Hamiltonian and operator pool with the same orbital permutation, then remapping both together — this is documented as a future enhancement, not a current limitation.
+
+---
+
 ## Hybrid Workflow Advantages
 
 Conditional-GQE reduces the need for repeated structural optimization on the QPU by learning reusable circuit-generation policies classically, while retaining the ability to evaluate selected ansatze on quantum hardware.
@@ -357,7 +411,7 @@ Conditional_GQE/
 |   |   `-- fragmentation.py             # Fragment plan execution
 |   |-- models/
 |   |   |-- h_cgqe_transformer.py        # Transformer encoder-decoder (~7.8M params)
-|   |   |-- train_rl_dapo.py             # Stage 1: RL training (DAPO + REPO + Chemeleon2)
+|   |   |-- train_rl_dapo.py             # Stage 1: RL training (DAPO + REPO + Chemeleon2 + reward gating)
 |   |   |-- model_soup.py                # Weight averaging across RAFT rounds
 |   |   |-- train_h_cgqe.py              # Legacy: Supervised pretraining (ablation baseline)
 |   |   |-- infer_h_cgqe.py              # Autoregressive circuit synthesis
@@ -370,9 +424,11 @@ Conditional_GQE/
 |   |   |-- collect_qpu.py              # Collect QPU job results from qBraid
 |   |   |-- consolidate_qpu.py          # Consolidate QPU validation results
 |   |   |-- run_fmo2.py                 # FMO2 fragment energy calculation
-|   |   |-- run_mps_scaling.py           # MPS vs statevector scaling experiment
+|   |   |-- run_mps_scaling.py           # MPS vs statevector scaling experiment (with SV cap + convergence)
 |   |   |-- fmo2_error_decomposition.py  # FMO2 error breakdown
 |   |   |-- qbraid_backend.py            # qBraid batched evaluation backend
+|   |   |-- mitigation.py               # REM + ZNE error mitigation
+|   |   |-- qsci.py                     # QSCI scaling to 40 qubits
 |   |   |-- plot_benchmark_results.py    # Visualization
 |   |   `-- compare_gqe_results.py       # H-cGQE vs GQE baseline comparison
 |   |-- baselines/
@@ -383,6 +439,7 @@ Conditional_GQE/
 |   `-- common/
 |       |-- hamiltonian_utils.py         # Shared Hamiltonian conversion utilities
 |       |-- operator_pool.py             # UCCSD fermionic excitation pool
+|       |-- smiles_encoder.py            # SMILES molecular encoder for transfer learning
 |       `-- run_manifest.py              # Reproducibility manifest utilities
 |
 |-- results/
@@ -594,7 +651,39 @@ Controlled comparison of H-cGQE vs hardware-efficient VQE vs UCCSD-derived GQE o
 FMO2 decomposition of IMePh into 2 fragments (4q + 8q). Exact-fragment and H-cGQE fragment energies computed separately. Solver error: 26.252 mHa. Fragmentation error: 0.000 mHa (exact by construction with 2 fragments -- parent = dimer).
 
 ### Experiment 4: MPS Scaling Curve
-MPS simulation from 4 to 28 qubits with bond dimension sweep (D=32,64,128,256). Statevector reference computed for <=24 qubits using CUDA-Q nvidia backend. MPS extends to 28 qubits (ethylene) on a single L40S GPU, breaking the 24-qubit statevector wall. All bond dimensions produce identical results for low-entanglement GHZ circuits. Runtime scales polynomially (~O(n^2)).
+MPS simulation from 4 to 28 qubits with bond dimension sweep (D=32,64,128,256). Statevector reference computed for <=24 qubits (explicit cap, configurable via `--statevector-max-qubits`) using CUDA-Q nvidia backend. MPS extends to 28 qubits (ethylene) on a single L40S GPU, breaking the 24-qubit statevector wall. Bond dimension convergence is reported across all dimensions — a single bond dimension result is never presented as an accuracy claim. Runtime scales polynomially (~O(n^2)).
+
+### Experiment 5: GQE-QSCI Scaling to 40 Qubits (BONUS POINT)
+
+Quantum-Selected Configuration Interaction (QSCI) samples determinants from a quantum state and diagonalizes the subspace Hamiltonian classically, enabling scaling beyond exact diagonalization limits.
+
+| Molecule | Qubits | Terms | Bitstrings | QSCI Energy (Ha) | Time (s) | Backend |
+|---|---|---|---|---|---|---|
+| H2 | 4 | 15 | 6 | -1.137284 | 0.1 | nvidia |
+| LiH | 12 | 631 | 93 | -7.861865 | 0.1 | nvidia |
+| BeH2 | 14 | 666 | 129 | -15.561278 | 0.1 | nvidia |
+| N2 | 20 | 2951 | 129 | -107.496501 | 0.1 | nvidia |
+| Formaldehyde | 24 | 9257 | 129 | -112.352446 | 0.4 | nvidia |
+| Ethylene | 28 | 8919 | 131 | -77.070316 | 12.1 | tensornet-mps |
+| **Benzene CAS(20e,20o)** | **40** | **29897** | **131** | **-227.890091** | **19.1** | **tensornet-mps** |
+
+H2 QSCI achieves exact FCI energy (0.000 mHa error). Benzene at 40 qubits completes in ~19 seconds on MPS backend, demonstrating beyond-statevector quantum chemistry on a single L40S GPU.
+
+### Experiment 6: Cross-Molecule Transfer Learning
+
+SMILES-based molecular encoder for cross-molecule generalization. Chemistry-aware tokenizer handles multi-character atoms (Cl, Br, Li, Be). 2-layer transformer encoder produces 256-dim molecular embeddings. Dataset includes 10 molecules spanning 4-56 qubits.
+
+### Experiment 7: QPU Error Mitigation
+
+REM (Reference-State Error Mitigation) for readout error correction and ZNE (Zero-Noise Extrapolation) with gate folding at scale factors [1, 2, 3] and Richardson extrapolation. Integrated into QPU submission pipeline via `--mitigate rem,zne` flag.
+
+---
+
+## Launch on qBraid
+
+[![Launch on qBraid](https://qbraid-static.s3.amazonaws.com/logos/Launch_on_qBraid.svg)](https://account.qbraid.com/)
+
+Click the button above to launch this project on qBraid Lab with pre-configured quantum hardware access.
 
 ---
 

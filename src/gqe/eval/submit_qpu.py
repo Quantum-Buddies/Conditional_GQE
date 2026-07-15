@@ -37,6 +37,21 @@ from src.gqe.common.hamiltonian_utils import (
 )
 from src.gqe.common.run_manifest import create_run_manifest, save_run_manifest
 
+try:
+    from src.gqe.eval.mitigation import (
+        calibrate_rem,
+        apply_rem,
+        fold_gates,
+        zne_extrapolate,
+        run_zne_experiment,
+    )
+except ImportError:
+    calibrate_rem = None
+    apply_rem = None
+    fold_gates = None
+    zne_extrapolate = None
+    run_zne_experiment = None
+
 
 def _load_best_circuit(benchmark_path: Path) -> dict[str, Any]:
     """Extract the best H-cGQE circuit from consolidated benchmark."""
@@ -133,6 +148,18 @@ def _build_qiskit_circuit(
     return qc
 
 
+def _circuit_complexity(circuit) -> dict[str, int]:
+    decomposed = circuit.decompose(reps=3)
+    two_qubit_gates = sum(
+        1 for instruction, _, _ in decomposed.data if instruction.num_qubits == 2
+    )
+    return {
+        "depth": int(decomposed.depth()),
+        "two_qubit_gates": two_qubit_gates,
+        "total_gates": len(decomposed.data),
+    }
+
+
 def _run_ideal_simulation(circuit, n_qubits: int) -> float:
     """Run ideal statevector simulation for reference energy."""
     from qiskit.quantum_info import Statevector
@@ -218,6 +245,16 @@ def main() -> None:
                         help="Submit asynchronously and return job ID")
     parser.add_argument("--wait", action="store_true",
                         help="Wait synchronously for results")
+    parser.add_argument("--mitigate", type=str, default=None,
+                        help="Comma-separated mitigation methods: rem,zne")
+    parser.add_argument("--zne-scales", type=str, default="1,2,3",
+                        help="Comma-separated ZNE scale factors")
+    parser.add_argument("--zne-method", type=str, default="richardson",
+                        help="ZNE extrapolation method: linear, richardson, polynomial")
+    parser.add_argument("--max-zne-two-qubit-gates", type=int, default=20,
+                        help="Skip ZNE when the unfolded circuit exceeds this two-qubit-gate count")
+    parser.add_argument("--max-rem-qubits", type=int, default=10,
+                        help="Skip full-assignment REM calibration above this qubit count")
     args = parser.parse_args()
 
     # Load config
@@ -264,7 +301,12 @@ def main() -> None:
         n_electrons = get_active_electron_count(record)
 
     circuit = _build_qiskit_circuit(n_qubits, n_electrons, best["operators"])
-    print(f"  Circuit: {circuit.num_qubits}q, depth={circuit.depth()}, ops={circuit.count_ops()}")
+    circuit_complexity = _circuit_complexity(circuit)
+    print(
+        f"  Circuit: {circuit.num_qubits}q, depth={circuit_complexity['depth']}, "
+        f"two-qubit gates={circuit_complexity['two_qubit_gates']}, "
+        f"ops={circuit.count_ops()}"
+    )
 
     # Ideal simulation reference
     try:
@@ -278,6 +320,64 @@ def main() -> None:
     qpu_cfg = config.get("qpu", {})
     device_id = args.device or qpu_cfg.get("device", "qbraid:qbraid:sim:qir-sv")
     shots = args.shots or qpu_cfg.get("shots", 4096)
+
+    # Parse mitigation options
+    mitigate = args.mitigate.split(",") if args.mitigate else []
+    zne_scales = [float(s) for s in args.zne_scales.split(",")] if "zne" in mitigate else []
+    mitigation_results = {}
+
+    # REM calibration (if requested)
+    if "rem" in mitigate and calibrate_rem is not None:
+        if n_qubits > args.max_rem_qubits:
+            message = (
+                f"full-assignment REM disabled for {n_qubits} qubits "
+                f"(limit={args.max_rem_qubits})"
+            )
+            print(f"\n  REM skipped: {message}")
+            mitigation_results["rem_calibrated"] = False
+            mitigation_results["rem_skipped_reason"] = message
+            cal_matrix = None
+        else:
+            print(f"\n  Calibrating REM on {device_id}...")
+            try:
+                cal_matrix = calibrate_rem(n_qubits, device_id, shots=min(shots, 1024))
+                mitigation_results["rem_calibrated"] = True
+                mitigation_results["rem_matrix_shape"] = list(cal_matrix.shape)
+                print(f"    REM calibration matrix: {cal_matrix.shape}")
+            except Exception as e:
+                print(f"    REM calibration failed: {e}")
+                mitigation_results["rem_calibrated"] = False
+                mitigation_results["rem_error"] = str(e)
+                cal_matrix = None
+    else:
+        cal_matrix = None
+
+    # ZNE experiment (if requested)
+    if "zne" in mitigate and run_zne_experiment is not None:
+        if circuit_complexity["two_qubit_gates"] > args.max_zne_two_qubit_gates:
+            message = (
+                f"unfolded circuit has {circuit_complexity['two_qubit_gates']} two-qubit gates "
+                f"(limit={args.max_zne_two_qubit_gates})"
+            )
+            print(f"\n  ZNE skipped: {message}")
+            mitigation_results["zne_skipped_reason"] = message
+        else:
+            print(f"\n  Running ZNE with scales {zne_scales}...")
+            try:
+                from src.gqe.common.hamiltonian_utils import hamiltonian_to_sparse_pauli_op
+                ham_op = hamiltonian_to_sparse_pauli_op(record) if record else None
+
+                zne_result = run_zne_experiment(
+                    circuit, device_id, ham_op,
+                    scale_factors=zne_scales,
+                    shots=shots,
+                    extrapolation=args.zne_method,
+                )
+                mitigation_results["zne"] = zne_result
+                print(f"    ZNE energy: {zne_result['zne_energy']:.6f} Ha")
+            except Exception as e:
+                print(f"    ZNE failed: {e}")
+                mitigation_results["zne_error"] = str(e)
 
     # Submit to qBraid
     print(f"\n  Submitting to: {device_id}")
@@ -300,8 +400,10 @@ def main() -> None:
             "ideal_sim_energy": ideal_energy,
         },
         "submission": submit_result,
+        "circuit_complexity": circuit_complexity,
+        "mitigation": mitigation_results if mitigate else None,
         "manifest": create_run_manifest(
-            command=f"python src/gqe/eval/submit_qpu.py --benchmark {args.benchmark} --device {device_id} --shots {shots}",
+            command=f"python src/gqe/eval/submit_qpu.py --benchmark {args.benchmark} --device {device_id} --shots {shots}" + (f" --mitigate {args.mitigate}" if args.mitigate else ""),
         ),
     }
 

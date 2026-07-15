@@ -41,6 +41,14 @@
 - **Operator padding**: `evaluate_h_cgqe.py` pads/truncates Pauli words to match `n_qubits` before `cudaq.pauli_word()` conversion.
 - **Active electron count**: Replaced `n_qubits // 2` heuristic with `get_active_electron_count()` for accurate electron count in evaluation.
 
+### Phase 3 pipeline safeguards
+- **RL reward gating**: Auxiliary rewards gated on energy improvement over HF (`--gate-auxiliary-rewards`, `--energy-improvement-threshold`). Prevents reward hacking. In `train_rl_dapo.py`.
+- **Statevector cap**: Explicit 24q cap on exact statevector simulation (`--statevector-max-qubits 24`). MPS scaling script skips SV above cap. In `run_mps_scaling.py`.
+- **MPS convergence reporting**: Multiple bond dimensions required for accuracy claims. Energy differences across D=32,64,128,256 reported. In `run_mps_scaling.py`.
+- **QPU preflight checks**: ZNE skipped if two-qubit gates > 20 (`--max-zne-two-qubit-gates`); REM skipped if qubits > 10 (`--max-rem-qubits`). In `submit_qpu.py`.
+- **Orbital reordering**: Intentionally excluded from MPS scaling. Synthetic CNOT chain + JW-mapped Hamiltonians would be physically inconsistent to reorder independently. Valid reordering requires regenerating fermionic Hamiltonian + operator pool with same orbital permutation.
+- **QPU energy limitation**: Current `submit_qpu.py` uses approximate ideal energy proxy (all-zeros probability), not full Hamiltonian expectation. Full Pauli-basis measurement grouping is the next priority.
+
 ### Scripts and commands
 - Full benchmark: `bash scripts/run_full_benchmark.sh` (optional `RUN_CUDAQ_GQE=1` for CUDA-Q GQE baseline)
 - Plots: `bash scripts/plot_benchmarks.sh` (PNG outputs)
