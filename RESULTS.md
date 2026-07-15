@@ -47,9 +47,10 @@ Error decomposition:
 
 ## Experiment 4: MPS Scaling Curve
 
-**Backends**: CUDA-Q `nvidia` (statevector, <=24q) and `tensornet-mps` (MPS, all sizes)
+**Backends**: CUDA-Q `nvidia` (statevector, <=24q with explicit cap) and `tensornet-mps` (MPS, all sizes)
 **Hardware**: Single L40S GPU (48GB)
-**Entangling circuit**: GHZ-like CNOT chain
+**Entangling circuit**: GHZ-like CNOT chain (worst-case stress test)
+**Safeguards**: Statevector capped at 24q (`--statevector-max-qubits`); MPS bond dimension convergence reported across D=32,64,128,256
 
 | Molecule | Qubits | SV Energy (Ha) | SV Time (s) | MPS D=32 | MPS D=256 |
 |---|---|---|---|---|---|
@@ -65,6 +66,8 @@ Key findings:
 - Ethylene (28 qubits) simulated with MPS in ~300s
 - All bond dimensions (D=32-256) give identical results for low-entanglement circuits
 - MPS runtime scales polynomially (~O(n^2)), not exponentially
+- Bond dimension convergence is reported — no accuracy claim from a single bond dimension
+- Orbital reordering intentionally excluded (synthetic CNOT chain + JW-mapped Hamiltonians would be physically inconsistent to reorder independently)
 
 ## Report
 
@@ -75,4 +78,4 @@ PDF: `proposals/Ryoushi_Quantum_Buddies__Phase3_Version1.pdf` (6 pages)
 - Conda env: `cudaq-env` at `/scratch/kcwp264/.conda_envs/cudaq-env/`
 - All scripts: `scripts/phase3/00_smoke_test.sh` through `08_build_report.sh`
 - Result JSONs: `results/phase3_final/`
-- Git: `phase3-submission` branch, commit `80bb41a`
+- Git: `phase3-submission` branch (latest commit includes pipeline safeguards)

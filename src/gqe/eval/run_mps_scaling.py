@@ -50,10 +50,13 @@ def _make_entangled_kernel():
     return entangled_kernel
 
 
-def _run_statevector(record: dict) -> tuple[float | None, float]:
+def _run_statevector(
+    record: dict,
+    max_qubits: int,
+) -> tuple[float | None, float]:
     """Run statevector simulation using nvidia backend."""
     n_qubits = int(record["n_qubits"])
-    if n_qubits > 24:
+    if n_qubits > max_qubits:
         return None, 0.0
     try:
         cudaq.set_target("nvidia")
@@ -99,6 +102,12 @@ def run_mps_scaling(
 
     molecules = config.get("molecules", [])
     bond_dims = config.get("bond_dimensions", [32, 64, 128, 256])
+    statevector_max_qubits = int(config.get("statevector_max_qubits", 24))
+    mps_convergence_tolerance_mha = float(config.get("mps_convergence_tolerance_mha", 1.0))
+    if statevector_max_qubits < 1:
+        raise ValueError("statevector_max_qubits must be positive")
+    if len(bond_dims) < 2:
+        raise ValueError("bond_dimensions must contain at least two values for convergence checks")
 
     ham_files = [
         "results/data/hamiltonians_phase3.json/hamiltonians.json",
@@ -131,7 +140,7 @@ def run_mps_scaling(
         n_qubits = int(record["n_qubits"])
         print(f"{name:20s} {n_qubits:>6d}", end="", flush=True)
 
-        sv_energy, sv_runtime = _run_statevector(record)
+        sv_energy, sv_runtime = _run_statevector(record, statevector_max_qubits)
         if sv_energy is not None:
             print(f" {sv_energy:>14.6f} {sv_runtime:>7.2f}s", end="", flush=True)
         else:
@@ -150,6 +159,16 @@ def run_mps_scaling(
 
         print()
 
+        highest_bond = bond_dims[-1]
+        previous_bond = bond_dims[-2]
+        highest_energy = mps_energies.get(highest_bond)
+        previous_energy = mps_energies.get(previous_bond)
+        bond_convergence_mha = (
+            abs(highest_energy - previous_energy) * 1000
+            if highest_energy is not None and previous_energy is not None
+            else None
+        )
+
         # Save incrementally after each molecule
         results.append({
             "molecule": name,
@@ -158,6 +177,15 @@ def run_mps_scaling(
             "statevector_runtime": sv_runtime,
             "mps_energies": mps_energies,
             "mps_runtimes": mps_runtimes,
+            "mps_bond_convergence": {
+                "comparison_bonds": [previous_bond, highest_bond],
+                "energy_difference_mha": bond_convergence_mha,
+                "tolerance_mha": mps_convergence_tolerance_mha,
+                "converged": (
+                    bond_convergence_mha is not None
+                    and bond_convergence_mha <= mps_convergence_tolerance_mha
+                ),
+            },
             "errors_vs_sv": {
                 f"D={D}": abs(mps_energies[D] - sv_energy) * 1000
                           if mps_energies.get(D) is not None and sv_energy is not None
@@ -171,8 +199,10 @@ def run_mps_scaling(
             "experiment": "mps_scaling",
             "description": "Statevector vs MPS comparison across qubit counts with entangling layer",
             "bond_dimensions": bond_dims,
+            "statevector_max_qubits": statevector_max_qubits,
+            "mps_convergence_tolerance_mha": mps_convergence_tolerance_mha,
             "backend_info": {
-                "statevector": "nvidia (single L40S, <=24 qubits)",
+                "statevector": f"nvidia (single GPU, <={statevector_max_qubits} qubits)",
                 "mps": "tensornet-mps (single GPU, CUDAQ_MPS_MAX_BOND env var)",
                 "note": "tensornet-mps is single-GPU only per CUDA-Q docs",
             },
@@ -187,8 +217,10 @@ def run_mps_scaling(
         "experiment": "mps_scaling",
         "description": "Statevector vs MPS comparison across qubit counts with entangling layer",
         "bond_dimensions": bond_dims,
+        "statevector_max_qubits": statevector_max_qubits,
+        "mps_convergence_tolerance_mha": mps_convergence_tolerance_mha,
         "backend_info": {
-            "statevector": "nvidia (single L40S, <=24 qubits)",
+            "statevector": f"nvidia (single GPU, <={statevector_max_qubits} qubits)",
             "mps": "tensornet-mps (single GPU, CUDAQ_MPS_MAX_BOND env var)",
             "note": "tensornet-mps is single-GPU only per CUDA-Q docs",
         },
