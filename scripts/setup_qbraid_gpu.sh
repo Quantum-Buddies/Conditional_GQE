@@ -1,12 +1,12 @@
 #!/bin/bash
-# Setup script for qBraid Lab GPU instances (H200, H100, B200, etc.)
+# Setup script for qBraid Lab GPU instances (GH200, H200, H100, B200, etc.)
 # Run this after launching a qBraid Lab on-demand GPU instance.
 #
 # Usage:
 #   bash scripts/setup_qbraid_gpu.sh
 #
-# This installs CUDA-Q, clones the repo, and prepares the environment
-# for RL training on the GPU instance.
+# This installs CUDA-Q (if not pre-installed), clones the repo, and prepares
+# the environment for RL training on the GPU instance.
 
 set -euo pipefail
 
@@ -16,17 +16,26 @@ echo "GPUs: $(nvidia-smi -L 2>/dev/null | wc -l)"
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader 2>/dev/null || echo "nvidia-smi not found"
 echo ""
 
-# 1. Install CUDA-Q and dependencies
-echo ">>> Installing CUDA-Q and Python dependencies..."
-pip install --quiet \
-    cudaq \
-    cudaq-solvers \
-    qiskit \
-    scipy \
-    numpy \
-    tqdm \
-    torch \
-    transformers
+# 1. Install CUDA-Q and dependencies (skip if already available)
+echo ">>> Checking for CUDA-Q..."
+if python -c "import cudaq" 2>/dev/null; then
+    echo ">>> CUDA-Q already installed: $(python -c 'import cudaq; print(cudaq.__version__)')"
+else
+    echo ">>> Installing CUDA-Q and Python dependencies..."
+    pip install --quiet \
+        cudaq \
+        cudaq-solvers \
+        qiskit \
+        scipy \
+        numpy \
+        tqdm \
+        torch \
+        transformers
+fi
+
+# Install other deps if missing
+python -c "import tqdm, scipy, transformers" 2>/dev/null || \
+    pip install --quiet tqdm scipy transformers
 
 echo ">>> Verifying CUDA-Q installation..."
 python -c "
@@ -40,6 +49,11 @@ if torch.cuda.is_available():
     for i in range(torch.cuda.device_count()):
         props = torch.cuda.get_device_properties(i)
         print(f'GPU {i}: {props.name}, {props.total_mem / 1e9:.1f} GB')
+        # Detect GH200 for optimal settings
+        if 'GH200' in props.name or 'Grace Hopper' in props.name:
+            print('  → Grace Hopper Superchip detected: optimal for CUDA-Q MPS simulations')
+else:
+    print('WARNING: No GPU detected by PyTorch')
 "
 
 # 2. Clone or update the repo
@@ -83,7 +97,7 @@ fi
 echo ""
 echo "=== Setup Complete ==="
 echo "To start RL training, run:"
-echo "  bash scripts/run_rl_qbraid_gpu.sh"
+echo "  bash scripts/run_rl_qbraid_gpu.sh gh200"
 echo ""
 echo "Or manually:"
 echo "  python src/gqe/models/train_rl_dapo.py \\"
@@ -93,4 +107,4 @@ echo "    --molecules h2 lih beh2 n2 \\"
 echo "    --out results/train/h_cgqe_rl_qbraid.pt \\"
 echo "    --epochs 500 --n-samples 64 --n-iters 5 --reuse-iters 3 \\"
 echo "    --buffer-batch-size 64 --adaptive-theta \\"
-echo "    --max-qubits 30 --target nvidia --use-cuda --use-bf16"
+echo "    --max-qubits 28 --target nvidia --use-cuda --use-bf16"

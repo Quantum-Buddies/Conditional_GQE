@@ -1,8 +1,9 @@
 #!/bin/bash
 # RL training launch script for qBraid Lab GPU instances.
-# Optimized for H200 (141GB), H100 (80GB), or B200 (180GB).
+# Optimized for GH200 (96GB, Grace Hopper), H200 (141GB), H100 (80GB), B200 (180GB).
 #
 # Key advantages over AIRE L40S:
+#   - GH200 96GB: 1.2-1.9x faster than H100 in CUDA-Q, 1.87x cheaper (4.78 vs 8.95 cr/min)
 #   - H200 141GB: handles up to ~30q single-GPU cuStateVec (vs 24q on L40S)
 #   - H100/H200 SXM: NVLink enables multi-GPU cuStateVec (no PCIe IPC segfault)
 #   - Much higher bandwidth → faster CUDA-Q energy evaluation → more samples/epoch
@@ -10,9 +11,10 @@
 # Usage:
 #   bash scripts/run_rl_qbraid_gpu.sh [GPU_TYPE]
 #
-#   GPU_TYPE: h200 (default), h100, b200, a100, l40s
+#   GPU_TYPE: gh200 (default), h200, h100, b200, a100, l40s
 #
 # qBraid GPU pricing (credits/min, 100 credits = $1):
+#   GH200:  4.78 cr/min  (96GB,  ~28q max) ← RECOMMENDED (best value)
 #   H200:   9.15 cr/min  (141GB, ~30q max)
 #   H100:   8.95 cr/min  (80GB,  ~26q max)
 #   B200:  14.57 cr/min  (180GB, ~32q max)
@@ -21,35 +23,45 @@
 
 set -euo pipefail
 
-GPU_TYPE="${1:-h200}"
+GPU_TYPE="${1:-gh200}"
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PYTHON_BIN="python"
 
 # GPU-specific settings
 case "$GPU_TYPE" in
+    gh200)
+        MAX_QUBITS=28
+        MPS_THRESHOLD=24
+        EXTRA_FLAGS=""
+        ;;
     h200)
         MAX_QUBITS=30
+        MPS_THRESHOLD=26
         EXTRA_FLAGS=""
         ;;
     h100)
         MAX_QUBITS=26
+        MPS_THRESHOLD=22
         EXTRA_FLAGS=""
         ;;
     b200)
         MAX_QUBITS=32
+        MPS_THRESHOLD=28
         EXTRA_FLAGS=""
         ;;
     a100)
         MAX_QUBITS=26
+        MPS_THRESHOLD=22
         EXTRA_FLAGS=""
         ;;
     l40s)
         MAX_QUBITS=24
+        MPS_THRESHOLD=20
         EXTRA_FLAGS="--single-gpu"
         ;;
     *)
         echo "Unknown GPU type: $GPU_TYPE"
-        echo "Supported: h200, h100, b200, a100, l40s"
+        echo "Supported: gh200, h200, h100, b200, a100, l40s"
         exit 1
         ;;
 esac
@@ -65,11 +77,14 @@ echo "Checkpoint: ${CHECKPOINT}"
 echo "Hamiltonians: ${HAMILTONIANS}"
 echo "Output: ${OUTPUT}"
 echo "Max qubits: ${MAX_QUBITS}"
+echo "MPS threshold: ${MPS_THRESHOLD}"
 echo "GPUs: $(nvidia-smi -L 2>/dev/null | wc -l)"
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader 2>/dev/null
 echo ""
 
 cd "${PROJECT_ROOT}"
+
+START_TIME=$(date +%s)
 
 # Optimized hyperparameters for qBraid GPU training:
 #   --n-samples 64: 2x more samples per molecule for better gradient estimates
@@ -99,6 +114,7 @@ cd "${PROJECT_ROOT}"
     --force-entanglement \
     --max-repeat 4 \
     --max-qubits "${MAX_QUBITS}" \
+    --mps-threshold "${MPS_THRESHOLD}" \
     --target nvidia \
     --target-option mqpu \
     --use-cuda \
@@ -131,6 +147,7 @@ echo "Output saved to: ${OUTPUT}"
 # Print cost summary
 ELAPSED_MIN=$(($(date +%s) - START_TIME) / 60)
 case "$GPU_TYPE" in
+    gh200) CR_RATE=4.78 ;;
     h200)  CR_RATE=9.15 ;;
     h100)  CR_RATE=8.95 ;;
     b200)  CR_RATE=14.57 ;;
