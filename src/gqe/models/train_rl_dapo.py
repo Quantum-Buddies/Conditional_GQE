@@ -1058,9 +1058,9 @@ def main() -> None:
     parser.add_argument("--molecules", nargs="+", required=True)
     parser.add_argument("--out", type=Path, required=True, help="Output checkpoint path")
     # Training
-    parser.add_argument("--epochs", type=int, default=200)
-    parser.add_argument("--n-samples", type=int, default=50, help="Circuits sampled per molecule per epoch")
-    parser.add_argument("--n-iters", type=int, default=1,
+    parser.add_argument("--epochs", type=int, default=500)
+    parser.add_argument("--n-samples", type=int, default=64, help="Circuits sampled per molecule per epoch")
+    parser.add_argument("--n-iters", type=int, default=5,
                         help="Number of gradient update iterations per epoch on different replay buffer batches "
                              "(GPT-QE paper uses N_iter=5)")
     parser.add_argument("--lr", type=float, default=1e-5, help="Lower LR for RL fine-tuning")
@@ -1073,8 +1073,8 @@ def main() -> None:
     parser.add_argument("--clip-low", type=float, default=0.2)
     parser.add_argument("--clip-high", type=float, default=0.28)
     parser.add_argument("--token-level-loss", action="store_true", default=True)
-    parser.add_argument("--dynamic-sampling", action="store_true", default=True,
-                        help="Skip groups where all energies are identical (std=0)")
+    parser.add_argument("--dynamic-sampling", action=argparse.BooleanOptionalAction, default=True,
+                        help="Skip groups where all energies are identical (std=0). Use --no-dynamic-sampling to disable.")
     parser.add_argument("--max-resample-attempts", type=int, default=3,
                         help="Max resampling attempts for dynamic sampling before giving up")
     # Exploration
@@ -1113,11 +1113,11 @@ def main() -> None:
                         help="Frequency penalty for sampling: subtracts freq_penalty * count[token] "
                              "from logits. Prevents mode collapse to repeated operators.")
     # Replay buffer
-    parser.add_argument("--buffer-size", type=int, default=1000)
-    parser.add_argument("--buffer-batch-size", type=int, default=0,
-                        help="Batch size from replay buffer (0 = no replay training)")
+    parser.add_argument("--buffer-size", type=int, default=2000)
+    parser.add_argument("--buffer-batch-size", type=int, default=64,
+                        help="Batch size from replay buffer for off-policy training (0 = disabled)")
     # Off-policy sample reuse (arXiv:2505.22257)
-    parser.add_argument("--reuse-iters", type=int, default=1,
+    parser.add_argument("--reuse-iters", type=int, default=3,
                         help="Number of gradient steps per rollout batch (off-policy GRPO). "
                              "Reuses each sample μ times with importance sampling correction. "
                              "1=standard (no reuse), 2-4=recommended for reducing simulation cost.")
@@ -1132,7 +1132,7 @@ def main() -> None:
     parser.add_argument("--pretrain-decay-epochs", type=int, default=150,
                         help="Number of epochs to linearly decay pre-constructed data fraction to 0.")
     # Adaptive theta optimization during RL
-    parser.add_argument("--adaptive-theta", action="store_true", default=False,
+    parser.add_argument("--adaptive-theta", action="store_true", default=True,
                         help="Run quick L-BFGS-B optimization of theta for the best circuit in each "
                              "batch. Uses optimized energy for reward instead of fixed theta. "
                              "More expensive but gives much better energy signal.")
@@ -1146,8 +1146,9 @@ def main() -> None:
     parser.add_argument("--single-gpu", action="store_true",
                         help="Force single-GPU evaluation (avoids L40S PCIe IPC segfault with mqpu)")
     parser.add_argument("--theta", type=float, default=0.01, help="Fixed rotation angle for energy eval")
-    parser.add_argument("--max-qubits", type=int, default=48,
-                        help="Skip molecules with more qubits. Default 48 (MPS can handle 40+)")
+    parser.add_argument("--max-qubits", type=int, default=30,
+                        help="Skip molecules with more qubits. Default 30 (H200 single-GPU). "
+                             "Use 24 for L40S (cuStateVec distributed threshold=25).")
     parser.add_argument("--mps-threshold", type=int, default=24,
                         help="Auto-switch to tensornet-mps for molecules above this qubit count")
     parser.add_argument("--mps-bond", type=int, default=64,
@@ -1320,7 +1321,7 @@ def main() -> None:
     # BF16 mixed precision: arXiv:2603.11682 shows FP16 multiplicative bias causes entropy collapse.
     # BF16 has 8 exponent bits (same as FP32) vs FP16's 5, avoiding the multiplicative
     # bias in softmax gradients that systematically reduces entropy.
-    use_bf16 = args.use_bf16 or args.use_fp16  # bf16 supersedes fp16
+    use_bf16 = (args.use_bf16 or args.use_fp16) and torch.cuda.is_available()  # bf16 supersedes fp16
     scaler = torch.amp.GradScaler('cuda') if (args.use_fp16 and not args.use_bf16) else None
     amp_dtype = torch.bfloat16 if use_bf16 else torch.float16
     if use_bf16:
@@ -1435,6 +1436,10 @@ def main() -> None:
                     )
                 print(f"  Pre-filled replay buffer with {len(replay_buffer)} pre-constructed samples")
 
+    # Build molecule lookup for replay buffer training
+    mol_data_by_name = {m["name"]: m for m in molecules_data}
+    pad_id = SPECIAL_TOKENS["<PAD>"]
+
     # Training loop
     best_energy_per_mol = {m["name"]: float("inf") for m in molecules_data}
     train_metrics_log = []
@@ -1444,9 +1449,10 @@ def main() -> None:
     for epoch in pbar:
         # Curriculum: select which molecules to train on this epoch
         if args.curriculum and len(curriculum_stages) > 1:
-            stage_idx = min(len(curriculum_stages) - 1, epoch // args.curriculum_warmup)
+            warmup = max(1, args.curriculum_warmup)
+            stage_idx = min(len(curriculum_stages) - 1, epoch // warmup)
             active_molecules = curriculum_stages[stage_idx]
-            if stage_idx < len(curriculum_stages) - 1 and epoch % args.curriculum_warmup == 0 and epoch > 0:
+            if stage_idx < len(curriculum_stages) - 1 and epoch % warmup == 0 and epoch > 0:
                 print(f"\n  Curriculum stage {stage_idx}: now training on {[m['name'] for m in active_molecules]}")
         else:
             active_molecules = molecules_data
@@ -1783,11 +1789,101 @@ def main() -> None:
 
                 epoch_losses.append(loss.item())
 
-        # --- Replay buffer training (optional) ---
+        # --- Replay buffer off-policy training ---
+        # Sample stale sequences from the buffer and do additional gradient
+        # updates.  The importance-sampling ratio in dapo_loss automatically
+        # corrects for the policy drift between sampling time and now.
+        # This gives 'free' extra gradient steps without new CUDA-Q simulations.
         if args.buffer_batch_size > 0 and len(replay_buffer) >= args.buffer_batch_size:
-            replay_samples = replay_buffer.sample(args.buffer_batch_size)
-            # TODO: could add replay training here
-            pass
+            for _rb_iter in range(args.n_iters):
+                replay_samples = replay_buffer.sample(args.buffer_batch_size)
+
+                # Group samples by molecule for per-molecule advantage computation
+                by_mol: dict[str, list[dict[str, Any]]] = {}
+                for s in replay_samples:
+                    by_mol.setdefault(s["molecule"], []).append(s)
+
+                model.train()
+                for mol_name_rb, samples_rb in by_mol.items():
+                    mol_data_rb = mol_data_by_name.get(mol_name_rb)
+                    if mol_data_rb is None:
+                        continue
+
+                    # Stack sequences and old log-probs
+                    seqs = torch.stack([s["sequence"] for s in samples_rb]).to(device)
+                    old_lps = torch.stack([s["log_probs"] for s in samples_rb]).to(device)
+                    energies_rb = np.array([s["energy"] for s in samples_rb], dtype=float)
+
+                    # Group-relative advantages (GRPO-style)
+                    rewards_rb = energies_rb  # raw energy as reward proxy for replay
+                    advantages_rb = compute_advantages(
+                        rewards_rb,
+                        use_grpo=True,
+                        repo_beta=args.repo_beta,
+                        old_log_probs=old_lps,
+                        attention_mask=(seqs[:, 1:] != pad_id).float(),
+                    )
+
+                    tgt_input_rb = seqs[:, :-1].to(device)
+                    tgt_labels_rb = seqs[:, 1:].to(device)
+                    attn_mask_rb = (tgt_labels_rb != pad_id).float().to(device)
+
+                    pauli_ids_rb = mol_data_rb["pauli_ids"].unsqueeze(0).expand(
+                        seqs.size(0), -1, -1
+                    ).to(device)
+                    coeffs_rb = mol_data_rb["coeffs"].unsqueeze(0).expand(
+                        seqs.size(0), -1
+                    ).to(device)
+                    term_mask_rb = mol_data_rb["term_mask"].unsqueeze(0).expand(
+                        seqs.size(0), -1
+                    ).to(device)
+
+                    optimizer.zero_grad()
+                    if use_bf16:
+                        with torch.amp.autocast('cuda', dtype=torch.bfloat16):
+                            logits_rb = model(
+                                pauli_ids_rb, coeffs_rb, tgt_input_rb,
+                                term_mask=term_mask_rb,
+                                tgt_key_padding_mask=(tgt_input_rb == pad_id),
+                            )
+                            log_probs_new_rb = _compute_sequence_log_probs(
+                                logits_rb, tgt_labels_rb, attn_mask_rb,
+                            )
+                            loss_rb = dapo_loss(
+                                log_probs_new_rb, old_lps,
+                                advantages_rb, attn_mask_rb,
+                                clip_low=args.clip_low, clip_high=args.clip_high,
+                                token_level=args.token_level_loss,
+                                entropy_coef=args.entropy_coef,
+                                logits=logits_rb,
+                                ref_log_probs=None,
+                                kl_coef=0.0,
+                            )
+                        loss_rb.backward()
+                        optimizer.step()
+                    else:
+                        logits_rb = model(
+                            pauli_ids_rb, coeffs_rb, tgt_input_rb,
+                            term_mask=term_mask_rb,
+                            tgt_key_padding_mask=(tgt_input_rb == pad_id),
+                        )
+                        log_probs_new_rb = _compute_sequence_log_probs(
+                            logits_rb, tgt_labels_rb, attn_mask_rb,
+                        )
+                        loss_rb = dapo_loss(
+                            log_probs_new_rb, old_lps,
+                            advantages_rb, attn_mask_rb,
+                            clip_low=args.clip_low, clip_high=args.clip_high,
+                            token_level=args.token_level_loss,
+                            entropy_coef=args.entropy_coef,
+                            logits=logits_rb,
+                            ref_log_probs=None,
+                            kl_coef=0.0,
+                        )
+                        loss_rb.backward()
+                        optimizer.step()
+
+                    epoch_losses.append(loss_rb.item())
 
         # --- Pre-constructed data mixing (GPT-QE paper Section 2.2) ---
         # Linearly decay the fraction of pre-constructed data to 0

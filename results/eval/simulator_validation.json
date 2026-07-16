@@ -1,0 +1,24 @@
+[
+  {
+    "molecule": "h2_0.74",
+    "n_qubits": 4,
+    "n_terms": 15,
+    "operators": [
+      "YZYI"
+    ],
+    "thetas": [
+      0.004664296578962382
+    ],
+    "gpu_energy": -1.1167426830022862,
+    "sim_energy": -1.1182192549663716,
+    "reference_energy": null,
+    "diff_mha": 1.4765719640854602,
+    "device": "aws:aws:sim:sv1",
+    "shots": 4096,
+    "runtime_seconds": 20.13926383573562
+  },
+  {
+    "molecule": "lih_1.6_full",
+    "error": "Failed to retrieve result for job 'aws:aws:sim:sv1-135b-qjob-6a592c0d5e6838c8f5485e43': File not found: production/6a52560aa87325143dae135a/6660dfff2a660b00136d35c8/aws:aws:sim:sv1-135b-qjob-6a592c0d5e6838c8f5485e43/results.json."
+  }
+]
