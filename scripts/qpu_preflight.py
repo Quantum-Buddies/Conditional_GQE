@@ -102,6 +102,12 @@ def main() -> None:
     parser.add_argument("--device", type=str, default=None, help="Specific device ID to check")
     parser.add_argument("--shots", type=int, default=1024, help="Shots per circuit for cost estimate")
     parser.add_argument("--n-circuits", type=int, default=15, help="Number of circuits for cost estimate")
+    parser.add_argument(
+        "--max-credits",
+        type=float,
+        default=None,
+        help="Refuse to proceed if the estimated batch cost exceeds this credit budget",
+    )
     parser.add_argument("--dry-run", action="store_true", help="Skip live API calls; use known pricing only")
     args = parser.parse_args()
 
@@ -143,6 +149,16 @@ def main() -> None:
     print(f"  Individual:   {cost['individual_cost_credits']} credits")
     print(f"  Savings:      {cost['savings_credits']} credits")
 
+    budget_exceeded = (
+        args.max_credits is not None
+        and cost["batch_cost_credits"] > args.max_credits
+    )
+    if budget_exceeded:
+        print(
+            f"\n[REFUSED] Estimated batch cost {cost['batch_cost_credits']} credits "
+            f"exceeds budget {args.max_credits} credits."
+        )
+
     # Build preflight manifest
     manifest = create_run_manifest(
         command=f"python scripts/qpu_preflight.py --device {target_device} --shots {args.shots} --n-circuits {args.n_circuits}"
@@ -152,12 +168,16 @@ def main() -> None:
             "has_qbraid_api_key": has_key,
             "devices": devices,
             "cost_estimate": cost,
+            "max_credits": args.max_credits,
+            "budget_exceeded": budget_exceeded,
         },
     )
 
     out = save_run_manifest(manifest, args.out)
     print(f"\nPreflight manifest saved to: {out}")
     print("=== Preflight complete ===")
+    if budget_exceeded:
+        raise SystemExit(2)
 
 
 if __name__ == "__main__":

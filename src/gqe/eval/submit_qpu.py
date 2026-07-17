@@ -25,6 +25,8 @@ import os
 import sys
 import time
 from pathlib import Path
+
+import numpy as np
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -160,16 +162,20 @@ def _circuit_complexity(circuit) -> dict[str, int]:
     }
 
 
-def _run_ideal_simulation(circuit, n_qubits: int) -> float:
-    """Run ideal statevector simulation for reference energy."""
-    from qiskit.quantum_info import Statevector
+def _run_ideal_simulation(circuit, record: dict[str, Any]) -> float:
+    """Run an exact statevector simulation and compute ``<psi|H|psi>``.
 
-    # Decompose the circuit to basic gates
+    The previous implementation returned ``P(0...0)``, which is not a
+    molecular energy.  The Hamiltonian is a weighted sum of Pauli terms, so
+    the reference must use the same observable as the QPU evaluation.
+    """
+    from qiskit.quantum_info import Statevector
+    from src.gqe.common.hamiltonian_utils import hamiltonian_to_sparse_pauli_op
+
     decomposed = circuit.decompose().decompose()
-    sv = Statevector.from_instruction(decomposed)
-    # Return probability of all-zeros state (proxy for energy)
-    # Full energy requires Hamiltonian expectation -- just return |<0|psi>|^2
-    return float(abs(sv[0])**2)
+    statevector = Statevector.from_instruction(decomposed)
+    hamiltonian = hamiltonian_to_sparse_pauli_op(record)
+    return float(np.real(statevector.expectation_value(hamiltonian)))
 
 
 def submit_to_qbraid(
@@ -310,8 +316,8 @@ def main() -> None:
 
     # Ideal simulation reference
     try:
-        ideal_energy = _run_ideal_simulation(circuit, n_qubits)
-        print(f"  Ideal sim energy: {ideal_energy:.6f} Ha")
+        ideal_energy = _run_ideal_simulation(circuit, record)
+        print(f"  Ideal Hamiltonian expectation: {ideal_energy:.6f} Ha")
     except Exception as e:
         print(f"  Ideal sim failed: {e}")
         ideal_energy = None

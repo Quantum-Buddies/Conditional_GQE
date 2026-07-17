@@ -133,10 +133,10 @@ class HamiltonianEncoder(nn.Module):
         batch_size, n_terms, max_len = pauli_ids.shape
 
         # Flatten to encode all Pauli strings
-        flat_ids = pauli_ids.view(batch_size * n_terms, max_len)
+        flat_ids = pauli_ids.reshape(batch_size * n_terms, max_len)
         flat_mask = (flat_ids != PAULI_CHAR_PAD_ID).float() if max_len > 0 else None
         pauli_embeds = self.pauli_encoder(flat_ids, flat_mask)  # (batch*n_terms, d_model)
-        pauli_embeds = pauli_embeds.view(batch_size, n_terms, self.d_model)
+        pauli_embeds = pauli_embeds.reshape(batch_size, n_terms, self.d_model)
 
         # Coefficient projection
         coeff_embeds = self.coeff_proj(coeffs.unsqueeze(-1))  # (batch, n_terms, d_model)

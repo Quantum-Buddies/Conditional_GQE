@@ -184,13 +184,14 @@ def _measure_pauli_term(
     meas = QuantumCircuit(bound_circuit.num_qubits)
     meas.compose(bound_circuit, inplace=True)
     for q, op in enumerate(term):
-        # Rotate into the measurement basis of the Pauli operator
-        # X -> H; Y -> H S (because (H S)^\u2020 Z (H S) = Y)
+        # SparsePauliOp labels are ordered q_(n-1)...q_0; map label position
+        # to Qiskit's qubit index and use Sdg-H to rotate Y into Z.
+        q_qiskit = bound_circuit.num_qubits - 1 - q
         if op == "X":
-            meas.h(q)
+            meas.h(q_qiskit)
         elif op == "Y":
-            meas.h(q)
-            meas.s(q)
+            meas.sdg(q_qiskit)
+            meas.h(q_qiskit)
     meas.measure_all()
 
     provider = QbraidProvider()
@@ -205,10 +206,54 @@ def _measure_pauli_term(
 
     exp = 0.0
     for bitstring, count in counts.items():
-        parity = sum(int(bitstring[q]) for q, op in enumerate(term) if op != "I") % 2
+        parity = sum(
+            int(bitstring[q])
+            for q, op in enumerate(term)
+            if op != "I"
+        ) % 2
         sign = -1 if parity == 1 else 1
         exp += sign * count / n_shots
     return exp
+
+
+def _group_qwc_terms(active_terms: list[tuple[str, float]]) -> list[list[int]]:
+    """Group Pauli terms by qubit-wise commutativity.
+
+    Two terms are QWC if, for every qubit position, either one has 'I' or
+    both have the same Pauli operator.  All terms in a group can be measured
+    with a single circuit (one basis-change + one set of shots).
+
+    Returns a list of groups, each group being a list of indices into
+    *active_terms*.
+    """
+    groups: list[list[int]] = []
+    group_bases: list[str] = []  # measurement basis string per group
+
+    for idx, (word, _) in enumerate(active_terms):
+        placed = False
+        for gi, base in enumerate(group_bases):
+            # Check QWC compatibility: no position where both differ and neither is I
+            compatible = True
+            for q in range(len(word)):
+                a, b = word[q], base[q]
+                if a != "I" and b != "I" and a != b:
+                    compatible = False
+                    break
+            if compatible:
+                groups[gi].append(idx)
+                # Update base: take non-I operator at each position
+                new_base = list(base)
+                for q in range(len(word)):
+                    if word[q] != "I" and new_base[q] == "I":
+                        new_base[q] = word[q]
+                group_bases[gi] = "".join(new_base)
+                placed = True
+                break
+        if not placed:
+            groups.append([idx])
+            group_bases.append(word)
+
+    return groups
 
 
 def evaluate_energy_qbraid_batched(
@@ -263,28 +308,42 @@ def evaluate_energy_qbraid_batched(
     if not active_terms:
         raise ValueError("No active terms found in the Hamiltonian record.")
 
-    # Build circuits for each active term
-    circuits = []
-    term_mapping = []  # mapping circuit index to term information
+    # Group terms by qubit-wise commutativity to reduce circuit count
+    groups = _group_qwc_terms(active_terms)
+    print(f"  QWC grouping: {len(active_terms)} terms -> {len(groups)} circuits "
+          f"({len(active_terms) / len(groups):.1f}x reduction)")
 
-    for idx, (word, coeff) in enumerate(active_terms):
+    circuits = []
+    group_mapping = []  # per-group: list of {term_idx, term, coeff}
+
+    for group_indices in groups:
+        # Determine the combined measurement basis for this group
+        group_base = ["I"] * n_qubits
+        for ti in group_indices:
+            word = active_terms[ti][0]
+            padded = word + "I" * (n_qubits - len(word)) if len(word) < n_qubits else word
+            for q in range(n_qubits):
+                if padded[q] != "I" and group_base[q] == "I":
+                    group_base[q] = padded[q]
+
         meas_circ = QuantumCircuit(bound_circuit.num_qubits)
         meas_circ.compose(bound_circuit, inplace=True)
-        # Pad word to n_qubits if needed
-        padded_word = word
-        if len(padded_word) < n_qubits:
-            padded_word = padded_word + "I" * (n_qubits - len(padded_word))
-        
-        # Add basis changes
-        for q, op in enumerate(padded_word):
-            if op == "X":
-                meas_circ.h(q)
-            elif op == "Y":
-                meas_circ.h(q)
-                meas_circ.s(q)
+
+        # Add basis changes for the combined measurement basis
+        for q in range(n_qubits):
+            q_qiskit = n_qubits - 1 - q
+            if group_base[q] == "X":
+                meas_circ.h(q_qiskit)
+            elif group_base[q] == "Y":
+                meas_circ.sdg(q_qiskit)
+                meas_circ.h(q_qiskit)
         meas_circ.measure_all()
         circuits.append(meas_circ)
-        term_mapping.append({"idx": idx, "term": word, "coeff": coeff})
+
+        group_mapping.append([
+            {"term_idx": ti, "term": active_terms[ti][0], "coeff": active_terms[ti][1]}
+            for ti in group_indices
+        ])
 
     print(f"Submitting batch of {len(circuits)} circuits to qBraid device {device}...")
     start = time.perf_counter()
@@ -347,6 +406,7 @@ def evaluate_energy_qbraid_batched(
                     print("Batch execution not supported by this device. Falling back to sequential execution...")
                     # Fallback: run sequential or list-mode
                     try:
+                        print(f"Submitting {len(circuits)} circuits in list mode...")
                         run_res = qdevice.run(circuits, shots=shots)
                         break
                     except Exception as e2:
@@ -440,12 +500,14 @@ def evaluate_energy_qbraid_batched(
         "molecule": molecule_record["name"],
         "device": device,
         "shots": shots,
-        "term_mapping": term_mapping,
+        "group_mapping": group_mapping,
+        "n_qubits": n_qubits,
         "metadata": {
             "n_qubits": n_qubits,
             "n_electrons": n_electrons,
             "n_operators": len(operators),
             "n_hamiltonian_terms": len(molecule_record.get("terms", [])),
+            "n_groups": len(groups),
         }
     }
 
@@ -461,11 +523,24 @@ def evaluate_energy_qbraid_batched(
     # Otherwise, wait synchronously for completion
     print("Waiting synchronously for job completion...")
     jobs = [load_job(jid) for jid in job_ids]
-    
+
     results = []
     if is_list:
-        for job in jobs:
-            results.append(job.result())
+        for ji, job in enumerate(jobs):
+            if len(jobs) > 10 and ji % 10 == 0:
+                print(f"  Retrieving results: {ji}/{len(jobs)}...")
+            for attempt in range(6):
+                try:
+                    results.append(job.result())
+                    break
+                except Exception as e:
+                    if attempt < 5:
+                        wait = 3.0 * (attempt + 1)
+                        print(f"  Job {ji}/{len(jobs)} result retry {attempt+1}/6 in {wait}s ({e})")
+                        time.sleep(wait)
+                        job = load_job(job_ids[ji])  # reload job
+                    else:
+                        raise
     else:
         batch_res = jobs[0].result()
         if hasattr(batch_res, "results"):
@@ -475,7 +550,7 @@ def evaluate_energy_qbraid_batched(
         else:
             results = [batch_res]
 
-    energy, term_expectations = _parse_batch_results(results, term_mapping, shots)
+    energy, term_expectations = _parse_grouped_results(results, group_mapping, n_qubits, shots)
     runtime = time.perf_counter() - start
 
     return {
@@ -488,33 +563,53 @@ def evaluate_energy_qbraid_batched(
     }
 
 
-def _parse_batch_results(results: list[Any], term_mapping: list[dict[str, Any]], shots: int) -> tuple[float, dict[str, Any]]:
-    """Helper to parse raw job results and compute ground state energy."""
+def _parse_grouped_results(
+    results: list[Any],
+    group_mapping: list[list[dict[str, Any]]],
+    n_qubits: int,
+    shots: int,
+) -> tuple[float, dict[str, Any]]:
+    """Parse grouped job results and compute ground state energy.
+
+    Each result corresponds to one QWC group.  All terms in a group share
+    the same measurement circuit, so we extract each term's expectation
+    from the *same* counts using that term's parity bitmask.
+    """
     energy = 0.0
     term_expectations = {}
 
-    for mapping in term_mapping:
-        idx = mapping["idx"]
-        word = mapping["term"]
-        coeff = mapping["coeff"]
-
-        counts = _get_counts(results[idx])
+    for gi, terms_in_group in enumerate(group_mapping):
+        counts = _get_counts(results[gi])
         n_shots = sum(counts.values())
         if n_shots == 0:
-            exp = 0.0
-        else:
+            for t in terms_in_group:
+                word, coeff = t["term"], t["coeff"]
+                term_expectations[word] = {"coeff_real": coeff, "coeff_imag": 0.0, "expectation": 0.0}
+            continue
+
+        for t in terms_in_group:
+            word = t["term"]
+            coeff = t["coeff"]
+            padded = word + "I" * (n_qubits - len(word)) if len(word) < n_qubits else word
+
             exp = 0.0
             for bitstring, count in counts.items():
-                parity = sum(int(bitstring[q]) for q, op in enumerate(word) if op != "I") % 2
+                # Qiskit little-endian: bitstring[q] is qubit q (leftmost = most significant)
+                # Pauli word position q maps to qiskit qubit n_qubits-1-q
+                parity = sum(
+                    int(bitstring[q])
+                    for q, op in enumerate(padded)
+                    if op != "I"
+                ) % 2
                 sign = -1 if parity == 1 else 1
                 exp += sign * count / n_shots
 
-        term_expectations[word] = {
-            "coeff_real": coeff,
-            "coeff_imag": 0.0,
-            "expectation": exp
-        }
-        energy += coeff * exp
+            term_expectations[word] = {
+                "coeff_real": coeff,
+                "coeff_imag": 0.0,
+                "expectation": exp,
+            }
+            energy += coeff * exp
 
     return energy, term_expectations
 
@@ -529,7 +624,8 @@ def retrieve_qbraid_job(metadata_file: Path, out_path: Path) -> None:
 
     job_ids = metadata["job_ids"]
     is_list = metadata["is_list"]
-    term_mapping = metadata["term_mapping"]
+    group_mapping = metadata["group_mapping"]
+    n_qubits = metadata["n_qubits"]
     molecule = metadata["molecule"]
     device = metadata["device"]
     shots = metadata["shots"]
@@ -565,7 +661,7 @@ def retrieve_qbraid_job(metadata_file: Path, out_path: Path) -> None:
         else:
             results = [batch_res]
 
-    energy, term_expectations = _parse_batch_results(results, term_mapping, shots)
+    energy, term_expectations = _parse_grouped_results(results, group_mapping, n_qubits, shots)
     runtime = time.perf_counter() - start
 
     final_result = {
@@ -655,6 +751,12 @@ def main() -> None:
     parser.add_argument("--molecule", type=str, default=None)
     parser.add_argument("--device", type=str, default="qbraid_qir_simulator")
     parser.add_argument("--shots", type=int, default=1024)
+    parser.add_argument(
+        "--max-credits",
+        type=float,
+        default=None,
+        help="Refuse paid submission when estimated batch cost exceeds this budget",
+    )
     parser.add_argument("--out", type=Path, default=None)
     
     # Asynchronous/batch execution options
@@ -697,6 +799,24 @@ def main() -> None:
     best_seq = mol_opt.get("best_sequence", {})
     operators = best_seq.get("operators", [])
     thetas = best_seq.get("thetas", [])
+
+    if args.max_credits is not None:
+        from scripts.qpu_preflight import KNOWN_PRICING, estimate_cost
+
+        if args.device in KNOWN_PRICING:
+            estimate = estimate_cost(args.device, args.shots, len(record.get("terms", [])))
+            print(
+                f"Estimated batch cost: {estimate['batch_cost_credits']} credits "
+                f"(budget={args.max_credits})"
+            )
+            if estimate["batch_cost_credits"] > args.max_credits:
+                raise SystemExit(
+                    "Refusing qBraid submission: estimated cost exceeds --max-credits."
+                )
+        else:
+            raise SystemExit(
+                f"No pricing is configured for {args.device}; refusing paid submission."
+            )
 
     metadata_file = args.out.parent / f"qbraid_job_metadata_{args.molecule}_{args.device.replace(':', '_')}.json"
 
