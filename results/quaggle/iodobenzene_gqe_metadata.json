@@ -1,0 +1,31 @@
+{
+  "molecule": "iodobenzene",
+  "n_qubits": 8,
+  "n_electrons": 4,
+  "circuit_depth": 15,
+  "gate_count": 26,
+  "n_gates_per_type": {
+    "h": 8,
+    "cx": 8,
+    "x": 4,
+    "sdg": 2,
+    "rz": 2,
+    "s": 2
+  },
+  "operators": [
+    "XYYX",
+    "IZIZ"
+  ],
+  "thetas": [
+    0.00403385742980517,
+    -0.014002954721937258
+  ],
+  "energy_ha": -7078.009114148654,
+  "hf_energy_ha": null,
+  "fci_energy_ha": null,
+  "source": "Conditional-GQE (H-cGQE Transformer + L-BFGS-B)",
+  "source_checkpoint": "h_cgqe_model_phase3.pt",
+  "qasm_file": "iodobenzene_gqe_demo.qasm",
+  "qasm_ansatz_file": "iodobenzene_gqe_ansatz.qasm",
+  "quaggle_import_instructions": "1. Open Quaggle Circuit Builder\n2. Import the QASM file (OpenQASM 2.0 format)\n3. The circuit includes Hartree-Fock initial state + GQE ansatz\n4. Run on simulator or export to QPU\n5. Reference energy values in metadata JSON for comparison"
+}
