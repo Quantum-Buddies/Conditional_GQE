@@ -1,0 +1,222 @@
+# 40-Qubit Scalability Pipeline Config
+#
+# Demonstrates GPU-AI-QPU convergence from 4q to 40q:
+#   1. AI (H-cGQE Transformer) generates compact ansatz circuits
+#   2. GPU (CUDA-Q) validates with exact SV (≤24q) and MPS (24-40q)
+#   3. QPU (IQM Emerald 54q / Rigetti Cepheus 108q) executes same circuits
+#
+# Budget: 24,645 credits
+#   GPU (GH200, 30h):  ~8,600 cr
+#   QPU (Emerald+Cepheus): ~5,500 cr
+#   Simulators:         ~200 cr (free tier)
+#   Buffer:            ~10,300 cr
+
+seed: 42
+
+dataset:
+  basis: "sto-3g"
+  molecules:
+    # === TIER 1: Small (4-12q) — exact SV + QPU calibration ===
+    - name: "h2"
+      geometry: [["H", [0.0, 0.0, 0.0]], ["H", [0.0, 0.0, 0.74]]]
+      charge: 0
+      multiplicity: 1
+      split: "train"
+
+    - name: "lih"
+      geometry: [["Li", [0.0, 0.0, 0.0]], ["H", [0.0, 0.0, 1.6]]]
+      charge: 0
+      multiplicity: 1
+      split: "train"
+
+    # === TIER 2: Medium (14-24q) — exact SV on H200 + MPS ===
+    - name: "beh2"
+      geometry: [["Be", [0.0, 0.0, 0.0]], ["H", [0.0, 0.0, 1.3]], ["H", [0.0, 0.0, -1.3]]]
+      charge: 0
+      multiplicity: 1
+      split: "train"
+
+    - name: "n2"
+      geometry: [["N", [0.0, 0.0, 0.0]], ["N", [0.0, 0.0, 1.1]]]
+      charge: 0
+      multiplicity: 1
+      split: "train"
+
+    - name: "formaldehyde"
+      geometry:
+        - ["C", [0.0, 0.0, 0.0]]
+        - ["O", [0.0, 1.21, 0.0]]
+        - ["H", [0.94, -0.54, 0.0]]
+        - ["H", [-0.94, -0.54, 0.0]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      basis: "cc-pvdz"
+
+    - name: "acetylene"
+      geometry:
+        - ["C", [0.0, 0.0, 0.0]]
+        - ["C", [0.0, 0.0, 1.203]]
+        - ["H", [0.0, 0.0, -1.088]]
+        - ["H", [0.0, 0.0, 2.291]]
+      charge: 0
+      multiplicity: 1
+      split: "val"
+      basis: "cc-pvdz"
+
+    # === TIER 3: Large (28-32q) — MPS only, QPU on Emerald ===
+    - name: "ethylene"
+      geometry:
+        - ["C", [0.0, 0.0, 0.669]]
+        - ["C", [0.0, 0.0, -0.669]]
+        - ["H", [0.0, 0.924, 1.231]]
+        - ["H", [0.0, -0.924, 1.231]]
+        - ["H", [0.0, 0.924, -1.231]]
+        - ["H", [0.0, -0.924, -1.231]]
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      basis: "cc-pvdz"
+
+    - name: "n2_ccpvdz"
+      geometry: [["N", [0.0, 0.0, 0.0]], ["N", [0.0, 0.0, 1.1]]]
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      basis: "cc-pvdz"
+
+    - name: "beh2_ccpvdz"
+      geometry: [["Be", [0.0, 0.0, 0.0]], ["H", [0.0, 0.0, 1.3]], ["H", [0.0, 0.0, -1.3]]]
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      basis: "cc-pvdz"
+
+    # === TIER 4: XL (40q) — MPS + QPU demonstration ===
+    - name: "benzene_cas20"
+      geometry:
+        - ["C", [0.000, 1.400, 0.000]]
+        - ["C", [1.212, 0.700, 0.000]]
+        - ["C", [1.212, -0.700, 0.000]]
+        - ["C", [0.000, -1.400, 0.000]]
+        - ["C", [-1.212, -0.700, 0.000]]
+        - ["C", [-1.212, 0.700, 0.000]]
+        - ["H", [2.147, 1.240, 0.000]]
+        - ["H", [2.147, -1.240, 0.000]]
+        - ["H", [0.000, -2.480, 0.000]]
+        - ["H", [-2.147, -1.240, 0.000]]
+        - ["H", [-2.147, 1.240, 0.000]]
+        - ["H", [0.000, 2.480, 0.000]]
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 20
+        n_active_orbitals: 20
+
+    - name: "n2_ccpvdz_cas20"
+      geometry: [["N", [0.0, 0.0, 0.0]], ["N", [0.0, 0.0, 1.1]]]
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      basis: "cc-pvdz"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 20
+        n_active_orbitals: 20
+
+# Model — use existing trained checkpoint
+model:
+  checkpoint: "results/train/h_cgqe_rl_gic2026.pt"
+  hidden_size: 256
+  num_layers: 6
+  n_heads: 8
+  max_seq_len: 64
+  dropout: 0.1
+
+# Inference
+inference:
+  n_samples: 50
+  max_seq_len: 64
+  max_pauli_len: 40
+  temperature: 1.0
+  top_p: 0.9
+  force_entanglement: true
+  max_repeat: 4
+  freq_penalty: 1.0
+
+# Optimization
+optimization:
+  top_k: 5
+  max_iter: 100
+  target: "nvidia"
+  target_option: "mqpu"
+
+# GPU Scaling Validation
+scaling:
+  statevector_max_qubits: 24  # H200 can do 30, but 24 is safe
+  mps_bond_dimensions: [32, 64, 128, 256]
+  mps_target: "tensornet-mps"
+  molecules_for_mps:
+    - "ethylene"        # 28q
+    - "n2_ccpvdz"       # 32q
+    - "beh2_ccpvdz"     # 32q
+    - "benzene_cas20"   # 40q
+    - "n2_ccpvdz_cas20" # 40q
+
+# QPU Execution
+qpu:
+  # Calibration: H2 on both QPUs for cross-validation
+  calibration:
+    molecule: "h2"
+    devices:
+      - device_id: "aws:iqm:qpu:garnet"
+        shots: 4096
+        description: "IQM Garnet 20q — calibration baseline"
+      - device_id: "aws:rigetti:qpu:cepheus-1-108q"
+        shots: 4096
+        description: "Rigetti Cepheus 108q — calibration baseline"
+
+  # Scaling: run shallow GQE circuits on real hardware
+  scaling_runs:
+    - molecule: "lih"           # 12q — fits on Garnet (20q)
+      device_id: "aws:iqm:qpu:garnet"
+      shots: 4096
+      n_key_terms: 10          # measure 10 most important QWC groups
+      description: "12q on 20q QPU"
+
+    - molecule: "n2"            # 20q — fits on Garnet (20q) exactly
+      device_id: "aws:iqm:qpu:garnet"
+      shots: 2048
+      n_key_terms: 5
+      description: "20q on 20q QPU — full device utilization"
+
+    - molecule: "n2_ccpvdz"     # 32q — needs Emerald (54q)
+      device_id: "aws:iqm:qpu:emerald"
+      shots: 4096
+      n_key_terms: 5
+      description: "32q on 54q QPU — first cross-40q demonstration"
+
+    - molecule: "benzene_cas20" # 40q — needs Emerald (54q)
+      device_id: "aws:iqm:qpu:emerald"
+      shots: 4096
+      n_key_terms: 3
+      description: "40q on 54q QPU — flagship scaling result"
+
+    # Backup: Rigetti for 40q (108q device, cheaper per shot)
+    - molecule: "benzene_cas20"
+      device_id: "aws:rigetti:qpu:cepheus-1-108q"
+      shots: 4096
+      n_key_terms: 3
+      description: "40q on 108q QPU — cross-vendor validation"
+
+# Cost estimates (credits)
+cost_estimates:
+  gpu_gh200_30h: 8604      # 4.78 cr/min × 1800 min
+  qpu_iqm_garnet: 2380     # H2 (5×685) + LiH (10×358) + N2 (5×358)
+  qpu_iqm_emerald: 2740    # N2_ccpvdz (5×548) + benzene (3×548) + H2 cal (5×548)
+  qpu_rigetti: 1224        # H2 (5×204) + benzene (3×204)
+  simulators: 200           # AWS SV1 overages
+  total: 15148
+  buffer: 9497             # 24645 - 15148

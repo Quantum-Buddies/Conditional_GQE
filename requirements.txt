@@ -11,3 +11,7 @@ pyscf>=2.13
 qiskit>=2.0
 qiskit-algorithms>=0.4
 qiskit-nature>=0.7
+
+# RL training (QD-GRPO + MAP-Elites)
+# For NVFP4 on B200/Blackwell, install separately:
+#   pip install --no-build-isolation transformer_engine[pytorch]

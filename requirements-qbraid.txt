@@ -1,5 +1,7 @@
-# qBraid-compatible dependencies for the Conditional-GQE Phase 3 execution suite.
+# qBraid-compatible dependencies for the Conditional-GQE 40-qubit scaling pipeline.
 # Install in qBraid Lab with: pip install -r requirements-qbraid.txt
+# For B200 NVFP4 support, additionally run:
+#   pip install --no-build-isolation transformer_engine[pytorch]
 
 # Core
 pyyaml>=6.0
@@ -24,7 +26,7 @@ qiskit-nature>=0.7
 cudaq>=0.10.0
 cudaq-solvers[gqe]
 
-# qBraid SDK (optional but useful for job submission and device listing)
+# qBraid SDK (for QPU job submission and device listing)
 qbraid>=0.9.0
 
 # PDF generation for submission report
@@ -33,7 +35,6 @@ fpdf2>=2.8
 # Testing
 pytest>=8.0
 
-# RL / curriculum learning extras
-# (uncomment when RLQF stage is implemented)
-# gymnasium>=0.29
-# stable-baselines3>=2.0
+# NVFP4 mixed precision (B200/Blackwell only)
+# Uncomment after spinning up a B200 instance:
+# transformer-engine[pytorch]>=1.0
