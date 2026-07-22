@@ -16,9 +16,9 @@
 #   - NVLink 5.0 = 1.8 TB/s GPU-to-GPU (fixes L40S PCIe IPC segfault)
 #
 # Budget: 24,645 credits at 56.58 cr/min (4x B200)
-#   GPU (4x B200, ~6.5h):  ~22,000 cr
-#   QPU (Emerald+Cepheus):   ~2,200 cr
-#   Buffer:                    ~445 cr
+#   GPU (4x B200, ~2h):   ~6,800 cr (model is ~15M params, bottleneck is CUDA-Q eval)
+#   QPU (Emerald+Cepheus):  ~2,200 cr
+#   Buffer:               ~15,600 cr (plenty for re-runs / extra epochs)
 #
 # Usage:
 #   # On qBraid 4x B200 instance:
@@ -73,7 +73,7 @@ SKIP_QPU="${SKIP_QPU:-0}"
 SKIP_PLOTS="${SKIP_PLOTS:-0}"
 
 USE_NVFP4="${USE_NVFP4:-0}"
-N_SAMPLES="${N_SAMPLES:-512}"   # 8x L40S baseline, 2x 1x B200 (4x mqpu parallelism)
+N_SAMPLES="${N_SAMPLES:-512}"   # 2x L40S baseline; model is ~15M params, bottleneck is CUDA-Q eval
 N_GPUS="${N_GPUS:-4}"          # 4x B200 (auto-detected in Stage 0)
 CREDITS_PER_MIN="${CREDITS_PER_MIN:-56.58}"  # 4x B200 rate
 
@@ -214,7 +214,7 @@ else
         --hamiltonians "${HAMILTONIANS_FILE}" \
         --molecules ${RL_MOLECULES} \
         --out "${TRAINING_OUT}" \
-        --epochs 300 \
+        --epochs 500 \
         --n-samples "${N_SAMPLES}" \
         --n-iters 5 \
         --lr 1e-5 \
