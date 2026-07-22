@@ -2084,6 +2084,28 @@ def main() -> None:
                             )
                         loss_rb.backward()
                         optimizer.step()
+                    elif use_bf16:
+                        with torch.amp.autocast('cuda', dtype=torch.bfloat16):
+                            logits_rb = model(
+                                pauli_ids_rb, coeffs_rb, tgt_input_rb,
+                                term_mask=term_mask_rb,
+                                tgt_key_padding_mask=(tgt_input_rb == pad_id),
+                            )
+                            log_probs_new_rb = _compute_sequence_log_probs(
+                                logits_rb, tgt_labels_rb, attn_mask_rb,
+                            )
+                            loss_rb = dapo_loss(
+                                log_probs_new_rb, old_lps,
+                                advantages_rb, attn_mask_rb,
+                                clip_low=args.clip_low, clip_high=args.clip_high,
+                                token_level=args.token_level_loss,
+                                entropy_coef=args.entropy_coef,
+                                logits=logits_rb,
+                                ref_log_probs=None,
+                                kl_coef=0.0,
+                            )
+                        loss_rb.backward()
+                        optimizer.step()
                     else:
                         logits_rb = model(
                             pauli_ids_rb, coeffs_rb, tgt_input_rb,
