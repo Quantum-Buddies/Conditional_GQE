@@ -5,10 +5,10 @@
 #   2. GPU (CUDA-Q) validates with exact SV (≤24q) and MPS (24-40q)
 #   3. QPU (IQM Emerald 54q / Rigetti Cepheus 108q) executes same circuits
 #
-# Budget: 24,645 credits at 56.58 cr/min (4x B200)
-#   GPU (4x B200, ~2h):   ~6,800 cr (model ~15M params, bottleneck is CUDA-Q eval)
+# Budget: 24,645 credits at 14.57 cr/min (1x B200)
+#   GPU (B200, ~2h):      ~1,750 cr (model ~15M params, bottleneck is CUDA-Q eval)
 #   QPU (Emerald+Cepheus):  ~2,200 cr
-#   Buffer:               ~15,600 cr
+#   Buffer:              ~20,700 cr
 
 seed: 42
 
@@ -154,7 +154,7 @@ optimization:
 
 # GPU Scaling Validation
 scaling:
-  statevector_max_qubits: 34  # 4x B200 mgpu with NVLink 5.0 (720GB distributed)
+  statevector_max_qubits: 32  # 1x B200 single-GPU (180GB VRAM, 2^32*4B=16GB)
   mps_bond_dimensions: [32, 64, 128, 256]
   mps_target: "tensornet-mps"
   molecules_for_mps:
@@ -212,10 +212,10 @@ qpu:
 
 # Cost estimates (credits)
 cost_estimates:
-  gpu_4xb200_2h: 6790       # 56.58 cr/min × 120 min
+  gpu_b200_2h: 1748         # 14.57 cr/min × 120 min
   qpu_iqm_garnet: 2380      # H2 (5×685) + LiH (10×358) + N2 (5×358)
   qpu_iqm_emerald: 2740     # N2_ccpvdz (5×548) + benzene (3×548) + H2 cal (5×548)
   qpu_rigetti: 1224         # H2 (5×204) + benzene (3×204)
   simulators: 200           # AWS SV1 overages
-  total: 13334
-  buffer: 11311             # 24645 - 13334
+  total: 8292
+  buffer: 16353            # 24645 - 8292
