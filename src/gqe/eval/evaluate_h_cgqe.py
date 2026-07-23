@@ -164,14 +164,27 @@ def main() -> None:
     # Build comprehensive baseline lookup
     # Keys: molecule -> {reference_energy, baseline_energy, delta_energy}
     baseline_lookup: dict[str, dict[str, float | None]] = {}
-    for result in baseline_data.get("results", []):
-        name = result.get("system")
+    results_list = baseline_data.get("results") or baseline_data.get("comparison") or []
+    if isinstance(baseline_data, list):
+        results_list = baseline_data
+
+    for result in results_list:
+        name = result.get("system") or result.get("molecule")
         if not name:
             continue
+        b_energy = result.get("baseline_energy")
+        if b_energy is None:
+            val = result.get("energy") or result.get("gqe_energy")
+            if isinstance(val, (int, float)):
+                b_energy = float(val)
+        ref_e = result.get("reference_energy")
+        delta_e = result.get("delta_energy") or result.get("baseline_delta_Ha")
+        if b_energy is None and ref_e is not None and delta_e is not None:
+            b_energy = ref_e + delta_e
         baseline_lookup[name] = {
-            "reference_energy": result.get("reference_energy"),
-            "baseline_energy": result.get("baseline_energy"),
-            "delta_energy": result.get("delta_energy"),
+            "reference_energy": ref_e,
+            "baseline_energy": b_energy,
+            "delta_energy": delta_e,
         }
 
     # Evaluate each molecule

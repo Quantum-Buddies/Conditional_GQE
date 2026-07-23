@@ -35,3 +35,11 @@ def test_get_exact_energy_h2():
     exact_energy = get_exact_energy(data["terms"], data["n_qubits"])
     assert isinstance(exact_energy, float)
     assert abs(exact_energy - (-1.137)) < 0.1
+
+
+if __name__ == "__main__":
+    test_parse_cudaq()
+    test_load_hamiltonian_data()
+    test_get_exact_energy_h2()
+    print("All tests in test_parse_cudaq.py passed successfully!")
+

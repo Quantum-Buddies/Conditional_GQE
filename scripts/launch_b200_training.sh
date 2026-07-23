@@ -218,12 +218,14 @@ run_energy_cache() {
     fi
     CACHE_OUT="$RESULTS/train/rl_energy_cache.sqlite"
     N_PER_MOL="${CACHE_N_PER_MOL:-512}"
+    CACHE_MAX_QUBITS="${CACHE_MAX_QUBITS:-28}"
     MPS_THRESHOLD="${CACHE_MPS_THRESHOLD:-33}"
     N_PER_MOL_LARGE="${CACHE_N_PER_MOL_LARGE:-128}"
     MPS_BOND="${CACHE_MPS_BOND:-32}"
 
     echo "    Hamiltonians: $HAMILTONIANS"
     echo "    Output      : $CACHE_OUT"
+    echo "    max-qubits  : $CACHE_MAX_QUBITS (RL cache; use QSCI/FMO2 for 32–40q)"
     echo "    n-per-mol   : $N_PER_MOL (≤${MPS_THRESHOLD}q) / $N_PER_MOL_LARGE (>${MPS_THRESHOLD}q MPS)"
     echo "    mps-threshold: $MPS_THRESHOLD  mps-bond: $MPS_BOND"
     echo ""
@@ -233,7 +235,7 @@ run_energy_cache() {
         --out "$CACHE_OUT" \
         --n-per-mol "$N_PER_MOL" \
         --n-per-mol-large "$N_PER_MOL_LARGE" \
-        --max-qubits 40 \
+        --max-qubits "$CACHE_MAX_QUBITS" \
         --max-seq-len 64 \
         --theta 0.01 \
         --eval-async-chunk 24 \
@@ -252,6 +254,7 @@ run_energy_cache() {
 run_energy_cache_remaining() {
     echo ""
     echo "=== Resume RL energy cache (32–40q only, append to existing SQLite) ==="
+    echo "    DEPRECATED: prefer QSCI/FMO2 for 32–40q. RL cache should stop at 28q."
     echo "    Keeps all previously cached 4–28q entries."
     echo ""
 
