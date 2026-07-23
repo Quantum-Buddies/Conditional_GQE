@@ -440,7 +440,7 @@
       "system": "iodobenzene",
       "baseline": "cudaq_gqe",
       "reference_energy": -7078.011842695125,
-      "baseline_energy": -7078.01464610747,
+      "baseline_energy": -7078.00903928278,
       "delta_energy": 0.00280341234520165,
       "n_spin_orbitals": 8,
       "n_pauli_terms": 105,
@@ -449,7 +449,7 @@
         "max_iters": 25,
         "ngates": 10,
         "num_samples": 5,
-        "objective_shift": -7076.791690257471,
+        "objective_shift": -7076.791690257459,
         "objective_scale": 7080.216289133431,
         "min_scaled_energy": -0.0001727285998640582
       },

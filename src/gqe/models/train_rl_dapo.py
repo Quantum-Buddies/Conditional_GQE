@@ -25,8 +25,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import sys
+import time
 from collections import deque
 from pathlib import Path
 from typing import Any
@@ -65,6 +67,7 @@ from src.gqe.common.operator_pool import _jw_excitation_pauli_words
 from src.gqe.rl.map_elites import (
     MAPElitesArchive, DedupCache, PerMoleculeArchives, compute_circuit_features,
 )
+from src.gqe.rl.energy_cache import PersistentEnergyCache, resolve_energies_with_cache
 
 
 # ---------------------------------------------------------------------------
@@ -131,6 +134,7 @@ def sample_sequences_with_logprobs(
     target_entropy: float = 1.5,
     explore_eps: float = 0.0,
     freq_penalty: float = 0.0,
+    amp_dtype: torch.dtype | None = None,
 ) -> tuple[torch.Tensor, torch.Tensor, list[list[str]], float]:
     """Sample n_sequences from the model and track per-token log probabilities.
 
@@ -153,8 +157,15 @@ def sample_sequences_with_logprobs(
     coeffs_batch = coeffs.expand(n_samples, -1).to(device)
     term_mask_batch = term_mask.expand(n_samples, -1).to(device)
 
+    use_amp = amp_dtype is not None and device.type == "cuda"
+    amp_ctx = (
+        torch.autocast(device_type="cuda", dtype=amp_dtype)
+        if use_amp
+        else torch.autocast(device_type="cuda", enabled=False)
+    )
+
     # Get encoder memory once
-    with torch.no_grad():
+    with torch.no_grad(), amp_ctx:
         if is_data_parallel:
             _, memory = model.module.encoder(pauli_ids_batch, coeffs_batch, term_mask_batch)
         else:
@@ -169,7 +180,7 @@ def sample_sequences_with_logprobs(
     repeat_count = torch.zeros(n_samples, dtype=torch.long, device=device)
     last_token = torch.full((n_samples,), -1, dtype=torch.long, device=device)
 
-    with torch.no_grad():
+    with torch.no_grad(), amp_ctx:
         for step in range(max_seq_len - 1):
             if is_data_parallel:
                 logits = model.module.decoder(
@@ -181,6 +192,8 @@ def sample_sequences_with_logprobs(
                     sequences, memory, term_mask_batch,
                     tgt_key_padding_mask=(sequences == pad_id),
                 )[:, -1, :]
+            # Sampling math in FP32 for stable entropy / categorical
+            logits = logits.float()
 
             # Frequency penalty: penalize tokens that have already appeared in the sequence.
             # This is the OpenAI frequency penalty approach (additive in logit space):
@@ -316,6 +329,9 @@ def _pad_pauli_word(word: str, n_qubits: int) -> str:
 # is NOT thread-safe when called inside a loop that also dispatches
 # observe_async. See CUDA-Q issues #4359, #2821.
 _gqe_kernel = None
+_spin_ham_cache: dict[str, Any] = {}
+_current_cudaq_target: tuple[str, str] | None = None
+
 
 def _get_gqe_kernel():
     global _gqe_kernel
@@ -329,6 +345,97 @@ def _get_gqe_kernel():
                 exp_pauli(thetas[i], q, pauli_words[i])
         _gqe_kernel = kernel
     return _gqe_kernel
+
+
+def _get_cached_spin_ham(molecule_record: dict[str, Any], cache_key: str | None = None) -> Any:
+    """Build SpinOperator once per molecule; rebuilds dominate large-Hamiltonian wall time."""
+    key = cache_key or str(molecule_record.get("name", id(molecule_record)))
+    spin_ham = _spin_ham_cache.get(key)
+    if spin_ham is None:
+        spin_ham = hamiltonian_to_spin_operator(molecule_record)
+        _spin_ham_cache[key] = spin_ham
+    return spin_ham
+
+
+def _set_cudaq_target_cached(target: str, option: str = "") -> None:
+    """Avoid redundant cudaq.set_target calls (they stall and flush GPU work)."""
+    global _current_cudaq_target
+    if cudaq is None:
+        return
+    # Blackwell: prefer explicit fp32 so CUDAQ_ALLOW_FP32_EMULATED BF16x9 path is used
+    if target == "nvidia" and (not option or option == ""):
+        option = "fp32"
+    key = (target, option or "")
+    if _current_cudaq_target == key:
+        return
+    if option:
+        cudaq.set_target(target, option=option)
+    else:
+        cudaq.set_target(target)
+    _current_cudaq_target = key
+
+
+def _enable_blackwell_torch_optimizations(device: torch.device) -> None:
+    """Enable B200 / Blackwell PyTorch + cuBLAS paths (BF16 training + BF16x9 FP32 GEMMs)."""
+    if device.type != "cuda":
+        return
+    torch.backends.cuda.matmul.allow_tf32 = True
+    torch.backends.cudnn.allow_tf32 = True
+    torch.backends.cudnn.benchmark = True
+    torch.set_float32_matmul_precision("high")
+    try:
+        # Prefer TF32 for any residual FP32 matmuls; cuBLAS BF16x9 is env-driven.
+        torch.backends.cuda.matmul.fp32_precision = "tf32"
+    except Exception:
+        pass
+    # SDPA backends — Flash / mem-efficient on Blackwell
+    try:
+        torch.backends.cuda.enable_flash_sdp(True)
+        torch.backends.cuda.enable_mem_efficient_sdp(True)
+        torch.backends.cuda.enable_math_sdp(True)
+    except Exception:
+        pass
+    cap = torch.cuda.get_device_capability(0)
+    is_blackwell = cap[0] >= 10
+    print(
+        f"  Blackwell torch opts: TF32=on fp32_precision="
+        f"{getattr(torch.backends.cuda.matmul, 'fp32_precision', '?')} "
+        f"sm_{cap[0]}{cap[1]} blackwell={is_blackwell}",
+        flush=True,
+    )
+    print(
+        f"  cuBLAS BF16x9 env: CUBLAS_EMULATE_SINGLE_PRECISION="
+        f"{os.environ.get('CUBLAS_EMULATE_SINGLE_PRECISION', 'unset')} "
+        f"STRATEGY={os.environ.get('CUBLAS_EMULATION_STRATEGY', 'unset')}",
+        flush=True,
+    )
+    print(
+        f"  CUDA-Q env: ALLOW_FP32_EMULATED={os.environ.get('CUDAQ_ALLOW_FP32_EMULATED', 'unset')} "
+        f"FUSION_MAX_QUBITS={os.environ.get('CUDAQ_FUSION_MAX_QUBITS', 'unset')} "
+        f"MEMPOOL={os.environ.get('CUDAQ_ENABLE_MEMPOOL', 'unset')}",
+        flush=True,
+    )
+
+
+def _warmup_cudaq_observe(n_qubits: int = 4, n_electrons: int = 2) -> None:
+    """Force one sync observe so JIT/PTX compile happens before the training loop."""
+    if cudaq is None:
+        return
+    kernel = _get_gqe_kernel()
+    # Minimal 4q Z-only Hamiltonian so compile path is exercised without big allocs.
+    dummy = {
+        "name": "__warmup__",
+        "n_qubits": n_qubits,
+        "terms": [{"term": "Z0", "real": 1.0, "imag": 0.0}],
+    }
+    try:
+        spin_ham = hamiltonian_to_spin_operator(dummy)
+        words = [cudaq.pauli_word("X" + "I" * (n_qubits - 1))]
+        thetas = [0.01]
+        cudaq.observe(kernel, spin_ham, n_qubits, n_electrons, words, thetas)
+        print("  CUDA-Q observe warmup complete (JIT primed)", flush=True)
+    except Exception as e:
+        print(f"  CUDA-Q warmup skipped: {e}", flush=True)
 
 
 def _load_pretrain_sequences(
@@ -393,7 +500,7 @@ def _optimize_theta_quick(
     kernel = _get_gqe_kernel()
     n_qubits = int(molecule_record["n_qubits"])
     n_electrons = get_active_electron_count(molecule_record)
-    spin_ham = hamiltonian_to_spin_operator(molecule_record)
+    spin_ham = _get_cached_spin_ham(molecule_record)
 
     padded = [_pad_pauli_word(w, n_qubits) for w in operators]
     pauli_words = [cudaq.pauli_word(w) for w in padded]
@@ -422,12 +529,24 @@ def evaluate_energies_batch(
     molecule_record: dict[str, Any],
     theta: float = 0.01,
     execution=None,
+    eval_async: bool = True,
+    spin_ham: Any | None = None,
+    async_chunk: int = 32,
+    show_progress: bool = False,
+    mol_name: str = "",
 ) -> list[float]:
     """Evaluate energies for a batch of operator sequences using CUDA-Q.
 
     Args:
         execution: Optional cudaq.parallel execution mode (e.g. cudaq.parallel.thread)
                    to distribute Hamiltonian terms across multiple GPUs.
+        eval_async: When True and execution is None, pipeline circuits via
+                    cudaq.observe_async(qpu_id=0) instead of blocking observe().
+        spin_ham: Precomputed SpinOperator (avoids rebuild per call).
+        async_chunk: Max in-flight observe_async handles. Submitting hundreds at
+                     once spawns huge thread pools and stalls with 0% GPU util.
+        show_progress: Print chunk progress (helps diagnose stalls).
+        mol_name: Label for progress lines.
     """
     if cudaq is None:
         return [0.0] * len(operators_batch)
@@ -435,27 +554,90 @@ def evaluate_energies_batch(
     kernel = _get_gqe_kernel()
     n_qubits = int(molecule_record["n_qubits"])
     n_electrons = get_active_electron_count(molecule_record)
-    spin_ham = hamiltonian_to_spin_operator(molecule_record)
+    if spin_ham is None:
+        spin_ham = _get_cached_spin_ham(molecule_record)
 
-    energies = []
-    for operators in operators_batch:
-        if not operators:
-            energies.append(0.0)
-            continue
+    def _observe_sync(operators: list[str]) -> float:
         padded = [_pad_pauli_word(w, n_qubits) for w in operators]
         pauli_words = [cudaq.pauli_word(w) for w in padded]
         thetas = [theta] * len(pauli_words)
         try:
             if execution is not None:
-                result = cudaq.observe(kernel, spin_ham, n_qubits, n_electrons,
-                                       pauli_words, thetas, execution=execution)
+                result = cudaq.observe(
+                    kernel, spin_ham, n_qubits, n_electrons,
+                    pauli_words, thetas, execution=execution,
+                )
             else:
-                result = cudaq.observe(kernel, spin_ham, n_qubits, n_electrons,
-                                       pauli_words, thetas)
-            energies.append(float(result.expectation()))
+                result = cudaq.observe(
+                    kernel, spin_ham, n_qubits, n_electrons,
+                    pauli_words, thetas,
+                )
+            return float(result.expectation())
         except Exception as e:
-            print(f"  CUDA-Q error: {e}")
+            # Single-GPU nvidia rejects parallel.thread — fall back to plain observe.
+            if execution is not None and "parallel" in str(e).lower():
+                result = cudaq.observe(
+                    kernel, spin_ham, n_qubits, n_electrons,
+                    pauli_words, thetas,
+                )
+                return float(result.expectation())
+            raise
+
+    # Chunked observe_async: pipeline without flooding the runtime.
+    if execution is None and eval_async:
+        energies: list[float] = [0.0] * len(operators_batch)
+        nonempty = [i for i, ops in enumerate(operators_batch) if ops]
+        chunk = max(1, int(async_chunk))
+        label = mol_name or molecule_record.get("name", "mol")
+        try:
+            for start in range(0, len(nonempty), chunk):
+                batch_ids = nonempty[start:start + chunk]
+                futures: list[tuple[int, Any]] = []
+                for i in batch_ids:
+                    operators = operators_batch[i]
+                    padded = [_pad_pauli_word(w, n_qubits) for w in operators]
+                    pauli_words = [cudaq.pauli_word(w) for w in padded]
+                    thetas = [theta] * len(pauli_words)
+                    handle = cudaq.observe_async(
+                        kernel, spin_ham, n_qubits, n_electrons,
+                        pauli_words, thetas, qpu_id=0,
+                    )
+                    futures.append((i, handle))
+
+                for i, handle in futures:
+                    try:
+                        energies[i] = float(handle.get().expectation())
+                    except Exception as e:
+                        print(f"  CUDA-Q async result error: {e}", flush=True)
+                        energies[i] = 0.0
+
+                if show_progress:
+                    done = min(start + chunk, len(nonempty))
+                    print(
+                        f"    [{label}] energy eval {done}/{len(nonempty)} "
+                        f"(chunk={chunk})",
+                        flush=True,
+                    )
+            return energies
+        except Exception as e:
+            print(f"  observe_async failed, falling back to sync observe: {e}", flush=True)
+
+    energies = []
+    for idx, operators in enumerate(operators_batch):
+        if not operators:
             energies.append(0.0)
+            continue
+        try:
+            energies.append(_observe_sync(operators))
+        except Exception as e:
+            print(f"  CUDA-Q error: {e}", flush=True)
+            energies.append(0.0)
+        if show_progress and (idx + 1) % max(1, async_chunk) == 0:
+            print(
+                f"    [{mol_name or 'mol'}] sync energy eval "
+                f"{idx + 1}/{len(operators_batch)}",
+                flush=True,
+            )
     return energies
 
 
@@ -472,37 +654,34 @@ def evaluate_energies_parallel(
     kernel = _get_gqe_kernel()
     n_qubits = int(molecule_record["n_qubits"])
     n_electrons = get_active_electron_count(molecule_record)
-    spin_ham = hamiltonian_to_spin_operator(molecule_record)
+    spin_ham = _get_cached_spin_ham(molecule_record)
 
-    # Submit all observations as async futures
-    futures = []
-    for operators in operators_batch:
-        if not operators:
-            futures.append(None)
-            continue
-        padded = [_pad_pauli_word(w, n_qubits) for w in operators]
-        pauli_words = [cudaq.pauli_word(w) for w in padded]
-        thetas = [theta] * len(pauli_words)
-        try:
-            qpu_id = len(futures) % n_gpus
-            handle = cudaq.observe_async(kernel, spin_ham, n_qubits, n_electrons,
-                                         pauli_words, thetas, qpu_id=qpu_id)
-            futures.append(handle)
-        except Exception as e:
-            print(f"  CUDA-Q async error: {e}")
-            futures.append(None)
-
-    # Collect results
-    energies = []
-    for f in futures:
-        if f is None:
-            energies.append(0.0)
-        else:
+    # Chunked multi-GPU async to avoid thread-pool floods
+    energies = [0.0] * len(operators_batch)
+    nonempty = [i for i, ops in enumerate(operators_batch) if ops]
+    chunk = max(1, min(32, max(n_gpus * 4, 8)))
+    for start in range(0, len(nonempty), chunk):
+        batch_ids = nonempty[start:start + chunk]
+        futures: list[tuple[int, Any]] = []
+        for j, i in enumerate(batch_ids):
+            operators = operators_batch[i]
+            padded = [_pad_pauli_word(w, n_qubits) for w in operators]
+            pauli_words = [cudaq.pauli_word(w) for w in padded]
+            thetas = [theta] * len(pauli_words)
             try:
-                energies.append(float(f.get().expectation()))
+                qpu_id = j % max(n_gpus, 1)
+                handle = cudaq.observe_async(
+                    kernel, spin_ham, n_qubits, n_electrons,
+                    pauli_words, thetas, qpu_id=qpu_id,
+                )
+                futures.append((i, handle))
             except Exception as e:
-                print(f"  CUDA-Q result error: {e}")
-                energies.append(0.0)
+                print(f"  CUDA-Q async error: {e}", flush=True)
+        for i, handle in futures:
+            try:
+                energies[i] = float(handle.get().expectation())
+            except Exception as e:
+                print(f"  CUDA-Q result error: {e}", flush=True)
     return energies
 
 
@@ -540,7 +719,7 @@ def evaluate_energies_qd(
     kernel = _get_gqe_kernel()
     n_qubits = int(molecule_record["n_qubits"])
     n_electrons = get_active_electron_count(molecule_record)
-    spin_ham = hamiltonian_to_spin_operator(molecule_record)
+    spin_ham = _get_cached_spin_ham(molecule_record)
 
     energies = []
     n_hits = 0
@@ -1084,7 +1263,7 @@ def _ensure_cuda_context() -> None:
     import ctypes
     import os
     local_rank = int(os.environ.get("OMPI_COMM_WORLD_LOCAL_RANK", 0))
-    libcudart = ctypes.CDLL("/mnt/scratch/kcwp264/.conda_envs/cudaq-env/lib/libcudart.so")
+    libcudart = ctypes.CDLL(os.environ.get("CUDAQ_CUDART", "libcudart.so"))
     libcudart.cudaSetDevice(local_rank)
     d = ctypes.c_void_p()
     libcudart.cudaMalloc(ctypes.byref(d), 4)
@@ -1220,7 +1399,7 @@ def main() -> None:
     parser.add_argument("--pretrain-decay-epochs", type=int, default=150,
                         help="Number of epochs to linearly decay pre-constructed data fraction to 0.")
     # Adaptive theta optimization during RL
-    parser.add_argument("--adaptive-theta", action="store_true", default=True,
+    parser.add_argument("--adaptive-theta", action=argparse.BooleanOptionalAction, default=True,
                         help="Run quick L-BFGS-B optimization of theta for the best circuit in each "
                              "batch. Uses optimized energy for reward instead of fixed theta. "
                              "More expensive but gives much better energy signal.")
@@ -1234,6 +1413,19 @@ def main() -> None:
     parser.add_argument("--single-gpu", action="store_true",
                         help="Force single-GPU evaluation (avoids L40S PCIe IPC segfault with mqpu)")
     parser.add_argument("--theta", type=float, default=0.01, help="Fixed rotation angle for energy eval")
+    parser.add_argument("--eval-async", action=argparse.BooleanOptionalAction, default=True,
+                        help="Pipeline circuit energy evaluations with cudaq.observe_async (qpu_id=0). "
+                             "Falls back to sync observe on failure. Disable with --no-eval-async.")
+    parser.add_argument("--eval-async-chunk", type=int, default=32,
+                        help="Max in-flight observe_async jobs. Larger floods CUDA-Q threads "
+                             "and stalls (0%% GPU). 16–48 is typical on B200.")
+    parser.add_argument("--energy-cache", type=Path, default=None,
+                        help="SQLite path for persistent circuit→energy cache. "
+                             "Hits skip CUDA-Q observe. Precompute with "
+                             "src/gqe/data/precompute_rl_energy_cache.py")
+    parser.add_argument("--cache-only", action="store_true", default=False,
+                        help="Never call CUDA-Q on cache miss (offline RL). "
+                             "Misses get energy 0.0; prefer precomputing first.")
     parser.add_argument("--max-qubits", type=int, default=30,
                         help="Skip molecules with more qubits. Default 30 (H200 single-GPU). "
                              "Use 24 for L40S (cuStateVec distributed threshold=25).")
@@ -1248,9 +1440,8 @@ def main() -> None:
     parser.add_argument("--use-bf16", action="store_true", default=True,
                         help="Use bfloat16 mixed precision (prevents FP16 multiplicative bias entropy collapse)")
     parser.add_argument("--use-nvfp4", action="store_true", default=False,
-                        help="Use NVFP4 mixed precision on Blackwell GPUs (B200/B300). "
-                             "Requires transformer_engine. Keeps last ~15%% of layers in BF16 "
-                             "for stability (NVIDIA recipe). Gives 1.59x throughput + 4x memory savings.")
+                        help="Deprecated on this stack (Transformer Engine ABI broken). "
+                             "Prefer --use-bf16. Kept for optional TE installs only.")
     parser.add_argument("--nvfp4-bf16-tail", type=int, default=2,
                         help="Number of final transformer layers to keep in BF16 when using NVFP4 "
                              "(NVIDIA recipe: last 15%% of layers. Default 2 for 6-layer decoder.)")
@@ -1279,7 +1470,7 @@ def main() -> None:
     parser.add_argument("--msun-threshold", type=float, default=0.1,
                         help="Energy convergence threshold for mSUN metric (in Hartree above HF)")
     # Curriculum learning
-    parser.add_argument("--curriculum", action="store_true", default=True,
+    parser.add_argument("--curriculum", action=argparse.BooleanOptionalAction, default=True,
                         help="Enable curriculum learning: start with small molecules, gradually add larger ones")
     parser.add_argument("--curriculum-warmup", type=int, default=30,
                         help="Number of epochs to train only on smallest molecules before adding larger ones")
@@ -1329,6 +1520,8 @@ def main() -> None:
 
     device = torch.device("cuda" if args.use_cuda and torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
+    if device.type == "cuda":
+        _enable_blackwell_torch_optimizations(device)
 
     # Load model: either from checkpoint or from scratch (pure RL)
     if args.from_scratch or args.checkpoint is None:
@@ -1382,6 +1575,7 @@ def main() -> None:
             dropout=config["dropout"],
             max_pauli_len=config["max_pauli_len"],
             max_seq_len=config["max_seq_len"],
+            use_transformer_engine=bool(args.use_nvfp4),
         )
         # Random initialization — no supervised pretraining
         model.to(device)
@@ -1406,6 +1600,7 @@ def main() -> None:
             dropout=config["dropout"],
             max_pauli_len=config["max_pauli_len"],
             max_seq_len=config["max_seq_len"],
+            use_transformer_engine=args.use_nvfp4,
         )
         model.load_state_dict(ckpt["model_state"])
         model.to(device)
@@ -1443,26 +1638,41 @@ def main() -> None:
     amp_dtype = torch.bfloat16 if use_bf16 else torch.float16
 
     # NVFP4 mixed precision for Blackwell GPUs (B200/B300)
+    te = None
+    fp4_recipe = None
     use_nvfp4 = args.use_nvfp4 and torch.cuda.is_available()
     if use_nvfp4:
         try:
+            import transformer_engine
             import transformer_engine.pytorch as te
             from transformer_engine.common import recipe
-            fp4_recipe = recipe.DelayedScaling(
-                fp8_format=recipe.Format.NVFP4,
-                amax_history_len=16,
-            )
+
+            te_version = getattr(transformer_engine, "__version__", "unknown")
+            recipe_name = "NVFP4BlockScaling"
+            try:
+                fp4_recipe = recipe.NVFP4BlockScaling()
+            except AttributeError:
+                recipe_name = "DelayedScaling(Format.NVFP4)"
+                fp4_recipe = recipe.DelayedScaling(
+                    fp8_format=recipe.Format.NVFP4,
+                    amax_history_len=16,
+                )
             amp_dtype = torch.float8_e4m3fn  # TE handles FP4 internally
             print(f"Using NVFP4 mixed precision (Blackwell, {args.nvfp4_bf16_tail} tail layers in BF16)")
+            print(f"  transformer_engine {te_version}, recipe={recipe_name}")
             print(f"  Expected: ~1.59x throughput, ~4x memory savings vs BF16")
+            print("  te.Linear layers enabled (Blackwell FP4 GEMMs)")
             use_bf16 = False  # NVFP4 supersedes BF16
             scaler = None
-        except ImportError:
-            print("WARNING: --use-nvfp4 requires transformer_engine. Falling back to BF16.")
-            print("  Install: pip install --no-build-isolation transformer_engine[pytorch]")
+        except Exception as exc:
+            print(f"WARNING: --use-nvfp4 requires transformer_engine ({exc}). Falling back to BF16.")
+            print("  Install: pip install --no-build-isolation 'transformer_engine[pytorch]'")
+            print("  Note: TE wheel must match your PyTorch/CUDA version (see GitHub releases).")
             use_nvfp4 = False
             use_bf16 = True
             amp_dtype = torch.bfloat16
+            te = None
+            fp4_recipe = None
     elif use_bf16:
         print(f"Using BF16 mixed precision (prevents FP16 entropy collapse)")
         scaler = None
@@ -1475,17 +1685,25 @@ def main() -> None:
     if cudaq and args.target:
         try:
             if args.target == "nvidia" and args.target_option == "mqpu":
-                cudaq.set_target("nvidia", option="mqpu")
+                _set_cudaq_target_cached("nvidia", "mqpu")
                 print(f"CUDA-Q target: nvidia (mqpu, {n_gpus} GPUs)")
             elif args.target == "tensornet-mps":
-                cudaq.set_target("tensornet-mps")
+                _set_cudaq_target_cached("tensornet-mps")
                 print(f"CUDA-Q target: tensornet-mps (MPS, bond={args.mps_bond})")
             elif args.target == "nvidia-mqpu-mps":
-                cudaq.set_target("nvidia-mqpu-mps")
+                _set_cudaq_target_cached("nvidia-mqpu-mps")
                 print(f"CUDA-Q target: nvidia-mqpu-mps (MPS + mqpu, {n_gpus} GPUs)")
             else:
-                cudaq.set_target(args.target)
-                print(f"CUDA-Q target: {args.target}")
+                # Explicit fp32 on Blackwell → cuStateVec BF16 FP32-emulation kernels
+                opt = args.target_option or ("fp32" if args.target == "nvidia" else "")
+                _set_cudaq_target_cached(args.target, opt)
+                print(f"CUDA-Q target: {args.target}" + (f" ({opt})" if opt else ""))
+            _warmup_cudaq_observe()
+            print(
+                "  CUDA-Q Blackwell: FP32 statevector + ALLOW_FP32_EMULATED "
+                "(BF16 tensor-core emulation) + mempool + gate fusion",
+                flush=True,
+            )
         except Exception as e:
             print(f"Warning: CUDA-Q target setup failed: {e}")
 
@@ -1510,6 +1728,12 @@ def main() -> None:
         print(f"  {mol_name}: {mol_data['n_qubits']} qubits, "
               f"HF={mol_data['hf_energy'] or 'N/A'}, "
               f"FCI={fci_str}")
+        # Pre-build SpinOperator once (large Hamiltonians are expensive to rebuild)
+        try:
+            mol_data["spin_ham"] = _get_cached_spin_ham(mol_data["record"], cache_key=mol_name)
+        except Exception as e:
+            print(f"    WARNING: spin_ham cache failed for {mol_name}: {e}")
+            mol_data["spin_ham"] = None
         molecules_data.append(mol_data)
 
     if not molecules_data:
@@ -1544,6 +1768,20 @@ def main() -> None:
 
     # Initialize replay buffer
     replay_buffer = ReplayBuffer(max_size=args.buffer_size)
+
+    # Persistent circuit→energy cache (hybrid online/offline speedup)
+    energy_cache: PersistentEnergyCache | None = None
+    if args.energy_cache is not None:
+        energy_cache = PersistentEnergyCache(args.energy_cache)
+        cstats = energy_cache.stats()
+        print(f"\nEnergy cache: {args.energy_cache} ({cstats['n_entries']} entries)")
+        if args.cache_only:
+            print("  cache-only mode: CUDA-Q disabled on misses (offline RL)")
+        else:
+            print("  write-through mode: misses evaluate via CUDA-Q and are stored")
+    elif args.cache_only:
+        print("WARNING: --cache-only without --energy-cache; ignoring cache-only")
+        args.cache_only = False
 
     # Initialize QD-GRPO components: per-molecule MAP-Elites archives + dedup cache
     map_elites = None
@@ -1618,10 +1856,22 @@ def main() -> None:
         epoch_sequences_generated = 0
         epoch_msun_metrics: list[dict[str, Any]] = []
         epoch_qd_stats: list[dict[str, Any]] = []
+        epoch_cache_hits = 0
+        epoch_cache_misses = 0
+        epoch_cache_skipped = 0
+
+        if energy_cache is not None:
+            energy_cache.reset_session_counters()
 
         for mol_data in active_molecules:
             mol_name = mol_data["name"]
             n_qubits = mol_data["n_qubits"]
+            mol_t0 = time.perf_counter()
+            print(
+                f"  [{mol_name}] sampling {args.n_samples} circuits "
+                f"({n_qubits}q)...",
+                flush=True,
+            )
 
             # --- Phase 1: Sample sequences ---
             attempts = 0
@@ -1664,18 +1914,24 @@ def main() -> None:
                     target_entropy=args.target_entropy,
                     explore_eps=sample_eps,
                     freq_penalty=args.freq_penalty,
+                    amp_dtype=torch.bfloat16 if (use_bf16 or use_nvfp4) else None,
                 )
                 entropy_history.append(sample_entropy)
 
                 # Filter out empty sequences
                 valid_indices = [i for i, ops in enumerate(operator_lists) if len(ops) > 0]
                 if not valid_indices:
-                    print(f"  {mol_name}: all sequences empty, resampling...")
+                    print(f"  {mol_name}: all sequences empty, resampling...", flush=True)
                     continue
 
                 sequences = sequences[valid_indices]
                 old_log_probs = old_log_probs[valid_indices]
                 operator_lists = [operator_lists[i] for i in valid_indices]
+                print(
+                    f"  [{mol_name}] sampled {len(operator_lists)} valid "
+                    f"in {time.perf_counter() - mol_t0:.1f}s → energy eval...",
+                    flush=True,
+                )
 
                 # --- Phase 2: Evaluate energies ---
                 # Sync PyTorch GPU ops before CUDA-Q to avoid context conflicts
@@ -1702,36 +1958,116 @@ def main() -> None:
                         max_iters=args.qd_lbfgs_iters,
                     )
                 else:
-                    # Auto-switch to MPS for large qubit counts
+                    # Auto-switch to MPS for large qubit counts (B200: SV ~<=28–32q,
+                    # MPS for larger). Key off qubit count only — do not require mqpu.
                     mol_nqubits = int(mol_data["record"]["n_qubits"])
                     use_mps = mol_nqubits > args.mps_threshold
-                    if use_mps and args.target == "nvidia" and args.target_option == "mqpu":
-                        # Switch to MPS for this molecule
-                        if cudaq:
+                    n_terms = len(
+                        mol_data["record"].get("terms")
+                        or mol_data["record"].get("hamiltonian")
+                        or []
+                    )
+                    # Term-parallel observe() needs mqpu multi-QPU. On single-GPU
+                    # nvidia/fp32 (B200) it raises and energies become 0.0 — disable.
+                    use_term_parallel = (
+                        cudaq is not None
+                        and hasattr(cudaq, "parallel")
+                        and n_gpus > 1
+                        and args.target == "nvidia"
+                        and args.target_option == "mqpu"
+                        and n_terms >= 200
+                        and not use_mps
+                    )
+                    spin_ham = mol_data.get("spin_ham")
+                    # Adaptive async depth: small SV jobs tolerate larger in-flight batches;
+                    # large/MPS jobs need smaller chunks to avoid CUDA-Q thread floods.
+                    if use_mps or mol_nqubits >= 28:
+                        async_chunk = min(args.eval_async_chunk, 12)
+                    elif mol_nqubits >= 16:
+                        async_chunk = min(args.eval_async_chunk, 24)
+                    elif mol_nqubits <= 8:
+                        async_chunk = max(args.eval_async_chunk, 48)
+                    else:
+                        async_chunk = args.eval_async_chunk
+                    eval_kwargs = dict(
+                        molecule_record=mol_data["record"],
+                        theta=args.theta,
+                        spin_ham=spin_ham,
+                        async_chunk=async_chunk,
+                        show_progress=True,
+                        mol_name=mol_name,
+                    )
+                    if use_mps and cudaq and args.target in ("nvidia", "tensornet-mps", "nvidia-mqpu-mps", ""):
+                        try:
+                            _set_cudaq_target_cached("tensornet-mps")
+                            print(f"  Auto-switched to tensornet-mps for {mol_name} ({mol_nqubits} qubits)", flush=True)
+                        except Exception as e:
+                            print(f"  WARNING: MPS switch failed for {mol_name}: {e}", flush=True)
+
+                        def _eval_fn(ops_batch, _ek=eval_kwargs):
+                            return evaluate_energies_batch(
+                                ops_batch, **_ek, eval_async=args.eval_async,
+                            )
+                    elif args.target == "nvidia" and args.target_option == "mqpu" and n_gpus > 1 and not use_mps:
+                        try:
+                            _set_cudaq_target_cached("nvidia", "mqpu")
+                        except Exception:
+                            pass
+
+                        def _eval_fn(ops_batch, _ek=eval_kwargs):
+                            return evaluate_energies_batch(
+                                ops_batch, **_ek,
+                                execution=cudaq.parallel.thread,
+                                eval_async=False,
+                            )
+                    else:
+                        # Ensure SV backend for molecules at/below mps threshold
+                        if cudaq and args.target == "nvidia" and not use_mps:
                             try:
-                                cudaq.set_target("tensornet-mps")
-                                print(f"  Auto-switched to tensornet-mps for {mol_name} ({mol_nqubits} qubits)")
+                                if args.target_option == "mqpu":
+                                    _set_cudaq_target_cached("nvidia", "mqpu")
+                                else:
+                                    _set_cudaq_target_cached(
+                                        "nvidia",
+                                        args.target_option or "fp32",
+                                    )
                             except Exception:
                                 pass
-                        energies = evaluate_energies_batch(
-                            operator_lists, mol_data["record"],
-                            theta=args.theta,
+                        _exec = cudaq.parallel.thread if use_term_parallel else None
+                        _async = args.eval_async and not use_term_parallel
+
+                        def _eval_fn(ops_batch, _ek=eval_kwargs, _ex=_exec, _as=_async):
+                            return evaluate_energies_batch(
+                                ops_batch, **_ek, execution=_ex, eval_async=_as,
+                            )
+
+                    mol_ne = get_active_electron_count(mol_data["record"])
+                    energies, ec_stats = resolve_energies_with_cache(
+                        operator_lists,
+                        molecule_id=mol_name,
+                        n_qubits=mol_nqubits,
+                        n_electrons=mol_ne,
+                        theta=args.theta,
+                        eval_fn=_eval_fn,
+                        cache=energy_cache,
+                        cache_only=args.cache_only,
+                    )
+                    epoch_cache_hits += ec_stats["hits"]
+                    epoch_cache_misses += ec_stats["misses"]
+                    epoch_cache_skipped += ec_stats["skipped"]
+                    if energy_cache is not None:
+                        print(
+                            f"  [{mol_name}] cache hits={ec_stats['hits']} "
+                            f"misses={ec_stats['misses']} "
+                            f"skipped={ec_stats['skipped']}",
+                            flush=True,
                         )
-                    elif args.target == "nvidia" and args.target_option == "mqpu" and n_gpus > 1 and not use_mps:
-                        # Use cudaq.parallel.thread to distribute Hamiltonian terms
-                        # across GPUs. Unlike observe_async(qpu_id=...), this uses
-                        # thread-based parallelism within a single observe() call,
-                        # avoiding the L40S PCIe IPC segfault.
-                        energies = evaluate_energies_batch(
-                            operator_lists, mol_data["record"],
-                            theta=args.theta,
-                            execution=cudaq.parallel.thread,
-                        )
-                    else:
-                        energies = evaluate_energies_batch(
-                            operator_lists, mol_data["record"],
-                            theta=args.theta,
-                        )
+                    print(
+                        f"  [{mol_name}] energies done in "
+                        f"{time.perf_counter() - mol_t0:.1f}s "
+                        f"(best={min(energies) if energies else float('nan'):.6f})",
+                        flush=True,
+                    )
 
                 # --- Phase 3: Compute rewards ---
                 # Adaptive theta: optimize coefficients for the best circuit in the batch
@@ -2210,6 +2546,10 @@ def main() -> None:
                    f"mSUN={mean_msun:.2f} "
                    f"skip={epoch_skipped} "
                    f"buf={len(replay_buffer)}")
+        if energy_cache is not None:
+            ec_total = epoch_cache_hits + epoch_cache_misses
+            ec_rate = epoch_cache_hits / max(ec_total, 1)
+            postfix += f" ecache={ec_rate:.0%}({epoch_cache_hits}/{ec_total})"
         if args.qd_mode:
             postfix += (f" QD={qd_size}({qd_cov:.0%}) "
                         f"λ={qd_lambda:.2f} "
@@ -2237,6 +2577,12 @@ def main() -> None:
             "qd_lambda": qd_lambda,
             "qd_cache_hit_rate": qd_cache_hit_rate,
             "qd_stats": epoch_qd_stats,
+            "energy_cache_hits": epoch_cache_hits,
+            "energy_cache_misses": epoch_cache_misses,
+            "energy_cache_skipped": epoch_cache_skipped,
+            "energy_cache_hit_rate": (
+                epoch_cache_hits / max(epoch_cache_hits + epoch_cache_misses, 1)
+            ),
         })
 
         # Save best model
@@ -2260,6 +2606,13 @@ def main() -> None:
     print("=" * 60)
     print(f"Epochs: {args.epochs}")
     print(f"Replay buffer size: {len(replay_buffer)}")
+    if energy_cache is not None:
+        final_cstats = energy_cache.stats()
+        print(f"Energy cache: {final_cstats['n_entries']} entries @ {final_cstats['path']}")
+        print(f"  session hit rate: {final_cstats['session_hit_rate']:.1%} "
+              f"({final_cstats['session_hits']} hits / "
+              f"{final_cstats['session_hits'] + final_cstats['session_misses']} lookups)")
+        energy_cache.close()
     print("\nBest energies per molecule:")
     for mol_name, e in best_energy_per_mol.items():
         mol = next(m for m in molecules_data if m["name"] == mol_name)

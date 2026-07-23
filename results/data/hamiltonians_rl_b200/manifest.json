@@ -1,0 +1,555 @@
+{
+  "description": "B200 RL training set: full qubit scaling (SV <=32 on 1x B200, MPS for 33-40)",
+  "created": "2026-07-23T16:22:44Z",
+  "purpose": "DAPO RL on B200 with statevector (n<=32) and MPS fallback (33-40 via mps-threshold)",
+  "count": 51,
+  "n_qubits_range": [
+    4,
+    40
+  ],
+  "source_files": [
+    "results/data/hamiltonians_gic2026/hamiltonians.json",
+    "results/data/hamiltonians_merged.json",
+    "results/data/hamiltonians_40plus/hamiltonians.json",
+    "results/data/hamiltonians_phase3.json/hamiltonians.json"
+  ],
+  "selection_criteria": [
+    "Deduplicated by molecule name (first source wins: gic2026 > merged > 40plus > phase3)",
+    "Include ALL unique molecules with n_qubits <= 32 (statevector-capable on 1x B200 ~183GB HBM)",
+    "Include n_qubits 33-40 molecules for MPS training (marked mps_only bucket)",
+    "Full record objects copied from existing Hamiltonian JSON files (no regeneration)",
+    "Exclude n_qubits > 40"
+  ],
+  "buckets": {
+    "sv_safe": {
+      "description": "n_qubits <= 28",
+      "count": 47,
+      "molecules": [
+        "h2",
+        "h2_0.5",
+        "h2_0.74",
+        "h2_1.0",
+        "h2_1.5",
+        "h2_2.0",
+        "imeph",
+        "iodobenzene",
+        "lih_1.6",
+        "methyl_iodide",
+        "phenol",
+        "anisole_cas12",
+        "benzene_cas12",
+        "diarylethene_frag_cas12",
+        "hf",
+        "imeph_cas12",
+        "iodobenzene_cas12",
+        "lih",
+        "lih_1.2",
+        "lih_1.6_full",
+        "lih_2.0",
+        "lih_3.0",
+        "methyl_iodide_cas12",
+        "n2_1.1",
+        "ocresol_cas12",
+        "phenol_cas12",
+        "toluene_cas12",
+        "beh2",
+        "beh2_1.0",
+        "beh2_1.3",
+        "beh2_1.3_full",
+        "beh2_1.6",
+        "beh2_2.0",
+        "h2o",
+        "h2o_1.0_631g_cas8",
+        "n2_1.1_631g_cas8",
+        "nh3",
+        "ch4",
+        "co",
+        "n2",
+        "n2_1.1_full",
+        "n2_1.8",
+        "n2_2.5",
+        "lih_1.6_631g",
+        "acetylene",
+        "formaldehyde",
+        "ethylene"
+      ]
+    },
+    "sv_large": {
+      "description": "n_qubits 29-32",
+      "count": 2,
+      "molecules": [
+        "beh2_ccpvdz",
+        "n2_ccpvdz"
+      ]
+    },
+    "mps_only": {
+      "description": "n_qubits 33-40 (MPS required)",
+      "count": 2,
+      "molecules": [
+        "benzene_cas20",
+        "n2_ccpvdz_cas20"
+      ]
+    }
+  },
+  "molecules": [
+    {
+      "name": "h2",
+      "n_qubits": 4,
+      "n_pauli_terms": 15,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "h2_0.5",
+      "n_qubits": 4,
+      "n_pauli_terms": 15,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "h2_0.74",
+      "n_qubits": 4,
+      "n_pauli_terms": 15,
+      "source_file": "results/data/hamiltonians_merged.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "h2_1.0",
+      "n_qubits": 4,
+      "n_pauli_terms": 15,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "h2_1.5",
+      "n_qubits": 4,
+      "n_pauli_terms": 15,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "h2_2.0",
+      "n_qubits": 4,
+      "n_pauli_terms": 15,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "imeph",
+      "n_qubits": 8,
+      "n_pauli_terms": 361,
+      "source_file": "results/data/hamiltonians_phase3.json/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "test"
+    },
+    {
+      "name": "iodobenzene",
+      "n_qubits": 8,
+      "n_pauli_terms": 105,
+      "source_file": "results/data/hamiltonians_phase3.json/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "lih_1.6",
+      "n_qubits": 8,
+      "n_pauli_terms": 105,
+      "source_file": "results/data/hamiltonians_phase3.json/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "methyl_iodide",
+      "n_qubits": 8,
+      "n_pauli_terms": 185,
+      "source_file": "results/data/hamiltonians_phase3.json/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "phenol",
+      "n_qubits": 8,
+      "n_pauli_terms": 361,
+      "source_file": "results/data/hamiltonians_phase3.json/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "test"
+    },
+    {
+      "name": "anisole_cas12",
+      "n_qubits": 12,
+      "n_pauli_terms": 923,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "test"
+    },
+    {
+      "name": "benzene_cas12",
+      "n_qubits": 12,
+      "n_pauli_terms": 287,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "test"
+    },
+    {
+      "name": "diarylethene_frag_cas12",
+      "n_qubits": 12,
+      "n_pauli_terms": 475,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "test"
+    },
+    {
+      "name": "hf",
+      "n_qubits": 12,
+      "n_pauli_terms": 631,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "imeph_cas12",
+      "n_qubits": 12,
+      "n_pauli_terms": 919,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "test"
+    },
+    {
+      "name": "iodobenzene_cas12",
+      "n_qubits": 12,
+      "n_pauli_terms": 923,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "test"
+    },
+    {
+      "name": "lih",
+      "n_qubits": 12,
+      "n_pauli_terms": 631,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "lih_1.2",
+      "n_qubits": 12,
+      "n_pauli_terms": 631,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "lih_1.6_full",
+      "n_qubits": 12,
+      "n_pauli_terms": 631,
+      "source_file": "results/data/hamiltonians_merged.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "lih_2.0",
+      "n_qubits": 12,
+      "n_pauli_terms": 631,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "lih_3.0",
+      "n_qubits": 12,
+      "n_pauli_terms": 631,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "methyl_iodide_cas12",
+      "n_qubits": 12,
+      "n_pauli_terms": 919,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "test"
+    },
+    {
+      "name": "n2_1.1",
+      "n_qubits": 12,
+      "n_pauli_terms": 383,
+      "source_file": "results/data/hamiltonians_phase3.json/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "ocresol_cas12",
+      "n_qubits": 12,
+      "n_pauli_terms": 923,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "test"
+    },
+    {
+      "name": "phenol_cas12",
+      "n_qubits": 12,
+      "n_pauli_terms": 923,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "test"
+    },
+    {
+      "name": "toluene_cas12",
+      "n_qubits": 12,
+      "n_pauli_terms": 919,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "test"
+    },
+    {
+      "name": "beh2",
+      "n_qubits": 14,
+      "n_pauli_terms": 666,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "beh2_1.0",
+      "n_qubits": 14,
+      "n_pauli_terms": 666,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "beh2_1.3",
+      "n_qubits": 14,
+      "n_pauli_terms": 666,
+      "source_file": "results/data/hamiltonians_phase3.json/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "beh2_1.3_full",
+      "n_qubits": 14,
+      "n_pauli_terms": 666,
+      "source_file": "results/data/hamiltonians_merged.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "beh2_1.6",
+      "n_qubits": 14,
+      "n_pauli_terms": 666,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "beh2_2.0",
+      "n_qubits": 14,
+      "n_pauli_terms": 666,
+      "source_file": "results/data/hamiltonians_phase3.json/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "h2o",
+      "n_qubits": 14,
+      "n_pauli_terms": 2110,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "h2o_1.0_631g_cas8",
+      "n_qubits": 16,
+      "n_pauli_terms": 3057,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "6-31g",
+      "split": "val"
+    },
+    {
+      "name": "n2_1.1_631g_cas8",
+      "n_qubits": 16,
+      "n_pauli_terms": 1177,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "6-31g",
+      "split": "val"
+    },
+    {
+      "name": "nh3",
+      "n_qubits": 16,
+      "n_pauli_terms": 1941,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "ch4",
+      "n_qubits": 18,
+      "n_pauli_terms": 5012,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "co",
+      "n_qubits": 20,
+      "n_pauli_terms": 5851,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "n2",
+      "n_qubits": 20,
+      "n_pauli_terms": 2951,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "train"
+    },
+    {
+      "name": "n2_1.1_full",
+      "n_qubits": 20,
+      "n_pauli_terms": 2951,
+      "source_file": "results/data/hamiltonians_merged.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "n2_1.8",
+      "n_qubits": 20,
+      "n_pauli_terms": 2951,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "n2_2.5",
+      "n_qubits": 20,
+      "n_pauli_terms": 3163,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "lih_1.6_631g",
+      "n_qubits": 22,
+      "n_pauli_terms": 8758,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "6-31g",
+      "split": "val"
+    },
+    {
+      "name": "acetylene",
+      "n_qubits": 24,
+      "n_pauli_terms": 6401,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "formaldehyde",
+      "n_qubits": 24,
+      "n_pauli_terms": 9257,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "ethylene",
+      "n_qubits": 28,
+      "n_pauli_terms": 8919,
+      "source_file": "results/data/hamiltonians_gic2026/hamiltonians.json",
+      "bucket": "sv_safe",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "beh2_ccpvdz",
+      "n_qubits": 32,
+      "n_pauli_terms": 18201,
+      "source_file": "results/data/hamiltonians_merged.json",
+      "bucket": "sv_large",
+      "basis": "cc-pvdz",
+      "split": "val"
+    },
+    {
+      "name": "n2_ccpvdz",
+      "n_qubits": 32,
+      "n_pauli_terms": 21521,
+      "source_file": "results/data/hamiltonians_merged.json",
+      "bucket": "sv_large",
+      "basis": "cc-pvdz",
+      "split": "val"
+    },
+    {
+      "name": "benzene_cas20",
+      "n_qubits": 40,
+      "n_pauli_terms": 29897,
+      "source_file": "results/data/hamiltonians_merged.json",
+      "bucket": "mps_only",
+      "basis": "sto-3g",
+      "split": "val"
+    },
+    {
+      "name": "n2_ccpvdz_cas20",
+      "n_qubits": 40,
+      "n_pauli_terms": 51209,
+      "source_file": "results/data/hamiltonians_merged.json",
+      "bucket": "mps_only",
+      "basis": "cc-pvdz",
+      "split": "val"
+    }
+  ]
+}

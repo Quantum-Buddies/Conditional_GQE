@@ -220,11 +220,11 @@ class OperatorPoolDecoder(nn.Module):
         max_len: int = 32,
         temperature: float = 1.0,
         z_only_token_mask: torch.Tensor | None = None,
-        force_entanglement: bool = False,
+        force_entanglement: bool = True,
         max_repeat: int = 4,
-        sample: bool = False,
+        sample: bool = True,
         length_mask: torch.Tensor | None = None,
-        freq_penalty: float = 0.0,
+        freq_penalty: float = 1.0,
     ) -> torch.Tensor:
         """Autoregressive generation.
 
@@ -293,6 +293,31 @@ class OperatorPoolDecoder(nn.Module):
         return tokens
 
 
+def replace_linears_with_te(module: nn.Module) -> int:
+    """Recursively replace nn.Linear with te.Linear. Returns count replaced."""
+    import transformer_engine.pytorch as te
+
+    te_linear_cls = te.Linear
+    count = 0
+    for name, child in module.named_children():
+        if isinstance(child, te_linear_cls):
+            count += replace_linears_with_te(child)
+        elif isinstance(child, nn.Linear):
+            te_linear = te_linear_cls(
+                child.in_features,
+                child.out_features,
+                bias=child.bias is not None,
+            )
+            te_linear.weight.data.copy_(child.weight.data)
+            if child.bias is not None:
+                te_linear.bias.data.copy_(child.bias.data)
+            setattr(module, name, te_linear)
+            count += 1
+        else:
+            count += replace_linears_with_te(child)
+    return count
+
+
 class HcGQEModel(nn.Module):
     """Full H-cGQE: Hamiltonian -> operator sequence."""
 
@@ -307,6 +332,7 @@ class HcGQEModel(nn.Module):
         dropout: float = 0.1,
         max_pauli_len: int = 24,
         max_seq_len: int = 64,
+        use_transformer_engine: bool = False,
     ) -> None:
         super().__init__()
         self.encoder = HamiltonianEncoder(
@@ -327,6 +353,15 @@ class HcGQEModel(nn.Module):
             max_seq_len=max_seq_len,
         )
         self._init_weights()
+        if use_transformer_engine:
+            try:
+                n_replaced = replace_linears_with_te(self)
+                print(f"Transformer Engine: replaced {n_replaced} nn.Linear layer(s) with te.Linear")
+            except ImportError:
+                print("WARNING: use_transformer_engine=True but transformer_engine not installed; "
+                      "keeping nn.Linear layers")
+            except Exception as exc:
+                print(f"WARNING: te.Linear replacement failed ({exc}); keeping nn.Linear layers")
 
     def _init_weights(self) -> None:
         for p in self.parameters():
@@ -357,11 +392,11 @@ class HcGQEModel(nn.Module):
         max_len: int = 32,
         temperature: float = 1.0,
         vocab: dict[str, int] | None = None,
-        force_entanglement: bool = False,
+        force_entanglement: bool = True,
         max_repeat: int = 4,
-        sample: bool = False,
+        sample: bool = True,
         n_qubits: int | None = None,
-        freq_penalty: float = 0.0,
+        freq_penalty: float = 1.0,
     ) -> torch.Tensor:
         self.eval()
         _, memory = self.encoder(pauli_ids, coeffs, term_mask)

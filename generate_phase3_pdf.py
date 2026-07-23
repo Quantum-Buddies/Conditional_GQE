@@ -14,7 +14,7 @@ from pathlib import Path
 from fpdf import FPDF
 from fpdf.enums import XPos, YPos
 
-ROOT = Path("/scratch/kcwp264/Conditional-GQE_materials")
+ROOT = Path(__file__).resolve().parent
 PLOTS_P3 = ROOT / "results" / "plots_phase3"
 PLOTS_EVAL = ROOT / "results" / "eval" / "plots"
 OUT_DOUBLE = ROOT / "proposals" / "Ryoushi_Quantum_Buddies__Phase3_Version1.pdf"
@@ -87,9 +87,19 @@ class Phase3PDF(FPDF):
 def build_pdf():
     pdf = Phase3PDF("P", "mm", "A4")
     pdf.set_auto_page_break(True, 10)
-    pdf.add_font("DejaVu", "", "/usr/share/fonts/dejavu-serif-fonts/DejaVuSerif.ttf")
-    pdf.add_font("DejaVu", "B", "/usr/share/fonts/dejavu-serif-fonts/DejaVuSerif-Bold.ttf")
-    pdf.add_font("DejaVu", "I", "/usr/share/fonts/dejavu-serif-fonts/DejaVuSerif-Italic.ttf")
+    font_regular = "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf"
+    if not Path(font_regular).exists():
+        font_regular = "/usr/share/fonts/dejavu-serif-fonts/DejaVuSerif.ttf"
+    font_bold = "/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf"
+    if not Path(font_bold).exists():
+        font_bold = "/usr/share/fonts/dejavu-serif-fonts/DejaVuSerif-Bold.ttf"
+    font_italic = "/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf"
+    if not Path(font_italic).exists():
+        font_italic = "/usr/share/fonts/dejavu-serif-fonts/DejaVuSerif-Italic.ttf"
+
+    pdf.add_font("DejaVu", "", font_regular)
+    pdf.add_font("DejaVu", "B", font_bold)
+    pdf.add_font("DejaVu", "I", font_italic)
 
     # ── Cover Page ──
     pdf.add_page()

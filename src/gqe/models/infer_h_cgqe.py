@@ -114,10 +114,14 @@ def main() -> None:
     parser.add_argument("--max-pauli-len", type=int, default=24)
     parser.add_argument("--max-seq-len", type=int, default=64)
     parser.add_argument("--temperature", type=float, default=1.0)
-    parser.add_argument("--force-entanglement", action="store_true",
-                        help="Prevent Z-only sequences by forcing at least one X/Y operator")
-    parser.add_argument("--sample", action="store_true",
-                        help="Use stochastic sampling instead of greedy decoding")
+    parser.add_argument("--force-entanglement", action="store_true", default=True,
+                        help="Prevent Z-only sequences by forcing at least one X/Y operator (default: True)")
+    parser.add_argument("--no-force-entanglement", action="store_false", dest="force_entanglement",
+                        help="Disable force-entanglement constraint")
+    parser.add_argument("--sample", action="store_true", default=True,
+                        help="Use stochastic sampling instead of greedy decoding (default: True)")
+    parser.add_argument("--greedy", action="store_false", dest="sample",
+                        help="Use greedy decoding instead of stochastic sampling")
     parser.add_argument("--max-repeat", type=int, default=4,
                         help="Stop generation if the same token repeats this many times")
     parser.add_argument("--freq-penalty", type=float, default=1.0,
@@ -204,6 +208,26 @@ def main() -> None:
                 freq_penalty=args.freq_penalty,
             )
             words = decode_operator_sequence(generated[0], inv_vocab, trim_trailing=not args.no_trim)
+            # Ensure non-diagonal entangling operator constraint (z_only == 0)
+            retry_count = 0
+            while not any("X" in w or "Y" in w for w in words) and retry_count < 10:
+                retry_count += 1
+                generated = model.generate(
+                    pauli_ids,
+                    coeffs,
+                    term_mask,
+                    bos_id=SPECIAL_TOKENS["<BOS>"],
+                    eos_id=SPECIAL_TOKENS["<EOS>"],
+                    max_len=args.max_seq_len,
+                    temperature=args.temperature,
+                    vocab=vocab,
+                    force_entanglement=True,
+                    max_repeat=args.max_repeat,
+                    sample=True,
+                    n_qubits=n_qubits,
+                    freq_penalty=args.freq_penalty,
+                )
+                words = decode_operator_sequence(generated[0], inv_vocab, trim_trailing=not args.no_trim)
             molecule_results.append({"sample_id": i, "operators": words})
 
         results.append({

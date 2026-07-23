@@ -56,13 +56,13 @@ def _jw_excitation_pauli_words(
         singles = singles[:max_singles]
 
     for p, q in singles:
-        # Jordan-Wigner: a†_p a_q - a†_q a_p = (i/2)(X_p Z_{p+1..q-1} X_q + Y_p Z_{p+1..q-1} Y_q)
+        # Jordan-Wigner: a†_p a_q - a†_q a_p = (i/2)(X_p Z_{p+1..q-1} Y_q - Y_p Z_{p+1..q-1} X_q)
         # for p < q; swap if p > q
         if p > q:
             p, q = q, p  # ensure p < q for the JW string
 
         # Build the two Pauli words for this excitation
-        for op_p, op_q in [("X", "X"), ("Y", "Y")]:
+        for op_p, op_q in [("X", "Y"), ("Y", "X")]:
             word = ["I"] * n_qubits
             word[p] = op_p
             word[q] = op_q
@@ -144,7 +144,7 @@ def _double_excitation_pauli_combos(
                     word[k] = "Z"
 
         # Coefficient: 1/8 with sign
-        coeff = 0.125 * (1 if i % 4 in (0, 3, 5, 6) else -1)
+        coeff = 0.125 * (1 if i in (0, 3, 5, 6) else -1)
         combos.append(("".join(word), coeff))
 
     return combos

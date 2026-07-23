@@ -18,9 +18,9 @@ PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 RESULTS_DIR="${PROJECT_ROOT}/results"
 EVAL_DIR="${RESULTS_DIR}/eval"
 
-PYTHON="/scratch/kcwp264/.conda_envs/cudaq-env/bin/python"
-if [ ! -f "${PYTHON}" ]; then
-    PYTHON="${CONDA_PREFIX:-/usr}/bin/python"
+PYTHON="${PYTHON:-${CONDA_PREFIX:-}/bin/python}"
+if [ ! -x "${PYTHON}" ]; then
+    PYTHON="$(command -v python)"
 fi
 
 # Targets and paths (with dynamic fallbacks)

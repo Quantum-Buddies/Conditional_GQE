@@ -56,7 +56,7 @@ def _ensure_cuda_context() -> None:
     import os
 
     local_rank = int(os.environ.get("OMPI_COMM_WORLD_LOCAL_RANK", 0))
-    libcudart = ctypes.CDLL("/mnt/scratch/kcwp264/.conda_envs/cudaq-env/lib/libcudart.so")
+    libcudart = ctypes.CDLL(os.environ.get("CUDAQ_CUDART", "libcudart.so"))
     libcudart.cudaSetDevice(local_rank)
     d = ctypes.c_void_p()
     libcudart.cudaMalloc(ctypes.byref(d), 4)

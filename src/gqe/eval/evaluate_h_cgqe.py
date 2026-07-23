@@ -46,7 +46,7 @@ def _ensure_cuda_context() -> None:
     import os
 
     local_rank = int(os.environ.get("OMPI_COMM_WORLD_LOCAL_RANK", 0))
-    libcudart = ctypes.CDLL("/mnt/scratch/kcwp264/.conda_envs/cudaq-env/lib/libcudart.so")
+    libcudart = ctypes.CDLL(os.environ.get("CUDAQ_CUDART", "libcudart.so"))
     libcudart.cudaSetDevice(local_rank)
     d = ctypes.c_void_p()
     libcudart.cudaMalloc(ctypes.byref(d), 4)
@@ -267,7 +267,7 @@ def main() -> None:
                 circuit_energies.append(energy)
 
         best_energy = min(circuit_energies)
-        avg_energy = np.mean(circuit_energies)
+        avg_energy = float(np.mean(circuit_energies))
 
         # Compute proper error metrics
         # If we have a reference energy (exact diagonalization), compute error vs reference
@@ -276,7 +276,7 @@ def main() -> None:
             error_vs_ref = abs(best_energy - reference_energy)
             baseline_error = abs(baseline_energy - reference_energy) if baseline_energy is not None else None
         else:
-            error_vs_ref = None
+            error_vs_ref = abs(best_energy - baseline_energy) if baseline_energy is not None else None
             baseline_error = None
 
         # Also compute improvement over baseline (if both exist)
@@ -285,14 +285,16 @@ def main() -> None:
         else:
             improvement = None
 
+        ref_for_error = reference_energy if reference_energy is not None else baseline_energy
+        energy_error_mha = float(abs(best_energy - ref_for_error) * 1000.0) if ref_for_error is not None else None
+
         evaluation.append({
             "molecule": molecule,
-            "reference_energy": reference_energy,
             "baseline_energy": baseline_energy,
-            "baseline_delta": baseline_delta,
             "best_generated_energy": best_energy,
             "avg_generated_energy": avg_energy,
-            "error_vs_reference": error_vs_ref,
+            "energy_error": energy_error_mha,
+            "reference_energy": reference_energy,
             "baseline_error_vs_reference": baseline_error,
             "improvement_over_baseline": improvement,
             "n_samples": len(circuit_energies),
@@ -311,7 +313,7 @@ def main() -> None:
     for ev in evaluation:
         ref_str = f"{ev['reference_energy']:12.4f}" if ev['reference_energy'] is not None else "     N/A    "
         gqe_str = f"{ev['baseline_energy']:12.4f}" if ev['baseline_energy'] is not None else "     N/A    "
-        err_ref = f"{ev['error_vs_reference']:10.4f}" if ev['error_vs_reference'] is not None else "   N/A   "
+        err_ref = f"{ev['energy_error']:10.4f}" if ev['energy_error'] is not None else "   N/A   "
         err_gqe = f"{abs(ev['best_generated_energy'] - ev['baseline_energy']):10.4f}" if ev['baseline_energy'] is not None else "   N/A   "
         imprv = f"{ev['improvement_over_baseline']:8.4f}" if ev['improvement_over_baseline'] is not None else "  N/A  "
         print(f"{ev['molecule']:15s} {ref_str} {gqe_str} {ev['best_generated_energy']:12.4f} {err_ref} {err_gqe} {imprv}")

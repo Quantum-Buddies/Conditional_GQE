@@ -23,12 +23,13 @@ import cudaq
 import cudaq_solvers as solvers
 from cudaq_solvers.gqe_algorithm.gqe import get_default_config
 
-cudaq.set_target("nvidia")
+cudaq.set_target("qpp-cpu")
 
 # Load H2 record
-records = load_hamiltonian_records(
-    Path("results/data/hamiltonians_scaling.json/hamiltonians.json")
-)
+ham_path = Path("results/data/hamiltonians.json")
+if not ham_path.exists():
+    ham_path = Path("results/data/hamiltonians_scaling.json/hamiltonians.json")
+records = load_hamiltonian_records(ham_path)
 h2 = records[0]
 n_qubits = int(h2["n_qubits"])
 n_electrons = get_active_electron_count(h2)

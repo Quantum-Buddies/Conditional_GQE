@@ -19,12 +19,20 @@ try:  # pragma: no cover - import path depends on execution mode
         load_fragment_plan,
     )
 except ImportError:  # pragma: no cover - direct script execution fallback
-    from fragmentation import (  # type: ignore[no-redef]
-        ActiveSpaceSpec,
-        build_active_space_spec,
-        build_fragment_records,
-        load_fragment_plan,
-    )
+    try:
+        from src.gqe.data.fragmentation import (  # type: ignore[no-redef]
+            ActiveSpaceSpec,
+            build_active_space_spec,
+            build_fragment_records,
+            load_fragment_plan,
+        )
+    except ImportError:
+        from .fragmentation import (  # type: ignore[no-redef]
+            ActiveSpaceSpec,
+            build_active_space_spec,
+            build_fragment_records,
+            load_fragment_plan,
+        )
 
 
 def _load_config(config_path: Path) -> dict[str, Any]:
