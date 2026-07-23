@@ -176,6 +176,12 @@ def main() -> None:
                         help="Molecule names (default: all with n_qubits <= --max-qubits)")
     parser.add_argument("--out", type=Path, default=Path("results/train/rl_energy_cache.sqlite"))
     parser.add_argument("--n-per-mol", type=int, default=512)
+    parser.add_argument(
+        "--n-per-mol-large",
+        type=int,
+        default=None,
+        help="Circuit count for molecules above --mps-threshold (default: same as --n-per-mol)",
+    )
     parser.add_argument("--max-seq-len", type=int, default=64)
     parser.add_argument("--max-qubits", type=int, default=40)
     parser.add_argument("--theta", type=float, default=0.01)
@@ -183,7 +189,14 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--target", type=str, default="nvidia")
     parser.add_argument("--target-option", type=str, default="fp32")
-    parser.add_argument("--mps-threshold", type=int, default=28)
+    parser.add_argument(
+        "--mps-threshold",
+        type=int,
+        default=33,
+        help="Use tensornet-mps only above this qubit count (B200: keep 32q on statevector)",
+    )
+    parser.add_argument("--mps-bond", type=int, default=64,
+                        help="CUDAQ_MPS_MAX_BOND for MPS backend (lower = faster, less accurate)")
     args = parser.parse_args()
 
     if cudaq is None:
@@ -202,8 +215,14 @@ def main() -> None:
             if int(r.get("n_qubits", 99)) <= args.max_qubits
         ]
 
+    n_per_mol_large = args.n_per_mol if args.n_per_mol_large is None else args.n_per_mol_large
     print(f"Precomputing energy cache for {len(mol_names)} molecules → {args.out}")
-    print(f"  n_per_mol={args.n_per_mol}  theta={args.theta}  chunk={args.eval_async_chunk}")
+    print(f"  n_per_mol={args.n_per_mol}  n_per_mol_large={n_per_mol_large}  "
+          f"mps_threshold={args.mps_threshold}  theta={args.theta}  chunk={args.eval_async_chunk}")
+    if args.mps_bond != 64:
+        import os
+        os.environ["CUDAQ_MPS_MAX_BOND"] = str(args.mps_bond)
+        print(f"  MPS max bond: {args.mps_bond}")
 
     vocab, inv_vocab, op_tokens = _build_vocab(args.hamiltonians, mol_names)
     print(f"  Vocab operators: {len(op_tokens)}")
@@ -228,10 +247,11 @@ def main() -> None:
             continue
         n_qubits = int(record["n_qubits"])
         n_electrons = get_active_electron_count(record)
-        mol_bar.set_postfix(mol=mol_name, q=n_qubits)
+        n_circuits = n_per_mol_large if n_qubits > args.mps_threshold else args.n_per_mol
+        mol_bar.set_postfix(mol=mol_name, q=n_qubits, n=n_circuits)
 
         circuits = _sample_circuits_for_molecule(
-            op_tokens, n_qubits, args.n_per_mol, args.max_seq_len, rng,
+            op_tokens, n_qubits, n_circuits, args.max_seq_len, rng,
         )
         # Filter already cached
         to_eval: list[list[str]] = []
@@ -258,8 +278,13 @@ def main() -> None:
                 pass
 
         spin_ham = _get_cached_spin_ham(record, cache_key=mol_name)
-        # Evaluate in chunks matching async depth
-        chunk = max(args.eval_async_chunk, 1)
+        # Evaluate in chunks matching async depth (MPS is memory-heavy — smaller batches)
+        if use_mps:
+            chunk = max(1, min(args.eval_async_chunk, 8))
+        elif n_qubits >= 28:
+            chunk = max(1, min(args.eval_async_chunk, 12))
+        else:
+            chunk = max(args.eval_async_chunk, 1)
         for start in tqdm(
             range(0, len(to_eval), chunk),
             desc=f"  {mol_name} eval",

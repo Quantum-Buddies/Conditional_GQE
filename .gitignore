@@ -74,6 +74,11 @@ results/data/hamiltonians_scaling.json/
 # HuggingFace upload staging
 huggingface_upload/
 
+# RL energy cache runtime files (commit .sqlite only, not WAL sidecars)
+results/train/rl_energy_cache.sqlite-shm
+results/train/rl_energy_cache.sqlite-wal
+results/train/rl_energy_cache.sqlite.bak-*
+
 # Benchmark scratch files
 benchmark_mps.py
 benchmark_mps_deep.py

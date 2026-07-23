@@ -19,6 +19,7 @@
 #
 # Fast RL path:
 #   bash scripts/launch_b200_training.sh cache          # precompute energies (once)
+#   bash scripts/launch_b200_training.sh cache-remaining  # finish 32–40q only (resume-safe)
 #   bash scripts/launch_b200_training.sh ablation       # train with cache + reuse-iters=16
 #   # or: bash scripts/launch_b200_training.sh cache+ablation
 # =============================================================================
@@ -217,26 +218,81 @@ run_energy_cache() {
     fi
     CACHE_OUT="$RESULTS/train/rl_energy_cache.sqlite"
     N_PER_MOL="${CACHE_N_PER_MOL:-512}"
+    MPS_THRESHOLD="${CACHE_MPS_THRESHOLD:-33}"
+    N_PER_MOL_LARGE="${CACHE_N_PER_MOL_LARGE:-128}"
+    MPS_BOND="${CACHE_MPS_BOND:-32}"
 
     echo "    Hamiltonians: $HAMILTONIANS"
     echo "    Output      : $CACHE_OUT"
-    echo "    n-per-mol   : $N_PER_MOL"
+    echo "    n-per-mol   : $N_PER_MOL (≤${MPS_THRESHOLD}q) / $N_PER_MOL_LARGE (>${MPS_THRESHOLD}q MPS)"
+    echo "    mps-threshold: $MPS_THRESHOLD  mps-bond: $MPS_BOND"
     echo ""
 
     python3 "$ROOT/src/gqe/data/precompute_rl_energy_cache.py" \
         --hamiltonians "$HAMILTONIANS" \
         --out "$CACHE_OUT" \
         --n-per-mol "$N_PER_MOL" \
+        --n-per-mol-large "$N_PER_MOL_LARGE" \
         --max-qubits 40 \
         --max-seq-len 64 \
         --theta 0.01 \
         --eval-async-chunk 24 \
         --target nvidia \
         --target-option fp32 \
-        --mps-threshold 28 \
-        2>&1 | tee "$RESULTS/train/rl_energy_cache_precompute.log"
+        --mps-threshold "$MPS_THRESHOLD" \
+        --mps-bond "$MPS_BOND" \
+        2>&1 | tee -a "$RESULTS/train/rl_energy_cache_precompute.log"
 
     echo "Energy cache ready → $CACHE_OUT"
+}
+
+# ------------------------------------------------------------------
+# Resume: only the 32–40q molecules missing from cache (append-safe)
+# ------------------------------------------------------------------
+run_energy_cache_remaining() {
+    echo ""
+    echo "=== Resume RL energy cache (32–40q only, append to existing SQLite) ==="
+    echo "    Keeps all previously cached 4–28q entries."
+    echo ""
+
+    HAMILTONIANS="$DATA/hamiltonians_rl_b200/hamiltonians.json"
+    CACHE_OUT="$RESULTS/train/rl_energy_cache.sqlite"
+    if [ ! -f "$CACHE_OUT" ]; then
+        echo "ERROR: No existing cache at $CACHE_OUT — run 'cache' first."
+        exit 1
+    fi
+
+    BACKUP="$CACHE_OUT.bak-$(date -u +%Y%m%dT%H%M%S)"
+    cp -a "$CACHE_OUT" "$BACKUP"
+    echo "    Backup      : $BACKUP"
+
+    REMAINING_MOLS="beh2_ccpvdz n2_ccpvdz benzene_cas20 n2_ccpvdz_cas20"
+    echo "    Molecules   : $REMAINING_MOLS"
+    echo "    32q backend : nvidia statevector (mps-threshold=33)"
+    echo "    40q backend : tensornet-mps, n-per-mol=128, bond=32"
+    echo ""
+
+    CACHE_N_PER_MOL=512 \
+    CACHE_N_PER_MOL_LARGE=128 \
+    CACHE_MPS_THRESHOLD=33 \
+    CACHE_MPS_BOND=32 \
+    python3 "$ROOT/src/gqe/data/precompute_rl_energy_cache.py" \
+        --hamiltonians "$HAMILTONIANS" \
+        --molecules $REMAINING_MOLS \
+        --out "$CACHE_OUT" \
+        --n-per-mol 512 \
+        --n-per-mol-large 128 \
+        --max-qubits 40 \
+        --max-seq-len 64 \
+        --theta 0.01 \
+        --eval-async-chunk 24 \
+        --target nvidia \
+        --target-option fp32 \
+        --mps-threshold 33 \
+        --mps-bond 32 \
+        2>&1 | tee -a "$RESULTS/train/rl_energy_cache_precompute_remaining.log"
+
+    echo "Energy cache updated → $CACHE_OUT"
 }
 
 # ------------------------------------------------------------------
@@ -402,6 +458,9 @@ case "$STAGE" in
     cache)
         run_energy_cache
         ;;
+    cache-remaining)
+        run_energy_cache_remaining
+        ;;
     ablation)
         run_rl_ablation
         ;;
@@ -413,7 +472,7 @@ case "$STAGE" in
         run_rl_ablation
         ;;
     *)
-        echo "Usage: $0 [sft|rl|both|cache|ablation|ablation-smoke|cache+ablation]"
+        echo "Usage: $0 [sft|rl|both|cache|cache-remaining|ablation|ablation-smoke|cache+ablation]"
         exit 1
         ;;
 esac
