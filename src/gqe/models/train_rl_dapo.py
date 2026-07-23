@@ -62,7 +62,9 @@ from src.gqe.common.hamiltonian_utils import (
     get_active_electron_count,
 )
 from src.gqe.common.operator_pool import _jw_excitation_pauli_words
-from src.gqe.rl.map_elites import MAPElitesArchive, DedupCache, compute_circuit_features
+from src.gqe.rl.map_elites import (
+    MAPElitesArchive, DedupCache, PerMoleculeArchives, compute_circuit_features,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -789,6 +791,12 @@ def compute_batch_diversity_mmd(
     mmd_full = gen_term - 2 * cross_term + ref_term
 
     # Leave-one-out: for each sample m, compute MMD without it
+    # Chemeleon2 uses negative MMD as the diversity reward.
+    # LOO marginal credit: r(z_m) = (-MMD_full) - (-MMD_loo) = MMD_loo - MMD_full
+    # Samples that increase diversity (removing them increases MMD) get negative
+    # credit, which is correct — they make the batch LESS diverse.
+    # Samples that decrease diversity (removing them decreases MMD) get positive
+    # credit — they make the batch MORE diverse.
     loo_rewards = np.zeros(G, dtype=np.float32)
     for m in range(G):
         mask = np.ones(G, dtype=bool)
@@ -803,8 +811,8 @@ def compute_batch_diversity_mmd(
         K_loo_ref = _polynomial_kernel(X_loo, X_ref, kernel_degree)
         cross_loo = K_loo_ref.mean()
         mmd_loo = gen_loo - 2 * cross_loo + ref_term
-        # Marginal contribution: removing this sample changes MMD by:
-        loo_rewards[m] = mmd_full - mmd_loo
+        # Marginal contribution to -MMD (Chemeleon2's diversity reward)
+        loo_rewards[m] = mmd_loo - mmd_full
 
     # Normalize to [0, 1] via min-max scaling
     r_min, r_max = loo_rewards.min(), loo_rewards.max()
@@ -881,7 +889,8 @@ def compute_creativity_batch(
                 for seen_ops in seen_list[-200:]:  # last 200 for efficiency
                     dist = _normalized_edit_distance(ops_i, list(seen_ops))
                     min_dist = min(min_dist, dist)
-            rewards[i] = 1.0 - min_dist  # invert: more different = higher reward
+            # Chemeleon2 creativity: reward = min_dist (higher distance = more creative)
+            rewards[i] = min_dist
 
     return rewards
 
@@ -1536,23 +1545,22 @@ def main() -> None:
     # Initialize replay buffer
     replay_buffer = ReplayBuffer(max_size=args.buffer_size)
 
-    # Initialize QD-GRPO components: MAP-Elites archive + dedup cache
+    # Initialize QD-GRPO components: per-molecule MAP-Elites archives + dedup cache
     map_elites = None
     dedup_cache = None
     if args.qd_mode:
-        map_elites = MAPElitesArchive(
+        map_elites = PerMoleculeArchives(
             n_bins_entanglement=args.qd_n_bins_entanglement,
             n_bins_depth=args.qd_n_bins_depth,
             max_seq_len=args.max_seq_len,
         )
-        dedup_cache = DedupCache()
+        dedup_cache = {}  # molecule_name → DedupCache (created per-molecule)
         print(f"\n=== QD-GRPO MODE ENABLED (MAP-Elites × GRPO) ===")
-        print(f"  Archive: {args.qd_n_bins_entanglement}×{args.qd_n_bins_depth} grid "
-              f"({map_elites.total_cells} cells)")
+        print(f"  Archives: per-molecule {args.qd_n_bins_entanglement}×{args.qd_n_bins_depth} grids")
         print(f"  Novelty weight: {args.qd_novelty_weight} → {args.qd_lambda_final} "
               f"(coverage threshold: {args.qd_coverage_threshold})")
-        print(f"  Surrogate: truncated L-BFGS-B ({args.qd_lbfgs_iters} iters) + dedup cache")
-        print(f"  Features: entanglement_density × circuit_depth")
+        print(f"  Surrogate: truncated L-BFGS-B ({args.qd_lbfgs_iters} iters) + per-molecule dedup cache")
+        print(f"  Features: entanglement_density (multi-qubit X/Y) × circuit_depth")
 
     # Load pre-constructed sequences from GQE baseline (GPT-QE paper Section 2.2)
     pretrain_data: dict[str, list[dict[str, Any]]] = {}
@@ -1674,11 +1682,22 @@ def main() -> None:
                 if torch.cuda.is_available():
                     torch.cuda.synchronize()
 
-                # QD-GRPO: use truncated L-BFGS-B with dedup cache instead of fixed-θ
+                # QD-GRPO: use truncated L-BFGS-B with per-molecule dedup cache
                 if args.qd_mode and dedup_cache is not None:
+                    # Get or create per-molecule dedup cache with molecule context
+                    if mol_name not in dedup_cache:
+                        mol_nq = int(mol_data["record"]["n_qubits"])
+                        mol_ne = get_active_electron_count(mol_data["record"])
+                        dedup_cache[mol_name] = DedupCache(
+                            molecule_id=mol_name,
+                            n_qubits=mol_nq,
+                            n_electrons=mol_ne,
+                            optimizer_iters=args.qd_lbfgs_iters,
+                            initial_theta=args.theta,
+                        )
                     energies, cache_stats = evaluate_energies_qd(
                         operator_lists, mol_data["record"],
-                        dedup_cache=dedup_cache,
+                        dedup_cache=dedup_cache[mol_name],
                         initial_theta=args.theta,
                         max_iters=args.qd_lbfgs_iters,
                     )
@@ -1774,12 +1793,13 @@ def main() -> None:
 
                 # --- Phase 3b: QD-GRPO novelty bonus + archive insertion ---
                 if args.qd_mode and map_elites is not None:
-                    # Compute novelty bonus for each circuit
+                    # Compute novelty bonus using per-molecule archive
                     novelty_bonuses = map_elites.compute_novelty_batch(
-                        operator_lists, n_qubits,
+                        mol_name, operator_lists, n_qubits,
                     )
-                    # Adaptive λ: decay novelty weight as archive fills
+                    # Adaptive λ: decay novelty weight as this molecule's archive fills
                     lam = map_elites.adaptive_lambda(
+                        mol_name,
                         initial_lambda=args.qd_novelty_weight,
                         final_lambda=args.qd_lambda_final,
                         coverage_threshold=args.qd_coverage_threshold,
@@ -1787,14 +1807,14 @@ def main() -> None:
                     # Add novelty bonus to rewards (intrinsic motivation)
                     rewards = rewards + lam * novelty_bonuses
 
-                    # Insert circuits into MAP-Elites archive
+                    # Insert circuits into per-molecule MAP-Elites archive
                     n_new_cells = 0
                     n_improvements = 0
                     for i, (ops, e) in enumerate(zip(operator_lists, energies)):
                         if not ops:
                             continue
                         insert_result = map_elites.insert(
-                            ops, e, n_qubits,
+                            mol_name, ops, e, n_qubits,
                             metadata={"molecule": mol_name, "epoch": epoch},
                         )
                         if insert_result["is_new_cell"]:
@@ -1802,10 +1822,11 @@ def main() -> None:
                         if insert_result["is_improvement"]:
                             n_improvements += 1
 
+                    mol_archive = map_elites.get(mol_name)
                     qd_stats = {
                         "molecule": mol_name,
-                        "archive_coverage": map_elites.coverage(),
-                        "archive_size": len(map_elites),
+                        "archive_coverage": mol_archive.coverage(),
+                        "archive_size": len(mol_archive),
                         "n_new_cells": n_new_cells,
                         "n_improvements": n_improvements,
                         "novelty_mean": float(np.mean(novelty_bonuses)),
@@ -2261,14 +2282,15 @@ def main() -> None:
               f"unique={final_msun.get('msun_unique', 0.0):.3f}  "
               f"novel={final_msun.get('msun_novel', 0.0):.3f}")
 
-    # Save MAP-Elites archive if QD mode
+    # Save MAP-Elites archives if QD mode
     if args.qd_mode and map_elites is not None:
-        archive_path = args.qd_archive_path or args.out.parent / f"{args.out.stem}_map_elites.json"
-        map_elites.save(str(archive_path))
-        print(f"\nMAP-Elites archive saved to: {archive_path}")
+        archive_dir = args.qd_archive_path or args.out.parent / f"{args.out.stem}_map_elites"
+        map_elites.save_all(str(archive_dir))
+        print(f"\nMAP-Elites archives saved to: {archive_dir}/")
         print(f"  Archive summary: {map_elites.summary()}")
         if dedup_cache is not None:
-            print(f"  Dedup cache: {dedup_cache.stats()}")
+            for mol_name, cache in dedup_cache.items():
+                print(f"  Dedup cache ({mol_name}): {cache.stats()}")
 
     # Save metrics JSON
     metrics_path = args.out.parent / f"{args.out.stem}_rl_metrics.json"

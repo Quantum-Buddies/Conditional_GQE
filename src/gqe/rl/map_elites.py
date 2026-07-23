@@ -7,14 +7,16 @@ RL training loop. It combines three key ideas from the literature:
    circuits indexed by physically meaningful feature dimensions (entanglement
    density × circuit depth). Each cell stores the best circuit found for that
    niche. This *illuminates* the fitness landscape rather than finding a single
-   optimum.
+   optimum. Archives are **per-molecule** to prevent cross-molecule energy
+   comparison in shared cells.
 
 2. **Novelty Search** (Lehman & Stanley, 2008): An intrinsic reward bonus
    proportional to the distance from a newly generated circuit to the nearest
    occupied archive cell. This drives exploration of unexplored regions of
    circuit space, preventing mode collapse by construction.
 
-3. **Deduplication Cache**: A global hash-based cache mapping operator sequences
+3. **Deduplication Cache**: A context-aware cache mapping
+   (operator sequence, molecule, qubit/electron count, optimizer settings)
    to their best-known truncated L-BFGS-B energy. This ensures deterministic
    rewards (same circuit → same energy) and eliminates redundant CUDA-Q
    simulations, giving 10-50x speedup when the policy generates duplicate
@@ -24,6 +26,7 @@ References:
     Mouret & Clune. "Illuminating search spaces by mapping elites." arXiv:1504.04909.
     Lehman & Stanley. "Exploiting open-endedness to discover innovations." arXiv:2504.04909.
     Zorn et al. "Quality Diversity for Variational Quantum Circuit Optimization." ICAPS 2025.
+    Park & Walsh. "Chemeleon2." Nat. Mach. Intell. 2026.
 """
 from __future__ import annotations
 
@@ -34,9 +37,23 @@ from collections import defaultdict
 from typing import Any
 
 
-def _operators_hash(operators: list[str]) -> str:
-    """Deterministic hash for an operator sequence."""
-    return hashlib.md5("|".join(operators).encode()).hexdigest()
+def _circuit_cache_key(
+    operators: list[str],
+    molecule_id: str = "",
+    n_qubits: int = 0,
+    n_electrons: int = 0,
+    optimizer_iters: int = 0,
+    initial_theta: float = 0.0,
+) -> str:
+    """Deterministic cache key for a circuit evaluation.
+
+    Includes molecule/Hamiltonian context so the same operator sequence
+    evaluated against a different Hamiltonian gets a separate cache entry.
+    Without this, caching leaks energies across molecules and qubit counts.
+    """
+    key_str = "|".join(operators)
+    ctx = f"{molecule_id}:{n_qubits}q:{n_electrons}e:{optimizer_iters}it:{initial_theta:.6f}"
+    return hashlib.md5(f"{key_str}#{ctx}".encode()).hexdigest()
 
 
 def _words_commute(w1: str, w2: str) -> bool:
@@ -83,11 +100,19 @@ def compute_circuit_features(
 
     n_ops = len(operators)
 
-    # Entanglement density: fraction of operators with X or Y
-    n_entangling = sum(1 for w in operators if "X" in w or "Y" in w)
+    # Entanglement density: fraction of operators with multi-qubit X or Y
+    # A single-qubit X (e.g. "XIII") is NOT entangling — only multi-qubit
+    # Pauli words with X/Y on 2+ qubits create entanglement.
+    n_entangling = 0
+    for w in operators:
+        xy_positions = [i for i, c in enumerate(w) if c in ("X", "Y")]
+        if len(xy_positions) >= 2:
+            n_entangling += 1
     entanglement_density = n_entangling / n_ops
 
-    # Circuit depth (normalized)
+    # Circuit depth: count of operators as a proxy for compiled depth.
+    # True compiled depth would require gate decomposition, but operator
+    # count is a monotonic upper bound and sufficient for QD binning.
     circuit_depth = min(n_ops / max(max_seq_len, 1), 1.0)
 
     # Non-commuting fraction (sampled pairs for efficiency)
@@ -120,19 +145,46 @@ def compute_circuit_features(
 
 
 class DedupCache:
-    """Global deduplication cache for circuit energy evaluation.
+    """Deduplication cache for circuit energy evaluation.
 
-    Maps operator sequence hash → (energy, evaluation_count).
-    Ensures the same circuit always gets the same reward, eliminating
-    optimizer noise from repeated L-BFGS-B runs on identical circuits.
+    Maps (operator sequence, molecule context) → (energy, evaluation_count).
+    The cache key includes molecule name, qubit count, electron count, and
+    optimizer settings so the same operator sequence evaluated against a
+    different Hamiltonian gets a separate entry. This prevents energy
+    leakage across molecules in multi-molecule training.
+
+    Args:
+        molecule_id: name of the molecule (or fragment ID)
+        n_qubits: number of qubits in the Hamiltonian
+        n_electrons: number of active electrons
+        optimizer_iters: L-BFGS-B max iterations (affects surrogate quality)
+        initial_theta: starting angle for L-BFGS-B
     """
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        molecule_id: str = "",
+        n_qubits: int = 0,
+        n_electrons: int = 0,
+        optimizer_iters: int = 5,
+        initial_theta: float = 0.01,
+    ) -> None:
+        self.molecule_id = molecule_id
+        self.n_qubits = n_qubits
+        self.n_electrons = n_electrons
+        self.optimizer_iters = optimizer_iters
+        self.initial_theta = initial_theta
         self._cache: dict[str, tuple[float, int]] = {}
 
+    def _key(self, operators: list[str]) -> str:
+        return _circuit_cache_key(
+            operators, self.molecule_id, self.n_qubits,
+            self.n_electrons, self.optimizer_iters, self.initial_theta,
+        )
+
     def get(self, operators: list[str]) -> float | None:
-        """Return cached energy for this operator sequence, or None if not seen."""
-        h = _operators_hash(operators)
+        """Return cached energy for this circuit+context, or None if not seen."""
+        h = self._key(operators)
         entry = self._cache.get(h)
         if entry is not None:
             energy, count = entry
@@ -141,8 +193,8 @@ class DedupCache:
         return None
 
     def put(self, operators: list[str], energy: float) -> None:
-        """Cache the energy for this operator sequence."""
-        h = _operators_hash(operators)
+        """Cache the energy for this circuit+context."""
+        h = self._key(operators)
         self._cache[h] = (energy, 1)
 
     def get_or_compute(
@@ -410,6 +462,57 @@ class MAPElitesArchive:
             "depth_range": [float(min(depths)), float(max(depths))],
         }
 
+    def select_elite_for_fragment(
+        self,
+        target_n_qubits: int,
+        target_entanglement: float | None = None,
+        target_depth: float | None = None,
+        max_operators: int | None = None,
+    ) -> dict[str, Any] | None:
+        """Select the best elite circuit for an FMO2 fragment pair.
+
+        Given a fragment's qubit count and optional feature targets, find
+        the elite circuit with the lowest energy that is compatible.
+
+        Args:
+            target_n_qubits: number of qubits in the fragment Hamiltonian
+            target_entanglement: desired entanglement density (optional)
+            target_depth: desired circuit depth (optional)
+            max_operators: max number of operators allowed
+
+        Returns:
+            Elite circuit dict, or None if archive is empty.
+        """
+        if not self.grid:
+            return None
+
+        candidates = []
+        for cell, entry in self.grid.items():
+            ops = entry["operators"]
+            if max_operators and len(ops) > max_operators:
+                continue
+            # Score: primarily energy, with optional feature distance penalty
+            score = entry["energy"]
+            if target_entanglement is not None:
+                e_dist = abs(entry["features"]["entanglement_density"] - target_entanglement)
+                score += e_dist * 0.1  # small penalty
+            if target_depth is not None:
+                d_dist = abs(entry["features"]["circuit_depth"] - target_depth)
+                score += d_dist * 0.1
+            candidates.append((score, entry))
+
+        if not candidates:
+            return None
+
+        candidates.sort(key=lambda x: x[0])
+        best = candidates[0][1]
+        return {
+            "operators": best["operators"],
+            "energy": best["energy"],
+            "features": best["features"],
+            "metadata": best.get("metadata", {}),
+        }
+
     def save(self, path: str) -> None:
         """Save archive to JSON."""
         data = {
@@ -432,3 +535,114 @@ class MAPElitesArchive:
         return (f"MAPElitesArchive({self.n_bins_e}×{self.n_bins_d}, "
                 f"elites={s['n_elites']}, coverage={s['coverage']:.2%}, "
                 f"best_E={s['best_energy']:.4f})")
+
+
+class PerMoleculeArchives:
+    """Container for per-molecule MAP-Elites archives.
+
+    In multi-molecule training, each molecule gets its own archive so that
+    energies from different Hamiltonians are never compared in the same cell.
+    This prevents a low-energy large molecule from occupying a niche that
+    blocks a physically unrelated small molecule.
+    """
+
+    def __init__(
+        self,
+        n_bins_entanglement: int = 10,
+        n_bins_depth: int = 10,
+        max_seq_len: int = 64,
+    ) -> None:
+        self.n_bins_e = n_bins_entanglement
+        self.n_bins_d = n_bins_depth
+        self.max_seq_len = max_seq_len
+        self._archives: dict[str, MAPElitesArchive] = {}
+
+    def get(self, molecule_name: str) -> MAPElitesArchive:
+        """Get (or create) the archive for a specific molecule."""
+        if molecule_name not in self._archives:
+            self._archives[molecule_name] = MAPElitesArchive(
+                n_bins_entanglement=self.n_bins_e,
+                n_bins_depth=self.n_bins_d,
+                max_seq_len=self.max_seq_len,
+            )
+        return self._archives[molecule_name]
+
+    def insert(
+        self,
+        molecule_name: str,
+        operators: list[str],
+        energy: float,
+        n_qubits: int,
+        metadata: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        """Insert a circuit into the per-molecule archive."""
+        return self.get(molecule_name).insert(
+            operators, energy, n_qubits, metadata,
+        )
+
+    def compute_novelty_batch(
+        self,
+        molecule_name: str,
+        operator_lists: list[list[str]],
+        n_qubits: int,
+    ) -> np.ndarray:
+        """Compute novelty for a batch within a molecule's archive."""
+        return self.get(molecule_name).compute_novelty_batch(
+            operator_lists, n_qubits,
+        )
+
+    def adaptive_lambda(
+        self,
+        molecule_name: str,
+        initial_lambda: float = 1.0,
+        final_lambda: float = 0.1,
+        coverage_threshold: float = 0.5,
+    ) -> float:
+        """Adaptive lambda for a specific molecule's archive."""
+        return self.get(molecule_name).adaptive_lambda(
+            initial_lambda, final_lambda, coverage_threshold,
+        )
+
+    def total_coverage(self) -> float:
+        """Mean coverage across all molecule archives."""
+        if not self._archives:
+            return 0.0
+        return float(np.mean([a.coverage() for a in self._archives.values()]))
+
+    def total_elites(self) -> int:
+        """Total elites across all molecule archives."""
+        return sum(len(a) for a in self._archives.values())
+
+    def best_energy_per_molecule(self) -> dict[str, float]:
+        """Best energy for each molecule."""
+        return {name: a.best_energy() for name, a in self._archives.items()}
+
+    def summary(self) -> dict[str, Any]:
+        """Aggregate summary across all molecule archives."""
+        if not self._archives:
+            return {"n_molecules": 0, "total_elites": 0, "mean_coverage": 0.0}
+        return {
+            "n_molecules": len(self._archives),
+            "total_elites": self.total_elites(),
+            "mean_coverage": self.total_coverage(),
+            "per_molecule": {
+                name: a.summary() for name, a in self._archives.items()
+            },
+        }
+
+    def save_all(self, directory: str) -> None:
+        """Save each molecule's archive to a separate JSON file."""
+        from pathlib import Path
+        Path(directory).mkdir(parents=True, exist_ok=True)
+        for name, archive in self._archives.items():
+            path = f"{directory}/map_elites_{name}.json"
+            archive.save(path)
+
+    def __len__(self) -> int:
+        return self.total_elites()
+
+    def __repr__(self) -> str:
+        s = self.summary()
+        return (f"PerMoleculeArchives({s['n_molecules']} mols, "
+                f"elites={s['total_elites']}, "
+                f"coverage={s['mean_coverage']:.2%})")

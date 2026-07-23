@@ -99,13 +99,12 @@ def plot_archive_heatmap(
                 ax.text(x, y, f"{e_val:.3f}", ha="center", va="center",
                         fontsize=7, fontweight="bold", color=color)
 
-    # Reference lines
+    # Reference energy lines drawn on colorbar after it's created (below)
+    ref_lines = []
     if hf_energy is not None:
-        ax.axhline(y=0, color="blue", linestyle="--", linewidth=1.5, alpha=0.7,
-                   label=f"HF = {hf_energy:.3f}")
+        ref_lines.append(("HF", hf_energy, "blue"))
     if fci_energy is not None:
-        ax.axhline(y=1, color="green", linestyle="--", linewidth=1.5, alpha=0.7,
-                   label=f"FCI = {fci_energy:.3f}")
+        ref_lines.append(("FCI", fci_energy, "green"))
 
     ax.set_xlabel("Circuit Depth (normalized)", fontsize=14, fontweight="bold")
     ax.set_ylabel("Entanglement Density", fontsize=14, fontweight="bold")
@@ -118,6 +117,13 @@ def plot_archive_heatmap(
     cbar = fig.colorbar(im, ax=ax, shrink=0.8, pad=0.02)
     cbar.set_label("Energy (Hartree)", fontsize=12, fontweight="bold")
     cbar.ax.tick_params(labelsize=10)
+
+    # Draw HF/FCI reference lines on the colorbar (energy axis, not entanglement axis)
+    for label, ref_e, color in ref_lines:
+        if vmin <= ref_e <= vmax:
+            cbar.ax.axhline(y=ref_e, color=color, linestyle="--", linewidth=1.5, alpha=0.7)
+            cbar.ax.text(vmax + 0.002, ref_e, f"{label}={ref_e:.3f}",
+                         fontsize=8, va="center", color=color)
 
     # --- Panel 2: Archive statistics ---
     ax2 = axes[1]
@@ -232,7 +238,7 @@ def plot_archive_evolution(
 def main() -> None:
     parser = argparse.ArgumentParser(description="Visualize MAP-Elites archive")
     parser.add_argument("--archive", type=str, required=True,
-                        help="Path to MAP-Elites archive JSON")
+                        help="Path to MAP-Elites archive JSON file or directory of per-molecule archives")
     parser.add_argument("--metrics", type=str, default=None,
                         help="Path to RL metrics JSON (for evolution plot)")
     parser.add_argument("--hf-energy", type=float, default=None,
@@ -240,21 +246,43 @@ def main() -> None:
     parser.add_argument("--fci-energy", type=float, default=None,
                         help="FCI reference energy")
     parser.add_argument("--molecule", type=str, default="",
-                        help="Molecule name for title")
+                        help="Molecule name for title (used with single archive file)")
     parser.add_argument("--out", type=str, default="results/eval/map_elites_heatmap.png",
-                        help="Output heatmap path")
+                        help="Output heatmap path (or directory for per-molecule archives)")
     parser.add_argument("--out-evolution", type=str, default=None,
                         help="Output evolution plot path (requires --metrics)")
     args = parser.parse_args()
 
-    archive_data = load_archive(args.archive)
-    plot_archive_heatmap(
-        archive_data,
-        hf_energy=args.hf_energy,
-        fci_energy=args.fci_energy,
-        molecule_name=args.molecule,
-        out_path=args.out,
-    )
+    archive_path = Path(args.archive)
+
+    # Support both single archive file and directory of per-molecule archives
+    if archive_path.is_dir():
+        archive_files = sorted(archive_path.glob("map_elites_*.json"))
+        if not archive_files:
+            print(f"No map_elites_*.json files found in {archive_path}")
+            sys.exit(1)
+        out_dir = Path(args.out)
+        out_dir.mkdir(parents=True, exist_ok=True)
+        for af in archive_files:
+            mol_name = af.stem.replace("map_elites_", "")
+            archive_data = load_archive(str(af))
+            out_path = str(out_dir / f"heatmap_{mol_name}.png")
+            plot_archive_heatmap(
+                archive_data,
+                hf_energy=args.hf_energy,
+                fci_energy=args.fci_energy,
+                molecule_name=mol_name,
+                out_path=out_path,
+            )
+    else:
+        archive_data = load_archive(str(archive_path))
+        plot_archive_heatmap(
+            archive_data,
+            hf_energy=args.hf_energy,
+            fci_energy=args.fci_energy,
+            molecule_name=args.molecule,
+            out_path=args.out,
+        )
 
     if args.metrics and Path(args.metrics).exists():
         out_evo = args.out_evolution or str(Path(args.out).parent / "archive_evolution.png")
