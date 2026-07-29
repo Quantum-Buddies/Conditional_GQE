@@ -17,6 +17,10 @@
   </p>
 </p>
 
+<p align="center">
+  <img src="docs/gic2026_journey_loop.gif" alt="H-cGQE GIC 2026 Journey — From molecular input to quantum circuit synthesis" width="800">
+</p>
+
 ---
 
 ## 🌟 Executive Summary

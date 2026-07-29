@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 2400" font-family="Arial, sans-serif">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="hpcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a5276;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#2471a3;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="qbraidGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7d3c98;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#a569bd;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="qpuGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#b03a2e;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#cb4335;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="dataGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e8449;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#27ae60;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="resultGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#b7950b;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#d4ac0d;stop-opacity:1"/>
+    </linearGradient>
+
+    <!-- Arrow markers -->
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2471a3"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7d3c98"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b03a2e"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1e8449"/>
+    </marker>
+    <marker id="arrowGold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b7950b"/>
+    </marker>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#666"/>
+    </marker>
+
+    <!-- Drop shadow -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Title -->
+  <text x="800" y="40" text-anchor="middle" font-size="28" font-weight="bold" fill="#2c3e50">H-cGQE Full Pipeline Architecture</text>
+  <text x="800" y="68" text-anchor="middle" font-size="16" fill="#7f8c8d">Quantum-Buddies | GIC 2026 Phase 3 | HPC → qBraid → QPU</text>
+
+  <!-- ============================================================ -->
+  <!-- TIER 1: AIRE HPC -->
+  <!-- ============================================================ -->
+  <rect x="50" y="90" width="1500" height="780" rx="15" fill="#eaf2f8" stroke="#2471a3" stroke-width="2" stroke-dasharray="8,4" opacity="0.6"/>
+  <rect x="70" y="100" width="250" height="30" rx="5" fill="url(#hpcGrad)" filter="url(#shadow)"/>
+  <text x="195" y="120" text-anchor="middle" font-size="14" font-weight="bold" fill="white">TIER 1: AIRE HPC (Free)</text>
+  <text x="330" y="120" font-size="12" fill="#2471a3">3× NVIDIA L40S (48GB) | Slurm | cudaq-env</text>
+
+  <!-- Stage 1: Hamiltonian Generation -->
+  <rect x="100" y="150" width="280" height="100" rx="10" fill="url(#hpcGrad)" filter="url(#shadow)"/>
+  <text x="240" y="175" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Stage 1: Hamiltonian Gen</text>
+  <text x="240" y="195" text-anchor="middle" font-size="11" fill="white">PySCF → OpenFermion → JW</text>
+  <text x="240" y="212" text-anchor="middle" font-size="10" fill="#d6eaf8">generate_hamiltonians.py</text>
+  <text x="240" y="230" text-anchor="middle" font-size="10" fill="#d6eaf8">35 molecules, 4–28 qubits</text>
+
+  <!-- Data: Hamiltonians JSON -->
+  <rect x="100" y="280" width="280" height="55" rx="8" fill="url(#dataGrad)" filter="url(#shadow)"/>
+  <text x="240" y="300" text-anchor="middle" font-size="12" font-weight="bold" fill="white">hamiltonians.json</text>
+  <text x="240" y="318" text-anchor="middle" font-size="10" fill="#d6eaf8">10 MB | Pauli terms + metadata</text>
+
+  <line x1="240" y1="250" x2="240" y2="280" stroke="#1e8449" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Stage 2: SFT Training -->
+  <rect x="100" y="360" width="280" height="100" rx="10" fill="url(#hpcGrad)" filter="url(#shadow)"/>
+  <text x="240" y="385" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Stage 2: SFT Training</text>
+  <text x="240" y="405" text-anchor="middle" font-size="11" fill="white">GPT-2 transformer, CE loss</text>
+  <text x="240" y="422" text-anchor="middle" font-size="10" fill="#d6eaf8">train_supervised.py</text>
+  <text x="240" y="440" text-anchor="middle" font-size="10" fill="#d6eaf8">~30 min, 1 GPU</text>
+
+  <line x1="240" y1="335" x2="240" y2="360" stroke="#2471a3" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Data: SFT Checkpoint -->
+  <rect x="100" y="480" width="280" height="45" rx="8" fill="url(#dataGrad)" filter="url(#shadow)"/>
+  <text x="240" y="500" text-anchor="middle" font-size="11" font-weight="bold" fill="white">h_cgqe_model_sft.pt (31 MB)</text>
+  <text x="240" y="516" text-anchor="middle" font-size="9" fill="#d6eaf8">Supervised warm-start checkpoint</text>
+
+  <line x1="240" y1="460" x2="240" y2="480" stroke="#1e8449" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Stage 3: DAPO RL Training -->
+  <rect x="100" y="545" width="280" height="120" rx="10" fill="url(#hpcGrad)" filter="url(#shadow)"/>
+  <text x="240" y="570" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Stage 3: DAPO RL Training</text>
+  <text x="240" y="590" text-anchor="middle" font-size="11" fill="white">Energy-based reward + GRPO</text>
+  <text x="240" y="607" text-anchor="middle" font-size="10" fill="#d6eaf8">train_rl_dapo.py</text>
+  <text x="240" y="622" text-anchor="middle" font-size="10" fill="#d6eaf8">torch.compile → cudaq import</text>
+  <text x="240" y="640" text-anchor="middle" font-size="10" fill="#d6eaf8">nvidia-mqpu, 3 GPUs, ~2-4h</text>
+  <text x="240" y="657" text-anchor="middle" font-size="9" fill="#f9e79f">⚠ LLVM clash fix: torch first</text>
+
+  <line x1="240" y1="525" x2="240" y2="545" stroke="#2471a3" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Data: RL Checkpoint -->
+  <rect x="100" y="685" width="280" height="45" rx="8" fill="url(#dataGrad)" filter="url(#shadow)"/>
+  <text x="240" y="705" text-anchor="middle" font-size="11" font-weight="bold" fill="white">h_cgqe_model_rl.pt (32 MB)</text>
+  <text x="240" y="721" text-anchor="middle" font-size="9" fill="#d6eaf8">RL-tuned checkpoint (7.85M params)</text>
+
+  <line x1="240" y1="665" x2="240" y2="685" stroke="#1e8449" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Stage 4: Inference + L-BFGS-B -->
+  <rect x="450" y="360" width="280" height="120" rx="10" fill="url(#hpcGrad)" filter="url(#shadow)"/>
+  <text x="590" y="385" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Stage 4: Inference + Opt</text>
+  <text x="590" y="405" text-anchor="middle" font-size="11" fill="white">Autoregressive → L-BFGS-B</text>
+  <text x="590" y="422" text-anchor="middle" font-size="10" fill="#d6eaf8">evaluate_h_cgqe.py</text>
+  <text x="590" y="437" text-anchor="middle" font-size="10" fill="#d6eaf8">optimize_h_cgqe_coefficients.py</text>
+  <text x="590" y="455" text-anchor="middle" font-size="10" fill="#d6eaf8">CUDA-Q statevector, 3 GPUs</text>
+  <text x="590" y="470" text-anchor="middle" font-size="10" fill="#d6eaf8">~10-30 min</text>
+
+  <!-- Arrow from RL checkpoint to Stage 4 (horizontal) -->
+  <path d="M 380 707 Q 420 707 420 420 L 450 420" fill="none" stroke="#2471a3" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Data: Optimized Results -->
+  <rect x="450" y="500" width="280" height="55" rx="8" fill="url(#dataGrad)" filter="url(#shadow)"/>
+  <text x="590" y="520" text-anchor="middle" font-size="12" font-weight="bold" fill="white">h_cgqe_optimized.json</text>
+  <text x="590" y="538" text-anchor="middle" font-size="10" fill="#d6eaf8">{operators, thetas, energy}</text>
+
+  <line x1="590" y1="480" x2="590" y2="500" stroke="#1e8449" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Stage 5: Baselines -->
+  <rect x="450" y="580" width="280" height="80" rx="10" fill="url(#hpcGrad)" filter="url(#shadow)" opacity="0.7"/>
+  <text x="590" y="605" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Stage 5: Baselines</text>
+  <text x="590" y="625" text-anchor="middle" font-size="10" fill="#d6eaf8">CUDA-Q GQE | VQE | ADAPT-VQE</text>
+  <text x="590" y="642" text-anchor="middle" font-size="10" fill="#d6eaf8">Exact Diagonalization (FCI)</text>
+
+  <line x1="590" y1="555" x2="590" y2="580" stroke="#2471a3" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- Stage 6: Consolidation -->
+  <rect x="450" y="685" width="280" height="70" rx="10" fill="url(#hpcGrad)" filter="url(#shadow)" opacity="0.7"/>
+  <text x="590" y="710" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Stage 6: Consolidate + Plot</text>
+  <text x="590" y="728" text-anchor="middle" font-size="10" fill="#d6eaf8">consolidate_results.py</text>
+  <text x="590" y="744" text-anchor="middle" font-size="10" fill="#d6eaf8">plot_phase3_report_figures.py</text>
+
+  <line x1="590" y1="660" x2="590" y2="685" stroke="#2471a3" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- Stage 7: Manifest Export (HPC side) -->
+  <rect x="800" y="360" width="280" height="100" rx="10" fill="url(#hpcGrad)" filter="url(#shadow)"/>
+  <text x="940" y="385" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Stage 7: Manifest Export</text>
+  <text x="940" y="405" text-anchor="middle" font-size="11" fill="white">QWC grouping + QASM export</text>
+  <text x="940" y="422" text-anchor="middle" font-size="10" fill="#d6eaf8">submit_qpu_async.py --export-only</text>
+  <text x="940" y="440" text-anchor="middle" font-size="10" fill="#d6eaf8">Portable JSON: {operators,</text>
+  <text x="940" y="455" text-anchor="middle" font-size="10" fill="#d6eaf8">thetas, groups: [{qasm, basis}]}</text>
+
+  <!-- Arrow from optimized to manifest -->
+  <line x1="730" y1="525" x2="800" y2="410" stroke="#2471a3" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Data: Manifest JSON -->
+  <rect x="800" y="480" width="280" height="55" rx="8" fill="url(#dataGrad)" filter="url(#shadow)"/>
+  <text x="940" y="500" text-anchor="middle" font-size="12" font-weight="bold" fill="white">{molecule}_manifest.json</text>
+  <text x="940" y="518" text-anchor="middle" font-size="10" fill="#d6eaf8">Self-contained QPU manifest</text>
+
+  <line x1="940" y1="460" x2="940" y2="480" stroke="#1e8449" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- QASM Circuits (Quaggle) -->
+  <rect x="800" y="580" width="280" height="55" rx="8" fill="url(#dataGrad)" filter="url(#shadow)" opacity="0.7"/>
+  <text x="940" y="600" text-anchor="middle" font-size="11" font-weight="bold" fill="white">QASM Circuits (32 files)</text>
+  <text x="940" y="618" text-anchor="middle" font-size="10" fill="#d6eaf8">results/quaggle/ | OpenQASM 2.0</text>
+
+  <line x1="940" y1="535" x2="940" y2="580" stroke="#1e8449" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowGreen)"/>
+
+  <!-- HuggingFace Checkpoint Upload -->
+  <rect x="1100" y="685" width="280" height="70" rx="10" fill="#e8daef" stroke="#7d3c98" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1240" y="710" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a235a">HuggingFace Upload</text>
+  <text x="1240" y="728" text-anchor="middle" font-size="10" fill="#6c3483">huggingface.co/Quantum-Buddies/</text>
+  <text x="1240" y="744" text-anchor="middle" font-size="10" fill="#6c3483">Conditional-GQE-models</text>
+
+  <path d="M 380 707 Q 700 707 1100 720" fill="none" stroke="#7d3c98" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowPurple)"/>
+
+  <!-- ============================================================ -->
+  <!-- TIER 2: qBraid Lab -->
+  <!-- ============================================================ -->
+  <rect x="50" y="900" width="1500" height="520" rx="15" fill="#f5eef8" stroke="#7d3c98" stroke-width="2" stroke-dasharray="8,4" opacity="0.6"/>
+  <rect x="70" y="910" width="250" height="30" rx="5" fill="url(#qbraidGrad)" filter="url(#shadow)"/>
+  <text x="195" y="930" text-anchor="middle" font-size="14" font-weight="bold" fill="white">TIER 2: qBraid Lab</text>
+  <text x="330" y="930" font-size="12" fill="#7d3c98">Browser-based JupyterLab | CUDA-Q + PyTorch pre-installed | Single API key</text>
+
+  <!-- Launch on qBraid Button -->
+  <rect x="1100" y="910" width="280" height="40" rx="8" fill="#f39c12" filter="url(#shadow)"/>
+  <text x="1240" y="935" text-anchor="middle" font-size="14" font-weight="bold" fill="white">🚀 Launch on qBraid</text>
+  <text x="1240" y="965" text-anchor="middle" font-size="10" fill="#7f8c8d">account.qbraid.com?gitHubUrl=...Conditional_GQE.git</text>
+
+  <!-- Arrow from manifest to qBraid -->
+  <path d="M 940 535 Q 940 700 940 980" fill="none" stroke="#7d3c98" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowPurple)"/>
+  <text x="960" y="720" font-size="10" fill="#7d3c98" font-style="italic">manifest.json transferred</text>
+
+  <!-- Stage 8: QbraidProvider Authentication -->
+  <rect x="100" y="980" width="280" height="80" rx="10" fill="url(#qbraidGrad)" filter="url(#shadow)"/>
+  <text x="240" y="1005" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Stage 8: qBraid Auth</text>
+  <text x="240" y="1025" text-anchor="middle" font-size="11" fill="white">QbraidProvider()</text>
+  <text x="240" y="1042" text-anchor="middle" font-size="10" fill="#e8daef">QBRAID_API_KEY env var</text>
+  <text x="240" y="1058" text-anchor="middle" font-size="10" fill="#e8daef">provider.get_devices()</text>
+
+  <!-- Stage 9: Device Selection -->
+  <rect x="100" y="1080" width="280" height="80" rx="10" fill="url(#qbraidGrad)" filter="url(#shadow)"/>
+  <text x="240" y="1105" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Stage 9: Device Selection</text>
+  <text x="240" y="1125" text-anchor="middle" font-size="10" fill="#e8daef">provider.get_device(device_id)</text>
+  <text x="240" y="1142" text-anchor="middle" font-size="10" fill="#e8daef">qBraid transpiles Qiskit → QIR</text>
+  <text x="240" y="1158" text-anchor="middle" font-size="10" fill="#e8daef">/ Quil / OpenQASM3</text>
+
+  <line x1="240" y1="1060" x2="240" y2="1080" stroke="#7d3c98" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+  <!-- Device Selection Matrix -->
+  <rect x="450" y="980" width="500" height="180" rx="10" fill="white" stroke="#7d3c98" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="700" y="1005" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a235a">Device Selection Matrix</text>
+
+  <rect x="465" y="1015" width="230" height="25" rx="4" fill="#e8daef"/>
+  <text x="580" y="1032" text-anchor="middle" font-size="10" fill="#4a235a">qbraid:qbraid:sim:qir-sv</text>
+  <text x="710" y="1032" font-size="10" fill="#4a235a">Free | 30q | Sim</text>
+
+  <rect x="465" y="1045" width="230" height="25" rx="4" fill="#e8daef"/>
+  <text x="580" y="1062" text-anchor="middle" font-size="10" fill="#4a235a">aws:aws:sim:sv1</text>
+  <text x="710" y="1062" font-size="10" fill="#4a235a">Free | 34q | Sim</text>
+
+  <rect x="465" y="1075" width="230" height="25" rx="4" fill="#fadbd8"/>
+  <text x="580" y="1092" text-anchor="middle" font-size="10" fill="#922b21">aws:rigetti:qpu:cepheus-1-108q</text>
+  <text x="710" y="1092" font-size="10" fill="#922b21">30cr/task | 108q | QPU</text>
+
+  <rect x="465" y="1105" width="230" height="25" rx="4" fill="#fadbd8"/>
+  <text x="580" y="1122" text-anchor="middle" font-size="10" fill="#922b21">azure:iqm:qpu:emerald-1-17q</text>
+  <text x="710" y="1122" font-size="10" fill="#922b21">Varies | 17q | QPU</text>
+
+  <rect x="465" y="1135" width="230" height="25" rx="4" fill="#fadbd8"/>
+  <text x="580" y="1152" text-anchor="middle" font-size="10" fill="#922b21">ionq:ionq:qpu:forte-1-36q</text>
+  <text x="710" y="1152" font-size="10" fill="#922b21">Varies | 36q | QPU</text>
+
+  <line x1="380" y1="1120" x2="450" y2="1070" stroke="#7d3c98" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+
+  <!-- Stage 10: Free Sim Validation (Judge Path) -->
+  <rect x="1000" y="980" width="280" height="100" rx="10" fill="url(#qbraidGrad)" filter="url(#shadow)"/>
+  <text x="1140" y="1005" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Stage 10: Free Sim Validation</text>
+  <text x="1140" y="1025" text-anchor="middle" font-size="11" fill="white">validate_on_qbraid.py</text>
+  <text x="1140" y="1042" text-anchor="middle" font-size="10" fill="#e8daef">QIR statevector (30q, free)</text>
+  <text x="1140" y="1058" text-anchor="middle" font-size="10" fill="#e8daef">QWC grouped circuits → batch</text>
+  <text x="1140" y="1075" text-anchor="middle" font-size="10" fill="#f9e79f">✓ Judge reproducibility path</text>
+
+  <!-- Arrow from device selection to sim validation -->
+  <line x1="380" y1="1100" x2="1000" y2="1030" stroke="#7d3c98" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowPurple)"/>
+
+  <!-- Sim Validation Result -->
+  <rect x="1000" y="1100" width="280" height="55" rx="8" fill="url(#resultGrad)" filter="url(#shadow)"/>
+  <text x="1140" y="1120" text-anchor="middle" font-size="12" font-weight="bold" fill="white">qbraid_validation_report.json</text>
+  <text x="1140" y="1138" text-anchor="middle" font-size="10" fill="#fef9e7">{molecule, sim_energy, diff}</text>
+
+  <line x1="1140" y1="1080" x2="1140" y2="1100" stroke="#b7950b" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <!-- QPU Submission Path -->
+  <rect x="100" y="1180" width="280" height="100" rx="10" fill="url(#qpuGrad)" filter="url(#shadow)"/>
+  <text x="240" y="1205" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Stage 11: QPU Submission</text>
+  <text x="240" y="1225" text-anchor="middle" font-size="11" fill="white">device.run(circuit, shots)</text>
+  <text x="240" y="1242" text-anchor="middle" font-size="10" fill="#fadbd8">submit_only=True → job IDs</text>
+  <text x="240" y="1258" text-anchor="middle" font-size="10" fill="#fadbd8">SQLite ledger: idempotency</text>
+  <text x="240" y="1275" text-anchor="middle" font-size="10" fill="#fadbd8">+ budget enforcement</text>
+
+  <line x1="240" y1="1160" x2="240" y2="1180" stroke="#b03a2e" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <!-- Ledger -->
+  <rect x="450" y="1180" width="280" height="80" rx="8" fill="white" stroke="#b03a2e" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="590" y="1205" text-anchor="middle" font-size="12" font-weight="bold" fill="#922b21">QPU Ledger (SQLite)</text>
+  <text x="590" y="1225" text-anchor="middle" font-size="10" fill="#922b21">circuit_hash → idempotency</text>
+  <text x="590" y="1242" text-anchor="middle" font-size="10" fill="#922b21">status: submitted→completed</text>
+  <text x="590" y="1258" text-anchor="middle" font-size="10" fill="#922b21">cost tracking + retry logic</text>
+
+  <line x1="380" y1="1230" x2="450" y2="1220" stroke="#b03a2e" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+
+  <!-- Submission Metadata -->
+  <rect x="100" y="1300" width="280" height="55" rx="8" fill="url(#dataGrad)" filter="url(#shadow)"/>
+  <text x="240" y="1320" text-anchor="middle" font-size="11" font-weight="bold" fill="white">{mol}_submission_meta.json</text>
+  <text x="240" y="1338" text-anchor="middle" font-size="10" fill="#d6eaf8">job_ids + group_mapping</text>
+
+  <line x1="240" y1="1280" x2="240" y2="1300" stroke="#1e8449" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- ============================================================ -->
+  <!-- TIER 3: QPU Hardware -->
+  <!-- ============================================================ -->
+  <rect x="50" y="1450" width="1500" height="400" rx="15" fill="#fdedec" stroke="#b03a2e" stroke-width="2" stroke-dasharray="8,4" opacity="0.6"/>
+  <rect x="70" y="1460" width="300" height="30" rx="5" fill="url(#qpuGrad)" filter="url(#shadow)"/>
+  <text x="220" y="1480" text-anchor="middle" font-size="14" font-weight="bold" fill="white">TIER 3: QPU Hardware</text>
+  <text x="380" y="1480" font-size="12" fill="#b03a2e">Physical quantum processors via qBraid Runtime</text>
+
+  <!-- Arrow from submission to QPU -->
+  <line x1="240" y1="1355" x2="240" y2="1450" stroke="#b03a2e" stroke-width="3" marker-end="url(#arrowRed)"/>
+  <text x="260" y="1410" font-size="11" fill="#b03a2e" font-weight="bold">device.run() → QPU queue</text>
+
+  <!-- Rigetti Cepheus -->
+  <rect x="100" y="1510" width="280" height="100" rx="10" fill="url(#qpuGrad)" filter="url(#shadow)"/>
+  <text x="240" y="1535" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Rigetti Cepheus-1-108Q</text>
+  <text x="240" y="1555" text-anchor="middle" font-size="11" fill="white">Superconducting | 108 qubits</text>
+  <text x="240" y="1572" text-anchor="middle" font-size="10" fill="#fadbd8">via AWS Braket</text>
+  <text x="240" y="1590" text-anchor="middle" font-size="10" fill="#fadbd8">30 cr/task + 0.0425 cr/shot</text>
+  <text x="240" y="1605" text-anchor="middle" font-size="10" fill="#f9e79f">⚠ Bit order: reverse for Rigetti</text>
+
+  <!-- IQM Emerald -->
+  <rect x="450" y="1510" width="280" height="100" rx="10" fill="url(#qpuGrad)" filter="url(#shadow)" opacity="0.8"/>
+  <text x="590" y="1535" text-anchor="middle" font-size="14" font-weight="bold" fill="white">IQM Emerald-1-17Q</text>
+  <text x="590" y="1555" text-anchor="middle" font-size="11" fill="white">Superconducting | 17 qubits</text>
+  <text x="590" y="1572" text-anchor="middle" font-size="10" fill="#fadbd8">via Azure Quantum</text>
+  <text x="590" y="1590" text-anchor="middle" font-size="10" fill="#fadbd8">Pricing varies</text>
+
+  <!-- IonQ Forte -->
+  <rect x="800" y="1510" width="280" height="100" rx="10" fill="url(#qpuGrad)" filter="url(#shadow)" opacity="0.8"/>
+  <text x="940" y="1535" text-anchor="middle" font-size="14" font-weight="bold" fill="white">IonQ Forte-1-36Q</text>
+  <text x="940" y="1555" text-anchor="middle" font-size="11" fill="white">Trapped Ion | 36 qubits</text>
+  <text x="940" y="1572" text-anchor="middle" font-size="10" fill="#fadbd8">via AWS Braket / Azure</text>
+  <text x="940" y="1590" text-anchor="middle" font-size="10" fill="#fadbd8">All-to-all connectivity</text>
+
+  <!-- QPU Queue -->
+  <rect x="1150" y="1510" width="280" height="100" rx="10" fill="#fadbd8" stroke="#b03a2e" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="1290" y="1535" text-anchor="middle" font-size="13" font-weight="bold" fill="#922b21">QPU Queue + Execution</text>
+  <text x="1290" y="1555" text-anchor="middle" font-size="10" fill="#922b21">Transpile → native gates</text>
+  <text x="1290" y="1572" text-anchor="middle" font-size="10" fill="#922b21">Queue → execute → measure</text>
+  <text x="1290" y="1590" text-anchor="middle" font-size="10" fill="#922b21">Returns: {bitstring: count}</text>
+  <text x="1290" y="1605" text-anchor="middle" font-size="10" fill="#f9e79f">Async: minutes to hours</text>
+
+  <!-- Arrows from submission to QPU providers -->
+  <line x1="240" y1="1610" x2="240" y2="1620" stroke="#b03a2e" stroke-width="2"/>
+  <line x1="240" y1="1620" x2="590" y2="1620" stroke="#b03a2e" stroke-width="2"/>
+  <line x1="240" y1="1620" x2="940" y2="1620" stroke="#b03a2e" stroke-width="2"/>
+  <line x1="590" y1="1610" x2="590" y2="1620" stroke="#b03a2e" stroke-width="2"/>
+  <line x1="940" y1="1610" x2="940" y2="1620" stroke="#b03a2e" stroke-width="2"/>
+  <line x1="240" y1="1620" x2="1290" y2="1620" stroke="#b03a2e" stroke-width="2"/>
+  <line x1="1290" y1="1620" x2="1290" y2="1610" stroke="#b03a2e" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <!-- ============================================================ -->
+  <!-- Post-Processing -->
+  <!-- ============================================================ -->
+  <rect x="50" y="1700" width="1500" height="300" rx="15" fill="#fef9e7" stroke="#b7950b" stroke-width="2" stroke-dasharray="8,4" opacity="0.6"/>
+  <rect x="70" y="1710" width="300" height="30" rx="5" fill="url(#resultGrad)" filter="url(#shadow)"/>
+  <text x="220" y="1730" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Post-Processing + Validation</text>
+
+  <!-- Arrow from QPU to post-processing -->
+  <line x1="240" y1="1620" x2="240" y2="1700" stroke="#b7950b" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <!-- Stage 12: Result Retrieval -->
+  <rect x="100" y="1760" width="280" height="100" rx="10" fill="url(#resultGrad)" filter="url(#shadow)"/>
+  <text x="240" y="1785" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Stage 12: Result Retrieval</text>
+  <text x="240" y="1805" text-anchor="middle" font-size="11" fill="white">load_job(job_id)</text>
+  <text x="240" y="1822" text-anchor="middle" font-size="10" fill="#fef9e7">job.result() → counts</text>
+  <text x="240" y="1838" text-anchor="middle" font-size="10" fill="#fef9e7">Retry: 6× exponential backoff</text>
+  <text x="240" y="1855" text-anchor="middle" font-size="10" fill="#fef9e7">retrieve_and_sqd.py</text>
+
+  <!-- Stage 13: SQD Post-Processing -->
+  <rect x="450" y="1760" width="280" height="100" rx="10" fill="url(#resultGrad)" filter="url(#shadow)"/>
+  <text x="590" y="1785" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Stage 13: SQD Processing</text>
+  <text x="590" y="1805" text-anchor="middle" font-size="11" fill="white">Sample-based Quantum Diag.</text>
+  <text x="590" y="1822" text-anchor="middle" font-size="10" fill="#fef9e7">counts → symmetry filter</text>
+  <text x="590" y="1838" text-anchor="middle" font-size="10" fill="#fef9e7">→ subspace diagonalization</text>
+  <text x="590" y="1855" text-anchor="middle" font-size="10" fill="#fef9e7">→ variational energy estimate</text>
+
+  <line x1="380" y1="1810" x2="450" y2="1810" stroke="#b7950b" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <!-- Stage 13b: QWC Energy -->
+  <rect x="800" y="1760" width="280" height="100" rx="10" fill="url(#resultGrad)" filter="url(#shadow)" opacity="0.8"/>
+  <text x="940" y="1785" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Stage 13b: QWC Energy</text>
+  <text x="940" y="1805" text-anchor="middle" font-size="11" fill="white">Grouped expectation values</text>
+  <text x="940" y="1822" text-anchor="middle" font-size="10" fill="#fef9e7">Per-group counts → parity</text>
+  <text x="940" y="1838" text-anchor="middle" font-size="10" fill="#fef9e7">bitmask → per-term exp</text>
+  <text x="940" y="1855" text-anchor="middle" font-size="10" fill="#fef9e7">→ weighted energy sum</text>
+
+  <line x1="730" y1="1810" x2="800" y2="1810" stroke="#b7950b" stroke-width="1.5" marker-end="url(#arrowGold)"/>
+
+  <!-- Final Results -->
+  <rect x="1150" y="1760" width="280" height="100" rx="10" fill="url(#resultGrad)" filter="url(#shadow)"/>
+  <text x="1290" y="1785" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Final Results</text>
+  <text x="1290" y="1805" text-anchor="middle" font-size="11" fill="white">QPU Energy Report</text>
+  <text x="1290" y="1822" text-anchor="middle" font-size="10" fill="#fef9e7">qpu_energy vs gpu_energy</text>
+  <text x="1290" y="1838" text-anchor="middle" font-size="10" fill="#fef9e7">vs fci_energy</text>
+  <text x="1290" y="1855" text-anchor="middle" font-size="10" fill="#fef9e7">error_mha + variational_bound</text>
+
+  <line x1="1080" y1="1810" x2="1150" y2="1810" stroke="#b7950b" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <!-- Comparison Table -->
+  <rect x="100" y="1880" width="1330" height="100" rx="10" fill="white" stroke="#b7950b" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="765" y="1905" text-anchor="middle" font-size="13" font-weight="bold" fill="#7d6608">Energy Comparison Summary</text>
+
+  <text x="150" y="1930" font-size="11" font-weight="bold" fill="#2c3e50">Molecule</text>
+  <text x="350" y="1930" font-size="11" font-weight="bold" fill="#2c3e50">Qubits</text>
+  <text x="500" y="1930" font-size="11" font-weight="bold" fill="#2c3e50">GPU Energy (Ha)</text>
+  <text x="750" y="1930" font-size="11" font-weight="bold" fill="#2c3e50">QPU Energy (Ha)</text>
+  <text x="1000" y="1930" font-size="11" font-weight="bold" fill="#2c3e50">FCI (Ha)</text>
+  <text x="1200" y="1930" font-size="11" font-weight="bold" fill="#2c3e50">Error (mHa)</text>
+
+  <line x1="120" y1="1938" x2="1410" y2="1938" stroke="#b7950b" stroke-width="1"/>
+
+  <text x="150" y="1958" font-size="10" fill="#2c3e50">H₂</text>
+  <text x="350" y="1958" font-size="10" fill="#2c3e50">4</text>
+  <text x="500" y="1958" font-size="10" fill="#2471a3">-1.116743</text>
+  <text x="750" y="1958" font-size="10" fill="#b03a2e">-1.118219</text>
+  <text x="1000" y="1958" font-size="10" fill="#1e8449">-1.137270</text>
+  <text x="1200" y="1958" font-size="10" fill="#b7950b">1.477</text>
+
+  <text x="150" y="1975" font-size="10" fill="#2c3e50">LiH</text>
+  <text x="350" y="1975" font-size="10" fill="#2c3e50">12</text>
+  <text x="500" y="1975" font-size="10" fill="#2471a3">-7.882341</text>
+  <text x="750" y="1975" font-size="10" fill="#b03a2e">pending</text>
+  <text x="1000" y="1975" font-size="10" fill="#1e8449">-7.882528</text>
+  <text x="1200" y="1975" font-size="10" fill="#b7950b">—</text>
+
+  <!-- ============================================================ -->
+  <!-- Legend -->
+  <!-- ============================================================ -->
+  <rect x="50" y="2020" width="1500" height="60" rx="10" fill="#f8f9f9" stroke="#bdc3c7" stroke-width="1"/>
+  <text x="70" y="2040" font-size="11" font-weight="bold" fill="#2c3e50">Legend:</text>
+
+  <rect x="150" y="2032" width="20" height="15" rx="3" fill="url(#hpcGrad)"/>
+  <text x="178" y="2044" font-size="10" fill="#2c3e50">HPC Stage</text>
+
+  <rect x="270" y="2032" width="20" height="15" rx="3" fill="url(#qbraidGrad)"/>
+  <text x="298" y="2044" font-size="10" fill="#2c3e50">qBraid Stage</text>
+
+  <rect x="390" y="2032" width="20" height="15" rx="3" fill="url(#qpuGrad)"/>
+  <text x="418" y="2044" font-size="10" fill="#2c3e50">QPU Stage</text>
+
+  <rect x="500" y="2032" width="20" height="15" rx="3" fill="url(#dataGrad)"/>
+  <text x="528" y="2044" font-size="10" fill="#2c3e50">Data Artifact</text>
+
+  <rect x="620" y="2032" width="20" height="15" rx="3" fill="url(#resultGrad)"/>
+  <text x="648" y="2044" font-size="10" fill="#2c3e50">Result</text>
+
+  <line x1="720" y1="2040" x2="760" y2="2040" stroke="#2471a3" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <text x="770" y="2044" font-size="10" fill="#2c3e50">Data flow</text>
+
+  <line x1="850" y1="2040" x2="890" y2="2040" stroke="#7d3c98" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowPurple)"/>
+  <text x="900" y="2044" font-size="10" fill="#2c3e50">Cross-tier transfer</text>
+
+  <text x="1050" y="2044" font-size="10" fill="#b7950b" font-weight="bold">⚠</text>
+  <text x="1070" y="2044" font-size="10" fill="#2c3e50">Critical warning/fix</text>
+
+  <text x="1230" y="2044" font-size="10" fill="#1e8449" font-weight="bold">✓</text>
+  <text x="1250" y="2044" font-size="10" fill="#2c3e50">Judge path</text>
+
+  <!-- Footer -->
+  <text x="800" y="2080" text-anchor="middle" font-size="11" fill="#7f8c8d">Quantum-Buddies | H-cGQE Pipeline | GIC 2026 Phase 3 | Generated Jul 2026</text>
+  <text x="800" y="2098" text-anchor="middle" font-size="10" fill="#95a5a6">github.com/Quantum-Buddies/Conditional_GQE | huggingface.co/Quantum-Buddies/Conditional-GQE-models</text>
+
+  <!-- ============================================================ -->
+  <!-- Side annotations: QWC Grouping -->
+  <!-- ============================================================ -->
+  <rect x="1100" y="580" width="280" height="95" rx="8" fill="#eaf2f8" stroke="#2471a3" stroke-width="1" filter="url(#shadow)"/>
+  <text x="1240" y="600" text-anchor="middle" font-size="11" font-weight="bold" fill="#2471a3">QWC Grouping Algorithm</text>
+  <text x="1240" y="618" text-anchor="middle" font-size="9" fill="#2471a3">15 Pauli terms → 5 groups</text>
+  <text x="1240" y="634" text-anchor="middle" font-size="9" fill="#2471a3">Group: {terms sharing same</text>
+  <text x="1240" y="648" text-anchor="middle" font-size="9" fill="#2471a3">measurement basis}</text>
+  <text x="1240" y="664" text-anchor="middle" font-size="9" fill="#2471a3">3-5× circuit reduction</text>
+
+  <!-- Side annotations: Circuit Construction -->
+  <rect x="1100" y="150" width="280" height="100" rx="8" fill="#eaf2f8" stroke="#2471a3" stroke-width="1" filter="url(#shadow)"/>
+  <text x="1240" y="172" text-anchor="middle" font-size="11" font-weight="bold" fill="#2471a3">Circuit Construction</text>
+  <text x="1240" y="192" text-anchor="middle" font-size="9" fill="#2471a3">1. HF initial state (X gates)</text>
+  <text x="1240" y="208" text-anchor="middle" font-size="9" fill="#2471a3">2. Pauli rotation per operator:</text>
+  <text x="1240" y="222" text-anchor="middle" font-size="9" fill="#2471a3">   basis change → CNOT ladder</text>
+  <text x="1240" y="236" text-anchor="middle" font-size="9" fill="#2471a3">   → RZ → undo ladder</text>
+
+  <!-- Side annotations: Reward Function -->
+  <rect x="1100" y="280" width="280" height="90" rx="8" fill="#eaf2f8" stroke="#2471a3" stroke-width="1" filter="url(#shadow)"/>
+  <text x="1240" y="300" text-anchor="middle" font-size="11" font-weight="bold" fill="#2471a3">DAPO Reward Function</text>
+  <text x="1240" y="318" text-anchor="middle" font-size="9" fill="#2471a3">R = w₁(-E/|E_ref|)</text>
+  <text x="1240" y="332" text-anchor="middle" font-size="9" fill="#2471a3">  + w₂(entanglement_frac)</text>
+  <text x="1240" y="346" text-anchor="middle" font-size="9" fill="#2471a3">  + w₃(-depth/max_len)</text>
+  <text x="1240" y="360" text-anchor="middle" font-size="9" fill="#2471a3">  + w₄(non_commute_frac)</text>
+
+  <!-- Side annotations: Error Handling -->
+  <rect x="1100" y="1180" width="280" height="100" rx="8" fill="#fdedec" stroke="#b03a2e" stroke-width="1" filter="url(#shadow)"/>
+  <text x="1240" y="1200" text-anchor="middle" font-size="11" font-weight="bold" fill="#b03a2e">Error Handling</text>
+  <text x="1240" y="1218" text-anchor="middle" font-size="9" fill="#b03a2e">429 Rate Limit → backoff</text>
+  <text x="1240" y="1232" text-anchor="middle" font-size="9" fill="#b03a2e">Transient → retry 3×</text>
+  <text x="1240" y="1246" text-anchor="middle" font-size="9" fill="#b03a2e">Permanent → no retry</text>
+  <text x="1240" y="1260" text-anchor="middle" font-size="9" fill="#b03a2e">Batch fail → list mode</text>
+  <text x="1240" y="1274" text-anchor="middle" font-size="9" fill="#b03a2e">API fail → local Qiskit sim</text>
+
+  <!-- Two paths annotation -->
+  <rect x="450" y="1300" width="500" height="55" rx="8" fill="#fef9e7" stroke="#b7950b" stroke-width="1" filter="url(#shadow)"/>
+  <text x="700" y="1320" text-anchor="middle" font-size="11" font-weight="bold" fill="#7d6608">Two QPU Execution Paths</text>
+  <text x="700" y="1338" text-anchor="middle" font-size="10" fill="#7d6608">Path A: SQD (1 circuit, Z-basis, variational post-proc) | Path B: QWC (N circuits, grouped basis, direct energy)</text>
+
+  <line x1="380" y1="1230" x2="450" y2="1327" stroke="#b7950b" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowGold)"/>
+</svg>
