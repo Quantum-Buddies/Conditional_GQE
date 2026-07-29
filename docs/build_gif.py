@@ -72,7 +72,7 @@ def scene1(frac):
     py = pts[i0][1] + (pts[i1][1] - pts[i0][1]) * t
     return f'''
 <g opacity="{op:.2f}">
-  <text x="60" y="60" class="label">A molecule becomes a graph.</text>
+  <text x="60" y="60" class="label">Every molecule becomes a graph.</text>
   <g>
     {edges}
     {nodes}
