@@ -46,40 +46,20 @@ def svg_header():
 
 # Layout grid: 64px margins, shared baselines for every scene.
 MX = 64          # left margin
-HEAD_Y = 100     # headline baseline
-FOOT_Y = 414     # footnote baseline
-
-PIPELINE_STAGES = ["Chemistry", "AI Synthesis", "Energy Eval", "RL Update", "Deploy"]
-
-
-def pipeline_bar(active):
-    """Quiet 5-dot progress indicator centered at the top."""
-    x0, gap, cy = 100, 150, 34
-    s = "<g>"
-    for i, name in enumerate(PIPELINE_STAGES):
-        cx = x0 + i * gap
-        if i < len(PIPELINE_STAGES) - 1:
-            done = i < active
-            col = "#cc785c" if done else "#737373"
-            s += f'<line x1="{cx + 10}" y1="{cy}" x2="{cx + gap - 10}" y2="{cy}" stroke="{col}" stroke-width="1" opacity="{0.5 if done else 0.25}"/>\n'
-        if i == active:
-            s += f'<circle cx="{cx}" cy="{cy}" r="5" class="clay-fill"/>\n'
-            s += f'<text x="{cx}" y="{cy + 20}" text-anchor="middle" class="label" style="font-weight:bold">{name}</text>\n'
-        elif i < active:
-            s += f'<circle cx="{cx}" cy="{cy}" r="4" class="clay-fill" opacity="0.45"/>\n'
-            s += f'<text x="{cx}" y="{cy + 20}" text-anchor="middle" class="foot">{name}</text>\n'
-        else:
-            s += f'<circle cx="{cx}" cy="{cy}" r="4" fill="#f0eee6" stroke="#737373" stroke-width="1" opacity="0.8"/>\n'
-            s += f'<text x="{cx}" y="{cy + 20}" text-anchor="middle" class="foot" opacity="0.55">{name}</text>\n'
-    return s + "</g>"
+HEAD_Y = 80      # headline baseline
+FOOT_Y = 396     # footnote baseline (line 2 at +20)
 
 
 def headline(text):
     return f'<text x="{MX}" y="{HEAD_Y}" class="headline">{text}</text>\n'
 
 
-def footnote(text):
-    return f'<text x="{W // 2}" y="{FOOT_Y}" text-anchor="middle" class="foot">{text}</text>\n'
+def footnote(main, sub=None):
+    """Bottom-left caption; optional dimmer second line underneath."""
+    s = f'<text x="{MX}" y="{FOOT_Y}" class="foot">{main}</text>\n'
+    if sub:
+        s += f'<text x="{MX}" y="{FOOT_Y + 20}" class="foot" opacity="0.7">{sub}</text>\n'
+    return s
 
 
 def card(x, y, w, h, title, sub=None, op=1.0):
@@ -122,10 +102,9 @@ def hex_points(cx, cy, r=58):
 
 
 def scene1(frac):
-    """Chemistry input: molecule graph + Hamiltonian panel (two parallel views)."""
+    """Chemistry input: a molecule becomes a graph (single centered focal)."""
     op = min(1.0, 0.4 + frac * 3)
-    ham_op = min(1.0, max(0.0, (frac - 0.3) * 2))
-    cx, cy = 190, 255
+    cx, cy = 400, 232
     pts = hex_points(cx, cy)
     edges, nodes = "", ""
     for i in range(6):
@@ -133,31 +112,19 @@ def scene1(frac):
         x2, y2 = pts[(i + 1) % 6]
         edges += f'<line class="ink" x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}"/>\n'
     for (x, y) in pts:
-        nodes += f'<circle class="card" cx="{x:.1f}" cy="{y:.1f}" r="7"/>\n'
+        nodes += f'<circle class="card" cx="{x:.1f}" cy="{y:.1f}" r="8"/>\n'
     p = frac * 6
     i0, t = int(p) % 6, p - int(p)
     i1 = (i0 + 1) % 6
     px = pts[i0][0] + (pts[i1][0] - pts[i0][0]) * t
     py = pts[i0][1] + (pts[i1][1] - pts[i0][1]) * t
-    terms = ["YZXI  +0.12", "XZYI  -0.08", "ZZII  +0.34", "IYZX  +0.05"]
-    rows = "".join(
-        f'<text x="560" y="{238 + i * 20}" text-anchor="middle" class="mono" style="font-size:12px">{term}</text>\n'
-        for i, term in enumerate(terms))
     return f'''
-{pipeline_bar(0)}
-{headline("Every molecule becomes a graph.")}
+{headline("A molecule becomes a graph.")}
 <g opacity="{op:.2f}">
   {edges}{nodes}
-  <circle class="clay-fill" cx="{px:.1f}" cy="{py:.1f}" r="5"/>
+  <circle class="clay-fill" cx="{px:.1f}" cy="{py:.1f}" r="5.5"/>
 </g>
-{harrow(268, 420, 255, "encode", ham_op)}
-<g opacity="{ham_op:.2f}">
-  <rect class="card" x="440" y="170" width="240" height="170" rx="4"/>
-  <text x="560" y="196" text-anchor="middle" class="label" style="font-weight:bold">Hamiltonian</text>
-  <text x="560" y="216" text-anchor="middle" class="foot">H = &#931; h&#8202;<tspan baseline-shift="sub" font-size="9">l</tspan> P&#8202;<tspan baseline-shift="sub" font-size="9">l</tspan> &#183; Jordan-Wigner</text>
-  {rows}
-</g>
-{footnote("Atom graph and Pauli Hamiltonian — two views of the same molecule")}
+{footnote("Chemistry GNN — edge-aware message passing over atoms and bonds", "Nodes: Z, hybridization, charge &#183; Edges: bond order, R_ij")}
 '''
 
 
@@ -169,7 +136,6 @@ def scene2(frac):
         token(530 + i * 54, 222, t, active=(i == active_tok), size=44)
         for i, t in enumerate(["Y", "Z", "X", "I"]))
     return f'''
-{pipeline_bar(1)}
 {headline("Conditioned generation.")}
 {card(64, 160, 150, 64, "Chemistry GNN", "soft prefix", enc_op)}
 {card(64, 264, 150, 64, "Hamiltonian enc.", "K, V memory", enc_op)}
@@ -180,7 +146,7 @@ def scene2(frac):
 {card(330, 212, 130, 64, "Decoder", "autoregressive")}
 {harrow(468, 522, 244)}
 {toks}
-{footnote("GNN prefix + Hamiltonian cross-attention &#8594; autoregressive operator tokens")}
+{footnote("GNN prefix + Hamiltonian cross-attention &#8594; autoregressive operator tokens", "6-layer Transformer decoder over the UCCSD operator pool")}
 '''
 
 
@@ -190,7 +156,6 @@ def scene3(frac):
     energy_op = min(1.0, max(0.0, (frac - 0.5) * 3))
     toks = "".join(token(64 + i * 52, 228, t, size=44) for i, t in enumerate(["Y", "Z", "X", "I"]))
     return f'''
-{pipeline_bar(2)}
 {headline("Structure first, angles second.")}
 <text x="{MX}" y="202" class="foot">operator sequence</text>
 {toks}
@@ -203,7 +168,7 @@ def scene3(frac):
   <text x="650" y="260" text-anchor="middle" dominant-baseline="central" class="mono">-1.137 Ha</text>
   <text x="650" y="281" text-anchor="middle" dominant-baseline="central" class="foot" style="font-size:11px">&#10216;&#968;&#8320;|U&#8224;HU|&#968;&#8320;&#10217;</text>
 </g>
-{footnote("Two-stage optimization — discrete topology, classical angles, quantum energy")}
+{footnote("Two-stage optimization — discrete topology, classical angles, quantum energy", "L-BFGS-B on k rotation angles &#183; CUDA-Q statevector (nvidia-mqpu)")}
 '''
 
 
@@ -216,7 +181,6 @@ def scene4(frac):
         for i, t in enumerate(["X", "Y", "Y", "X"]))
     check_op = 1.0 if n_show >= 4 else 0.0
     return f'''
-{pipeline_bar(1)}
 {headline("Collapse, avoided.")}
 <text x="{MX}" y="170" class="foot">Z-only — commutes with H, zero gradient</text>
 {row_bad}
@@ -224,7 +188,7 @@ def scene4(frac):
 <text x="{MX}" y="282" class="foot">UCCSD pool — every operator entangles</text>
 {row_good}
 <text x="316" y="321" dominant-baseline="central" class="mono" style="fill:#cc785c;font-size:18px" opacity="{check_op:.2f}">&#10003;</text>
-{footnote("Commutator penalty + force_entanglement &#8594; zero Z-only circuits by construction")}
+{footnote("Commutator penalty + force_entanglement &#8594; zero Z-only circuits by construction", "UCCSD operator pool — every operator carries X/Y by design")}
 '''
 
 
@@ -246,7 +210,6 @@ def scene5(frac):
     coverage = int(100 * len(filled) / 25)
     fb_op = min(1.0, max(0.0, (frac - 0.4) * 2.5))
     return f'''
-{pipeline_bar(3)}
 {headline("Quality-diversity RL closes the loop.")}
 {card(64, 170, 140, 70, "Energy", "-1.137 Ha")}
 {harrow(212, 246, 205)}
@@ -257,7 +220,7 @@ def scene5(frac):
 {card(64, 300, 140, 56, "Decoder", "&#8711;&#952; policy")}
 <path class="ink" d="M {gx + 65} {gy + 5 * cell} V 328 H 212" stroke-dasharray="4,4" marker-end="url(#arr)" opacity="{fb_op:.2f}"/>
 <text x="370" y="318" text-anchor="middle" class="foot" opacity="{fb_op:.2f}">DAPO update</text>
-{footnote("Energy &#8594; reward &#8594; MAP-Elites archive &#8594; gradient back to decoder")}
+{footnote("Energy &#8594; reward &#8594; MAP-Elites archive &#8594; gradient back to decoder", "DAPO with asymmetric clipping + novelty bonus from the archive")}
 '''
 
 
@@ -271,7 +234,6 @@ def scene6(frac):
         card(470, 154 + i * 60, 200, 46, name, op=qpu_op)
         for i, name in enumerate(["Rigetti", "IonQ", "IQM"]))
     return f'''
-{pipeline_bar(4)}
 {headline("Energy finds its floor.")}
 <g transform="translate(110,310)">
   <line class="ink" x1="0" y1="0" x2="260" y2="0"/>
@@ -286,7 +248,7 @@ def scene6(frac):
 </g>
 <text x="470" y="136" class="foot" opacity="{qpu_op:.2f}">QPU validation — qBraid</text>
 {vendors}
-{footnote("&#8804; 1.6 mHa chemical accuracy &#183; Rigetti, IonQ, IQM via qBraid")}
+{footnote("&#8804; 1.6 mHa chemical accuracy &#183; Rigetti, IonQ, IQM via qBraid", "QSCI/MPS scaling to 28&#8211;40 qubits &#183; FMO2 fragment reconstruction")}
 '''
 
 
