@@ -6,6 +6,7 @@ machine, we synthesize N static SVG frames (one per animation step),
 rasterize each with `rsvg-convert`, then assemble into a looping GIF with
 Pillow. No SMIL/JS execution required at render time.
 """
+import math
 import subprocess
 import shutil
 import os
@@ -23,50 +24,96 @@ FRAME_MS = 260  # duration per frame in the final GIF
 STYLE = """
     .canvas { fill: #f0eee6; }
     .ink { stroke: #191919; fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
-    .ink-fill { fill: #191919; }
-    .card { fill: #ffffff; stroke: #191919; stroke-width: 1; }
-    .muted { fill: #737373; }
-    .clay { stroke: #cc785c; fill: none; stroke-width: 1.6; }
+    .card { fill: #ffffff; stroke: #191919; stroke-width: 1.2; }
+    .clay { stroke: #cc785c; fill: none; stroke-width: 1.8; stroke-linecap: round; }
     .clay-fill { fill: #cc785c; }
-    .label { font-family: Georgia, 'Tiempos', serif; font-size: 20px; fill: #191919; }
-    .cap { font-family: 'DejaVu Sans', Inter, system-ui, sans-serif; font-size: 13px; fill: #737373; }
-    .tok { font-family: 'DejaVu Sans Mono', 'JetBrains Mono', monospace; font-size: 14px; fill: #191919; }
+    .headline { font-family: Georgia, 'DejaVu Serif', serif; font-size: 22px; fill: #191919; }
+    .label { font-family: 'DejaVu Sans', Inter, system-ui, sans-serif; font-size: 12.5px; fill: #191919; }
+    .foot { font-family: 'DejaVu Sans', Inter, system-ui, sans-serif; font-size: 12.5px; fill: #737373; }
+    .mono { font-family: 'DejaVu Sans Mono', monospace; font-size: 13px; fill: #191919; }
 """
+
+DEFS = ('<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" '
+        'markerWidth="6.5" markerHeight="6.5" orient="auto">'
+        '<path d="M0,0 L10,5 L0,10 z" fill="#191919"/></marker></defs>\n')
 
 
 def svg_header():
-    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">\n<style>{STYLE}</style>\n<rect class="canvas" width="{W}" height="{H}"/>\n'
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">\n'
+            f'<style>{STYLE}</style>\n{DEFS}'
+            f'<rect class="canvas" width="{W}" height="{H}"/>\n')
 
 
-HEX_R = 50
+# Layout grid: 64px margins, shared baselines for every scene.
+MX = 64          # left margin
+HEAD_Y = 100     # headline baseline
+FOOT_Y = 414     # footnote baseline
+
 PIPELINE_STAGES = ["Chemistry", "AI Synthesis", "Energy Eval", "RL Update", "Deploy"]
 
 
 def pipeline_bar(active):
-    """5-dot progress bar at top showing current pipeline stage."""
-    dots = ""
-    for i, label in enumerate(PIPELINE_STAGES):
-        cx = 80 + i * 145
-        cy = 28
-        if i == active:
-            dots += f'<circle cx="{cx}" cy="{cy}" r="5" class="clay-fill"/>\n'
-            dots += f'<text x="{cx}" y="{cy+18}" text-anchor="middle" class="cap" style="font-weight:bold">{label}</text>\n'
-        elif i < active:
-            dots += f'<circle cx="{cx}" cy="{cy}" r="4" fill="#cc785c" opacity="0.4"/>\n'
-            dots += f'<text x="{cx}" y="{cy+18}" text-anchor="middle" class="cap" opacity="0.4">{label}</text>\n'
-        else:
-            dots += f'<circle cx="{cx}" cy="{cy}" r="4" fill="#ffffff" stroke="#737373" stroke-width="1"/>\n'
-            dots += f'<text x="{cx}" y="{cy+18}" text-anchor="middle" class="cap" opacity="0.3">{label}</text>\n'
+    """Quiet 5-dot progress indicator centered at the top."""
+    x0, gap, cy = 100, 150, 34
+    s = "<g>"
+    for i, name in enumerate(PIPELINE_STAGES):
+        cx = x0 + i * gap
         if i < len(PIPELINE_STAGES) - 1:
-            nx = 80 + (i + 1) * 145
-            col = "#cc785c" if i < active else "#737373"
-            op = "0.6" if i < active else "0.2"
-            dots += f'<line x1="{cx+8}" y1="{cy}" x2="{nx-8}" y2="{cy}" stroke="{col}" stroke-width="1" opacity="{op}"/>\n'
-    return f'<g>{dots}</g>'
+            done = i < active
+            col = "#cc785c" if done else "#737373"
+            s += f'<line x1="{cx + 10}" y1="{cy}" x2="{cx + gap - 10}" y2="{cy}" stroke="{col}" stroke-width="1" opacity="{0.5 if done else 0.25}"/>\n'
+        if i == active:
+            s += f'<circle cx="{cx}" cy="{cy}" r="5" class="clay-fill"/>\n'
+            s += f'<text x="{cx}" y="{cy + 20}" text-anchor="middle" class="label" style="font-weight:bold">{name}</text>\n'
+        elif i < active:
+            s += f'<circle cx="{cx}" cy="{cy}" r="4" class="clay-fill" opacity="0.45"/>\n'
+            s += f'<text x="{cx}" y="{cy + 20}" text-anchor="middle" class="foot">{name}</text>\n'
+        else:
+            s += f'<circle cx="{cx}" cy="{cy}" r="4" fill="#f0eee6" stroke="#737373" stroke-width="1" opacity="0.8"/>\n'
+            s += f'<text x="{cx}" y="{cy + 20}" text-anchor="middle" class="foot" opacity="0.55">{name}</text>\n'
+    return s + "</g>"
 
 
-def hex_points(cx, cy, r=HEX_R):
-    import math
+def headline(text):
+    return f'<text x="{MX}" y="{HEAD_Y}" class="headline">{text}</text>\n'
+
+
+def footnote(text):
+    return f'<text x="{W // 2}" y="{FOOT_Y}" text-anchor="middle" class="foot">{text}</text>\n'
+
+
+def card(x, y, w, h, title, sub=None, op=1.0):
+    """White rounded card with vertically centered title (and optional subtitle)."""
+    cx, cy = x + w / 2, y + h / 2
+    s = f'<g opacity="{op:.2f}"><rect class="card" x="{x}" y="{y}" width="{w}" height="{h}" rx="4"/>\n'
+    if sub:
+        s += f'<text x="{cx:.0f}" y="{cy - 8:.0f}" text-anchor="middle" dominant-baseline="central" class="label" style="font-weight:bold">{title}</text>\n'
+        s += f'<text x="{cx:.0f}" y="{cy + 10:.0f}" text-anchor="middle" dominant-baseline="central" class="foot">{sub}</text>\n'
+    else:
+        s += f'<text x="{cx:.0f}" y="{cy:.0f}" text-anchor="middle" dominant-baseline="central" class="label" style="font-weight:bold">{title}</text>\n'
+    return s + "</g>"
+
+
+def harrow(x1, x2, y, label=None, op=1.0):
+    """Horizontal dashed arrow with an optional label centered above it."""
+    s = f'<g opacity="{op:.2f}"><line class="ink" x1="{x1}" y1="{y}" x2="{x2}" y2="{y}" stroke-dasharray="4,4" marker-end="url(#arr)"/>\n'
+    if label:
+        s += f'<text x="{(x1 + x2) // 2}" y="{y - 10}" text-anchor="middle" class="foot">{label}</text>\n'
+    return s + "</g>"
+
+
+def token(x, y, letter, active=False, dim=False, size=46, op=1.0):
+    """Single Pauli token box; active = clay outline, dim = muted letter."""
+    stroke = "#cc785c" if active else "#191919"
+    sw = 2 if active else 1.2
+    fill = "#cc785c" if active else ("#737373" if dim else "#191919")
+    return (f'<g opacity="{op:.2f}">'
+            f'<rect x="{x}" y="{y}" width="{size}" height="{size}" rx="4" fill="#ffffff" stroke="{stroke}" stroke-width="{sw}"/>'
+            f'<text x="{x + size / 2:.0f}" y="{y + size / 2:.0f}" text-anchor="middle" dominant-baseline="central" class="mono" style="fill:{fill}">{letter}</text>'
+            f"</g>\n")
+
+
+def hex_points(cx, cy, r=58):
     pts = []
     for k in range(6):
         a = math.pi / 2 + k * math.pi / 3
@@ -75,217 +122,143 @@ def hex_points(cx, cy, r=HEX_R):
 
 
 def scene1(frac):
-    """Chemistry input: molecule → atom graph + Hamiltonian (two parallel outputs)."""
+    """Chemistry input: molecule graph + Hamiltonian panel (two parallel views)."""
     op = min(1.0, 0.4 + frac * 3)
-    cx, cy = 200, 200
+    ham_op = min(1.0, max(0.0, (frac - 0.3) * 2))
+    cx, cy = 190, 255
     pts = hex_points(cx, cy)
-    edges = ""
+    edges, nodes = "", ""
     for i in range(6):
         x1, y1 = pts[i]
         x2, y2 = pts[(i + 1) % 6]
         edges += f'<line class="ink" x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}"/>\n'
-    nodes = ""
     for (x, y) in pts:
-        nodes += f'<circle class="card" cx="{x:.1f}" cy="{y:.1f}" r="6"/>\n'
-    pulse_idx = frac * 6
-    i0 = int(pulse_idx) % 6
+        nodes += f'<circle class="card" cx="{x:.1f}" cy="{y:.1f}" r="7"/>\n'
+    p = frac * 6
+    i0, t = int(p) % 6, p - int(p)
     i1 = (i0 + 1) % 6
-    t = pulse_idx - int(pulse_idx)
     px = pts[i0][0] + (pts[i1][0] - pts[i0][0]) * t
     py = pts[i0][1] + (pts[i1][1] - pts[i0][1]) * t
-    # Hamiltonian panel on the right
-    ham_op = min(1.0, max(0.0, (frac - 0.3) * 2))
+    terms = ["YZXI  +0.12", "XZYI  -0.08", "ZZII  +0.34", "IYZX  +0.05"]
+    rows = "".join(
+        f'<text x="560" y="{238 + i * 20}" text-anchor="middle" class="mono" style="font-size:12px">{term}</text>\n'
+        for i, term in enumerate(terms))
     return f'''
 {pipeline_bar(0)}
+{headline("Every molecule becomes a graph.")}
 <g opacity="{op:.2f}">
-  <text x="60" y="80" class="label">Every molecule becomes a graph.</text>
-  <g>
-    {edges}
-    {nodes}
-    <circle class="clay-fill" cx="{px:.1f}" cy="{py:.1f}" r="5"/>
-  </g>
-  <path class="ink" d="M 270 200 L 400 200" stroke-dasharray="3,3" opacity="{ham_op:.2f}"/>
-  <g opacity="{ham_op:.2f}">
-    <rect class="card" x="400" y="120" width="180" height="160"/>
-    <text x="490" y="145" text-anchor="middle" class="cap" style="font-weight:bold">Hamiltonian</text>
-    <text x="490" y="165" text-anchor="middle" class="cap">H = &#931; h&#8202;&#8217; P&#8202;&#8217;</text>
-    <text x="490" y="190" text-anchor="middle" class="tok" style="font-size:11px">YZXI  +0.12</text>
-    <text x="490" y="208" text-anchor="middle" class="tok" style="font-size:11px">XZYI  -0.08</text>
-    <text x="490" y="226" text-anchor="middle" class="tok" style="font-size:11px">ZZII  +0.34</text>
-    <text x="490" y="244" text-anchor="middle" class="tok" style="font-size:11px">IYZX  +0.05</text>
-    <text x="490" y="262" text-anchor="middle" class="cap">Jordan-Wigner mapped</text>
-  </g>
-  <text x="60" y="425" class="cap">Chemistry GNN encodes atoms/bonds  ·  Hamiltonian encoder reads Pauli terms</text>
-</g>'''
+  {edges}{nodes}
+  <circle class="clay-fill" cx="{px:.1f}" cy="{py:.1f}" r="5"/>
+</g>
+{harrow(268, 420, 255, "encode", ham_op)}
+<g opacity="{ham_op:.2f}">
+  <rect class="card" x="440" y="170" width="240" height="170" rx="4"/>
+  <text x="560" y="196" text-anchor="middle" class="label" style="font-weight:bold">Hamiltonian</text>
+  <text x="560" y="216" text-anchor="middle" class="foot">H = &#931; h&#8202;<tspan baseline-shift="sub" font-size="9">l</tspan> P&#8202;<tspan baseline-shift="sub" font-size="9">l</tspan> &#183; Jordan-Wigner</text>
+  {rows}
+</g>
+{footnote("Atom graph and Pauli Hamiltonian — two views of the same molecule")}
+'''
 
 
 def scene2(frac):
-    """AI synthesis: GNN prefix + Hamiltonian cross-attention → decoder → operator tokens."""
-    tokens = ["Y", "Z", "X", "I", "Y"]
-    active = min(4, int(round(frac * 4)))
-    boxes = ""
-    for i, t in enumerate(tokens):
-        cls = "clay" if i == active else "card"
-        x = 430 + i * 58
-        boxes += f'<rect class="{cls}" x="{x}" y="170" width="46" height="46"/>\n'
-        boxes += f'<text x="{x+23}" y="200" text-anchor="middle" class="tok">{t}</text>\n'
-    n_bars = 5
-    bars = ""
-    for i in range(n_bars):
-        h = 14 + (i % 3) * 10
-        bars += f'<rect class="card" x="{60+i*20}" y="{220-h}" width="12" height="{h}"/>\n'
-    # GNN box
-    gnn_op = min(1.0, frac * 4)
+    """AI synthesis: GNN prefix + Hamiltonian cross-attention -> decoder -> tokens."""
+    enc_op = min(1.0, frac * 3)
+    active_tok = min(3, int(frac * 4))
+    toks = "".join(
+        token(530 + i * 54, 222, t, active=(i == active_tok), size=44)
+        for i, t in enumerate(["Y", "Z", "X", "I"]))
     return f'''
 {pipeline_bar(1)}
-<g>
-  <text x="60" y="80" class="label">Conditioned generation.</text>
-  <g opacity="{gnn_op:.2f}">
-    <rect class="card" x="40" y="100" width="120" height="60"/>
-    <text x="100" y="125" text-anchor="middle" class="cap" style="font-weight:bold">GNN</text>
-    <text x="100" y="145" text-anchor="middle" class="cap">prefix tokens</text>
-  </g>
-  <rect class="card" x="200" y="100" width="160" height="140"/>
-  <text x="280" y="125" text-anchor="middle" class="cap" style="font-weight:bold">Hamiltonian enc.</text>
-  {bars}
-  <text x="280" y="250" text-anchor="middle" class="cap">Pauli terms</text>
-  <path class="ink" d="M 160 130 L 200 130" stroke-dasharray="3,3"/>
-  <text x="180" y="122" text-anchor="middle" class="cap" style="font-size:10px">prefix</text>
-  <path class="ink" d="M 360 170 C 390 170 400 193 420 193" stroke-dasharray="3,3"/>
-  <text x="390" y="162" text-anchor="middle" class="cap" style="font-size:10px">cross-attn</text>
-  <rect class="card" x="420" y="130" width="100" height="30"/>
-  <text x="470" y="150" text-anchor="middle" class="cap" style="font-weight:bold">Decoder</text>
-  {boxes}
-  <text x="60" y="425" class="cap">GNN soft-prefix + Hamiltonian cross-attention  →  autoregressive Pauli tokens</text>
-</g>'''
+{headline("Conditioned generation.")}
+{card(64, 160, 150, 64, "Chemistry GNN", "soft prefix", enc_op)}
+{card(64, 264, 150, 64, "Hamiltonian enc.", "K, V memory", enc_op)}
+<path class="ink" d="M 214 192 C 268 192 278 236 322 240" stroke-dasharray="4,4" marker-end="url(#arr)"/>
+<text x="266" y="186" text-anchor="middle" class="foot">prefix</text>
+<path class="ink" d="M 214 296 C 268 296 278 252 322 248" stroke-dasharray="4,4" marker-end="url(#arr)"/>
+<text x="266" y="312" text-anchor="middle" class="foot">cross-attn</text>
+{card(330, 212, 130, 64, "Decoder", "autoregressive")}
+{harrow(468, 522, 244)}
+{toks}
+{footnote("GNN prefix + Hamiltonian cross-attention &#8594; autoregressive operator tokens")}
+'''
 
 
 def scene3(frac):
-    """Two-stage optimization: discrete topology → L-BFGS-B continuous angles → CUDA-Q energy."""
-    stage = int(frac * 3)
-    # Stage 0: operator sequence
-    seq_op = 1.0
-    # Stage 1: L-BFGS-B angles
+    """Two-stage optimization: operator sequence -> L-BFGS-B angles -> CUDA-Q energy."""
     angle_op = min(1.0, max(0.0, (frac - 0.15) * 3))
-    # Stage 2: CUDA-Q energy
     energy_op = min(1.0, max(0.0, (frac - 0.5) * 3))
-    toks = ["Y", "Z", "X", "I"]
-    seq_svg = ""
-    for i, t in enumerate(toks):
-        x = 60 + i * 52
-        cls = "clay" if stage == 0 and i == min(stage, 3) else "card"
-        seq_svg += f'<rect class="{cls}" x="{x}" y="120" width="44" height="44"/>\n'
-        seq_svg += f'<text x="{x+22}" y="148" text-anchor="middle" class="tok">{t}</text>\n'
-    # Angle dials
-    angles_svg = ""
-    for i in range(4):
-        x = 60 + i * 52
-        ay = 220 + int(20 * (i % 3 - 1) * angle_op)
-        angles_svg += f'<line class="clay" x1="{x+22}" y1="210" x2="{x+22}" y2="{ay}" stroke-width="2" opacity="{angle_op:.2f}"/>\n'
-        angles_svg += f'<text x="{x+22}" y="235" text-anchor="middle" class="tok" style="font-size:11px" opacity="{angle_op:.2f}">&#952;={0.1+i*0.3:.1f}</text>\n'
+    toks = "".join(token(64 + i * 52, 228, t, size=44) for i, t in enumerate(["Y", "Z", "X", "I"]))
     return f'''
 {pipeline_bar(2)}
-<g>
-  <text x="60" y="80" class="label">Discrete topology, then continuous angles.</text>
-  <text x="60" y="108" class="cap">Stage 1: Transformer emits operator sequence</text>
-  {seq_svg}
-  <path class="ink" d="M 270 142 L 330 142" stroke-dasharray="3,3" opacity="{angle_op:.2f}"/>
-  <text x="300" y="135" text-anchor="middle" class="cap" opacity="{angle_op:.2f}">L-BFGS-B</text>
-  <text x="350" y="108" class="cap" opacity="{angle_op:.2f}">Stage 2: Classical angle optimization</text>
-  {angles_svg}
-  <path class="ink" d="M 270 230 L 330 230" stroke-dasharray="3,3" opacity="{energy_op:.2f}"/>
-  <text x="300" y="223" text-anchor="middle" class="cap" opacity="{energy_op:.2f}">CUDA-Q</text>
-  <g opacity="{energy_op:.2f}" transform="translate(350,250)">
-    <rect class="card" x="0" y="0" width="160" height="60"/>
-    <text x="80" y="25" text-anchor="middle" class="cap" style="font-weight:bold">Energy E = &#10216;&#968;&#8320;|U&#8224;HU|&#968;&#8320;&#10217;</text>
-    <text x="80" y="48" text-anchor="middle" class="tok" style="font-size:12px">-1.137 Ha</text>
-  </g>
-  <text x="60" y="425" class="cap">Two-stage: discrete structure (classical)  →  continuous angles (classical)  →  quantum energy</text>
-</g>'''
+{headline("Structure first, angles second.")}
+<text x="{MX}" y="202" class="foot">operator sequence</text>
+{toks}
+{harrow(288, 340, 250, "L-BFGS-B", angle_op)}
+{card(348, 206, 140, 88, "Angles", "&#952;&#8321;&#8230;&#952;&#8342; &#183; 3&#8211;5 iters", angle_op)}
+{harrow(504, 556, 250, "CUDA-Q", energy_op)}
+<g opacity="{energy_op:.2f}">
+  <rect class="card" x="564" y="206" width="172" height="88" rx="4"/>
+  <text x="650" y="236" text-anchor="middle" dominant-baseline="central" class="label" style="font-weight:bold">Energy</text>
+  <text x="650" y="260" text-anchor="middle" dominant-baseline="central" class="mono">-1.137 Ha</text>
+  <text x="650" y="281" text-anchor="middle" dominant-baseline="central" class="foot" style="font-size:11px">&#10216;&#968;&#8320;|U&#8224;HU|&#968;&#8320;&#10217;</text>
+</g>
+{footnote("Two-stage optimization — discrete topology, classical angles, quantum energy")}
+'''
 
 
 def scene4(frac):
-    """Diagonal-collapse mitigation: Z-only sequence (struck out) vs
-    an entangled UCCSD sequence that the policy is pushed toward."""
+    """Diagonal-collapse mitigation: Z-only struck out vs entangling UCCSD row."""
     n_show = min(4, int(round(frac * 4)))
-    row2 = ""
-    for i, t in enumerate(["X", "Y", "Y", "X"]):
-        visible = i <= n_show
-        cls = "clay" if (visible and i == n_show) else "card"
-        op = 1.0 if visible else 0.15
-        x = 260 + i * 58
-        row2 += f'<g opacity="{op}"><rect class="{cls}" x="{x}" y="0" width="46" height="46"/>' \
-                f'<text x="{x+23}" y="30" text-anchor="middle" class="tok">{t}</text></g>\n'
-    check_op = 1.0 if n_show >= 3 else 0.0
+    row_bad = "".join(token(64 + i * 58, 186, "Z", dim=True) for i in range(4))
+    row_good = "".join(
+        token(64 + i * 58, 298, t, active=(i == n_show - 1), op=1.0 if i < n_show else 0.18)
+        for i, t in enumerate(["X", "Y", "Y", "X"]))
+    check_op = 1.0 if n_show >= 4 else 0.0
     return f'''
 {pipeline_bar(1)}
-<g>
-  <text x="60" y="80" class="label">Collapse, avoided.</text>
-
-  <text x="60" y="135" class="cap">Z-only — commutes, zero gradient, traps at Hartree-Fock</text>
-  <g transform="translate(60,155)">
-    <rect class="card" x="0"   y="0" width="46" height="46"/>
-    <rect class="card" x="58"  y="0" width="46" height="46"/>
-    <rect class="card" x="116" y="0" width="46" height="46"/>
-    <rect class="card" x="174" y="0" width="46" height="46"/>
-    <text x="23"  y="30" text-anchor="middle" class="tok muted">Z</text>
-    <text x="81"  y="30" text-anchor="middle" class="tok muted">Z</text>
-    <text x="139" y="30" text-anchor="middle" class="tok muted">Z</text>
-    <text x="197" y="30" text-anchor="middle" class="tok muted">Z</text>
-    <line class="clay" x1="-6" y1="-6" x2="226" y2="52"/>
-  </g>
-
-  <text x="60" y="285" class="cap">UCCSD pool — every operator carries X/Y, entangles by construction</text>
-  <g transform="translate(60,305)">
-    {row2}
-    <text x="440" y="30" class="tok clay-fill" opacity="{check_op:.2f}">&#10003;</text>
-  </g>
-  <text x="60" y="425" class="cap">UCCSD pool + commutator penalty + force_entanglement  →  zero Z-only by construction</text>
-</g>'''
+{headline("Collapse, avoided.")}
+<text x="{MX}" y="170" class="foot">Z-only — commutes with H, zero gradient</text>
+{row_bad}
+<line class="clay" x1="56" y1="180" x2="292" y2="238"/>
+<text x="{MX}" y="282" class="foot">UCCSD pool — every operator entangles</text>
+{row_good}
+<text x="316" y="321" dominant-baseline="central" class="mono" style="fill:#cc785c;font-size:18px" opacity="{check_op:.2f}">&#10003;</text>
+{footnote("Commutator penalty + force_entanglement &#8594; zero Z-only circuits by construction")}
+'''
 
 
 def scene5(frac):
-    """RL feedback loop: energy → reward → DAPO + MAP-Elites → policy update → back to decoder."""
-    loop_op = min(1.0, frac * 2)
-    # MAP-Elites grid filling
-    grid_n = 5
+    """RL feedback loop: energy -> reward -> MAP-Elites -> DAPO back to decoder."""
     fill_order = [0, 6, 12, 18, 24, 3, 9, 15, 21, 5, 11, 17, 23, 1, 7, 13, 19, 4, 10, 16, 22, 2, 8, 14, 20]
     n_filled = int(round(frac * len(fill_order)))
     filled = set(fill_order[:n_filled])
-    cell = 28
+    cell, gx, gy = 26, 470, 140
     cells = ""
-    for r in range(grid_n):
-        for c in range(grid_n):
-            idx = r * grid_n + c
-            x = c * cell
-            y = r * cell
+    for r in range(5):
+        for c in range(5):
+            idx = r * 5 + c
+            x, y = gx + c * cell, gy + r * cell
             if idx in filled:
-                cells += f'<rect x="{x}" y="{y}" width="{cell-3}" height="{cell-3}" fill="#cc785c" opacity="0.7"/>\n'
+                cells += f'<rect x="{x}" y="{y}" width="{cell - 3}" height="{cell - 3}" rx="2" class="clay-fill" opacity="0.75"/>\n'
             else:
-                cells += f'<rect class="card" x="{x}" y="{y}" width="{cell-3}" height="{cell-3}"/>\n'
-    coverage = int(100 * len(filled) / (grid_n * grid_n))
+                cells += f'<rect x="{x}" y="{y}" width="{cell - 3}" height="{cell - 3}" rx="2" class="card"/>\n'
+    coverage = int(100 * len(filled) / 25)
+    fb_op = min(1.0, max(0.0, (frac - 0.4) * 2.5))
     return f'''
 {pipeline_bar(3)}
-<g>
-  <text x="60" y="80" class="label">Quality-diversity RL closes the loop.</text>
-  <g opacity="{loop_op:.2f}">
-    <rect class="card" x="40" y="110" width="100" height="50"/>
-    <text x="90" y="130" text-anchor="middle" class="cap" style="font-weight:bold">Energy</text>
-    <text x="90" y="148" text-anchor="middle" class="tok" style="font-size:11px">-1.137</text>
-    <path class="ink" d="M 140 135 L 200 135" stroke-dasharray="3,3"/>
-    <rect class="card" x="200" y="110" width="100" height="50"/>
-    <text x="250" y="130" text-anchor="middle" class="cap" style="font-weight:bold">Reward</text>
-    <text x="250" y="148" text-anchor="middle" class="cap">w&#8321;(-E) + w&#8322;(ent)</text>
-    <path class="ink" d="M 300 135 L 360 135" stroke-dasharray="3,3"/>
-    <g transform="translate(360,100)">
-      {cells}
-    </g>
-    <text x="360" y="250" class="cap">MAP-Elites  coverage: {coverage}%</text>
-    <path class="ink" d="M 430 135 C 430 80 200 80 200 110" stroke-dasharray="3,3" opacity="{loop_op:.2f}"/>
-    <text x="315" y="75" text-anchor="middle" class="cap" opacity="{loop_op:.2f}">DAPO policy update</text>
-  </g>
-  <text x="60" y="425" class="cap">Energy &#8594; reward &#8594; DAPO + MAP-Elites &#8594; gradient back to decoder  (feedback loop)</text>
-</g>'''
+{headline("Quality-diversity RL closes the loop.")}
+{card(64, 170, 140, 70, "Energy", "-1.137 Ha")}
+{harrow(212, 246, 205)}
+{card(254, 170, 150, 70, "Reward", "-E &#183; entropy &#183; novelty")}
+{harrow(412, 462, 205)}
+{cells}
+<text x="{gx}" y="{gy - 12}" class="foot">MAP-Elites — coverage {coverage}%</text>
+{card(64, 300, 140, 56, "Decoder", "&#8711;&#952; policy")}
+<path class="ink" d="M {gx + 65} {gy + 5 * cell} V 328 H 212" stroke-dasharray="4,4" marker-end="url(#arr)" opacity="{fb_op:.2f}"/>
+<text x="370" y="318" text-anchor="middle" class="foot" opacity="{fb_op:.2f}">DAPO update</text>
+{footnote("Energy &#8594; reward &#8594; MAP-Elites archive &#8594; gradient back to decoder")}
+'''
 
 
 def scene6(frac):
@@ -293,33 +266,28 @@ def scene6(frac):
     dash = 1000 * frac
     gap = 1000 - dash
     dot_op = 1.0 if frac >= 0.95 else 0.0
-    # QPU badges
-    qpu_op = min(1.0, max(0.0, (frac - 0.4) * 2))
-    vendors = ["Rigetti", "IonQ", "IQM"]
-    qpu_svg = ""
-    for i, name in enumerate(vendors):
-        x = 380 + i * 120
-        qpu_svg += f'<rect class="card" x="{x}" y="280" width="100" height="50" opacity="{qpu_op:.2f}"/>\n'
-        qpu_svg += f'<text x="{x+50}" y="300" text-anchor="middle" class="cap" opacity="{qpu_op:.2f}">{name}</text>\n'
-        qpu_svg += f'<text x="{x+50}" y="318" text-anchor="middle" class="cap" style="font-size:10px" opacity="{qpu_op:.2f}">qBraid</text>\n'
+    qpu_op = min(1.0, max(0.0, (frac - 0.35) * 2.5))
+    vendors = "".join(
+        card(470, 154 + i * 60, 200, 46, name, op=qpu_op)
+        for i, name in enumerate(["Rigetti", "IonQ", "IQM"]))
     return f'''
 {pipeline_bar(4)}
-<g>
-  <text x="60" y="80" class="label">Energy finds its floor.</text>
-  <g transform="translate(80,260)">
-    <line class="ink" x1="0" y1="0" x2="280" y2="0"/>
-    <line class="ink" x1="0" y1="0" x2="0" y2="-140"/>
-    <text x="-10" y="-145" class="cap" text-anchor="end">&#x27E8;H&#x27E9;</text>
-    <text x="280" y="18" class="cap" text-anchor="end">RL steps</text>
-    <path class="ink" pathLength="1000" stroke-dasharray="{dash:.1f},{gap:.1f}"
-          d="M0,-20 C 40,-40 80,-90 140,-115 C 180,-128 220,-132 280,-132"/>
-    <circle class="clay-fill" cx="280" cy="-132" r="5" opacity="{dot_op}"/>
-    <line class="clay" x1="0" y1="-132" x2="280" y2="-132" stroke-dasharray="2,4" opacity="0.5"/>
-    <text x="290" y="-130" class="cap" style="font-size:10px">E_FCI</text>
-  </g>
-  {qpu_svg}
-  <text x="60" y="425" class="cap">&#8804; 1.6 mHa chemical accuracy  ·  QPU validation via qBraid (Rigetti, IonQ, IQM)</text>
-</g>'''
+{headline("Energy finds its floor.")}
+<g transform="translate(110,310)">
+  <line class="ink" x1="0" y1="0" x2="260" y2="0"/>
+  <line class="ink" x1="0" y1="0" x2="0" y2="-160"/>
+  <text x="-12" y="-166" text-anchor="end" class="foot">&#10216;H&#10217;</text>
+  <text x="260" y="22" text-anchor="end" class="foot">RL steps</text>
+  <line x1="0" y1="-140" x2="260" y2="-140" stroke="#cc785c" stroke-width="1" stroke-dasharray="2,4" opacity="0.6"/>
+  <text x="268" y="-140" dominant-baseline="central" class="foot">E<tspan baseline-shift="sub" font-size="9">FCI</tspan></text>
+  <path class="ink" pathLength="1000" stroke-dasharray="{dash:.1f},{gap:.1f}"
+        d="M0,-16 C 40,-36 80,-92 140,-118 C 180,-132 220,-138 260,-139"/>
+  <circle class="clay-fill" cx="260" cy="-139" r="5" opacity="{dot_op}"/>
+</g>
+<text x="470" y="136" class="foot" opacity="{qpu_op:.2f}">QPU validation — qBraid</text>
+{vendors}
+{footnote("&#8804; 1.6 mHa chemical accuracy &#183; Rigetti, IonQ, IQM via qBraid")}
+'''
 
 
 SCENES = [scene1, scene2, scene3, scene4, scene5, scene6]
