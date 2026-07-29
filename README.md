@@ -62,64 +62,62 @@ H-cGQE pairs a **Chemical Graph Neural Network (GNN)** and a **Transformer** wit
 ### Diagram 1 — End-to-End Pipeline (High-Level)
 
 ```mermaid
-flowchart LR
-    subgraph Chem ["Chemistry Input"]
+flowchart TD
+    subgraph S1 ["① Chemistry Input"]
         direction TB
-        Mol["Molecular Geometry<br>(PySCF / OpenFermion)"]
-        Ham["Electronic Hamiltonian<br>H = Sum h_l * P_l<br>(Jordan-Wigner mapped)"]
-        Graph["Atom Graph<br>(Nodes: Z, hybridization<br>Edges: bond type, R_ij)"]
+        Mol["Molecular Geometry<br/>PySCF / OpenFermion"]
+        Ham["Electronic Hamiltonian<br/>H = Σ hₗ Pₗ  (Jordan-Wigner)"]
+        Graph["Atom Graph<br/>Nodes: Z, hybridization · Edges: bond, Rᵢⱼ"]
         Mol --> Ham
         Mol --> Graph
     end
 
-    subgraph AI ["AI Circuit Synthesis"]
+    subgraph S2 ["② AI Circuit Synthesis"]
         direction TB
-        GNN["Chemistry GNN Encoder<br>(3-layer Edge-Aware MPNN<br>to Soft Prompt Tokens)"]
-        HEnc["Hamiltonian Encoder<br>(4-layer Transformer<br>to Cross-Attention Memory)"]
-        Dec["Operator Pool Decoder<br>(6-layer Transformer<br>to Autoregressive Tokens)"]
-        Pool["UCCSD Operator Pool<br>(Fermionic excitations<br>JW-mapped, 0% Z-only)"]
+        GNN["Chemistry GNN<br/>3-layer Edge-Aware MPNN → Soft Prefix"]
+        HEnc["Hamiltonian Encoder<br/>4-layer Transformer → Cross-Attn K,V"]
+        Dec["Decoder<br/>6-layer Transformer → Autoregressive Tokens"]
+        Pool["UCCSD Operator Pool<br/>Fermionic excitations · 0% Z-only"]
         Graph --> GNN
         Ham --> HEnc
         Pool --> Dec
-        GNN -->|"Prefix Conditioning"| Dec
-        HEnc -->|"Cross-Attention K,V"| Dec
-        Dec -->|"j1, j2, ..., jk"| Seq["Operator Sequence<br>A1, A2, ..., Ak"]
+        GNN -->|"Prefix"| Dec
+        HEnc -->|"Cross-Attn"| Dec
+        Dec --> Seq["Operator Sequence<br/>A₁, A₂, ..., Aₖ"]
     end
 
-    subgraph Eval ["Energy Evaluation"]
+    subgraph S3 ["③ Energy Evaluation"]
         direction TB
-        Cache{"B200 SQLite Cache<br>(24k+ entries)"}
-        LBFGS["Truncated L-BFGS-B<br>(3-5 iters, k angles<br>theta = (theta_1, ..., theta_k) in R^k)"]
-        CUDAQ["CUDA-Q Statevector<br>nvidia-mqpu (3x L40S)"]
-        Cache -->|"Hit: E_cached"| E["Energy<br>E = &lt;psi0|U*H*U|psi0&gt;"]
-        Cache -->|"Miss"| LBFGS
-        LBFGS --> CUDAQ
-        CUDAQ --> E
+        Cache{"SQLite Cache<br/>24k+ entries"}
+        LBFGS["L-BFGS-B<br/>3-5 iters · θ = (θ₁,...,θₖ)"]
+        CUDAQ["CUDA-Q Statevector<br/>nvidia-mqpu (3× L40S)"]
         Seq --> Cache
+        Cache -->|"Hit"| E["E = ⟨ψ₀|U†HU|ψ₀⟩"]
+        Cache -->|"Miss"| LBFGS --> CUDAQ --> E
     end
 
-    subgraph RL ["QD-GRPO Policy Update"]
+    subgraph S4 ["④ RL Policy Update"]
         direction TB
-        Reward["Multi-Component Reward<br>R = w1(-E/|E_ref|) + w2(ent)<br>+ w3(-depth) + lambda*Novelty"]
-        ME["MAP-Elites Archive<br>(10x10 grid<br>Entanglement x Depth)"]
-        DAPO["DAPO Loss<br>Asymmetric Clip (eps_low=0.2<br>eps_high=0.28) + Token-level"]
-        E --> Reward
-        Reward --> ME
+        Reward["Reward<br/>R = w₁(−E/|E_ref|) + w₂(ent) + w₃(−depth) + λ·Novelty"]
+        ME["MAP-Elites Archive<br/>10×10 grid · Entanglement × Depth"]
+        DAPO["DAPO Loss<br/>Asymmetric clip + Token-level"]
+        E --> Reward --> ME
         ME -->|"Novelty Bonus"| DAPO
-        DAPO -->|"grad_theta Update"| Dec
+        DAPO -.->|"grad_θ update"| Dec
     end
 
-    subgraph Deploy ["Deployment"]
+    subgraph S5 ["⑤ Deployment"]
         direction TB
-        QSCI["QSCI / MPS<br>28-40q Scaling"]
-        QPU["qBraid QPU<br>4-12q Hardware"]
-        FMO["FMO2 Reconstruction<br>Fragment to Parent"]
-        ME -->|"Elite Circuits"| QSCI
-        ME -->|"Shallow Circuits"| QPU
+        QSCI["QSCI / MPS<br/>28-40q scaling"]
+        QPU["qBraid QPU<br/>Rigetti · IonQ · IQM"]
+        FMO["FMO2 Reconstruction<br/>Fragment → Parent"]
+        ME -->|"Elite circuits"| QSCI
+        ME -->|"Shallow circuits"| QPU
         ME -->|"Fragments"| FMO
     end
 
-    Chem ==> AI ==> Eval ==> RL ==> Deploy
+    S1 ==> S2 ==> S3 ==> S4 ==> S5
+    S4 -.->|"Feedback loop"| S2
 ```
 
 ### Diagram 2 — Internal Transformer Architecture (Technical)
