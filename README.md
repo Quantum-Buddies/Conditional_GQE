@@ -21,6 +21,27 @@
   <img src="docs/gic2026_journey_loop.gif" alt="H-cGQE GIC 2026 Journey — From molecular input to quantum circuit synthesis" width="800">
 </p>
 
+### 🎬 Animated Visual Overview
+
+<table align="center" border="0" cellpadding="8">
+  <tr>
+    <td align="center"><b>RL Training Loop (DAPO/GRPO)</b></td>
+    <td align="center"><b>Transformer Architecture</b></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/rl_training_loop.gif" alt="RL training loop: sample → evaluate → reward → MAP-Elites → DAPO update → replay" width="400"></td>
+    <td align="center"><img src="docs/transformer_architecture.gif" alt="Transformer architecture: GNN encoder → Hamiltonian encoder → cross-attention decoder → constrained sampling" width="400"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>VQE vs H-cGQE Comparison</b></td>
+    <td align="center"><b>HPC ↔ QPU Async Workflow</b></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/vqe_vs_gqe.gif" alt="VQE vs GQE: fixed ansatz, barren plateaus, diagonal collapse vs AI-generated, chemical accuracy" width="400"></td>
+    <td align="center"><img src="docs/hpc_qpu_workflow.gif" alt="HPC to QPU: QWC grouping, manifest export, qBraid routing, multi-vendor QPU, async retrieval" width="400"></td>
+  </tr>
+</table>
+
 ---
 
 ## 🌟 Executive Summary
