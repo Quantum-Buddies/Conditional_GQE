@@ -1,3 +1,44 @@
+---
+language: en
+license: mit
+library_name: pytorch
+tags:
+- quantum-computing
+- generative-quantum-eigensolver
+- reinforcement-learning
+- cuda-q
+- quantum-chemistry
+- circuit-design
+- GQE
+- DAPO
+- MAP-Elites
+- QSCI
+- FMO2
+- GIC2026
+datasets:
+- custom
+base_model: Ryukijano/h-cgqe-gic2026
+metrics:
+- energy-error
+- chemical-accuracy
+model-index:
+- name: H-cGQE (Conditional-GQE)
+  results:
+  - task:
+      type: quantum-ground-state
+      name: Ground State Energy Estimation
+    dataset:
+      type: custom
+      name: GIC 2026 Molecule Suite
+    metrics:
+      - type: energy-error
+        value: 0.63
+        name: CH3I Error (mHa)
+      - type: energy-error
+        value: 1.48
+        name: H2 GPU-Simulator Gap (mHa)
+---
+
 <p align="center">
   <h1 align="center">⚛️ Conditional-GQE (H-cGQE)</h1>
   <p align="center">
