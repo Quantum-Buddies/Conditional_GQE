@@ -59,7 +59,7 @@ model-index:
 </p>
 
 <p align="center">
-  <img src="docs/gic2026_journey_loop.gif" alt="H-cGQE GIC 2026 Journey — From molecular input to quantum circuit synthesis" width="800">
+  <img src="https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/gic2026_journey_loop.gif" alt="H-cGQE GIC 2026 Journey" width="800">
 </p>
 
 ### 🎬 Animated Visual Overview
@@ -70,16 +70,16 @@ model-index:
     <td align="center"><b>Transformer Architecture</b></td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/rl_training_loop.gif" alt="RL training loop: sample → evaluate → reward → MAP-Elites → DAPO update → replay" width="400"></td>
-    <td align="center"><img src="docs/transformer_architecture.gif" alt="Transformer architecture: GNN encoder → Hamiltonian encoder → cross-attention decoder → constrained sampling" width="400"></td>
+    <td align="center"><img src="https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/rl_training_loop.gif" alt="RL training loop" width="400"></td>
+    <td align="center"><img src="https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/transformer_architecture.gif" alt="Transformer architecture" width="400"></td>
   </tr>
   <tr>
     <td align="center"><b>VQE vs H-cGQE Comparison</b></td>
     <td align="center"><b>HPC ↔ QPU Async Workflow</b></td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/vqe_vs_gqe.gif" alt="VQE vs GQE: fixed ansatz, barren plateaus, diagonal collapse vs AI-generated, chemical accuracy" width="400"></td>
-    <td align="center"><img src="docs/hpc_qpu_workflow.gif" alt="HPC to QPU: QWC grouping, manifest export, qBraid routing, multi-vendor QPU, async retrieval" width="400"></td>
+    <td align="center"><img src="https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/vqe_vs_gqe.gif" alt="VQE vs GQE" width="400"></td>
+    <td align="center"><img src="https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/hpc_qpu_workflow.gif" alt="HPC to QPU workflow" width="400"></td>
   </tr>
 </table>
 
@@ -123,19 +123,19 @@ H-cGQE pairs a **Chemical Graph Neural Network (GNN)** and a **Transformer** wit
 
 ### Diagram 1 — End-to-End Pipeline (High-Level)
 
-<img src="docs/mermaid_svgs/diagram_01.png" alt="Diagram 1" width="100%">
+![Diagram 1 — End-to-End Pipeline](https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/mermaid_svgs/diagram_01.png)
 
 ### Diagram 2 — Internal Transformer Architecture (Technical)
 
-<img src="docs/mermaid_svgs/diagram_02.png" alt="Diagram 2" width="100%">
+![Diagram 2 — Transformer Architecture](https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/mermaid_svgs/diagram_02.png)
 
 ### Diagram 3 — RL Training Loop & Reward Decomposition
 
-<img src="docs/mermaid_svgs/diagram_03.png" alt="Diagram 3" width="100%">
+![Diagram 3 — RL Training Loop](https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/mermaid_svgs/diagram_03.png)
 
 ### Diagram 4 — VQE vs C-GQE Comparison
 
-<img src="docs/mermaid_svgs/diagram_04.png" alt="Diagram 4" width="100%">
+![Diagram 4 — VQE vs C-GQE](https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/mermaid_svgs/diagram_04.png)
 
 ### Diagram 5 — Qubit Scaling Spectrum
 
@@ -181,7 +181,7 @@ H-cGQE pairs a **Chemical Graph Neural Network (GNN)** and a **Transformer** wit
 
 Unlike standard NLP transformers, C-GQE features an **Edge-Aware Message-Passing Graph Neural Network** (`src/gqe/models/chemistry_encoder.py`) that encodes the physical topology of the molecule — conceptually analogous to how AlphaFold's Evoformer processes structural relationships:
 
-<img src="docs/mermaid_svgs/diagram_05.png" alt="Diagram 5" width="100%">
+![Diagram 5 — Chemistry GNN Encoder](https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/mermaid_svgs/diagram_05.png)
 
 - **Node Features**: Atomic numbers, hybridization states, formal charges, valence, aromaticity.
 - **Edge Features**: Chemical bond types, 3D interatomic distances $R_{ij}$, conjugation, ring membership.
@@ -213,7 +213,7 @@ In early GQE implementations, AI agents discovered a "lazy shortcut": generating
   2. **Entanglement Enforcement**: `force_entanglement=True` in the decoder masks Z-only tokens during sampling, ensuring at least one multi-qubit entangler per sequence.
   3. **Commutator Penalty**: Explicit reward penalty $w_4 \cdot \text{frac}([A_i, A_j] \neq 0)$ for commuting operator sequences.
 
-<img src="docs/mermaid_svgs/diagram_06.png" alt="Diagram 6" width="100%">
+![Diagram 6 — Jordan-Wigner Mapping](https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/mermaid_svgs/diagram_06.png)
 
 **Verified pool statistics**: H₂ (4q): 16 Pauli words, 0 Z-only, 192 pool entries. LiH (12q): 1,408 Pauli words, 0 Z-only. N₂ (20q): 11,088 Pauli words, 0 Z-only. BeH₂ (14q): 3,456 Pauli words, 0 Z-only.
 
@@ -224,14 +224,14 @@ Standard Policy Gradient methods (PPO/GRPO) suffer from mode collapse, finding o
   $$\text{Reward} = w_1 \cdot \left(-\frac{E}{|E_{\text{ref}}|}\right) + w_2 \cdot \text{Entanglement} + \lambda \cdot \text{Novelty}$$
 - As coverage exceeds $50\%$, $\lambda$ decays adaptively to shift focus to energy refinement.
 
-<img src="docs/mermaid_svgs/diagram_07.png" alt="Diagram 7" width="100%">
+![Diagram 7 — MAP-Elites Archive](https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/mermaid_svgs/diagram_07.png)
 
 ### 4. L-BFGS-B Angle Fine-Tuning
 
 For a generated sequence $[A_1, A_2, \dots, A_k]$, each operator $A_i = e^{i\theta_i \hat{P}_i}$ requires a continuous rotation angle $\theta_i \in \mathbb{R}$. The energy landscape is:
 $$E(\boldsymbol{\theta}) = \langle \psi_0 | U_{j_k}^\dagger \cdots U_{j_1}^\dagger \hat{H} U_{j_1} \cdots U_{j_k} | \psi_0 \rangle$$
 
-<img src="docs/mermaid_svgs/diagram_08.png" alt="Diagram 8" width="100%">
+![Diagram 8 — L-BFGS-B Fine-Tuning](https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/mermaid_svgs/diagram_08.png)
 
 - **Truncated mode (RL training)**: 3–5 iterations, $\theta_0 = 0.01$, Spearman $\rho \approx 0.5$ with converged energies, $50\times$ faster than full opt.
 - **Full mode (final evaluation)**: 200 iterations, $\text{ftol} = 10^{-10}$, machine-precision convergence.
@@ -240,7 +240,7 @@ $$E(\boldsymbol{\theta}) = \langle \psi_0 | U_{j_k}^\dagger \cdots U_{j_1}^\dagg
 
 ### 5. B200 Energy Cache & Offline RL Pretraining
 
-<img src="docs/mermaid_svgs/diagram_09.png" alt="Diagram 9" width="100%">
+![Diagram 9 — B200 Energy Cache](https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/mermaid_svgs/diagram_09.png)
 
 - **SQLite Cache**: 24,000+ entries keyed by MD5 hash of operator sequence (`results/train/rl_energy_cache.sqlite`).
 - **Offline Pretraining**: `src/gqe/data/cache_to_pretrain.py` recovers 17,408 (operators, energy) pairs by replaying deterministic circuit generation. This allows **replay-buffer mixing** of known-good circuits without CUDA-Q.
@@ -250,7 +250,7 @@ $$E(\boldsymbol{\theta}) = \langle \psi_0 | U_{j_k}^\dagger \cdots U_{j_1}^\dagg
 
 Direct statevector simulation breaks above 28 qubits ($2^{28} \approx 268$M amplitudes). To tackle 32–40 qubit systems required by the GIC challenge, we deploy two scientific scaling pillars:
 
-<img src="docs/mermaid_svgs/diagram_10.png" alt="Diagram 10" width="100%">
+![Diagram 10 — QSCI & FMO2 Scaling](https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/mermaid_svgs/diagram_10.png)
 
 - **QSCI (Quantum Selected Configuration Interaction)**: Samples circuits to build a determinant subspace, then classically diagonalizes a reduced Hamiltonian. Used here as a **scaling path** for ~40q systems (e.g. benzene) when full statevector is infeasible — report subspace energies and wall time, **not** “exact FCI match,” unless an independent CASCI/FCI reference is provided.
 - **FMO2 (Fragment Molecular Orbital)**: Fragments large macromolecules into 8–12 qubit sub-units, evaluates them on quantum hardware, and reassembles parent energies via pairwise additive correction:
@@ -516,7 +516,7 @@ This runs 5 verification tests: DedupCache SQLite persistence, offline RL cache-
 
 The Phase 3 pipeline is a 3-stage hybrid GPU→GPU→QPU workflow:
 
-<img src="docs/mermaid_svgs/diagram_11.png" alt="Diagram 11" width="100%">
+![Diagram 11 — Phase 3 Pipeline](https://huggingface.co/Ryukijano/h-cgqe-gic2026/resolve/main/docs/mermaid_svgs/diagram_11.png)
 
 | Stage | Hardware | What Happens | Script |
 |---|---|---|---|
