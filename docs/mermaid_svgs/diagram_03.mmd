@@ -1,0 +1,52 @@
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#EEF2FF',
+  'primaryTextColor': '#3730A3',
+  'primaryBorderColor': '#818CF8',
+  'secondaryColor': '#F0F9FF',
+  'secondaryTextColor': '#0369A1',
+  'secondaryBorderColor': '#38BDF8',
+  'tertiaryColor': '#ECFDF5',
+  'tertiaryTextColor': '#065F46',
+  'tertiaryBorderColor': '#34D399',
+  'lineColor': '#64748B',
+  'textColor': '#1E293B',
+  'background': '#FFFFFF',
+  'mainBkg': '#EEF2FF',
+  'nodeBorder': '#818CF8',
+  'clusterBkg': '#F8FAFC',
+  'clusterBorder': '#CBD5E1',
+  'titleColor': '#1E293B',
+  'edgeLabelBackground': '#FFFFFF',
+  'fontFamily': 'Inter, system-ui, -apple-system, sans-serif',
+  'fontSize': '15px'
+}}}%%
+flowchart TD
+classDef process fill:#EEF2FF,stroke:#818CF8,stroke-width:2px,color:#3730A3,rx:8,ry:8
+classDef data fill:#F0F9FF,stroke:#38BDF8,stroke-width:2px,color:#0369A1,rx:8,ry:8
+classDef output fill:#ECFDF5,stroke:#34D399,stroke-width:2px,color:#065F46,rx:8,ry:8
+classDef accent fill:#FFFBEB,stroke:#FBBF24,stroke-width:2px,color:#92400E,rx:8,ry:8
+classDef highlight fill:#F5F3FF,stroke:#A78BFA,stroke-width:2px,color:#6D28D9,rx:8,ry:8
+classDef danger fill:#FEF2F2,stroke:#F87171,stroke-width:2px,color:#991B1B,rx:8,ry:8
+classDef subtle fill:#F8FAFC,stroke:#CBD5E1,stroke-width:1.5px,color:#475569,rx:6,ry:6
+
+    Start(("Start Epoch"))
+    Sample["Sample N=16 circuits<br/>per molecule via<br/>autoregressive decoder"]
+    Eval["Evaluate Energies<br/>via Cache or L-BFGS-B"]
+    Reward["Compute Multi-Component Reward<br/>R = w₁·(-E/|E_ref|) + w₂·entanglement<br/>+ w₃·(-depth/max_len) + w₄·non_commute"]
+    Advantage["GRPO Advantage Normalization<br/>A_i = (R_i - mean(R)) / (std(R) + ε)"]
+    Loss["DAPO Loss (Asymmetric Clipping)<br/>L = -min(r·A, clip(r, 1-ε_low, 1+ε_high)·A)<br/>ε_low=0.2, ε_high=0.28"]
+    Update["Policy Gradient Update<br/>θ ← θ - η·∇L"]
+    MAP["MAP-Elites Archive Update<br/>Insert into 10×10 grid<br/>(entanglement × depth)"]
+    Replay["Replay Buffer Mixing<br/>60% elites + 30% novelty<br/>+ 10% random exploration"]
+    Converge{"Converged?"}
+    Done(("Done"))
+
+    Start --> Sample --> Eval --> Reward --> Advantage --> Loss --> Update --> MAP --> Replay --> Converge
+    Converge -->|"no"| Sample
+    Converge -->|"yes"| Done
+
+    class Start,Done accent
+    class Sample,Eval process
+    class Reward,Advantage,Loss,Update highlight
+    class MAP,Replay output
+    class Converge danger

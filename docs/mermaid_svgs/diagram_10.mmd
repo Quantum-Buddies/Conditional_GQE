@@ -1,0 +1,58 @@
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#EEF2FF',
+  'primaryTextColor': '#3730A3',
+  'primaryBorderColor': '#818CF8',
+  'secondaryColor': '#F0F9FF',
+  'secondaryTextColor': '#0369A1',
+  'secondaryBorderColor': '#38BDF8',
+  'tertiaryColor': '#ECFDF5',
+  'tertiaryTextColor': '#065F46',
+  'tertiaryBorderColor': '#34D399',
+  'lineColor': '#64748B',
+  'textColor': '#1E293B',
+  'background': '#FFFFFF',
+  'mainBkg': '#EEF2FF',
+  'nodeBorder': '#818CF8',
+  'clusterBkg': '#F8FAFC',
+  'clusterBorder': '#CBD5E1',
+  'titleColor': '#1E293B',
+  'edgeLabelBackground': '#FFFFFF',
+  'fontFamily': 'Inter, system-ui, -apple-system, sans-serif',
+  'fontSize': '15px'
+}}}%%
+flowchart LR
+classDef process fill:#EEF2FF,stroke:#818CF8,stroke-width:2px,color:#3730A3,rx:8,ry:8
+classDef data fill:#F0F9FF,stroke:#38BDF8,stroke-width:2px,color:#0369A1,rx:8,ry:8
+classDef output fill:#ECFDF5,stroke:#34D399,stroke-width:2px,color:#065F46,rx:8,ry:8
+classDef accent fill:#FFFBEB,stroke:#FBBF24,stroke-width:2px,color:#92400E,rx:8,ry:8
+classDef highlight fill:#F5F3FF,stroke:#A78BFA,stroke-width:2px,color:#6D28D9,rx:8,ry:8
+classDef danger fill:#FEF2F2,stroke:#F87171,stroke-width:2px,color:#991B1B,rx:8,ry:8
+classDef subtle fill:#F8FAFC,stroke:#CBD5E1,stroke-width:1.5px,color:#475569,rx:6,ry:6
+
+    subgraph Brute["Brute-Force SV (Infeasible)"]
+        SV["2⁴⁰ = 1.1×10¹²<br/>amplitudes<br/>~1 TB GPU memory<br/>→ OOM on any GPU"]
+    end
+
+    subgraph QSCI_P["QSCI (28–40q)"]
+        direction TB
+        Sample3["Sample quantum circuit<br/>→ bitstring distribution"]
+        Select["Select top-K determinants<br/>by probability (K ~ 1000)"]
+        Subspace["Build subspace Hamiltonian<br/>H_sub ∈ ℂ^(K×K)"]
+        Diag["Classical diagonalization<br/>E = eigmin(H_sub)"]
+        Sample3 --> Select --> Subspace --> Diag
+    end
+
+    subgraph FMO2_P["FMO2 (Macromolecules)"]
+        direction TB
+        Frag["Fragment molecule into<br/>monomers + dimers<br/>(8–12 qubits each)"]
+        EvalF["Evaluate each fragment<br/>on GPU or QPU"]
+        Reassemble["Reassemble parent energy:<br/>E_FMO2 = Σ E_i − Σ E_ij<br/>(pairwise correction)"]
+        Frag --> EvalF --> Reassemble
+    end
+
+    Brute -.->|"replaced by"| QSCI_P
+    Brute -.->|"replaced by"| FMO2_P
+
+    class SV danger
+    class Sample3,Select,Subspace,Diag process
+    class Frag,EvalF,Reassemble output

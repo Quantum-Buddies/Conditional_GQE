@@ -1,0 +1,52 @@
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#EEF2FF',
+  'primaryTextColor': '#3730A3',
+  'primaryBorderColor': '#818CF8',
+  'secondaryColor': '#F0F9FF',
+  'secondaryTextColor': '#0369A1',
+  'secondaryBorderColor': '#38BDF8',
+  'tertiaryColor': '#ECFDF5',
+  'tertiaryTextColor': '#065F46',
+  'tertiaryBorderColor': '#34D399',
+  'lineColor': '#64748B',
+  'textColor': '#1E293B',
+  'background': '#FFFFFF',
+  'actorBkg': '#EEF2FF',
+  'actorBorder': '#818CF8',
+  'actorTextColor': '#3730A3',
+  'actorLineColor': '#94A3B8',
+  'signalColor': '#475569',
+  'signalTextColor': '#1E293B',
+  'labelBoxBkgColor': '#F8FAFC',
+  'labelBoxBorderColor': '#CBD5E1',
+  'labelTextColor': '#475569',
+  'loopTextColor': '#475569',
+  'activationBorderColor': '#94A3B8',
+  'activationBkgColor': '#F1F5F9',
+  'sequenceNumberColor': '#FFFFFF',
+  'fontFamily': 'Inter, system-ui, -apple-system, sans-serif',
+  'fontSize': '14px'
+}}}%%
+sequenceDiagram
+    participant Policy as 🧠 Transformer Policy
+    participant Eval as ⚡ Energy Evaluator
+    participant CUDAQ as 💻 CUDA-Q Simulator
+    participant LBFGS as 🎯 L-BFGS-B Optimizer
+
+    Policy->>Eval: Generate operator seq [A₁, A₂, ..., Aₖ]
+    Eval->>Eval: Check DedupCache (MD5 hash of ops)
+    alt Cache Hit
+        Eval-->>Policy: Return cached E* (μs)
+    else Cache Miss
+        Eval->>LBFGS: Initialize θ₀ = (0.01, ..., 0.01)
+        loop Iterations 1..max_iters
+            LBFGS->>CUDAQ: observe(kernel, H, n_qubits, n_e, pauli_words, θ)
+            CUDAQ-->>LBFGS: E = ⟨ψ|H|ψ⟩
+            LBFGS->>LBFGS: Approximate inverse Hessian
+            LBFGS->>LBFGS: Line search + Wolfe conditions
+            LBFGS->>LBFGS: Update θ ← θ + Δθ
+        end
+        LBFGS-->>Eval: Return E* (optimized)
+        Eval->>Eval: Store in DedupCache
+        Eval-->>Policy: Return E* (ms–s depending on n_qubits)
+    end

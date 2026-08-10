@@ -1,0 +1,71 @@
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#EEF2FF',
+  'primaryTextColor': '#3730A3',
+  'primaryBorderColor': '#818CF8',
+  'secondaryColor': '#F0F9FF',
+  'secondaryTextColor': '#0369A1',
+  'secondaryBorderColor': '#38BDF8',
+  'tertiaryColor': '#ECFDF5',
+  'tertiaryTextColor': '#065F46',
+  'tertiaryBorderColor': '#34D399',
+  'lineColor': '#64748B',
+  'textColor': '#1E293B',
+  'background': '#FFFFFF',
+  'mainBkg': '#EEF2FF',
+  'nodeBorder': '#818CF8',
+  'clusterBkg': '#F8FAFC',
+  'clusterBorder': '#CBD5E1',
+  'titleColor': '#1E293B',
+  'edgeLabelBackground': '#FFFFFF',
+  'fontFamily': 'Inter, system-ui, -apple-system, sans-serif',
+  'fontSize': '15px'
+}}}%%
+flowchart TD
+classDef process fill:#EEF2FF,stroke:#818CF8,stroke-width:2px,color:#3730A3,rx:8,ry:8
+classDef data fill:#F0F9FF,stroke:#38BDF8,stroke-width:2px,color:#0369A1,rx:8,ry:8
+classDef output fill:#ECFDF5,stroke:#34D399,stroke-width:2px,color:#065F46,rx:8,ry:8
+classDef accent fill:#FFFBEB,stroke:#FBBF24,stroke-width:2px,color:#92400E,rx:8,ry:8
+classDef highlight fill:#F5F3FF,stroke:#A78BFA,stroke-width:2px,color:#6D28D9,rx:8,ry:8
+classDef danger fill:#FEF2F2,stroke:#F87171,stroke-width:2px,color:#991B1B,rx:8,ry:8
+classDef subtle fill:#F8FAFC,stroke:#CBD5E1,stroke-width:1.5px,color:#475569,rx:6,ry:6
+
+    subgraph Input_Layer["Input Processing"]
+        direction TB
+        Atoms["Atom Features<br/>(Z, charge, hybrid,<br/>valence, aromaticity)"]
+        Bonds["Bond Features<br/>(bond order, R_ij,<br/>conjugation)"]
+        Globals["Global Features<br/>(N_q, N_e, spin 2S+1,<br/>active space size)"]
+    end
+
+    subgraph GNN_Layer["Chemistry GNN (3-layer MPNN)"]
+        direction TB
+        MP1["Layer 1: Edge-weighted message passing<br/>h_v ← h_v + Σ σ(W·[h_w, e_vw, g])"]
+        MP2["Layer 2: Residual + LayerNorm + Dropout(0.1)"]
+        MP3["Layer 3: Residual + LayerNorm + Dropout(0.1)"]
+        MP1 --> MP2 --> MP3
+    end
+
+    subgraph Encoder_Layer["Hamiltonian Encoder (4-layer Transformer)"]
+        direction TB
+        Emb["Hamiltonian Embedding<br/>Pauli terms → token embeddings<br/>+ positional encoding"]
+        SA["Multi-Head Self-Attention (8 heads)<br/>Q,K,V from Hamiltonian tokens"]
+        FFN["Feed-Forward Network<br/>Linear → GELU → Linear<br/>+ residual + LayerNorm"]
+        Emb --> SA --> FFN
+    end
+
+    subgraph Decoder_Layer["Decoder (6-layer Transformer)"]
+        direction TB
+        TokEmb["Token Embedding<br/>Operator tokens → learned embeddings"]
+        CA["Cross-Attention (8 heads)<br/>Q from decoder, K,V from encoder"]
+        DecSA["Causal Self-Attention<br/>Autoregressive mask"]
+        DecFFN["Feed-Forward + LM Head<br/>→ softmax over operator vocab"]
+        TokEmb --> DecSA --> CA --> DecFFN
+    end
+
+    Input_Layer ==> GNN_Layer
+    GNN_Layer -.->|"soft prefix tokens"| Decoder_Layer
+    Encoder_Layer -.->|"cross-attention K,V"| Decoder_Layer
+    Input_Layer --> Encoder_Layer
+
+    class Atoms,Bonds,Globals data
+    class MP1,MP2,MP3,Emb,SA,FFN process
+    class TokEmb,CA,DecSA,DecFFN output

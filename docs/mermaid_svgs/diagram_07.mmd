@@ -1,0 +1,52 @@
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#EEF2FF',
+  'primaryTextColor': '#3730A3',
+  'primaryBorderColor': '#818CF8',
+  'secondaryColor': '#F0F9FF',
+  'secondaryTextColor': '#0369A1',
+  'secondaryBorderColor': '#38BDF8',
+  'tertiaryColor': '#ECFDF5',
+  'tertiaryTextColor': '#065F46',
+  'tertiaryBorderColor': '#34D399',
+  'lineColor': '#64748B',
+  'textColor': '#1E293B',
+  'background': '#FFFFFF',
+  'mainBkg': '#EEF2FF',
+  'nodeBorder': '#818CF8',
+  'clusterBkg': '#F8FAFC',
+  'clusterBorder': '#CBD5E1',
+  'titleColor': '#1E293B',
+  'edgeLabelBackground': '#FFFFFF',
+  'fontFamily': 'Inter, system-ui, -apple-system, sans-serif',
+  'fontSize': '15px'
+}}}%%
+flowchart LR
+classDef process fill:#EEF2FF,stroke:#818CF8,stroke-width:2px,color:#3730A3,rx:8,ry:8
+classDef data fill:#F0F9FF,stroke:#38BDF8,stroke-width:2px,color:#0369A1,rx:8,ry:8
+classDef output fill:#ECFDF5,stroke:#34D399,stroke-width:2px,color:#065F46,rx:8,ry:8
+classDef accent fill:#FFFBEB,stroke:#FBBF24,stroke-width:2px,color:#92400E,rx:8,ry:8
+classDef highlight fill:#F5F3FF,stroke:#A78BFA,stroke-width:2px,color:#6D28D9,rx:8,ry:8
+classDef danger fill:#FEF2F2,stroke:#F87171,stroke-width:2px,color:#991B1B,rx:8,ry:8
+classDef subtle fill:#F8FAFC,stroke:#CBD5E1,stroke-width:1.5px,color:#475569,rx:6,ry:6
+
+    subgraph Archive["MAP-Elites Archive — Per-Molecule Elite Library"]
+        direction TB
+        Grid["10×10 Grid<br/>Axis 1: Entanglement Density<br/>  (frac of X/Y multi-qubit ops)<br/>Axis 2: Circuit Depth<br/>  (gate count / max_seq_len)"]
+        Cell["Each Cell stores:<br/>• Best operator sequence [A₁,...,Aₖ]<br/>• Optimized angles θ*<br/>• Energy E* = ⟨ψ₀|U†HU|ψ₀⟩<br/>• Generation (epoch discovered)<br/>• Visit count"]
+        Coverage["Coverage Tracking:<br/>• λ = 1.0 when coverage < 25%<br/>• λ = 0.5 when coverage 25–50%<br/>• λ = 0.1 when coverage > 50%<br/>• λ = 0.0 when coverage > 80%"]
+        Grid --> Cell --> Coverage
+    end
+
+    subgraph Selection["Elite Selection for Replay"]
+        direction TB
+        Sample2["Sample from archive:<br/>• 60% from filled cells (energy-weighted)<br/>• 30% from empty cells (novelty-driven)<br/>• 10% random exploration"]
+        Inject["Inject into replay buffer<br/>alongside online samples"]
+        Sample2 --> Inject
+    end
+
+    Archive --> Selection
+    Selection -->|"pretrain mixing"| Buffer["Replay Buffer"]
+
+    class Grid,Cell,Coverage process
+    class Sample2,Inject output
+    class Buffer accent

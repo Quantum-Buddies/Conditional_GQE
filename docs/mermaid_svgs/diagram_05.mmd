@@ -1,0 +1,62 @@
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#EEF2FF',
+  'primaryTextColor': '#3730A3',
+  'primaryBorderColor': '#818CF8',
+  'secondaryColor': '#F0F9FF',
+  'secondaryTextColor': '#0369A1',
+  'secondaryBorderColor': '#38BDF8',
+  'tertiaryColor': '#ECFDF5',
+  'tertiaryTextColor': '#065F46',
+  'tertiaryBorderColor': '#34D399',
+  'lineColor': '#64748B',
+  'textColor': '#1E293B',
+  'background': '#FFFFFF',
+  'mainBkg': '#EEF2FF',
+  'nodeBorder': '#818CF8',
+  'clusterBkg': '#F8FAFC',
+  'clusterBorder': '#CBD5E1',
+  'titleColor': '#1E293B',
+  'edgeLabelBackground': '#FFFFFF',
+  'fontFamily': 'Inter, system-ui, -apple-system, sans-serif',
+  'fontSize': '15px'
+}}}%%
+flowchart LR
+classDef process fill:#EEF2FF,stroke:#818CF8,stroke-width:2px,color:#3730A3,rx:8,ry:8
+classDef data fill:#F0F9FF,stroke:#38BDF8,stroke-width:2px,color:#0369A1,rx:8,ry:8
+classDef output fill:#ECFDF5,stroke:#34D399,stroke-width:2px,color:#065F46,rx:8,ry:8
+classDef accent fill:#FFFBEB,stroke:#FBBF24,stroke-width:2px,color:#92400E,rx:8,ry:8
+classDef highlight fill:#F5F3FF,stroke:#A78BFA,stroke-width:2px,color:#6D28D9,rx:8,ry:8
+classDef danger fill:#FEF2F2,stroke:#F87171,stroke-width:2px,color:#991B1B,rx:8,ry:8
+classDef subtle fill:#F8FAFC,stroke:#CBD5E1,stroke-width:1.5px,color:#475569,rx:6,ry:6
+
+    subgraph Graph["Molecular Graph Input"]
+        direction TB
+        N["Nodes (Atoms)<br/>• Atomic number Z<br/>• Hybridization (sp/sp²/sp³)<br/>• Formal charge<br/>• Valence electrons<br/>• Aromaticity flag"]
+        E["Edges (Bonds)<br/>• Bond order (1/2/3)<br/>• 3D distance R_ij (Å)<br/>• Conjugation<br/>• Ring membership"]
+        G["Globals<br/>• N_q (qubit count)<br/>• N_e (electron count)<br/>• Spin 2S+1<br/>• Active space (n_occ, n_virt)"]
+    end
+
+    subgraph MPNN["Edge-Aware Message Passing (3 layers)"]
+        direction TB
+        H0["h_v⁽⁰⁾ = Linear(node_feat)<br/>e_vw⁽⁰⁾ = Linear(edge_feat)<br/>g⁽⁰⁾ = Linear(global_feat)"]
+        H1["Layer ℓ+1:<br/>h_v⁽ℓ⁺¹⁾ = h_v⁽ℓ⁾ + Σ σ(W·[h_w⁽ℓ⁾, e_vw⁽ℓ⁾, g⁽ℓ⁾])<br/>+ LayerNorm + Dropout(0.1)"]
+        H2["Layer ℓ+2: same structure"]
+        H3["Layer ℓ+3: same structure"]
+        H0 --> H1 --> H2 --> H3
+    end
+
+    subgraph Readout["Graph Readout → Conditioning"]
+        direction TB
+        Pool["Pooled = concat[mean(h_v), max(h_v),<br/>sum(h_v), g_final]<br/>→ Linear → GELU → Dropout<br/>→ Linear → latent_dim=128"]
+        Norm["LayerNorm(latent)"]
+        Proj["Prefix Projection:<br/>Linear(128→128) → GELU<br/>→ Linear(128→128) → LayerNorm<br/>→ Soft Prompt Tokens"]
+        Pool --> Norm --> Proj
+    end
+
+    Graph ==> MPNN ==> Readout
+    Proj -->|"prefix conditioning"| Decoder["Operator Pool Decoder"]
+
+    class N,E,G data
+    class H0,H1,H2,H3 process
+    class Pool,Norm,Proj output
+    class Decoder accent
