@@ -11,7 +11,7 @@ Per the physicist's excellent question, we evaluated whether the fixed-theta ($\
 
 ## Results
 - **Spearman Rank Correlation**: 0.2270 (p-value: 0.416)
-- **Finding**: The proxy energies for almost all circuits evaluated to exactly `-7078.008313 Ha` (Hartree-Fock baseline), with variations only at the 11th decimal place. 
+- **Finding**: The proxy energies for almost all circuits evaluated to exactly `-7078.008313 Ha` (Hartree-Fock baseline), with variations only at the 11th decimal place.
 - However, after full L-BFGS-B optimization, the energies varied significantly (from `-7078.001 Ha` down to `-7078.009 Ha`, a spread of ~8 mHa).
 
 ## Conclusion

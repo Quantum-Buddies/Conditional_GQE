@@ -1,3 +1,6 @@
+> [!NOTE]
+> Internal session log kept for provenance — not polished documentation. See README.md / docs/ for curated docs.
+
 # RL checkpoint optimization
 _Exported on 7/26/2026 at 04:06:57 GMT+1 from Cursor (3.10.5)_
 
@@ -1079,7 +1082,7 @@ The retrieval script has a bug — it says COMPLETED but doesn't save results. L
 
 Works without provider arg. Let me fix the script:
 
-Now fix all calls to [retrieve_job_counts](cci:1://file:///scratch/kcwp264/Conditional-GQE_materials/scripts/retrieve_and_sqd.py:32:0-49:19) to not pass provider:
+Now fix all calls to [retrieve_job_counts](cci:1://`/scratch/kcwp264/Conditional-GQE_materials/scripts/retrieve_and_sqd.py:32:0-49:19`) to not pass provider:
 
 Now run both retrievals — SV1 simulator and Cepheus QPU:
 

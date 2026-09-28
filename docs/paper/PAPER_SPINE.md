@@ -1,7 +1,7 @@
 # Paper spine — H-cGQE on SnO and labelled-ours tin ligands
 
-**Date:** 22 August 2026  
-**Repo:** `Conditional-GQE_materials`  
+**Date:** 22 August 2026
+**Repo:** `Conditional-GQE_materials`
 **This is an independent paper experiment.** GIC 2026 is closed; C-GQE did not win or place (50% QWC discount only). Do not invent a Mitsubishi/AIST 20–40q rubric or a public score sheet.
 
 Writing draft: [`manuscript.md`](manuscript.md). Locked numbers: [`results_ledger.json`](results_ledger.json). Figures: `results/generalization/fig1_sno14q_de_vs_casci.{png,pdf}` and `results/tin_ab/methyltin_ours/fig_inform_*.png`.

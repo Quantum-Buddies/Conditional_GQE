@@ -48,7 +48,7 @@ Each qubit represents one spin-orbital. The quantum state lives in a 2ⁿ-dimens
 
 **Analogy**: Think of it like a language model generating a sentence, but instead of words, it generates quantum gate operations. The "grammar" it learns is which gate sequences produce low-energy quantum states.
 
-```
+```text
 Traditional VQE:  Human picks circuit → Quantum computer optimizes angles → Energy
 Our GQE:          AI generates circuit → Quantum computer measures energy → AI learns
 ```
@@ -66,7 +66,7 @@ A **Transformer encoder-decoder** (similar architecture to GPT-2 but with cross-
 - **Size**: ~7.8 million parameters (small but specialized)
 - **Vocabulary**: UCCSD fermionic excitation operators (e.g., XYYX, YXXY, IZIZ)
 
-```
+```text
 Input:  H₂ Hamiltonian (15 Pauli terms + coefficients)
          ↓ [Encoder: 4 layers, 256-dim, 8 heads]
          ↓ [Cross-attention]

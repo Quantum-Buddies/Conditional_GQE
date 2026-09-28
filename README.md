@@ -1,68 +1,29 @@
----
-language: en
-license: mit
-library_name: pytorch
-tags:
-- quantum-computing
-- generative-quantum-eigensolver
-- reinforcement-learning
-- cuda-q
-- quantum-chemistry
-- circuit-design
-- GQE
-- DAPO
-- MAP-Elites
-- QSCI
-- FMO2
-- GIC2026
-datasets:
-- custom
-base_model: Ryukijano/h-cgqe-gic2026
-metrics:
-- energy-error
-- chemical-accuracy
-model-index:
-- name: H-cGQE (Conditional-GQE)
-  results:
-  - task:
-      type: quantum-ground-state
-      name: Ground State Energy Estimation
-    dataset:
-      type: custom
-      name: GIC 2026 Molecule Suite
-    metrics:
-      - type: energy-error
-        value: 0.63
-        name: CH3I Error (mHa)
-      - type: energy-error
-        value: 1.48
-        name: H2 GPU-Simulator Gap (mHa)
----
+<h1 align="center">⚛️ Conditional-GQE (H-cGQE)</h1>
 
 <p align="center">
-  <h1 align="center">⚛️ Conditional-GQE (H-cGQE)</h1>
-  <p align="center">
-    <strong>AI-Driven Generative Quantum Circuit Design for Molecular & Materials Discovery</strong><br>
-    <em>Generative AI × Reinforcement Learning × CUDA-Q × Quantum Hardware</em>
-  </p>
-  <p align="center">
-    <strong>Mitsubishi Chemical Group & AIST Quantum Challenge (GIC 2026)</strong>
-  </p>
-  <p align="center">
-    <a href="https://github.com/Quantum-Buddies/Conditional_GQE/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-    <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.11+-blue.svg" alt="Python"></a>
-    <a href="https://pytorch.org/"><img src="https://img.shields.io/badge/PyTorch-2.7+-red.svg" alt="PyTorch"></a>
-    <a href="https://nvidia.github.io/cuda-quantum/"><img src="https://img.shields.io/badge/CUDA--Q-%3E%3D0.10-green.svg" alt="CUDA-Q"></a>
-    <a href="https://huggingface.co/Ryukijano/h-cgqe-gic2026"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Model%20Card-yellow.svg" alt="Hugging Face"></a>
-    <a href="https://account.qbraid.com?gitHubUrl=https://github.com/Quantum-Buddies/Conditional_GQE.git"><img src="https://qbraid-static.s3.amazonaws.com/logos/Launch_on_qBraid_white.png" alt="Launch on qBraid" height="20"></a>
-  </p>
+  <strong>AI-Driven Generative Quantum Circuit Design for Molecular & Materials Discovery</strong><br>
+  <em>Generative AI × Reinforcement Learning × CUDA-Q × Quantum Hardware</em>
+</p>
+
+<p align="center">
+  <strong>Mitsubishi Chemical Group & AIST Quantum Challenge (GIC 2026)</strong><br>
+  Phase 3 finalist — 50% QWC ticket discount
+</p>
+
+<p align="center">
+  <a href="https://github.com/Quantum-Buddies/Conditional_GQE/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.11+-blue.svg" alt="Python"></a>
+  <a href="https://pytorch.org/"><img src="https://img.shields.io/badge/PyTorch-2.7+-red.svg" alt="PyTorch"></a>
+  <a href="https://nvidia.github.io/cuda-quantum/"><img src="https://img.shields.io/badge/CUDA--Q-%3E%3D0.10-green.svg" alt="CUDA-Q"></a>
+  <a href="https://huggingface.co/Ryukijano/h-cgqe-gic2026"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Model%20Card-yellow.svg" alt="Hugging Face"></a>
+  <a href="https://account.qbraid.com?gitHubUrl=https://github.com/Quantum-Buddies/Conditional_GQE.git"><img src="https://qbraid-static.s3.amazonaws.com/logos/Launch_on_qBraid_white.png" alt="Launch on qBraid" height="20"></a>
 </p>
 
 <p align="center">
   <img src="docs/gic2026_journey_loop.gif" alt="H-cGQE GIC 2026 Journey" width="800">
 </p>
 
-### 🎬 Animated Visual Overview
+## 🎬 Animated Visual Overview
 
 <table align="center" border="0" cellpadding="8">
   <tr>
@@ -87,9 +48,9 @@ model-index:
 
 ## 🌟 Executive Summary
 
-**Conditional-GQE (H-cGQE)** is an artificial intelligence framework that **automatically designs quantum computing circuits** for chemistry and materials science. 
+**Conditional-GQE (H-cGQE)** is an artificial intelligence framework that **automatically designs quantum computing circuits** for chemistry and materials science.
 
-Traditional Quantum Virtual Eigensolvers (VQEs) rely on manual, human-designed quantum circuits that are either too deep for real quantum hardware or get trapped in mathematical dead-ends called **barren plateaus** and **diagonal collapse**. 
+Traditional Quantum Virtual Eigensolvers (VQEs) rely on manual, human-designed quantum circuits that are either too deep for real quantum hardware or get trapped in mathematical dead-ends called **barren plateaus** and **diagonal collapse**.
 
 H-cGQE pairs a **Chemical Graph Neural Network (GNN)** and a **Transformer** with **Quality-Diversity Reinforcement Learning (QD-GRPO)** to amortize ansatz design: conditioned on molecular structure and the electronic Hamiltonian, the model proposes compact operator sequences whose continuous angles are refined classically (L-BFGS-B). The goal is chemical accuracy ($\le 1.6 \text{ mHa}$) within stated active spaces on simulators, with selective hardware checks.
 

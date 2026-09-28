@@ -26,7 +26,7 @@ Training uses supervised fine-tuning followed by **DAPO** (Decoupled Clip + Dyna
 
 ### Pipeline Architecture
 
-```
+```text
 Molecular Hamiltonian (OpenFermion + PySCF)
          │
          ▼
@@ -408,7 +408,7 @@ python scripts/plot_phase3_report_figures.py
 
 ## Source Code Organization
 
-```
+```text
 Conditional_GQE/
 ├── src/gqe/
 │   ├── models/                    # H-cGQE transformer + training

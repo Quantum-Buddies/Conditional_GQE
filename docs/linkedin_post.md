@@ -33,8 +33,8 @@ Small model. Big chemistry. Real hardware.
 
 Whatever the final outcome, going from a concept doc to circuits running on superconducting and trapped-ion qubits in five months is a milestone we're proud of.
 
-🔗 Code: github.com/Quantum-Buddies/Conditional_GQE
-🔗 Model: huggingface.co/Ryukijano/h-cgqe-gic2026
+🔗 Code: [github.com/Quantum-Buddies/Conditional_GQE](https://github.com/Quantum-Buddies/Conditional_GQE)
+🔗 Model: [huggingface.co/Ryukijano/h-cgqe-gic2026](https://huggingface.co/Ryukijano/h-cgqe-gic2026)
 
 #QuantumComputing #GenerativeAI #QuantumChemistry #GIC2026 #CUDAQ #qBraid #Ryoushi
 

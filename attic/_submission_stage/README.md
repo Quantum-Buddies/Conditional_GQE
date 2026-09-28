@@ -1,3 +1,6 @@
+> [!NOTE]
+> Internal session log kept for provenance — not polished documentation. See README.md / docs/ for curated docs.
+
 <p align="center">
   <h1 align="center">⚛️ Conditional-GQE (H-cGQE)</h1>
   <p align="center">

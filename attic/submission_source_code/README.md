@@ -1,3 +1,6 @@
+> [!NOTE]
+> Internal session log kept for provenance — not polished documentation. See README.md / docs/ for curated docs.
+
 # Quantum-Buddies | H-cGQE: Hierarchical Conditional Generative Quantum Eigensolver
 
 **Team Name:** Quantum-Buddies  

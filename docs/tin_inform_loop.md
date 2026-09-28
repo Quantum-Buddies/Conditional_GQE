@@ -4,7 +4,7 @@ One page for the **labelled-ours** organotin materials-informatics cycle on AIRE
 
 GQE does **not** propose molecules. The closed loop is:
 
-```
+```text
                     ┌──────────────────────────────────────────┐
   templates/pool    │                                          │
   R on RSn(OH)3 ──► propose ──► score (B3LYP ΔBDE, IP) ──► pick
@@ -58,8 +58,8 @@ Lexicographic order on **scored** ligands:
 2. **Adiabatic IP** (eV), smaller first (easier to ionise).
 3. **Atomic 13.5 nm proxy**: Henke imaginary form factor \(f_2\) sum at 91.84 eV (CXRO tables). Marker size / third bar only. **Not** a many-body absorption spectrum and **not** an IMePh 92 eV resource estimate.
 
-If **≥ 3** scored rows have ΔBDE, IP, and BDE\(_0\), fit a **numpy-only** RBF GP (no sklearn) on fingerprint  
-`[n_C, n_F, is_aryl, is_alkenyl, adiabatic_IP, BDE0] → ΔBDE`.  
+If **≥ 3** scored rows have ΔBDE, IP, and BDE\(_0\), fit a **numpy-only** RBF GP (no sklearn) on fingerprint
+`[n_C, n_F, is_aryl, is_alkenyl, adiabatic_IP, BDE0] → ΔBDE`.
 Next ligand = max **expected improvement**. If the GP is shaky (LOO \(R^2<0.1\), underdetermined 6-D, class-wide IP/BDE\(_0\) imputation, flat EI, failed Cholesky), **do not trust EI**:
 
 - **CF3** if electron-withdrawing is untested (`n_F=0` on all scored rows);

@@ -1,8 +1,7 @@
 # GIC 2026 Phase 3 — Final Submission Plan
 
 **Deadline**: July 26, 2026 11:59 PM EDT = **July 27, 4:59 AM BST (Leeds)**
-**Current time**: July 26, 4:46 AM BST
-**Time remaining**: ~24 hours
+**Plan snapshot**: July 26, 4:46 AM BST (~24 hours remaining)
 
 ---
 

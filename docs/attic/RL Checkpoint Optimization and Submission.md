@@ -1,8 +1,11 @@
+> [!NOTE]
+> Internal session log kept for provenance — not polished documentation. See README.md / docs/ for curated docs.
+
 # Cascade Chat Conversation
 
   Note: _This is purely the output of the chat conversation and does not contain any raw data, codebase snippets, etc. used to generate the output._
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### User Input
 
@@ -701,7 +704,7 @@ The checkpoint at epoch 20 is already saved and usable. The model has been train
 2. **Kill at epoch ~25-30** — gets some large-molecule training while keeping the checkpoint usable, saves ~10h
 3. **Kill now, use epoch-20 checkpoint** — the model already has good circuits for 4–14q molecules; the post-RL pipeline can start immediately
 
-The epoch-20 checkpoint has `metrics.best_energies` inside it, so `extract_best_circuits.py` can pull the best circuit per molecule from that. The MAP-Elites archives won't be saved until training ends (they're in [save_all()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/rl/map_elites.py:754:4-760:30) at the end), but the checkpoint's `metrics.train_log` has per-epoch best energies.
+The epoch-20 checkpoint has `metrics.best_energies` inside it, so `extract_best_circuits.py` can pull the best circuit per molecule from that. The MAP-Elites archives won't be saved until training ends (they're in `save_all()` at the end), but the checkpoint's `metrics.train_log` has per-epoch best energies.
 
 Want me to proceed with building the extraction script to work with the epoch-20 checkpoint (reading `metrics.best_energies` from the `.pt` file), or should we wait for training to progress further?
 
@@ -840,10 +843,10 @@ E_min has been stuck at -7187.007 for 11 epochs. The model converged on the best
 The rolling checkpoint at `results/train/h_cgqe_model_qbraid_rl.pt` is already saved with epoch 24's state. One more epoch gets you to 25/50 (halfway), which is a clean stopping point. Then:
 
 1. **Kill the job** after epoch 25 completes
-2. **MAP-Elites archives won't be saved** (they're only written at the end of training in [save_all()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/rl/map_elites.py:754:4-760:30)) — but the checkpoint has `metrics.best_energies` which tracks the best energy per molecule
+2. **MAP-Elites archives won't be saved** (they're only written at the end of training in `save_all()`) — but the checkpoint has `metrics.best_energies` which tracks the best energy per molecule
 3. **Start the post-RL pipeline immediately** with the epoch-25 checkpoint
 
-The extraction script will need to handle the case where MAP-Elites archives don't exist (training was killed before [save_all()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/rl/map_elites.py:754:4-760:30)). In that case, it falls back to:
+The extraction script will need to handle the case where MAP-Elites archives don't exist (training was killed before `save_all()`). In that case, it falls back to:
 - `metrics.best_energies` from the checkpoint (has per-molecule best energy)
 - Re-sampling from the RL-tuned model to regenerate the actual circuits
 
@@ -860,35 +863,35 @@ Want me to kill the job after epoch 25 and start building `extract_best_circuits
 
 MAP-Elites is a **Quality-Diversity** algorithm. Instead of keeping just the single best solution, it maintains a **grid of elite solutions** binned by behavioral features.
 
-From [src/gqe/rl/map_elites.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/rl/map_elites.py:0:0-0:0):
+From `src/gqe/rl/map_elites.py`:
 
 - **2D grid** per molecule, indexed by:
   - **Entanglement density** (fraction of entangling gates in the circuit)
   - **Circuit depth** (normalized)
 - Each cell stores the **lowest-energy circuit** found for that (entanglement, depth) combination
-- During RL training, every sampled circuit gets [insert()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/rl/map_elites.py:413:4-470:9)-ed — if it's better than what's currently in that cell, it replaces it
+- During RL training, every sampled circuit gets `insert()`-ed — if it's better than what's currently in that cell, it replaces it
 - The archive encourages **diversity** (novel circuits get a bonus) while still tracking **quality** (lowest energy per cell)
 
 The log shows `QD=22(33%)` meaning 22 of ~66 cells are filled across all molecule archives.
 
 ## The Problem
 
-[save_all()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/rl/map_elites.py:754:4-760:30) is only called **at the very end of training** (line 2806 in [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0)). If we kill the job, the archives are **lost** — they exist only in RAM.
+`save_all()` is only called **at the very end of training** (line 2806 in `train_rl_dapo.py`). If we kill the job, the archives are **lost** — they exist only in RAM.
 
 ## How to Recover Them Later
 
 Three options, in order of preference:
 
 **1. Add a periodic save to the training script** (best, but requires modifying running job)
-- Add [map_elites.save_all(archive_dir)](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/rl/map_elites.py:754:4-760:30) inside the epoch loop — e.g., every 5 epochs
-- Would need to edit [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0) and the running job would need a restart to pick it up
+- Add `map_elites.save_all(archive_dir)` inside the epoch loop — e.g., every 5 epochs
+- Would need to edit `train_rl_dapo.py` and the running job would need a restart to pick it up
 
 **2. Re-generate archives from the checkpoint** (post-hoc)
 - Load the RL checkpoint
 - Sample N circuits per molecule (e.g., 1000)
 - Evaluate energies (using the same CUDA-Q `observe()`)
-- Insert each into a fresh [MAPElitesArchive](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/rl/map_elites.py:358:0-658:50)
-- Call [save_all()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/rl/map_elites.py:754:4-760:30)
+- Insert each into a fresh `MAPElitesArchive`
+- Call `save_all()`
 - This is essentially what `extract_best_circuits.py` will do anyway — we just also populate the archive as a side effect
 
 **3. Skip MAP-Elites entirely**
@@ -988,7 +991,7 @@ Want me to proceed with building `extract_best_circuits.py` using option 3 (re-s
 
 ### Planner Response
 
-Good — epoch-24 checkpoint extracted, MAP-Elites rebuilt (32 molecules, 708 elites), best circuits JSON written, and everything pushed to [main](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:1337:0-2826:40) as commit `56138a5`.
+Good — epoch-24 checkpoint extracted, MAP-Elites rebuilt (32 molecules, 708 elites), best circuits JSON written, and everything pushed to `main` as commit `56138a5`.
 
 Let me check the current state and proceed with the remaining pipeline tasks.
 
@@ -1012,7 +1015,7 @@ Detached HEAD with local modifications. Let me check the diffs, then safely pull
 
 ### Planner Response
 
-Local staged changes to [train_rl.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/train_rl.sh:0:0-0:0) and [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0) from the RL training session. I'll stash them, switch to [main](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:1337:0-2826:40), pull, then reapply.
+Local staged changes to `train_rl.sh` and `train_rl_dapo.py` from the RL training session. I'll stash them, switch to `main`, pull, then reapply.
 
 *User accepted the command `git stash push -m "local RL training tweaks (train_rl.sh, train_rl_dapo.py)" -- scripts/train_rl.sh src/gqe/models/train_rl_dapo.py 2>&1`*
 
@@ -1022,7 +1025,7 @@ Local staged changes to [train_rl.sh](file:///scratch/kcwp264/Conditional-GQE_ma
 
 ### Planner Response
 
-Local [main](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:1337:0-2826:40) has 1 commit ahead, `origin/main` has 5 ahead. I'll rebase local onto origin to get all the new commits (including the extraction script).
+Local `main` has 1 commit ahead, `origin/main` has 5 ahead. I'll rebase local onto origin to get all the new commits (including the extraction script).
 
 *User accepted the command `git pull --rebase origin main 2>&1`*
 
@@ -1093,21 +1096,21 @@ Repo is clean and up to date with `origin/main` at `56138a5`. Summary:
 
 Now proceeding to task 2: `scripts/build_gic_benchmark.py`. Let me read the existing evaluation scripts to understand the expected data formats.
 
-*Viewed [extract_best_circuits.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/extract_best_circuits.py) *
+*Viewed `extract_best_circuits.py` *
 
-*Viewed [evaluate_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/evaluate_h_cgqe.py) *
+*Viewed `evaluate_h_cgqe.py` *
 
-*Viewed [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py) *
+*Viewed `submit_qpu.py` *
 
 ### Planner Response
 
 Let me check the existing benchmark/baseline formats and the masterplan to understand the expected inputs/outputs for `build_gic_benchmark.py`.
 
-*Viewed [post-rl-pipeline-masterplan-3a6557.md](file:///users/kcwp264/.windsurf/plans/post-rl-pipeline-masterplan-3a6557.md) *
+*Viewed `post-rl-pipeline-masterplan-3a6557.md` *
 
 *User accepted the command `ls results/baselines/ 2>/dev/null; ls results/eval/ 2>/dev/null; ls results/inference/ 2>/dev/null; echo '==='; find results/ -name '*.json' -maxdepth 2 2>/dev/null | head -20`*
 
-*Viewed [post-rl-pipeline-masterplan-3a6557.md](file:///users/kcwp264/.windsurf/plans/post-rl-pipeline-masterplan-3a6557.md) *
+*Viewed `post-rl-pipeline-masterplan-3a6557.md` *
 
 *User accepted the command `python3 -c "
 import json
@@ -1349,11 +1352,11 @@ Now let me check existing report generation scripts for reference:
 
 *User accepted the command `ls scripts/generate_*report* scripts/generate_*pdf* scripts/generate_*submission* 2>/dev/null; echo '==='; ls scripts/phase3_eval/ 2>/dev/null; echo '==='; ls scripts/plot_* 2>/dev/null`*
 
-*Viewed [generate_phase3_pdf.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/generate_phase3_pdf.py) *
+*Viewed `generate_phase3_pdf.py` *
 
-*Viewed [plot_gic2026_scaling.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/plot_gic2026_scaling.py) *
+*Viewed `plot_gic2026_scaling.py` *
 
-*Viewed [generate_phase3_pdf.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/generate_phase3_pdf.py) *
+*Viewed `generate_phase3_pdf.py` *
 
 ### Planner Response
 
@@ -1369,7 +1372,7 @@ Good, I have a solid reference. Now let me create the GIC submission PDF generat
   --archive-dir results/train/h_cgqe_model_qbraid_rl_map_elites \
   --out proposals/GIC2026_Submission.pdf 2>&1`*
 
-*Viewed [generate_gic_submission.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/generate_gic_submission.py) *
+*Viewed `generate_gic_submission.py` *
 
 ### User Input
 
@@ -1469,7 +1472,7 @@ Let me test the orchestrator (benchmark + plot + pdf phases, skipping extract si
 
 Still 4 pages. The page 3 content (discussion + innovations + NISQ + future work + references) is too much. Let me tighten the text:
 
-*Viewed [generate_gic_submission.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/generate_gic_submission.py) *
+*Viewed `generate_gic_submission.py` *
 
 ### Planner Response
 
@@ -1511,16 +1514,16 @@ All 5 tasks complete. Here's the summary:
 
 ### New Scripts
 
-- **[scripts/build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py:0:0-0:0)** — Merges RL best circuits, checkpoint metrics, GQE baseline, QPU/simulator results, and Hamiltonian references into a consolidated JSON + CSV. Computes error vs FCI (mHa), chemical accuracy flags, improvement over GQE, QPU-GPU delta, and generalization stats (seen vs unseen).
+- **`scripts/build_gic_benchmark.py`** — Merges RL best circuits, checkpoint metrics, GQE baseline, QPU/simulator results, and Hamiltonian references into a consolidated JSON + CSV. Computes error vs FCI (mHa), chemical accuracy flags, improvement over GQE, QPU-GPU delta, and generalization stats (seen vs unseen).
 
-- **[scripts/generate_gic_submission.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/generate_gic_submission.py:0:0-0:0)** — Generates a 3-page GIC 2026 submission PDF with:
+- **`scripts/generate_gic_submission.py`** — Generates a 3-page GIC 2026 submission PDF with:
   - Page 1: Architecture, training pipeline, MAP-Elites description
   - Page 2: Benchmark table, scaling analysis, QPU validation, figures
   - Page 3: Discussion, key innovations, NISQ limitations, future work, references
 
-- **[scripts/plot_qpu_vs_gpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/plot_qpu_vs_gpu.py:0:0-0:0)** — Generates 3 figures: QPU vs GPU bar chart, scaling error scatter (log scale), and per-molecule error distribution.
+- **`scripts/plot_qpu_vs_gpu.py`** — Generates 3 figures: QPU vs GPU bar chart, scaling error scatter (log scale), and per-molecule error distribution.
 
-- **[scripts/run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:0:0-0:0)** — Orchestrator with phases: `extract`, `benchmark`, `plot`, `pdf`, `qpu`. Supports `all` (default) and individual phase selection.
+- **`scripts/run_post_rl_pipeline.sh`** — Orchestrator with phases: `extract`, `benchmark`, `plot`, `pdf`, `qpu`. Supports `all` (default) and individual phase selection.
 
 ### Outputs
 
@@ -1606,17 +1609,17 @@ For consulting on quantum chemistry + code like H-cGQE: **GPT-5.6 Sol** is the b
 
 [web](use web search tool) understand what we have done so far and then make a masterplan of what needs to be checked and done for getting the rigorous pipeline and something that scientifically make sense for this project
 
-*Listed directory [plans](file:///users/kcwp264/.windsurf/plans) *
+*Listed directory `plans` *
 
-*Viewed [post-rl-pipeline-masterplan-3a6557.md](file:///users/kcwp264/.windsurf/plans/post-rl-pipeline-masterplan-3a6557.md) *
+*Viewed `post-rl-pipeline-masterplan-3a6557.md` *
 
-*Viewed [post-rl-pipeline-masterplan-3a6557.md](file:///users/kcwp264/.windsurf/plans/post-rl-pipeline-masterplan-3a6557.md) *
+*Viewed `post-rl-pipeline-masterplan-3a6557.md` *
 
 *User accepted the command `git log -n 5 --oneline`*
 
 *User accepted the command `ls -l scripts/`*
 
-*Viewed [AGENTS.md](file:///scratch/kcwp264/Conditional-GQE_materials/AGENTS.md) *
+*Viewed `AGENTS.md` *
 
 *Asked user a question*
 
@@ -1721,7 +1724,7 @@ im talkng about research that we used for the whole architecture from RL to FMO 
 
  go through all the links in the text /scratch/kcwp264/Conditional-GQE_materials/docs/GIC Submission PDF Generation.md  im talkng about research that we used for the whole architecture from RL to FMO and everything else [web](use web search tool) use the web and do multiple searches if need be
 
-*Viewed [GIC%20Submission%20PDF%20Generation.md](file:///scratch/kcwp264/Conditional-GQE_materials/docs/GIC%20Submission%20PDF%20Generation.md) *
+*Viewed `GIC%20Submission%20PDF%20Generation.md` *
 
 *User accepted the command `wc -l "/scratch/kcwp264/Conditional-GQE_materials/docs/GIC Submission PDF Generation.md"`*
 
@@ -1834,7 +1837,7 @@ Everything from the AI generation step down to the quantum evaluation and SQD po
 
 *Searched web for hybrid quantum-HPC workflow orchestration best practices asynchronous job management 2026*
 
-*Listed directory [Conditional-GQE_materials](file:///scratch/kcwp264/Conditional-GQE_materials) *
+*Listed directory `Conditional-GQE_materials` *
 
 *User accepted the command `ls -a tests/ && echo "--- .github ---" && ls -a .github 2>/dev/null || echo "NO .github"; echo "--- configs ---"; ls configs/; echo "--- root py ---"; ls *.py 2>/dev/null; echo "--- pyproject/setup ---"; ls pyproject.toml setup.py setup.cfg 2>/dev/null || echo "NONE"`*
 
@@ -1870,12 +1873,12 @@ Engineering plan drafted and rescoped to your choice: `@/users/kcwp264/.windsurf
 
 I scanned the repo before planning. The chemistry is solid, but the software engineering has real gaps:
 
-- **No packaging** — no `pyproject.toml`, code depends on [sys.path.insert(0, '.')](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/rl/map_elites.py:413:4-470:9)
+- **No packaging** — no `pyproject.toml`, code depends on `sys.path.insert(0, '.')`
 - **No CI** — `.github/` doesn't exist
-- **3 tests for a ~57-file [src/](file:///scratch/kcwp264/Conditional-GQE_materials/src:0:0-0:0) tree** — and none cover the SQD/QWC math
+- **3 tests for a ~57-file `src/` tree** — and none cover the SQD/QWC math
 - **~950 KB of committed chat transcripts** (`Optimize RL Training on 1x B200.md` at 367 KB, `docs/GIC Submission PDF Generation.md` at 576 KB)
 - **15 loose `.py` files at root**, including 4 near-duplicate `benchmark_mps*.py` and two stray `test_*.py`
-- **Unpinned deps** — [requirements.txt](file:///scratch/kcwp264/Conditional-GQE_materials/requirements.txt:0:0-0:0) is 389 B with no versions
+- **Unpinned deps** — `requirements.txt` is 389 B with no versions
 
 # What We're Building Now
 
@@ -1988,15 +1991,15 @@ The following is a comprehensive list of all papers, frameworks, and articles co
 
 *Found code context*
 
-*Viewed [run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh) *
+*Viewed `run_post_rl_pipeline.sh` *
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
-*Viewed [test_qd_correctness.py](file:///scratch/kcwp264/Conditional-GQE_materials/tests/test_qd_correctness.py) *
+*Viewed `test_qd_correctness.py` *
 
-*Viewed [qpu_preflight.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/qpu_preflight.py) *
+*Viewed `qpu_preflight.py` *
 
-*Viewed [collect_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/collect_qpu.py) *
+*Viewed `collect_qpu.py` *
 
 *Searched filesystem*
 
@@ -2022,7 +2025,7 @@ PY`*
 
 *Grep searched codebase*
 
-*Viewed [generate_hamiltonians.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/data/generate_hamiltonians.py) *
+*Viewed `generate_hamiltonians.py` *
 
 *Searched web for QSCI projected Hamiltonian from qubit Pauli operators computational basis hardware agnostic implementation*
 
@@ -2060,15 +2063,15 @@ PY`*
 
 *Asked user a question*
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
 *Grep searched codebase*
 
-*Viewed [requirements.txt](file:///scratch/kcwp264/Conditional-GQE_materials/requirements.txt) *
+*Viewed `requirements.txt` *
 
-*Viewed [environment-qbraid.yml](file:///scratch/kcwp264/Conditional-GQE_materials/environment-qbraid.yml) *
+*Viewed `environment-qbraid.yml` *
 
-*Viewed [requirements-qbraid.txt](file:///scratch/kcwp264/Conditional-GQE_materials/requirements-qbraid.txt) *
+*Viewed `requirements-qbraid.txt` *
 
 *User accepted the command `git status --short && git branch --show-current`*
 
@@ -2090,7 +2093,7 @@ PY`*
 
 *Edited relevant file*
 
-*Viewed [rigorous-nisq-dual-path-implementation-a57073.md](file:///users/kcwp264/.windsurf/plans/rigorous-nisq-dual-path-implementation-a57073.md) *
+*Viewed `rigorous-nisq-dual-path-implementation-a57073.md` *
 
 ### Planner Response
 
@@ -2118,7 +2121,7 @@ The implementation order and acceptance tests are defined at `@/users/kcwp264/.w
 
 I followed your stored preferences for planning first, using `cudaq-env`, and avoiding paid QPU operations until preflight validation. **Status: plan complete; no repository code has been modified yet. Confirm the plan to begin implementation.**
 
-*Viewed [rigorous-nisq-dual-path-implementation-a57073.md](file:///users/kcwp264/.windsurf/plans/rigorous-nisq-dual-path-implementation-a57073.md) *
+*Viewed `rigorous-nisq-dual-path-implementation-a57073.md` *
 
 ### User Input
 
@@ -2666,39 +2669,39 @@ With 13,403 credits, we can afford ~65 tasks at the AWS rate — plenty for H2/L
 
 AWS route confirmed. Let me read the masterplan and existing code structure to begin implementation.
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
-*Viewed [run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh) *
+*Viewed `run_post_rl_pipeline.sh` *
 
-*Viewed [collect_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/collect_qpu.py) *
+*Viewed `collect_qpu.py` *
 
-*Listed directory [Conditional-GQE_materials](file:///scratch/kcwp264/Conditional-GQE_materials) *
+*Listed directory `Conditional-GQE_materials` *
 
-*Viewed [hamiltonian_utils.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/common/hamiltonian_utils.py) *
+*Viewed `hamiltonian_utils.py` *
 
-*Listed directory [tests](file:///scratch/kcwp264/Conditional-GQE_materials/tests) *
+*Listed directory `tests` *
 
-*Listed directory [eval](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval) *
+*Listed directory `eval` *
 
-*Viewed [hamiltonians.json](file:///scratch/kcwp264/Conditional-GQE_materials/results/data/hamiltonians_gic2026/hamiltonians.json) *
+*Viewed `hamiltonians.json` *
 
-*Viewed [qsci.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qsci.py) *
+*Viewed `qsci.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qsci_postprocess.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qsci_postprocess.py) *
+*Viewed `qsci_postprocess.py` *
 
-*Viewed [requirements-qbraid.txt](file:///scratch/kcwp264/Conditional-GQE_materials/requirements-qbraid.txt) *
+*Viewed `requirements-qbraid.txt` *
 
-*Viewed [qsci_postprocess.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qsci_postprocess.py) *
+*Viewed `qsci_postprocess.py` *
 
-*Viewed [requirements-qbraid.txt](file:///scratch/kcwp264/Conditional-GQE_materials/requirements-qbraid.txt) *
-
-*Searched filesystem*
+*Viewed `requirements-qbraid.txt` *
 
 *Searched filesystem*
 
-*Viewed [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py) *
+*Searched filesystem*
+
+*Viewed `submit_qpu.py` *
 
 ### Planner Response
 
@@ -2762,7 +2765,7 @@ Now let me run the tests to see which pass and which fail:
 
 ### Planner Response
 
-15 passed, 9 errors — all errors are from [exact_diagonalize_hamiltonian](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/common/hamiltonian_utils.py:153:0-175:29) requiring qiskit. The SQD module itself is hardware-agnostic, so I'll add a qiskit-free FCI helper and run the ledger tests too.
+15 passed, 9 errors — all errors are from `exact_diagonalize_hamiltonian` requiring qiskit. The SQD module itself is hardware-agnostic, so I'll add a qiskit-free FCI helper and run the ledger tests too.
 
 *Edited relevant file*
 
@@ -2790,9 +2793,9 @@ Now run both test suites:
 
 3 failures to fix. Let me address each:
 
-1. **[test_random_counts_worse_than_structured](file:///scratch/kcwp264/Conditional-GQE_materials/tests/test_sqd.py:384:4-410:57)**: With only 4 qubits (16 states), k=6 random bitstrings cover the important subspace. Need smaller k.
-2. **[test_different_shots_creates_new_entry](file:///scratch/kcwp264/Conditional-GQE_materials/tests/test_qpu_ledger.py:86:4-92:45)**: [submit()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:247:4-314:20) mutates the input entry's `job_id`. Need to not mutate the original.
-3. **[test_budget_check_allows_within_limit](file:///scratch/kcwp264/Conditional-GQE_materials/tests/test_qpu_ledger.py:276:4-280:52)**: 5 circuits × 4096 shots = ~1020 credits, exceeds 500 budget. Need higher budget.
+1. **`test_random_counts_worse_than_structured`**: With only 4 qubits (16 states), k=6 random bitstrings cover the important subspace. Need smaller k.
+2. **`test_different_shots_creates_new_entry`**: `submit()` mutates the input entry's `job_id`. Need to not mutate the original.
+3. **`test_budget_check_allows_within_limit`**: 5 circuits × 4096 shots = ~1020 credits, exceeds 500 budget. Need higher budget.
 
 *Edited relevant file*
 
@@ -2850,40 +2853,40 @@ Let me verify all tests still pass and then update the remaining modules:
 
 ### Planner Response
 
-All 54 tests pass. Now updating the todo list and proceeding to update [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0) for dual SQD/QWC export paths:
+All 54 tests pass. Now updating the todo list and proceeding to update `qbraid_backend.py` for dual SQD/QWC export paths:
 
 *Updated todo list*
 
 ### Planner Response
 
-Now I need to add dual SQD/QWC export path functions to [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0). Let me read the key sections I need to modify:
+Now I need to add dual SQD/QWC export path functions to `qbraid_backend.py`. Let me read the key sections I need to modify:
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 ### Planner Response
 
-Now I'll add the dual SQD/QWC export functions to [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0). I need to add functions that:
+Now I'll add the dual SQD/QWC export functions to `qbraid_backend.py`. I need to add functions that:
 1. Export a computational-basis measurement circuit for SQD sampling
 2. Export QWC-grouped circuits for energy diagnostics
 3. Integrate with the QPU ledger
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 ### Planner Response
 
-Now let me look at the [_group_qwc_terms](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:218:0-255:17) function:
+Now let me look at the `_group_qwc_terms` function:
 
 *Grep searched codebase*
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 ### Planner Response
 
-Now I'll add the dual export functions. I'll insert them right before the [main()](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py:393:0-621:56) function:
+Now I'll add the dual export functions. I'll insert them right before the `main()` function:
 
 *Edited relevant file*
 
@@ -3022,17 +3025,17 @@ End-to-end SQD pipeline works correctly on real H2 data:
 ## Implementation Summary
 
 ### New Files Created
-- **[tests/test_sqd.py](file:///scratch/kcwp264/Conditional-GQE_materials/tests/test_sqd.py:0:0-0:0)** — 24 tests covering bit order, Pauli phases, symmetry filtering, variational bound, nested subspace monotonicity, counts-based SQD, legacy cross-check, JW round-trip
-- **[tests/test_qpu_ledger.py](file:///scratch/kcwp264/Conditional-GQE_materials/tests/test_qpu_ledger.py:0:0-0:0)** — 30 tests covering idempotency, error classification, retry/backoff, cost accounting, job lifecycle, persistence
-- **[src/gqe/eval/sqd.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:0:0-0:0)** — Hardware-agnostic SQD core: [pauli_matrix_element](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:32:0-71:24), [build_subspace_hamiltonian](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:78:0-141:16), [sqd_energy_from_bitstrings](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:144:0-171:37), [sqd_energy_from_counts](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:278:0-321:55), [filter_by_particle_number](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:178:0-198:17), [filter_by_spin_parity](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:201:0-227:17), [nested_subspace_energies](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:328:0-351:19), [exact_diagonalize](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:354:0-390:28) (qiskit-free FCI)
-- **[src/gqe/eval/qpu_ledger.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:0:0-0:0)** — SQLite-backed durable ledger: [QpuLedger](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:170:0-481:20), [LedgerEntry](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:127:0-163:92), [JobStatus](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:78:0-86:27), [ErrorClass](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:89:0-120:26) with idempotency keys, exponential backoff, budget enforcement, AWS Rigetti pricing
-- **[scripts/run_sqd_pilot.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py:0:0-0:0)** — Local SQD control suite with 5 paths: ideal (CUDA-Q), noiseless (Aer SV), noisy (Aer noise model), random (negative control), hardware counts (from JSON)
+- **`tests/test_sqd.py`** — 24 tests covering bit order, Pauli phases, symmetry filtering, variational bound, nested subspace monotonicity, counts-based SQD, legacy cross-check, JW round-trip
+- **`tests/test_qpu_ledger.py`** — 30 tests covering idempotency, error classification, retry/backoff, cost accounting, job lifecycle, persistence
+- **`src/gqe/eval/sqd.py`** — Hardware-agnostic SQD core: `pauli_matrix_element`, `build_subspace_hamiltonian`, `sqd_energy_from_bitstrings`, `sqd_energy_from_counts`, `filter_by_particle_number`, `filter_by_spin_parity`, `nested_subspace_energies`, `exact_diagonalize` (qiskit-free FCI)
+- **`src/gqe/eval/qpu_ledger.py`** — SQLite-backed durable ledger: `QpuLedger`, `LedgerEntry`, `JobStatus`, `ErrorClass` with idempotency keys, exponential backoff, budget enforcement, AWS Rigetti pricing
+- **`scripts/run_sqd_pilot.py`** — Local SQD control suite with 5 paths: ideal (CUDA-Q), noiseless (Aer SV), noisy (Aer noise model), random (negative control), hardware counts (from JSON)
 
 ### Modified Files
-- **[src/gqe/eval/optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:0:0-0:0)** — Added [_optimize_coefficients_multistart()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:190:0-270:45) with deterministic seeds, convergence metadata, `--n-starts` and `--seed` CLI flags
-- **[src/gqe/eval/qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0)** — Added [export_sqd_sampling_circuit()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:745:0-821:19), [export_qwc_diagnostic_circuits()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:824:0-953:19), [submit_via_ledger()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:956:0-1004:5) with `--export-sqd`, `--export-qwc`, `--ledger-db`, `--budget` CLI flags
-- **[scripts/run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:0:0-0:0)** — Added `optimize`, `sqd-pilot`, `qpu-export`, `qpu-submit` phases with NISQ pipeline config
-- **[requirements-qbraid.txt](file:///scratch/kcwp264/Conditional-GQE_materials/requirements-qbraid.txt:0:0-0:0)** — Added `qiskit-aer>=0.15`
+- **`src/gqe/eval/optimize_h_cgqe_coefficients.py`** — Added `_optimize_coefficients_multistart()` with deterministic seeds, convergence metadata, `--n-starts` and `--seed` CLI flags
+- **`src/gqe/eval/qbraid_backend.py`** — Added `export_sqd_sampling_circuit()`, `export_qwc_diagnostic_circuits()`, `submit_via_ledger()` with `--export-sqd`, `--export-qwc`, `--ledger-db`, `--budget` CLI flags
+- **`scripts/run_post_rl_pipeline.sh`** — Added `optimize`, `sqd-pilot`, `qpu-export`, `qpu-submit` phases with NISQ pipeline config
+- **`requirements-qbraid.txt`** — Added `qiskit-aer>=0.15`
 
 ### Verification
 - **54/54 tests pass** (1.5s, no GPU/QPU required)
@@ -3569,31 +3572,31 @@ Good — confirmed QPU availability. Let me now implement everything remaining f
 1. Update `qpu_preflight.py` with confirmed 2026 device list
 2. Add ledger CLI (`submit/poll/retrieve/status/cost`)
 3. Backfill importer for existing metadata JSONs
-4. Make [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:0:0-0:0) use canonical builder from [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0)
-5. Add configuration recovery to [sqd.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:0:0-0:0)
+4. Make `submit_qpu.py` use canonical builder from `qbraid_backend.py`
+5. Add configuration recovery to `sqd.py`
 6. Update benchmark scripts with split-aware reporting
 7. Create `proposals/references.bib`
 8. Update PDF generation with corrected claims
 
 *Updated todo list*
 
-*Viewed [qpu_preflight.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/qpu_preflight.py) *
+*Viewed `qpu_preflight.py` *
 
 ### Planner Response
 
-Now let me update [qpu_preflight.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/qpu_preflight.py:0:0-0:0) with the confirmed 2026 device list and also read the files I need to modify next:
+Now let me update `qpu_preflight.py` with the confirmed 2026 device list and also read the files I need to modify next:
 
 ### Planner Response
 
-The IDE is currently in **plan mode**, which restricts all file edits to only the [/users/kcwp264/.windsurf/plans/](file:///users/kcwp264/.windsurf/plans:0:0-0:0) directory. I cannot modify any source files in [/scratch/kcwp264/Conditional-GQE_materials/](file:///scratch/kcwp264/Conditional-GQE_materials:0:0-0:0) until plan mode is disabled.
+The IDE is currently in **plan mode**, which restricts all file edits to only the `/users/kcwp264/.windsurf/plans/` directory. I cannot modify any source files in `/scratch/kcwp264/Conditional-GQE_materials/` until plan mode is disabled.
 
 To proceed with implementing the remaining work packages, please **exit plan mode** (toggle it off in the Windsurf UI), then I'll immediately continue with:
 
-1. **[qpu_preflight.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/qpu_preflight.py:0:0-0:0)** — Update with confirmed 2026 QPU device list (Rigetti Cepheus-1-108Q via `aws:rigetti:qpu:cepheus-1-108q` and `rigetti:rigetti:qpu:cepheus-1-108q`, IonQ Forte-1, IQM Garnet/Emerald, AQT Ibex-Q1, AWS SV1/DM1/TN1 simulators)
-2. **Ledger CLI** — Add `__main__` block to [qpu_ledger.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:0:0-0:0) with `init/import/status/poll/retrieve/cost` commands
+1. **`qpu_preflight.py`** — Update with confirmed 2026 QPU device list (Rigetti Cepheus-1-108Q via `aws:rigetti:qpu:cepheus-1-108q` and `rigetti:rigetti:qpu:cepheus-1-108q`, IonQ Forte-1, IQM Garnet/Emerald, AQT Ibex-Q1, AWS SV1/DM1/TN1 simulators)
+2. **Ledger CLI** — Add `__main__` block to `qpu_ledger.py` with `init/import/status/poll/retrieve/cost` commands
 3. **Backfill importer** — Import existing `qbraid_job_metadata_*.json` files into the SQLite ledger
-4. **[submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:0:0-0:0)** — Make it import the canonical circuit builder from [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0)
-5. **[sqd.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:0:0-0:0)** — Add occupancy-guided configuration recovery behind `--recovery occupancy`
+4. **`submit_qpu.py`** — Make it import the canonical circuit builder from `qbraid_backend.py`
+5. **`sqd.py`** — Add occupancy-guided configuration recovery behind `--recovery occupancy`
 6. **Benchmark + PDF scripts** — Split-aware reporting, corrected claims, verified bibliography
 
 **Web search confirmed:** Rigetti Cepheus-1-108Q is available both directly (`rigetti:rigetti:qpu:cepheus-1-108q`, per-minute billing) and via AWS Braket (`aws:rigetti:qpu:cepheus-1-108q`, per-task + per-shot). 108 qubits, superconducting, 12×9-qubit chiplets. Also available: IonQ Forte-1/Forte-Enterprise-1, IQM Garnet/Emerald, AQT Ibex-Q1, QuEra Aquila, AWS SV1/DM1/TN1 simulators.
@@ -3639,7 +3642,7 @@ Each ablation changes **exactly one variable** while holding all others fixed (s
 
 waiit no that's fine the graph and stuff, i dont think those in detail are that required but like are we not comaring it against VQE as the challenge description asks us at /scratch/kcwp264/Conditional-GQE_materials/proposals/Mitsubishi_Chemical_and_AIST_Phase_3_Challenge_Description.pdf [web](use web search tool) search online if need be
 
-*Viewed [Mitsubishi_Chemical_and_AIST_Phase_3_Challenge_Description.pdf](file:///scratch/kcwp264/Conditional-GQE_materials/proposals/Mitsubishi_Chemical_and_AIST_Phase_3_Challenge_Description.pdf) *
+*Viewed `Mitsubishi_Chemical_and_AIST_Phase_3_Challenge_Description.pdf` *
 
 *Grep searched codebase*
 
@@ -3671,7 +3674,7 @@ Now let me check what the challenge description PDF actually says about VQE base
 
 Now let me check the existing benchmark script to see what baselines are already being compared:
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
 ### Planner Response
 
@@ -3709,11 +3712,11 @@ The challenge is about **GQE vs VQE**. The ablation hierarchy is:
 3. **Component contributions**: Does RL help? Does optimization help? Does warm-start help? — **A8, A9, A10**
 
 We already have the baseline scripts:
-- [src/gqe/baselines/run_cudaq_vqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/baselines/run_cudaq_vqe.py:0:0-0:0) — UCCSD-VQE
-- [src/gqe/baselines/run_adapt_vqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/baselines/run_adapt_vqe.py:0:0-0:0) — ADAPT-VQE (Qiskit `EfficientSU2`)
-- [src/gqe/baselines/run_cudaq_gqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/baselines/run_cudaq_gqe.py:0:0-0:0) — NVIDIA CUDA-Q GQE
+- `src/gqe/baselines/run_cudaq_vqe.py` — UCCSD-VQE
+- `src/gqe/baselines/run_adapt_vqe.py` — ADAPT-VQE (Qiskit `EfficientSU2`)
+- `src/gqe/baselines/run_cudaq_gqe.py` — NVIDIA CUDA-Q GQE
 
-The benchmark script ([scripts/build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py:0:0-0:0)) already has `--gqe-baseline` and `--cudaq-baseline` flags. We need to add `--vqe-baseline` to include VQE results in the consolidated table.
+The benchmark script (`scripts/build_gic_benchmark.py`) already has `--gqe-baseline` and `--cudaq-baseline` flags. We need to add `--vqe-baseline` to include VQE results in the consolidated table.
 
 ### User Input
 
@@ -3725,13 +3728,13 @@ Let me start implementing everything. First, let me check if plan mode is still 
 
 *Searched web for qBraid SDK 0.12.2 QbraidProvider get_devices device list 2026 Rigetti IonQ IQM AWS Braket pricing credits*
 
-*Viewed [qpu_ledger.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py) *
+*Viewed `qpu_ledger.py` *
 
-*Viewed [qpu_ledger.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py) *
+*Viewed `qpu_ledger.py` *
 
-*Viewed [sqd.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py) *
+*Viewed `sqd.py` *
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
 ### Planner Response
 
@@ -3743,11 +3746,11 @@ Now let me read the remaining files I need to modify:
 
 *Searched filesystem*
 
-*Viewed [generate_gic_submission.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/generate_gic_submission.py) *
+*Viewed `generate_gic_submission.py` *
 
-*Viewed [plot_qpu_vs_gpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/plot_qpu_vs_gpu.py) *
+*Viewed `plot_qpu_vs_gpu.py` *
 
-*Viewed [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py) *
+*Viewed `submit_qpu.py` *
 
 ### Planner Response
 
@@ -3761,7 +3764,7 @@ Now I have full context on all files. Let me implement everything systematically
 
 ### Planner Response
 
-Now adding the ledger CLI and backfill importer to [qpu_ledger.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:0:0-0:0):
+Now adding the ledger CLI and backfill importer to `qpu_ledger.py`:
 
 *Edited relevant file*
 
@@ -3769,51 +3772,51 @@ Now adding the ledger CLI and backfill importer to [qpu_ledger.py](file:///scrat
 
 Now I need to add the `import argparse` at the top of the file since the CLI uses it. Let me check:
 
-*Viewed [qpu_ledger.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py) *
+*Viewed `qpu_ledger.py` *
 
 ### Planner Response
 
-The CLI does `import argparse as _argparse` inside [main()](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py:393:0-621:56), so it's fine. Now let me also add `argparse` to the top-level imports for the CLI functions that reference `argparse.Namespace`:
+The CLI does `import argparse as _argparse` inside `main()`, so it's fine. Now let me also add `argparse` to the top-level imports for the CLI functions that reference `argparse.Namespace`:
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now fix the [main()](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/qpu_preflight.py:119:0-200:27) function to not re-import argparse:
+Now fix the `main()` function to not re-import argparse:
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now let me also update the `KNOWN_PRICING` in [qpu_ledger.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:0:0-0:0) to match the expanded preflight list:
+Now let me also update the `KNOWN_PRICING` in `qpu_ledger.py` to match the expanded preflight list:
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now let me work on tasks 14 and 15 in parallel — update [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:0:0-0:0) to import from [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0), and add occupancy-guided recovery to [sqd.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:0:0-0:0). Let me first read the relevant parts of [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:0:0-0:0) and [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0):
+Now let me work on tasks 14 and 15 in parallel — update `submit_qpu.py` to import from `qbraid_backend.py`, and add occupancy-guided recovery to `sqd.py`. Let me first read the relevant parts of `submit_qpu.py` and `qbraid_backend.py`:
 
-*Viewed [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py) *
+*Viewed `submit_qpu.py` *
 
 *Grep searched codebase*
 
-*Viewed [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py) *
+*Viewed `submit_qpu.py` *
 
 ### Planner Response
 
-Now I'll update [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:0:0-0:0) to import the canonical circuit builder from [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0) instead of using its own duplicate [_build_qiskit_circuit](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:83:0-149:13):
+Now I'll update `submit_qpu.py` to import the canonical circuit builder from `qbraid_backend.py` instead of using its own duplicate `_build_qiskit_circuit`:
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now replace the [_build_qiskit_circuit](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:90:0-156:13) function to delegate to the canonical builder:
+Now replace the `_build_qiskit_circuit` function to delegate to the canonical builder:
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now add occupancy-guided configuration recovery to [sqd.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:0:0-0:0):
+Now add occupancy-guided configuration recovery to `sqd.py`:
 
 *Edited relevant file*
 
@@ -3821,7 +3824,7 @@ Now add occupancy-guided configuration recovery to [sqd.py](file:///scratch/kcwp
 
 ### Planner Response
 
-Now update [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py:0:0-0:0) with VQE baseline support, SQD split-aware reporting, and corrected provenance:
+Now update `build_gic_benchmark.py` with VQE baseline support, SQD split-aware reporting, and corrected provenance:
 
 *Edited relevant file*
 
@@ -3835,7 +3838,7 @@ Now creating `proposals/references.bib` with verified bibliography:
 
 ### Planner Response
 
-Now updating [generate_gic_submission.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/generate_gic_submission.py:0:0-0:0) with corrected claims and SQD framework description:
+Now updating `generate_gic_submission.py` with corrected claims and SQD framework description:
 
 *Updated todo list*
 
@@ -3843,7 +3846,7 @@ Now updating [generate_gic_submission.py](file:///scratch/kcwp264/Conditional-GQ
 
 ### Planner Response
 
-Now the last task — update [plot_qpu_vs_gpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/plot_qpu_vs_gpu.py:0:0-0:0) with SQD convergence and selector control plots:
+Now the last task — update `plot_qpu_vs_gpu.py` with SQD convergence and selector control plots:
 
 *Updated todo list*
 
@@ -3925,27 +3928,27 @@ All 9 tasks complete. Here's a summary of what was implemented:
 
 ## Completed Tasks
 
-1. **[qpu_preflight.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/qpu_preflight.py:0:0-0:0) pricing** — Expanded `KNOWN_PRICING` with all confirmed 2026 devices (Rigetti Cepheus/Ankaa-3, IonQ Forte/Aria, IQM Garnet/Emerald, AQT, QuEra, AWS simulators)
+1. **`qpu_preflight.py` pricing** — Expanded `KNOWN_PRICING` with all confirmed 2026 devices (Rigetti Cepheus/Ankaa-3, IonQ Forte/Aria, IQM Garnet/Emerald, AQT, QuEra, AWS simulators)
 
 2. **Ledger CLI** (`@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:670-720`) — Added `init`, `import`, `status`, `cost`, `poll`, `retrieve` subcommands. Usage: `python -m gqe.eval.qpu_ledger --db <path> {command}`
 
-3. **Backfill importer** (`@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:494-565`) — [import_metadata_json()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:509:4-559:16) and [import_metadata_dir()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:545:4-564:23) for existing `qbraid_job_metadata_*.json` files with idempotency checking
+3. **Backfill importer** (`@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:494-565`) — `import_metadata_json()` and `import_metadata_dir()` for existing `qbraid_job_metadata_*.json` files with idempotency checking
 
-4. **[submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:0:0-0:0) canonical builder** (`@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:91-153`) — Now imports [_build_ansatz_circuit](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:65:0-138:39) from [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0) with fallback to local construction
+4. **`submit_qpu.py` canonical builder** (`@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:91-153`) — Now imports `_build_ansatz_circuit` from `qbraid_backend.py` with fallback to local construction
 
-5. **Occupancy-guided recovery** (`@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:414-590`) — [occupancy_guided_recovery()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:413:0-517:20) generates single/double excitations from orbital occupancy statistics; [sqd_energy_with_recovery()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:520:0-589:5) combines raw + recovered bitstrings
+5. **Occupancy-guided recovery** (`@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:414-590`) — `occupancy_guided_recovery()` generates single/double excitations from orbital occupancy statistics; `sqd_energy_with_recovery()` combines raw + recovered bitstrings
 
-6. **[build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py:0:0-0:0)** — Added `--vqe-baseline`, `--adapt-vqe-baseline`, `--sqd-results` flags; split-aware provenance tracking; VQE/ADAPT-VQE/SQD error columns in JSON and CSV
+6. **`build_gic_benchmark.py`** — Added `--vqe-baseline`, `--adapt-vqe-baseline`, `--sqd-results` flags; split-aware provenance tracking; VQE/ADAPT-VQE/SQD error columns in JSON and CSV
 
-7. **[proposals/references.bib](file:///scratch/kcwp264/Conditional-GQE_materials/proposals/references.bib:0:0-0:0)** — 20 verified entries covering GQE, VQE, ADAPT-VQE, SQD, DAPO, GRPO, MAP-Elites, JW/BK, NISQ, error mitigation
+7. **`proposals/references.bib`** — 20 verified entries covering GQE, VQE, ADAPT-VQE, SQD, DAPO, GRPO, MAP-Elites, JW/BK, NISQ, error mitigation
 
-8. **[generate_gic_submission.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/generate_gic_submission.py:0:0-0:0)** — Updated abstract with VQE/ADAPT-VQE comparison and SQD validation; Section 5 now "SQD Framework + QPU Validation"; added innovations (5) SQD recovery and (6) dual-path QPU export; expanded references to 7 entries
+8. **`generate_gic_submission.py`** — Updated abstract with VQE/ADAPT-VQE comparison and SQD validation; Section 5 now "SQD Framework + QPU Validation"; added innovations (5) SQD recovery and (6) dual-path QPU export; expanded references to 7 entries
 
-9. **[plot_qpu_vs_gpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/plot_qpu_vs_gpu.py:0:0-0:0)** — Added [plot_sqd_convergence()](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/plot_qpu_vs_gpu.py:148:0-186:48) (raw vs recovered vs FCI bars), [plot_selector_control()](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/plot_qpu_vs_gpu.py:189:0-243:49) (grouped bar: H-cGQE vs GQE vs VQE vs ADAPT-VQE vs SQD), [plot_vqe_comparison()](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/plot_qpu_vs_gpu.py:246:0-301:47) (scatter: H-cGQE error vs VQE/ADAPT-VQE error)
+9. **`plot_qpu_vs_gpu.py`** — Added `plot_sqd_convergence()` (raw vs recovered vs FCI bars), `plot_selector_control()` (grouped bar: H-cGQE vs GQE vs VQE vs ADAPT-VQE vs SQD), `plot_vqe_comparison()` (scatter: H-cGQE error vs VQE/ADAPT-VQE error)
 
 **Tests**: All 54 existing tests pass (`test_sqd.py` + `test_qpu_ledger.py`).
 
-*Viewed [plot_qpu_vs_gpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/plot_qpu_vs_gpu.py) *
+*Viewed `plot_qpu_vs_gpu.py` *
 
 ### User Input
 
@@ -4467,21 +4470,21 @@ This is a large multi-work-package implementation. Let me start by searching for
 
 Let me assess what's already implemented vs what the masterplan requires. I need to read the current state of key files.
 
-*Viewed [sqd.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py) *
+*Viewed `sqd.py` *
 
-*Viewed [test_sqd.py](file:///scratch/kcwp264/Conditional-GQE_materials/tests/test_sqd.py) *
+*Viewed `test_sqd.py` *
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
-
-*Searched filesystem*
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
 *Searched filesystem*
 
 *Searched filesystem*
 
-*Viewed [run_sqd_pilot.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py) *
+*Searched filesystem*
 
-*Viewed [run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh) *
+*Viewed `run_sqd_pilot.py` *
+
+*Viewed `run_post_rl_pipeline.sh` *
 
 ### Planner Response
 
@@ -4489,7 +4492,7 @@ Good — I've assessed the current state. Much of the masterplan is already impl
 
 *Updated todo list*
 
-*Viewed [qpu_ledger.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py) *
+*Viewed `qpu_ledger.py` *
 
 *Edited relevant file*
 
@@ -4499,13 +4502,13 @@ Good — I've assessed the current state. Much of the masterplan is already impl
 
 Now adding the missing SQD API functions. The masterplan specifies named functions with detailed schemas that wrap the existing core logic with richer output (invalid-reason accounting, spin-targeted counts, full `run_sqd` orchestration).
 
-*Viewed [hamiltonian_utils.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/common/hamiltonian_utils.py) *
+*Viewed `hamiltonian_utils.py` *
 
-*Viewed [hamiltonian_utils.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/common/hamiltonian_utils.py) *
+*Viewed `hamiltonian_utils.py` *
 
 ### Planner Response
 
-Now I'll add the missing SQD API functions to [sqd.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py:0:0-0:0). These wrap the existing core with richer schemas:
+Now I'll add the missing SQD API functions to `sqd.py`. These wrap the existing core with richer schemas:
 
 *Edited relevant file*
 
@@ -4551,21 +4554,21 @@ All 43 tests pass. Now let me create the QWC/backend tests and extend the SQD pi
 
 ### Planner Response
 
-Now I need to extend [run_sqd_pilot.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py:0:0-0:0) with matched shot/R budgets, repeated seeds (20), nested top-R subspaces, and convergence plots. Let me also look at what the qbraid_backend.py exports to understand the canonical builder:
+Now I need to extend `run_sqd_pilot.py` with matched shot/R budgets, repeated seeds (20), nested top-R subspaces, and convergence plots. Let me also look at what the qbraid_backend.py exports to understand the canonical builder:
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 ### Planner Response
 
-Now let me extend [run_sqd_pilot.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py:0:0-0:0) with the masterplan-specified features. I need to add: matched shot/R budgets, repeated seeds (20), nested top-R subspaces, and convergence plot generation:
+Now let me extend `run_sqd_pilot.py` with the masterplan-specified features. I need to add: matched shot/R budgets, repeated seeds (20), nested top-R subspaces, and convergence plot generation:
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now I need to add the multi-seed convergence study function and the convergence plot generation. Let me add these after the [analyze_counts](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py:298:0-387:17) function and before [main()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:241:0-423:100):
+Now I need to add the multi-seed convergence study function and the convergence plot generation. Let me add these after the `analyze_counts` function and before `main()`:
 
 *Edited relevant file*
 
@@ -4573,7 +4576,7 @@ Now I need to add the multi-seed convergence study function and the convergence 
 
 Now I need to add the convergence study CLI args and integrate it into the main function. Let me read the current main function's args:
 
-*Viewed [run_sqd_pilot.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py) *
+*Viewed `run_sqd_pilot.py` *
 
 *Edited relevant file*
 
@@ -4589,13 +4592,13 @@ Now let me create the QWC/backend tests. Let me first check what functions are a
 
 Now let me read the QWC grouping function to understand the test interface:
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 ### Planner Response
 
 Now let me also read the export functions:
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 ### Planner Response
 
@@ -4609,9 +4612,9 @@ Now let me create the test file for the qBraid backend:
 
 The `.qasm()` method was removed in newer Qiskit. Need to fix the export functions to use `qiskit.qasm2`:
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 ### Planner Response
 
@@ -4639,7 +4642,7 @@ Just a string mismatch — the code uses `qwc_diagnostics` (plural). Fix the tes
 
 The manifest uses `group_circuits` not `groups`. Let me check the actual key names:
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 ### Planner Response
 
@@ -4655,7 +4658,7 @@ Continue
 
 ### Planner Response
 
-All 16 backend tests pass. Now let me update the TODO and move to the QPU submission refactor — the user's original objective. I need to consolidate [run_qpu_export](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:111:0-130:1) and [run_qpu_submit](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:132:0-157:1) into a unified [run_qpu](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:252:0-277:1) function, and add a `sqd-qpu` phase.
+All 16 backend tests pass. Now let me update the TODO and move to the QPU submission refactor — the user's original objective. I need to consolidate `run_qpu_export` and `run_qpu_submit` into a unified `run_qpu` function, and add a `sqd-qpu` phase.
 
 *Updated todo list*
 
@@ -4663,33 +4666,33 @@ All 16 backend tests pass. Now let me update the TODO and move to the QPU submis
 
 Let me read the current pipeline script to understand the existing QPU functions:
 
-*Viewed [run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh) *
+*Viewed `run_post_rl_pipeline.sh` *
 
 ### Planner Response
 
-Now let me check [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:0:0-0:0) to understand the current submission interface:
+Now let me check `submit_qpu.py` to understand the current submission interface:
 
-*Viewed [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py) *
+*Viewed `submit_qpu.py` *
 
-*Viewed [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py) *
+*Viewed `submit_qpu.py` *
 
-*Viewed [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py) *
+*Viewed `submit_qpu.py` *
 
-*Viewed [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py) *
+*Viewed `submit_qpu.py` *
 
 ### Planner Response
 
 Let me also check the qbraid_backend.py CLI to understand its export interface:
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 ### Planner Response
 
 Now I have the full picture. Let me refactor the pipeline script. The key changes:
 
-1. Consolidate [run_qpu_export](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:111:0-130:1) + [run_qpu_submit](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:132:0-157:1) + legacy [run_qpu](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:252:0-277:1) into a single unified [run_qpu](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:252:0-277:1) with mode selection
+1. Consolidate `run_qpu_export` + `run_qpu_submit` + legacy `run_qpu` into a single unified `run_qpu` with mode selection
 2. Add `run_sqd_qpu` phase for SQD circuit submission
 3. Update phase dispatch and help
 
@@ -4697,7 +4700,7 @@ Now I have the full picture. Let me refactor the pipeline script. The key change
 
 ### Planner Response
 
-Now remove the old legacy [run_qpu](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:328:0-353:1) function and add `run_sqd_qpu`:
+Now remove the old legacy `run_qpu` function and add `run_sqd_qpu`:
 
 *Edited relevant file*
 
@@ -4737,9 +4740,9 @@ All 59 tests pass. Let me update the TODO and move to the next task — updating
 
 *Updated todo list*
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
 ### Planner Response
 
@@ -4779,17 +4782,17 @@ All 7 work packages complete. Summary of what was done:
 
 ## Completed Work
 
-**wp5 — QPU Pipeline Refactor** ([scripts/run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:0:0-0:0)):
-- Consolidated `run_qpu_export` + `run_qpu_submit` + legacy [run_qpu](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:111:0-233:1) into a single unified [run_qpu](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:111:0-233:1) function
-- Mode controlled by `QPU_MODE` env var: `export` (no credits), [submit](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py:277:4-360:20) (spends credits), `both` (default)
+**wp5 — QPU Pipeline Refactor** (`scripts/run_post_rl_pipeline.sh`):
+- Consolidated `run_qpu_export` + `run_qpu_submit` + legacy `run_qpu` into a single unified `run_qpu` function
+- Mode controlled by `QPU_MODE` env var: `export` (no credits), `submit` (spends credits), `both` (default)
 - Export type via `QPU_EXPORT_TYPE`: `qwc`, `sqd`, or `both`
 - Per-molecule iteration with ledger-based credit management (`--ledger-db`, `--budget`)
-- Falls back to [submit_qpu.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/submit_qpu.py:0:0-0:0) when generated/optimized files are missing
+- Falls back to `submit_qpu.py` when generated/optimized files are missing
 - Added new `sqd-qpu` phase — exports Z-basis sampling circuits and optionally submits to QPU
 - `SQD_QPU_MODE=export` by default (safe — no credits unless explicitly overridden)
 - Removed `qpu-export` and `qpu-submit` phases from dispatch; updated help text
 
-**wp6 — Benchmark Enhancements** ([scripts/build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py:0:0-0:0)):
+**wp6 — Benchmark Enhancements** (`scripts/build_gic_benchmark.py`):
 - Added `--optimized-results` CLI arg for L-BFGS-B coefficient optimization output
 - New per-row fields: `energy_provenance` (tracks source: checkpoint_best, resampled_fixed_theta, l_bfgs_b_optimized, etc.), `execution_type` (gpu_statevector, qpu, sqd_classical_postprocess), `device`, `training_exposure` (seen_in_rl, optimized_only, extracted, unseen)
 - Added `h_cgqe_optimized_ha` column to JSON and CSV
@@ -4797,7 +4800,7 @@ All 7 work packages complete. Summary of what was done:
 
 **wp7 — End-to-End Validation**:
 - SQD pilot runs successfully on H2 (0.000 mHa vs FCI) and LiH (149.4 mHa) with `cudaq-env`
-- All 59 unit tests pass ([test_sqd.py](file:///scratch/kcwp264/Conditional-GQE_materials/tests/test_sqd.py:0:0-0:0) + [test_qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/tests/test_qbraid_backend.py:0:0-0:0))
+- All 59 unit tests pass (`test_sqd.py` + `test_qbraid_backend.py`)
 
 ### User Input
 
@@ -4811,7 +4814,7 @@ Let me search for current qBraid simulator offerings and check what we have avai
 
 *Searched web for qBraid quantum simulator batch submission API 2025 device list available*
 
-*Viewed [qpu_ledger.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qpu_ledger.py) *
+*Viewed `qpu_ledger.py` *
 
 ### Planner Response
 
@@ -4839,23 +4842,23 @@ We have qBraid access with 3 online free simulators. Let me create a comprehensi
 
 *Updated todo list*
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 ### Planner Response
 
 Now let me check the existing test_simulator_energy.py and submit_qpu_async.py:
 
-*Viewed [test_simulator_energy.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/test_simulator_energy.py) *
+*Viewed `test_simulator_energy.py` *
 
-*Viewed [test_simulator_energy.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/test_simulator_energy.py) *
+*Viewed `test_simulator_energy.py` *
 
 ### Planner Response
 
@@ -4983,7 +4986,7 @@ LiH has 180 circuits to submit. This will take a while. Let me wait:
 
 The qBraid QIR simulator has a 2000-shot limit. Also, batch isn't supported on it either. Let me fix this — use IonQ sim for LiH (it supports 4096 shots) and adjust shot counts for qir-sv:
 
-*Viewed [run_simulator_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_simulator_benchmark.py) *
+*Viewed `run_simulator_benchmark.py` *
 
 *Edited relevant file*
 
@@ -5033,11 +5036,11 @@ LiH failed because 180 individual circuit submissions to IonQ is impractical. Th
 
 Let me fix the script and re-run:
 
-*Viewed [run_simulator_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_simulator_benchmark.py) *
+*Viewed `run_simulator_benchmark.py` *
 
-*Viewed [run_simulator_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_simulator_benchmark.py) *
+*Viewed `run_simulator_benchmark.py` *
 
-*Viewed [run_simulator_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_simulator_benchmark.py) *
+*Viewed `run_simulator_benchmark.py` *
 
 ### Planner Response
 
@@ -5053,7 +5056,7 @@ Now I need to update the function signature to accept the new params and update 
 
 ### Planner Response
 
-Now update the call site in [main()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:1027:0-1179:45):
+Now update the call site in `main()`:
 
 *Edited relevant file*
 
@@ -5065,7 +5068,7 @@ Continue
 
 Let me also update the summary to handle SQD-only entries, then run LiH:
 
-*Viewed [run_simulator_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_simulator_benchmark.py) *
+*Viewed `run_simulator_benchmark.py` *
 
 *Edited relevant file*
 
@@ -5073,7 +5076,7 @@ Let me also update the summary to handle SQD-only entries, then run LiH:
 
 Now also update the pipeline-entry JSON to include SQD-only entries:
 
-*Viewed [run_simulator_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_simulator_benchmark.py) *
+*Viewed `run_simulator_benchmark.py` *
 
 *Edited relevant file*
 
@@ -5103,9 +5106,9 @@ This is actually an important finding — it confirms the diagonal sequence coll
 
 While that runs, let me also add a `sim-bench` phase to the pipeline script:
 
-*Viewed [run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh) *
+*Viewed `run_post_rl_pipeline.sh` *
 
-*Viewed [run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh) *
+*Viewed `run_post_rl_pipeline.sh` *
 
 ### Planner Response
 
@@ -5113,11 +5116,11 @@ Now let me read the area where other run_* functions are defined to find a good 
 
 *Grep searched codebase*
 
-*Viewed [run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh) *
+*Viewed `run_post_rl_pipeline.sh` *
 
 ### Planner Response
 
-Now add the `run_sim_bench` function right after [run_sqd_pilot](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:88:0-109:1):
+Now add the `run_sim_bench` function right after `run_sqd_pilot`:
 
 *Edited relevant file*
 
@@ -5160,29 +5163,29 @@ print(json.dumps(data, indent=2))
 
 ### Planner Response
 
-Now let me update the TODO and update [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py:0:0-0:0) to consume simulator validation results:
+Now let me update the TODO and update `build_gic_benchmark.py` to consume simulator validation results:
 
 *Updated todo list*
 
 ### Planner Response
 
-Now let me wire the simulator results into [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py:0:0-0:0). Let me check how QPU results are currently loaded:
+Now let me wire the simulator results into `build_gic_benchmark.py`. Let me check how QPU results are currently loaded:
 
 *Grep searched codebase*
 
 ### Planner Response
 
-The [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py:0:0-0:0) already loads `--qpu-results` from `simulator_validation.json` and uses `sim_energy` and `qpu_energy` fields. Let me check how it handles the SQD energy from the simulator results:
+The `build_gic_benchmark.py` already loads `--qpu-results` from `simulator_validation.json` and uses `sim_energy` and `qpu_energy` fields. Let me check how it handles the SQD energy from the simulator results:
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
 ### Planner Response
 
 Now let me check how the QPU/simulator results are used in the benchmark rows:
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
 ### Planner Response
 
@@ -5194,7 +5197,7 @@ The benchmark already loads `sim_energy` from the `simulator_validation.json` in
 
 Now let me also add summary stats for sim SQD:
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
 *Edited relevant file*
 
@@ -5227,21 +5230,21 @@ The `--best-circuits` is required. Let me use the evaluation file as best-circui
 
 *User accepted the command `cd /scratch/kcwp264/Conditional-GQE_materials && /scratch/kcwp264/.conda_envs/cudaq-env/bin/python scripts/build_gic_benchmark.py --best-circuits results/eval/h_cgqe_evaluation.json --hamiltonians results/data/hamiltonians_gic2026/hamiltonians.json --optimized-results results/eval/h_cgqe_optimized.json --qpu-results results/eval/simulator_validation.json --out results/eval/gic_benchmark_sim_test.json 2>&1 | tail -30`*
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
 *Edited relevant file*
 
 *User accepted the command `cd /scratch/kcwp264/Conditional-GQE_materials && /scratch/kcwp264/.conda_envs/cudaq-env/bin/python scripts/build_gic_benchmark.py --best-circuits results/eval/h_cgqe_evaluation.json --hamiltonians results/data/hamiltonians_gic2026/hamiltonians.json --optimized-results results/eval/h_cgqe_optimized.json --qpu-results results/eval/simulator_validation.json --out results/eval/gic_benchmark_sim_test.json 2>&1 | tail -30`*
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
 *Edited relevant file*
 
 *User accepted the command `cd /scratch/kcwp264/Conditional-GQE_materials && /scratch/kcwp264/.conda_envs/cudaq-env/bin/python scripts/build_gic_benchmark.py --best-circuits results/eval/h_cgqe_evaluation.json --hamiltonians results/data/hamiltonians_gic2026/hamiltonians.json --optimized-results results/eval/h_cgqe_optimized.json --qpu-results results/eval/simulator_validation.json --out results/eval/gic_benchmark_sim_test.json 2>&1 | tail -30`*
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
 ### User Input
 
@@ -5251,9 +5254,9 @@ Continue
 
 The `qpu_energy` variable is used at line 281 but defined at line 302. Need to move the QPU energy extraction before the execution_type block.
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
 ### Planner Response
 
@@ -5311,13 +5314,13 @@ All tasks complete. Here's the summary:
 
 ### What was done
 
-**Script**: [scripts/run_simulator_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_simulator_benchmark.py:0:0-0:0) — comprehensive benchmark with two modes:
+**Script**: `scripts/run_simulator_benchmark.py` — comprehensive benchmark with two modes:
 - **Full QWC + SQD**: For small molecules (≤20 QWC groups), submits all grouped Pauli measurement circuits + separate Z-basis SQD sampling circuit
 - **SQD-only**: For large molecules (>20 QWC groups), submits just 1 Z-basis sampling circuit — avoids impractical 180+ individual job submissions to free simulators
 
 **Pipeline integration**:
-- Added `sim-bench` phase to [scripts/run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh:0:0-0:0) with env vars `SIM_DEVICES`, `SIM_SHOTS`, `SIM_MOLECULES`, `SIM_MAX_QWC`
-- Updated [scripts/build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py:0:0-0:0) to consume `simulator_validation.json` with new fields: `sim_sqd_energy_ha`, `sim_mode`, `sim_device`, `sim_shots`, `sim_sqd_err_vs_fci_mha`, and execution types `qpu_simulator` / `sim_sqd_only`
+- Added `sim-bench` phase to `scripts/run_post_rl_pipeline.sh` with env vars `SIM_DEVICES`, `SIM_SHOTS`, `SIM_MOLECULES`, `SIM_MAX_QWC`
+- Updated `scripts/build_gic_benchmark.py` to consume `simulator_validation.json` with new fields: `sim_sqd_energy_ha`, `sim_mode`, `sim_device`, `sim_shots`, `sim_sqd_err_vs_fci_mha`, and execution types `qpu_simulator` / `sim_sqd_only`
 
 ### Benchmark Results (IonQ simulator, free)
 
@@ -5333,7 +5336,7 @@ All tasks complete. Here's the summary:
 - **LiH/BeH2**: SQD energies are far from FCI — this confirms the **diagonal sequence collapse** problem. The H-cGQE model generates Z-only operator sequences for these molecules, so the ansatz state is essentially Hartree-Fock with no entanglement. The Z-basis measurement counts don't sample enough of the correlated ground state subspace for SQD to recover.
 - **Fix for LiH/BeH2**: These molecules need the RL training improvements (force_entanglement, commutator loss) to generate non-trivial entangling circuits before SQD can be effective.
 
-*Viewed [build_gic_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/build_gic_benchmark.py) *
+*Viewed `build_gic_benchmark.py` *
 
 ### User Input
 
@@ -5367,7 +5370,7 @@ Let me check the current CUDA-Q environment setup and the key hot paths more car
 
 *Grep searched codebase*
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 ### Planner Response
 
@@ -5389,59 +5392,59 @@ Now I have a clear picture. Let me create a comprehensive acceleration plan.
 
 ### Planner Response
 
-Now let me wire the accel modules into the existing code. First, update [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0) to use fast QWC grouping and GPU parity:
+Now let me wire the accel modules into the existing code. First, update `qbraid_backend.py` to use fast QWC grouping and GPU parity:
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 ### Planner Response
 
-Now let me update [_group_qwc_terms](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:238:0-275:17) and [_parse_grouped_results](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:585:0-633:36) to use the accelerated versions:
+Now let me update `_group_qwc_terms` and `_parse_grouped_results` to use the accelerated versions:
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now update [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:0:0-0:0) to use the batched optimizer and CUDA-Q env tuning:
+Now update `optimize_h_cgqe_coefficients.py` to use the batched optimizer and CUDA-Q env tuning:
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
-
-*Edited relevant file*
-
-### Planner Response
-
-Now update [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0) to use CUDA-Q env tuning and fast Pauli ops:
-
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
-
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now let me also add fast Pauli word caching to the hot-path energy evaluation functions. The [_pad_pauli_word](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:324:0-329:26) + `cudaq.pauli_word` conversion is called repeatedly for the same operators:
+Now update `train_rl_dapo.py` to use CUDA-Q env tuning and fast Pauli ops:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
-*Edited relevant file*
-
-### Planner Response
-
-Now let me wire [_get_pauli_words_cached](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:337:0-346:22) into the hot-path energy evaluation functions:
-
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
-
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now update [evaluate_energies_parallel](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:685:0-726:19) too:
+Now let me also add fast Pauli word caching to the hot-path energy evaluation functions. The `_pad_pauli_word` + `cudaq.pauli_word` conversion is called repeatedly for the same operators:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
+
+*Edited relevant file*
+
+### Planner Response
+
+Now let me wire `_get_pauli_words_cached` into the hot-path energy evaluation functions:
+
+*Viewed `train_rl_dapo.py` *
+
+*Viewed `train_rl_dapo.py` *
+
+*Edited relevant file*
+
+### Planner Response
+
+Now update `evaluate_energies_parallel` too:
+
+*Viewed `train_rl_dapo.py` *
 
 *Edited relevant file*
 
@@ -5449,9 +5452,9 @@ Now update [evaluate_energies_parallel](file:///scratch/kcwp264/Conditional-GQE_
 
 Now let me also update the QD-GRPO evaluation path:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 *Edited relevant file*
 
@@ -5473,9 +5476,9 @@ Now let me create a benchmark script to measure the speedups:
 
 Now let me also update the pipeline shell script to export the CUDA-Q env vars:
 
-*Viewed [run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh) *
+*Viewed `run_post_rl_pipeline.sh` *
 
-*Viewed [run_post_rl_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_post_rl_pipeline.sh) *
+*Viewed `run_post_rl_pipeline.sh` *
 
 *Edited relevant file*
 
@@ -5483,7 +5486,7 @@ Now let me also update the pipeline shell script to export the CUDA-Q env vars:
 
 Now let me also update the Slurm job script to export these env vars:
 
-*Viewed [gqe-suite.slurm](file:///scratch/kcwp264/Conditional-GQE_materials/jobs/gqe-suite.slurm) *
+*Viewed `gqe-suite.slurm` *
 
 *Edited relevant file*
 
@@ -5493,11 +5496,11 @@ Now let me also update the `evaluate_h_cgqe.py` to use the fast QWC and env tuni
 
 *Grep searched codebase*
 
-*Viewed [evaluate_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/evaluate_h_cgqe.py) *
+*Viewed `evaluate_h_cgqe.py` *
 
 *Edited relevant file*
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### User Input
 
@@ -5511,15 +5514,15 @@ Let me update the todo list and continue with remaining work — fixing import i
 
 ### Planner Response
 
-First, fix [gpu_parity.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/gpu_parity.py:0:0-0:0) — missing `Any` import and return structure mismatch with original [_parse_grouped_results](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:595:0-654:36):
+First, fix `gpu_parity.py` — missing `Any` import and return structure mismatch with original `_parse_grouped_results`:
 
-*Viewed [gpu_parity.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/gpu_parity.py) *
+*Viewed `gpu_parity.py` *
 
-*Viewed [gpu_parity.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/gpu_parity.py) *
+*Viewed `gpu_parity.py` *
 
 ### Planner Response
 
-Good, `Any` is imported. Now let me check the return structure mismatch. The original [_parse_grouped_results](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:595:0-654:36) returns `{term: {coeff_real, coeff_imag, expectation}}` but the accel path returns `{term: {coeff, expectation}}`:
+Good, `Any` is imported. Now let me check the return structure mismatch. The original `_parse_grouped_results` returns `{term: {coeff_real, coeff_imag, expectation}}` but the accel path returns `{term: {coeff, expectation}}`:
 
 *Grep searched codebase*
 
@@ -5531,9 +5534,9 @@ The accel path uses `{coeff, expectation}` but the original uses `{coeff_real, c
 
 *Grep searched codebase*
 
-*Viewed [gpu_parity.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/gpu_parity.py) *
+*Viewed `gpu_parity.py` *
 
-*Viewed [gpu_parity.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/gpu_parity.py) *
+*Viewed `gpu_parity.py` *
 
 ### Planner Response
 
@@ -5549,7 +5552,7 @@ Now fix the Triton path (the remaining one):
 
 ### Planner Response
 
-Now fix [fast_pauli.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_pauli.py:0:0-0:0) — same issue with [compute_grouped_expectations_vectorized](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_pauli.py:167:0-245:27):
+Now fix `fast_pauli.py` — same issue with `compute_grouped_expectations_vectorized`:
 
 *Grep searched codebase*
 
@@ -5557,13 +5560,13 @@ Now fix [fast_pauli.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gq
 
 ### Planner Response
 
-Now fix the missing `Any` import in [fast_pauli.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_pauli.py:0:0-0:0) (used in [compute_grouped_expectations_vectorized](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_pauli.py:167:0-245:27) signature):
+Now fix the missing `Any` import in `fast_pauli.py` (used in `compute_grouped_expectations_vectorized` signature):
 
 *Grep searched codebase*
 
 ### Planner Response
 
-Good, `Any` is imported locally inside the function. That's fine. Now let me check [batched_optimizer.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/batched_optimizer.py:0:0-0:0) for import path issues — it references `src.gqe.common.hamiltonian_util` but the actual module is `src.gqe.common.hamiltonian_utils`:
+Good, `Any` is imported locally inside the function. That's fine. Now let me check `batched_optimizer.py` for import path issues — it references `src.gqe.common.hamiltonian_util` but the actual module is `src.gqe.common.hamiltonian_utils`:
 
 *Grep searched codebase*
 
@@ -5577,7 +5580,7 @@ There's a typo: `..data.hamiltonian_util` should be `..common.hamiltonian_utils`
 
 ### Planner Response
 
-Both are in `src.gqe.common.hamiltonian_utils`. Fix the imports in [batched_optimizer.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/batched_optimizer.py:0:0-0:0):
+Both are in `src.gqe.common.hamiltonian_utils`. Fix the imports in `batched_optimizer.py`:
 
 *Edited relevant file*
 
@@ -5585,7 +5588,7 @@ Both are in `src.gqe.common.hamiltonian_utils`. Fix the imports in [batched_opti
 
 The first edit failed. Let me check the exact content around line 60:
 
-*Viewed [batched_optimizer.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/batched_optimizer.py) *
+*Viewed `batched_optimizer.py` *
 
 ### Planner Response
 
@@ -5595,7 +5598,7 @@ It's `..data.hamiltonian_utils` (with the 's'), not `..data.hamiltonian_util`. B
 
 ### Planner Response
 
-Now check if `hamiltonian_to_spin_operator` is actually exported from [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:0:0-0:0) or only from `common.hamiltonian_utils`:
+Now check if `hamiltonian_to_spin_operator` is actually exported from `optimize_h_cgqe_coefficients.py` or only from `common.hamiltonian_utils`:
 
 *Grep searched codebase*
 
@@ -5603,33 +5606,33 @@ Now check if `hamiltonian_to_spin_operator` is actually exported from [optimize_
 
 ### Planner Response
 
-It's imported from `common.hamiltonian_utils` into [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:0:0-0:0), so it's available there. But [batched_optimizer.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/batched_optimizer.py:0:0-0:0) imports it from `..eval.optimize_h_cgqe_coefficients` — that works since it's a re-export. Also check [_evaluate_fixed_theta_energy](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:124:0-142:89):
+It's imported from `common.hamiltonian_utils` into `optimize_h_cgqe_coefficients.py`, so it's available there. But `batched_optimizer.py` imports it from `..eval.optimize_h_cgqe_coefficients` — that works since it's a re-export. Also check `_evaluate_fixed_theta_energy`:
 
 *Grep searched codebase*
 
 ### Planner Response
 
-Good. Now let me also check [_build_kernel_for_sequence](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:73:0-100:30):
+Good. Now let me also check `_build_kernel_for_sequence`:
 
 *Grep searched codebase*
 
 ### Planner Response
 
-Good. Now let me wire the batched optimizer into [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:0:0-0:0)'s [_optimize_coefficients_multistart](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:197:0-277:45):
+Good. Now let me wire the batched optimizer into `optimize_h_cgqe_coefficients.py`'s `_optimize_coefficients_multistart`:
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now let me check if callers of [_optimize_coefficients_multistart](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:197:0-295:45) pass `n_gpus` or `parallel_gpus`:
+Now let me check if callers of `_optimize_coefficients_multistart` pass `n_gpus` or `parallel_gpus`:
 
 *Grep searched codebase*
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
 ### Planner Response
 
@@ -5639,23 +5642,23 @@ The caller doesn't pass `n_gpus`. Let me check if there's a `--parallel-gpus` ar
 
 ### Planner Response
 
-Now wire `--parallel-gpus` into the [_optimize_coefficients_multistart](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:197:0-295:45) call:
+Now wire `--parallel-gpus` into the `_optimize_coefficients_multistart` call:
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now let me also check the [_evaluate_fixed_theta_energy](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:124:0-142:89) function used in [batched_optimizer.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/batched_optimizer.py:0:0-0:0) — it needs to be importable:
+Now let me also check the `_evaluate_fixed_theta_energy` function used in `batched_optimizer.py` — it needs to be importable:
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
 ### Planner Response
 
-Good — all functions exist. Now let me verify the [fast_pauli.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_pauli.py:0:0-0:0) has proper `Any` import at module level for the [compute_grouped_expectations_vectorized](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_pauli.py:167:0-246:27) type hint:
+Good — all functions exist. Now let me verify the `fast_pauli.py` has proper `Any` import at module level for the `compute_grouped_expectations_vectorized` type hint:
 
-*Viewed [fast_pauli.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_pauli.py) *
+*Viewed `fast_pauli.py` *
 
-*Viewed [fast_pauli.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_pauli.py) *
+*Viewed `fast_pauli.py` *
 
 ### Planner Response
 
@@ -5787,7 +5790,7 @@ All tests pass. Let me update the todos and run the benchmark:
 
 *User accepted the command `cd /scratch/kcwp264/Conditional-GQE_materials && /mnt/scratch/kcwp264/.conda_envs/cudaq-env/bin/python scripts/benchmark_accel.py 2>&1`*
 
-*Viewed [batched_optimizer.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/batched_optimizer.py) *
+*Viewed `batched_optimizer.py` *
 
 ### User Input
 
@@ -5797,7 +5800,7 @@ Continue
 
 The group count mismatch is expected — different greedy strategies produce different valid QWC groupings. The benchmark assertion is wrong. Let me fix it and also verify correctness:
 
-*Viewed [benchmark_accel.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/benchmark_accel.py) *
+*Viewed `benchmark_accel.py` *
 
 *Edited relevant file*
 
@@ -5809,11 +5812,11 @@ Good data. Two issues to fix:
 1. **PyTorch GPU parity** has a dtype mismatch (Double vs Float)
 2. **LiH GPU QWC** took 90s — the GPU path for 631 terms is doing something wrong (likely the greedy grouping loop is slow on GPU-computed matrix)
 
-Let me fix the dtype issue in [gpu_parity.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/gpu_parity.py:0:0-0:0) first:
+Let me fix the dtype issue in `gpu_parity.py` first:
 
-*Viewed [gpu_parity.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/gpu_parity.py) *
+*Viewed `gpu_parity.py` *
 
-*Viewed [gpu_parity.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/gpu_parity.py) *
+*Viewed `gpu_parity.py` *
 
 ### Planner Response
 
@@ -5825,15 +5828,15 @@ The issue: `signs` is float32 (from `.float()`), `counts_t` is float64, and `coe
 
 Now fix the LiH GPU QWC grouping timeout. The issue is the greedy grouping loop runs on CPU with a GPU-computed matrix — the `.cpu().numpy()` transfer + greedy loop is slow for 631 terms. The GPU path should only be used for the compatibility matrix computation, not the grouping. Let me check the `_group_qwc_gpu` function:
 
-*Viewed [fast_qwc.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_qwc.py) *
+*Viewed `fast_qwc.py` *
 
-*Viewed [fast_qwc.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_qwc.py) *
+*Viewed `fast_qwc.py` *
 
 ### Planner Response
 
-The 90s for LiH is likely the [_greedy_grouping](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_qwc.py:115:0-149:17) loop — it's O(n²) with Python loops over groups. For 631 terms and 481+ groups, the inner loop `compat[idx, groups[gi]]` + `np.all()` is expensive. Let me optimize the greedy grouping:
+The 90s for LiH is likely the `_greedy_grouping` loop — it's O(n²) with Python loops over groups. For 631 terms and 481+ groups, the inner loop `compat[idx, groups[gi]]` + `np.all()` is expensive. Let me optimize the greedy grouping:
 
-*Viewed [fast_qwc.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_qwc.py) *
+*Viewed `fast_qwc.py` *
 
 ### Planner Response
 
@@ -5888,7 +5891,7 @@ The real win is in **parity computation** where we see **15.7x GPU speedup** for
 
 Now let me also update the benchmark to not test GPU QWC since we disabled it:
 
-*Viewed [benchmark_accel.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/benchmark_accel.py) *
+*Viewed `benchmark_accel.py` *
 
 *Edited relevant file*
 
@@ -5908,19 +5911,19 @@ All tasks complete. Here's the summary:
 
 ### New modules (`src/gqe/accel/`)
 
-- **`cudaq_tuning.py`** — Sets CUDA-Q env vars (`CUDAQ_MGPU_FUSE=4`, `CUDAQ_FUSION_MAX_QUBITS=6`, `CUDAQ_ENABLE_MEMPOOL=1`) before `import cudaq` for gate fusion + memory pooling. Auto-applied in [_ensure_cudaq()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:359:0-379:16), [evaluate_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/evaluate_h_cgqe.py:0:0-0:0), and [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:0:0-0:0).
-- **[fast_pauli.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_pauli.py:0:0-0:0)** — Vectorized Pauli word ops using integer bitmasks. QWC compatibility via `(x1 & z2) | (z1 & x2) == 0`. Parity via `popcount(bitstring & mask) % 2`.
-- **[fast_qwc.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/fast_qwc.py:0:0-0:0)** — Vectorized QWC grouping. Replaces character-by-character Python loop with NumPy bitwise ops on integer masks. 2.2x speedup on LiH (631 terms).
-- **[gpu_parity.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/gpu_parity.py:0:0-0:0)** — GPU/Triton kernel for parity computation in `_parse_grouped_results`. Processes all (term, bitstring) pairs in parallel. **18.7x GPU speedup** on N2 (2951 terms × 4096 shots: 25.8s → 1.4s).
-- **[batched_optimizer.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/accel/batched_optimizer.py:0:0-0:0)** — Multi-GPU batched L-BFGS-B with `observe_async` and round-robin GPU assignment. Wired into [_optimize_coefficients_multistart](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:197:0-295:45) when `--parallel-gpus > 1`.
+- **`cudaq_tuning.py`** — Sets CUDA-Q env vars (`CUDAQ_MGPU_FUSE=4`, `CUDAQ_FUSION_MAX_QUBITS=6`, `CUDAQ_ENABLE_MEMPOOL=1`) before `import cudaq` for gate fusion + memory pooling. Auto-applied in `_ensure_cudaq()`, `evaluate_h_cgqe.py`, and `optimize_h_cgqe_coefficients.py`.
+- **`fast_pauli.py`** — Vectorized Pauli word ops using integer bitmasks. QWC compatibility via `(x1 & z2) | (z1 & x2) == 0`. Parity via `popcount(bitstring & mask) % 2`.
+- **`fast_qwc.py`** — Vectorized QWC grouping. Replaces character-by-character Python loop with NumPy bitwise ops on integer masks. 2.2x speedup on LiH (631 terms).
+- **`gpu_parity.py`** — GPU/Triton kernel for parity computation in `_parse_grouped_results`. Processes all (term, bitstring) pairs in parallel. **18.7x GPU speedup** on N2 (2951 terms × 4096 shots: 25.8s → 1.4s).
+- **`batched_optimizer.py`** — Multi-GPU batched L-BFGS-B with `observe_async` and round-robin GPU assignment. Wired into `_optimize_coefficients_multistart` when `--parallel-gpus > 1`.
 - **`_fast_parity.cpp`** — C++ pybind11 extension with `__builtin_popcountll` for CPU fallback (compile with `pip install src/gqe/accel/`).
 
 ### Modified files
 
-- [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0) — `_group_qwc_terms` and `_parse_grouped_results` now use accel modules with original fallback
-- [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0) — [_ensure_cudaq()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:359:0-379:16) applies env tuning before import; [_get_pauli_words_cached()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:337:0-346:22) eliminates redundant `cudaq.pauli_word()` conversions in all hot loops
-- [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:0:0-0:0) — Env tuning applied; [_optimize_coefficients_multistart](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:197:0-295:45) accepts `n_gpus` and delegates to batched optimizer
-- [evaluate_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/evaluate_h_cgqe.py:0:0-0:0) — Env tuning applied
+- `qbraid_backend.py` — `_group_qwc_terms` and `_parse_grouped_results` now use accel modules with original fallback
+- `train_rl_dapo.py` — `_ensure_cudaq()` applies env tuning before import; `_get_pauli_words_cached()` eliminates redundant `cudaq.pauli_word()` conversions in all hot loops
+- `optimize_h_cgqe_coefficients.py` — Env tuning applied; `_optimize_coefficients_multistart` accepts `n_gpus` and delegates to batched optimizer
+- `evaluate_h_cgqe.py` — Env tuning applied
 - `run_post_rl_pipeline.sh`, `gqe-suite.slurm` — Export CUDA-Q performance env vars
 
 ### Benchmark results
@@ -6027,7 +6030,7 @@ Good — there's already simulator benchmark data. Now let me check what the ful
 
 Good — we have optimized results for h2, lih, and likely more. Now let me run the full simulator benchmark on the L40S GPU using the CUDA-Q `nvidia` backend (not the qBraid cloud simulators which are rate-limited). This will give us GPU-accelerated energy evaluation with shot noise simulation:
 
-*Viewed [run_simulator_benchmark.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_simulator_benchmark.py) *
+*Viewed `run_simulator_benchmark.py` *
 
 *Updated todo list*
 
@@ -6041,7 +6044,7 @@ Let me first check what molecules we have optimized results for, and what the ev
 
 ### Planner Response
 
-Good — we have optimized results for 5 core + 17 phase3 molecules. Now let me run the full GPU evaluation pipeline. I'll run [evaluate_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/evaluate_h_cgqe.py:0:0-0:0) on the L40S with the optimized results to get GPU energy evaluation with shot noise simulation:
+Good — we have optimized results for 5 core + 17 phase3 molecules. Now let me run the full GPU evaluation pipeline. I'll run `evaluate_h_cgqe.py` on the L40S with the optimized results to get GPU energy evaluation with shot noise simulation:
 
 *User accepted the command `srun --jobid=6862420 --overlap bash -c 'export PATH="/mnt/scratch/kcwp264/.conda_envs/cudaq-env/bin:$PATH" && cd /scratch/kcwp264/Conditional-GQE_materials && python -c "
 import cudaq
@@ -6074,7 +6077,7 @@ CUDA-Q 0.14.2 on L40S. Now let me run the full evaluation pipeline. I'll run the
 
 ### Planner Response
 
-Now I understand the pipeline. The [evaluate_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/evaluate_h_cgqe.py:0:0-0:0) needs `--generated` and `--baseline` files. But the main pipeline is: optimized results → simulator benchmark → consolidated benchmark. Let me run the simulator benchmark directly on the L40S GPU using CUDA-Q's `nvidia` backend for shot-based simulation:
+Now I understand the pipeline. The `evaluate_h_cgqe.py` needs `--generated` and `--baseline` files. But the main pipeline is: optimized results → simulator benchmark → consolidated benchmark. Let me run the simulator benchmark directly on the L40S GPU using CUDA-Q's `nvidia` backend for shot-based simulation:
 
 *User accepted the command `srun --jobid=6862420 --overlap bash -c 'export PATH="/mnt/scratch/kcwp264/.conda_envs/cudaq-env/bin:$PATH" && cd /scratch/kcwp264/Conditional-GQE_materials && python scripts/run_simulator_benchmark.py --help 2>&1' 2>&1`*
 
@@ -6657,11 +6660,11 @@ for r in d:
     print(f'  thetas[:5]: {r[\"best_thetas\"][:5]}')
 " 2>&1`*
 
-*Viewed [run_sqd_pilot.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py) *
+*Viewed `run_sqd_pilot.py` *
 
-*Viewed [run_sqd_pilot.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py) *
+*Viewed `run_sqd_pilot.py` *
 
-*Viewed [run_sqd_pilot.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py) *
+*Viewed `run_sqd_pilot.py` *
 
 ### Planner Response
 
@@ -6700,9 +6703,9 @@ Yes. The pipeline uses the H-cGQE model's circuits. Here's the data flow:
 
 1. **H-cGQE Transformer** (DAPO RL-trained, checkpoint `h_cgqe_rl_gic2026.pt`) autoregressively generates Pauli operator sequences
 2. **L-BFGS-B optimization** optimizes the rotation coefficients (thetas) for those sequences → stored in `results/eval/h_cgqe_optimized.json`
-3. **SQD pilot** ([scripts/run_sqd_pilot.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py:0:0-0:0)) loads those optimized operators + thetas via `--optimized results/eval/h_cgqe_optimized.json`, builds the ansatz circuit, samples it, and runs SQD post-processing
+3. **SQD pilot** (`scripts/run_sqd_pilot.py`) loads those optimized operators + thetas via `--optimized results/eval/h_cgqe_optimized.json`, builds the ansatz circuit, samples it, and runs SQD post-processing
 
-The key line in [run_sqd_pilot.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py:0:0-0:0) at `@/scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py:627-636`:
+The key line in `run_sqd_pilot.py` at `@/scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py:627-636`:
 
 ```python
 if args.optimized and args.optimized.exists():
@@ -6769,7 +6772,7 @@ H2 is perfect — **0.000 mHa error** across all controls. But LiH has a problem
 
 The convergence plot crashed because LiH had only 1 valid subspace point (can't log-scale). Let me fix the plot and also run with more molecules that have better operators:
 
-*Viewed [run_sqd_pilot.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_sqd_pilot.py) *
+*Viewed `run_sqd_pilot.py` *
 
 *Edited relevant file*
 
@@ -6832,9 +6835,9 @@ Let me run the full L-BFGS-B optimization on the L40S with the RL best circuits,
   --max-qubits 24 \
   2>&1' 2>&1`*
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
 ### Planner Response
 
@@ -6918,7 +6921,7 @@ Now run the full L-BFGS-B optimization on the L40S with the RL circuits:
   --max-qubits 24 \
   2>&1' 2>&1`*
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
 ### Planner Response
 
@@ -7094,11 +7097,11 @@ print(f"Energy: {e:.6f}")
 PYEOF
 ' 2>&1`*
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
 ### Planner Response
 
@@ -7194,7 +7197,7 @@ PYEOF
 
 *User accepted the command `ls /scratch/kcwp264/Conditional-GQE_materials/results/qpu/`*
 
-*Listed directory [qpu](file:///scratch/kcwp264/Conditional-GQE_materials/results/qpu) *
+*Listed directory `qpu` *
 
 ### Planner Response
 
@@ -7208,13 +7211,13 @@ Good — we already have QWC manifests for H2, LiH, and N2. Now let me export SQ
 
 *Updated todo list*
 
-*Viewed [submit_qpu_async.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/submit_qpu_async.py) *
+*Viewed `submit_qpu_async.py` *
 
-*Viewed [submit_qpu_async.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/submit_qpu_async.py) *
+*Viewed `submit_qpu_async.py` *
 
-*Viewed [submit_qpu_async.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/submit_qpu_async.py) *
+*Viewed `submit_qpu_async.py` *
 
-*Viewed [submit_qpu_async.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/submit_qpu_async.py) *
+*Viewed `submit_qpu_async.py` *
 
 *User accepted the command `srun --jobid=6862420 --overlap bash -c 'export PATH="/mnt/scratch/kcwp264/.conda_envs/cudaq-env/bin:$PATH" && cd /scratch/kcwp264/Conditional-GQE_materials && python scripts/submit_qpu_async.py --help 2>&1 | tail -60' 2>&1`*
 
@@ -7314,15 +7317,15 @@ PYEOF
 
 *Grep searched codebase*
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
 *User accepted the command `srun --jobid=6862420 --overlap bash -c 'export PATH="/mnt/scratch/kcwp264/.conda_envs/cudaq-env/bin:$PATH" && cd /scratch/kcwp264/Conditional-GQE_materials && python3 << "PYEOF" 2>&1
 import json, sys, time
@@ -7417,7 +7420,7 @@ Works without provider arg. Let me fix the script:
 
 ### Planner Response
 
-Now fix all calls to [retrieve_job_counts](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/retrieve_and_sqd.py:32:0-49:19) to not pass provider:
+Now fix all calls to `retrieve_job_counts` to not pass provider:
 
 *Edited relevant file*
 
@@ -7431,7 +7434,7 @@ Now run both retrievals — SV1 simulator and Cepheus QPU:
 
 *Grep searched codebase*
 
-*Viewed [sqd.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/sqd.py) *
+*Viewed `sqd.py` *
 
 ### Planner Response
 
@@ -7676,7 +7679,7 @@ Yes, this circuit makes sense. Let me break down what's happening:
 
 The circuit is correct and the H2 QPU result validates the full pipeline. The issue is purely on the AI inference side (operator generation quality for larger molecules), not the circuit construction or QPU execution.
 
-*Viewed [generate_report.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/generate_report.py) *
+*Viewed `generate_report.py` *
 
 ### User Input
 
@@ -7684,19 +7687,19 @@ The circuit is correct and the H2 QPU result validates the full pipeline. The is
 
 *Searched web for sample-based quantum diagonalization SQD NISQ benchmark results 2024 2025*
 
-*Viewed [h_cgqe_optimized.json](file:///scratch/kcwp264/Conditional-GQE_materials/results/eval/h_cgqe_optimized.json) *
+*Viewed `h_cgqe_optimized.json` *
 
-*Viewed [h_cgqe_optimized.json](file:///scratch/kcwp264/Conditional-GQE_materials/results/eval/h_cgqe_optimized.json) *
+*Viewed `h_cgqe_optimized.json` *
 
-*Viewed [h_cgqe_model_qbraid_rl_best_circuits.json](file:///scratch/kcwp264/Conditional-GQE_materials/results/train/h_cgqe_model_qbraid_rl_best_circuits.json) *
+*Viewed `h_cgqe_model_qbraid_rl_best_circuits.json` *
 
 ### Planner Response
 
 **No — we're using the OLD checkpoint, not the RL checkpoint.** That's a key issue.
 
-The [h_cgqe_optimized.json](file:///scratch/kcwp264/Conditional-GQE_materials/results/eval/h_cgqe_optimized.json:0:0-0:0) we submitted to Cepheus was from a **previous supervised-only optimization run**. The RL checkpoint (`h_cgqe_model_qbraid_rl.pt`) has **much better circuits** — particularly for LiH and BeH2:
+The `h_cgqe_optimized.json` we submitted to Cepheus was from a **previous supervised-only optimization run**. The RL checkpoint (`h_cgqe_model_qbraid_rl.pt`) has **much better circuits** — particularly for LiH and BeH2:
 
-**RL checkpoint LiH stats** (from [results/train/h_cgqe_model_qbraid_rl_best_circuits.json](file:///scratch/kcwp264/Conditional-GQE_materials/results/train/h_cgqe_model_qbraid_rl_best_circuits.json:0:0-0:0)):
+**RL checkpoint LiH stats** (from `results/train/h_cgqe_model_qbraid_rl_best_circuits.json`):
 - `mean_entanglement: 0.6175` (vs ~0.0 for the old circuits which were all Z-only)
 - `best_energy: -7.8613` Ha (vs -7.3676 from old optimization)
 - `entanglement_range: [0.34, 1.0]` — actual X/Y entangling operators present
@@ -7707,7 +7710,7 @@ The [h_cgqe_optimized.json](file:///scratch/kcwp264/Conditional-GQE_materials/re
 - `best_energy: -15.5579` Ha (vs -15.3502 from old)
 - `entanglement_range: [0.36, 1.0]`
 
-The old [h_cgqe_optimized.json](file:///scratch/kcwp264/Conditional-GQE_materials/results/eval/h_cgqe_optimized.json:0:0-0:0) LiH had only 5 Z-only operators (`IZIZ, IZZI, IIZI, IIZZ, IZII`) — zero entanglement, which is why SQD got 737 mHa error on Cepheus. The RL checkpoint generates proper entangling operators like `IXYZZZZZZXZY` for 12q molecules.
+The old `h_cgqe_optimized.json` LiH had only 5 Z-only operators (`IZIZ, IZZI, IIZI, IIZZ, IZII`) — zero entanglement, which is why SQD got 737 mHa error on Cepheus. The RL checkpoint generates proper entangling operators like `IXYZZZZZZXZY` for 12q molecules.
 
 ## Assessment of Results vs Literature
 

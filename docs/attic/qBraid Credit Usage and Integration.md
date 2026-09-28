@@ -1,4 +1,7 @@
-read te# Cascade Chat Conversation
+> [!NOTE]
+> Internal session log kept for provenance — not polished documentation. See README.md / docs/ for curated docs.
+
+# Cascade Chat Conversation
 
   Note: _This is purely the output of the chat conversation and does not contain any raw data, codebase snippets, etc. used to generate the output._
 
@@ -22,15 +25,15 @@ read te# Cascade Chat Conversation
 
 Now let me find the gyanateet automation starter kit repo structure:
 
-*Listed directory [gyanateet_automation_starter_kit](file:///scratch/kcwp264/agent-skills-fresh/gyanateet_automation_starter_kit) *
+*Listed directory `gyanateet_automation_starter_kit` *
 
-*Listed directory [docs](file:///scratch/kcwp264/agent-skills-fresh/gyanateet_automation_starter_kit/docs) *
+*Listed directory `docs` *
 
-*Viewed [README.md](file:///scratch/kcwp264/agent-skills-fresh/gyanateet_automation_starter_kit/README.md) *
+*Viewed `README.md` *
 
-*Listed directory [prompts](file:///scratch/kcwp264/agent-skills-fresh/gyanateet_automation_starter_kit/prompts) *
+*Listed directory `prompts` *
 
-*Viewed [research-digest-prompt.md](file:///scratch/kcwp264/agent-skills-fresh/gyanateet_automation_starter_kit/prompts/research-digest-prompt.md) *
+*Viewed `research-digest-prompt.md` *
 
 ### Planner Response
 
@@ -70,7 +73,7 @@ Created and pushed the RL reading list to the gyanateet automation starter kit r
 
 ## Summary
 
-Created [docs/rl-reading-list.md](file:///scratch/kcwp264/agent-skills-fresh/gyanateet_automation_starter_kit/docs/rl-reading-list.md:0:0-0:0) in the [gyanateet_automation_starter_kit](file:///scratch/kcwp264/agent-skills-fresh/gyanateet_automation_starter_kit:0:0-0:0) with **21 papers organized into 6 tiers**, tailored to your background:
+Created `docs/rl-reading-list.md` in the `gyanateet_automation_starter_kit` with **21 papers organized into 6 tiers**, tailored to your background:
 
 - **Tier 0 — Foundations**: PPO, TRPO, SAC (maximum entropy RL — the theoretical root of all our entropy preservation work)
 - **Tier 1 — Modern LLM RL**: GRPO (DeepSeekMath), DAPO (our algorithm), REPO/ADAPO (our entropy preservation)
@@ -81,7 +84,7 @@ Created [docs/rl-reading-list.md](file:///scratch/kcwp264/agent-skills-fresh/gya
 
 Each paper has a **"Your angle"** section connecting it to your specific background (DINOv2, V-JEPA2, world models, VLA's, MuJoCo, Conditional-GQE). There's also a mapping table showing which papers inform which parts of your Conditional-GQE pipeline, and a suggested reading order.
 
-*Viewed [README.md](file:///scratch/kcwp264/agent-skills-fresh/gyanateet_automation_starter_kit/README.md) *
+*Viewed `README.md` *
 
 ### User Input
 
@@ -140,7 +143,7 @@ section showing how physics-based ML progression maps to his research." && git p
 
 ### Planner Response
 
-Created and pushed [docs/physics-ml-reading-list.md](file:///scratch/kcwp264/agent-skills-fresh/gyanateet_automation_starter_kit/docs/physics-ml-reading-list.md:0:0-0:0) — 15 papers in 6 tiers:
+Created and pushed `docs/physics-ml-reading-list.md` — 15 papers in 6 tiers:
 
 ## Summary
 
@@ -161,7 +164,7 @@ Each paper has a **"Your angle"** section connecting it to your specific work �
 
 Both reading lists are now linked in the starter kit README.
 
-*Viewed [README.md](file:///scratch/kcwp264/agent-skills-fresh/gyanateet_automation_starter_kit/README.md) *
+*Viewed `README.md` *
 
 ### User Input
 
@@ -171,7 +174,7 @@ cool so what script should i run here, btw gimme the command to run the next exp
 
 Let me check the current pipeline script to give you the exact command:
 
-*Viewed [run_full_uccsd_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_full_uccsd_pipeline.sh) *
+*Viewed `run_full_uccsd_pipeline.sh` *
 
 ### Planner Response
 
@@ -181,7 +184,7 @@ Let me check what's already been run and if there's a Slurm script:
 
 *Checked command status*
 
-*Viewed [gqe-suite.slurm](file:///scratch/kcwp264/Conditional-GQE_materials/jobs/gqe-suite.slurm) *
+*Viewed `gqe-suite.slurm` *
 
 ### Planner Response
 
@@ -217,7 +220,7 @@ The pipeline will:
 
 The 300-epoch RL training is the bottleneck. With 50 samples/molecule/epoch across 12 molecules on 3 L40S GPUs, expect roughly 4-8 hours depending on energy evaluation throughput.
 
-Want me to update the [jobs/gqe-suite.slurm](file:///scratch/kcwp264/Conditional-GQE_materials/jobs/gqe-suite.slurm:0:0-0:0) script to match the new pipeline so you can just `sbatch jobs/gqe-suite.slurm`?
+Want me to update the `jobs/gqe-suite.slurm` script to match the new pipeline so you can just `sbatch jobs/gqe-suite.slurm`?
 
 ### User Input
 
@@ -297,21 +300,21 @@ Segfault at epoch 0 — likely CUDA-Q's `nvidia-mqpu` backend crashing during en
 
 *Found code context*
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 *Searched web for CUDA-Q nvidia-mqpu segfault PyTorch DataParallel GPU context conflict observe_async*
 
 ### Planner Response
 
-Found it. This is a known CUDA-Q bug ([Issue #4359](https://github.com/NVIDIA/cuda-quantum/issues/4359), [Issue #2821](https://github.com/NVIDIA/cuda-quantum/issues/2821)): **[@cudaq.kernel](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:322:4-328:51) is not thread-safe when called inside a loop that also dispatches `observe_async`**. The kernel gets reconstructed via `make_kernel` on each call, and the MLIR context crashes with a segfault.
+Found it. This is a known CUDA-Q bug ([Issue #4359](https://github.com/NVIDIA/cuda-quantum/issues/4359), [Issue #2821](https://github.com/NVIDIA/cuda-quantum/issues/2821)): **`@cudaq.kernel` is not thread-safe when called inside a loop that also dispatches `observe_async`**. The kernel gets reconstructed via `make_kernel` on each call, and the MLIR context crashes with a segfault.
 
 The fix is to move the kernel definition to **module level** (built once at import time), not inside the function. Let me check the current code:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
-The root cause is clear. CUDA-Q's [@cudaq.kernel](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:322:4-328:51) decorator calls `make_kernel` internally, which is **not thread-safe** when called in the same scope as `observe_async` loops. This is a confirmed CUDA-Q bug ([#4359](https://github.com/NVIDIA/cuda-quantum/issues/4359), [#2821](https://github.com/NVIDIA/cuda-quantum/issues/2821)).
+The root cause is clear. CUDA-Q's `@cudaq.kernel` decorator calls `make_kernel` internally, which is **not thread-safe** when called in the same scope as `observe_async` loops. This is a confirmed CUDA-Q bug ([#4359](https://github.com/NVIDIA/cuda-quantum/issues/4359), [#2821](https://github.com/NVIDIA/cuda-quantum/issues/2821)).
 
 The fix: move the kernel definition to **module level** so it's built once at import time, not reconstructed on every function call.
 
@@ -321,7 +324,7 @@ The fix: move the kernel definition to **module level** so it's built once at im
 
 Now let me also check if there's a potential issue with `nn.DataParallel` and CUDA-Q interacting. The `DataParallel` model runs the forward pass on multiple GPUs, which could set up CUDA contexts that conflict with CUDA-Q's mqpu. Let me also add a `torch.cuda.synchronize()` before CUDA-Q calls to ensure PyTorch operations are complete:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 *Edited relevant file*
 
@@ -358,13 +361,13 @@ Fixed and pushed. Here's the summary:
 
 ## Root Cause
 
-CUDA-Q's [@cudaq.kernel](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:318:8-324:55) decorator calls `make_kernel()` internally, which is **not thread-safe** when called inside a loop that also dispatches `observe_async`. This is a confirmed CUDA-Q bug ([#4359](https://github.com/NVIDIA/cuda-quantum/issues/4359), [#2821](https://github.com/NVIDIA/cuda-quantum/issues/2821)).
+CUDA-Q's `@cudaq.kernel` decorator calls `make_kernel()` internally, which is **not thread-safe** when called inside a loop that also dispatches `observe_async`. This is a confirmed CUDA-Q bug ([#4359](https://github.com/NVIDIA/cuda-quantum/issues/4359), [#2821](https://github.com/NVIDIA/cuda-quantum/issues/2821)).
 
-The kernel was defined **inside** both [evaluate_energies_batch](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:329:0-357:19) and [evaluate_energies_parallel](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:360:0-404:19), so it got reconstructed on every call. When `observe_async` was then called in a loop within the same function scope, the MLIR context crashed with a bare segfault.
+The kernel was defined **inside** both `evaluate_energies_batch` and `evaluate_energies_parallel`, so it got reconstructed on every call. When `observe_async` was then called in a loop within the same function scope, the MLIR context crashed with a bare segfault.
 
 ## Fix
 
-1. **Moved kernel to module level** via [_get_gqe_kernel()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:315:0-326:22) lazy singleton — `make_kernel()` is called exactly once at import time, not on every function call
+1. **Moved kernel to module level** via `_get_gqe_kernel()` lazy singleton — `make_kernel()` is called exactly once at import time, not on every function call
 2. **Added `torch.cuda.synchronize()`** before CUDA-Q energy evaluation to prevent CUDA context conflicts between `nn.DataParallel` and the `mqpu` backend
 
 ## Run it again
@@ -614,7 +617,7 @@ Good — the GPT-QE paper uses a **two-stage approach**: supervised pretraining 
 
 Let me look at the supervised training code and the GQE baseline data format:
 
-*Viewed [train_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_h_cgqe.py) *
+*Viewed `train_h_cgqe.py` *
 
 *User accepted the command `/mnt/scratch/kcwp264/.conda_envs/cudaq-env/bin/python << 'PYEOF'
 import json
@@ -692,7 +695,7 @@ PYEOF`*
 
 Good — the GQE baseline has `gqe_selected_operators` with Pauli words and coefficients. Now let me check the supervised training script and the dataset preparation script:
 
-*Viewed [train_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_h_cgqe.py) *
+*Viewed `train_h_cgqe.py` *
 
 ### Planner Response
 
@@ -702,23 +705,23 @@ Now let me check the dataset preparation script:
 
 *Grep searched codebase*
 
-*Viewed [prepare_gqe_dataset.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/data/prepare_gqe_dataset.py) *
+*Viewed `prepare_gqe_dataset.py` *
 
 ### Planner Response
 
-Now let me look at the RL training script's argument parser and the [load_molecule_data](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:620:0-653:5) function to understand what I need to modify:
+Now let me look at the RL training script's argument parser and the `load_molecule_data` function to understand what I need to modify:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
 Now let me check the argument parser for the `--from-scratch` and `--checkpoint` args:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -733,23 +736,23 @@ Now I have a clear picture. Let me implement all four improvements:
 
 ### Planner Response
 
-First, let me add the adaptive θ optimization and pre-constructed data mixing to the RL training script. Let me check the [evaluate_energies_parallel](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:360:0-404:19) function and the [compute_reward](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:411:0-488:17) function:
+First, let me add the adaptive θ optimization and pre-constructed data mixing to the RL training script. Let me check the `evaluate_energies_parallel` function and the `compute_reward` function:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
-Now let me look at the [compute_reward](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:411:0-488:17) function:
+Now let me look at the `compute_reward` function:
 
 *Grep searched codebase*
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
 Now let me check the end of the file to see the save logic and the full training loop end:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -769,9 +772,9 @@ Now I have the full picture. Let me implement all the changes. I'll add:
 
 Now I need to add the pre-constructed data loading and mixing logic in the training loop. Let me find where the replay buffer is initialized and add pre-constructed data loading:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -783,9 +786,9 @@ Now let me add the pre-constructed data loading after the replay buffer initiali
 
 Now add the pre-constructed data mixing inside the training loop and the adaptive theta optimization. Let me find the right spot in the training loop:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -797,9 +800,9 @@ Now add the adaptive theta optimization after energy evaluation and the pre-cons
 
 Now add the pre-constructed data mixing into the replay buffer at the end of each epoch. Let me find the end of the epoch loop:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -813,7 +816,7 @@ Now add the pre-constructed data mixing at the end of each epoch (inject pre-con
 
 Now update the pipeline script to re-enable supervised pretraining and use warm start:
 
-*Viewed [run_full_uccsd_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_full_uccsd_pipeline.sh) *
+*Viewed `run_full_uccsd_pipeline.sh` *
 
 ### Planner Response
 
@@ -823,9 +826,9 @@ Now update the pipeline script to re-enable supervised pretraining and use warm 
 
 ### Planner Response
 
-Now let me verify syntax of both files and check for the typo I noticed in [_optimize_theta_quick](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:375:0-413:43):
+Now let me verify syntax of both files and check for the typo I noticed in `_optimize_theta_quick`:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -843,13 +846,13 @@ Now verify syntax of both files:
 
 ### Planner Response
 
-Now let me also check that `tokenize_operator_sequence` is imported (used in [_load_pretrain_sequences](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:330:0-372:24)):
+Now let me also check that `tokenize_operator_sequence` is imported (used in `_load_pretrain_sequences`):
 
 *Grep searched codebase*
 
 ### Planner Response
 
-Good. Now let me check that [prepare_gqe_dataset.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/data/prepare_gqe_dataset.py:0:0-0:0) accepts the `--augment` flag:
+Good. Now let me check that `prepare_gqe_dataset.py` accepts the `--augment` flag:
 
 *Grep searched codebase*
 
@@ -859,19 +862,19 @@ Continue
 
 ### Planner Response
 
-The pipeline script has incorrect arg names for [prepare_gqe_dataset.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/data/prepare_gqe_dataset.py:0:0-0:0). It uses `--gqe-results` (not `--gqe-json`), `--ham` (not `--hamiltonians`), and `--augment-multiplier` (not `--augment`). Let me fix:
+The pipeline script has incorrect arg names for `prepare_gqe_dataset.py`. It uses `--gqe-results` (not `--gqe-json`), `--ham` (not `--hamiltonians`), and `--augment-multiplier` (not `--augment`). Let me fix:
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now let me check [train_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_h_cgqe.py:0:0-0:0) args to make sure `--commutator-weight` and other args match:
+Now let me check `train_h_cgqe.py` args to make sure `--commutator-weight` and other args match:
 
 *Grep searched codebase*
 
 ### Planner Response
 
-Good — the args match. Now let me also check that [_pad_pauli_word](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:302:0-307:26) is available in [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0) (used in [_optimize_theta_quick](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:375:0-413:43)):
+Good — the args match. Now let me also check that `_pad_pauli_word` is available in `train_rl_dapo.py` (used in `_optimize_theta_quick`):
 
 *Grep searched codebase*
 
@@ -883,17 +886,17 @@ Good. Now let me also check the `hamiltonian_to_spin_operator` import — it nee
 
 ### Planner Response
 
-Good — it takes a record dict. In [_optimize_theta_quick](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:375:0-413:43), I pass `molecule_record` which is `mol_data["record"]`. That's correct.
+Good — it takes a record dict. In `_optimize_theta_quick`, I pass `molecule_record` which is `mol_data["record"]`. That's correct.
 
 Now let me also check the `tokenize_operator_sequence` return type — it should return a list of token IDs:
 
 *Grep searched codebase*
 
-*Viewed [h_cgqe_transformer.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/h_cgqe_transformer.py) *
+*Viewed `h_cgqe_transformer.py` *
 
 ### Planner Response
 
-[tokenize_operator_sequence](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/h_cgqe_transformer.py:482:0-498:59) returns a `torch.Tensor`, not a list. In [_load_pretrain_sequences](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:330:0-372:24), I store the tensor directly, then later do `torch.tensor(s["sequence"])` which wraps a tensor in another tensor. Let me fix:
+`tokenize_operator_sequence` returns a `torch.Tensor`, not a list. In `_load_pretrain_sequences`, I store the tensor directly, then later do `torch.tensor(s["sequence"])` which wraps a tensor in another tensor. Let me fix:
 
 *Edited relevant file*
 
@@ -938,20 +941,20 @@ Now let me verify syntax once more, then commit and push:
 
 ### Planner Response
 
-All done. Committed and pushed to [main](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:749:0-1398:40). Here's a summary of changes:
+All done. Committed and pushed to `main`. Here's a summary of changes:
 
 ## Changes Made
 
-### [src/gqe/models/train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0)
-- **[_load_pretrain_sequences()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:330:0-372:24)** — Loads GQE baseline operator sequences from JSON, tokenizes them, and returns per-molecule pre-constructed samples
-- **[_optimize_theta_quick()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:375:0-413:43)** — Quick L-BFGS-B optimization of rotation angles for a single circuit using `scipy.optimize.minimize` on the CUDA-Q energy function
+### `src/gqe/models/train_rl_dapo.py`
+- **`_load_pretrain_sequences()`** — Loads GQE baseline operator sequences from JSON, tokenizes them, and returns per-molecule pre-constructed samples
+- **`_optimize_theta_quick()`** — Quick L-BFGS-B optimization of rotation angles for a single circuit using `scipy.optimize.minimize` on the CUDA-Q energy function
 - **Pre-constructed data mixing** — Pre-fills replay buffer at 30% capacity with GQE baseline sequences, then injects more each epoch with linearly decaying fraction (30% → 0% over 150 epochs), per GPT-QE paper Section 2.2
 - **Adaptive theta in reward loop** — After energy evaluation, runs L-BFGS-B on the best circuit in the batch and replaces its energy with the optimized value if better
 - **New CLI args**: `--pretrain-data`, `--pretrain-fraction`, `--pretrain-decay-epochs`, `--adaptive-theta`, `--adaptive-theta-iters`
 
-### [scripts/run_full_uccsd_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_full_uccsd_pipeline.sh:0:0-0:0)
-- **Step 2 re-enabled**: [prepare_gqe_dataset.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/data/prepare_gqe_dataset.py:0:0-0:0) builds supervised dataset from GQE baseline
-- **Step 3 re-enabled**: [train_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_h_cgqe.py:0:0-0:0) trains supervised model (200 epochs, commutator weight 0.1)
+### `scripts/run_full_uccsd_pipeline.sh`
+- **Step 2 re-enabled**: `prepare_gqe_dataset.py` builds supervised dataset from GQE baseline
+- **Step 3 re-enabled**: `train_h_cgqe.py` trains supervised model (200 epochs, commutator weight 0.1)
 - **Step 3b updated**: RL fine-tuning now warm-starts from supervised checkpoint (`--checkpoint` instead of `--from-scratch`), 500 epochs, LR 1e-5, curriculum warmup 50, plus `--pretrain-data` and `--adaptive-theta` flags
 
 ## Run Command
@@ -1343,7 +1346,7 @@ The GIC Mitsubishi challenge is literally about **"Harnessing the Generative Qua
 
 First, let me add multi-iteration support to the RL training loop (the paper does N_iter=5 gradient updates per epoch on different batches from the replay buffer):
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -1355,9 +1358,9 @@ Now let me add the `--n-iters` argument (gradient updates per epoch) and increas
 
 Now let me find the DAPO loss section and wrap it in a loop for `n_iters`. Let me check the current training loop structure:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -1397,7 +1400,7 @@ Also update the inference and optimization steps in the pipeline to use the impr
 
 Now add the scalability benchmark step at the end of the pipeline:
 
-*Viewed [run_full_uccsd_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_full_uccsd_pipeline.sh) *
+*Viewed `run_full_uccsd_pipeline.sh` *
 
 *Edited relevant file*
 
@@ -1441,10 +1444,10 @@ The 2026 GIC challenge use case is literally **"Harnessing the Generative Quantu
 
 ### Code Changes
 
-**[src/gqe/models/train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0)**:
+**`src/gqe/models/train_rl_dapo.py`**:
 - Added `--n-iters` arg: multiple gradient updates per epoch from replay buffer batches (GPT-QE paper uses N_iter=5, giving 5x more training signal per epoch)
 
-**[scripts/run_full_uccsd_pipeline.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_full_uccsd_pipeline.sh:0:0-0:0)** — GIC-optimized hyperparameters:
+**`scripts/run_full_uccsd_pipeline.sh`** — GIC-optimized hyperparameters:
 - `--epochs 1500` (was 500) — paper uses 1500 for BeH2/N2
 - `--n-samples 100` (was 50) — 2x more circuits per epoch
 - `--n-iters 5` — 5 gradient updates per epoch (new)
@@ -1453,12 +1456,12 @@ The 2026 GIC challenge use case is literally **"Harnessing the Generative Quantu
 - `--top-k 10 --max-iter 200` for L-BFGS-B (was 5/100)
 - Added Steps 7+8: scalability benchmark + plotting
 
-**[scripts/run_scalability_benchmark.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh:0:0-0:0)** (new):
+**`scripts/run_scalability_benchmark.sh`** (new):
 - Sweeps molecules by qubit count (4 → 12 → 14 → 20 qubits)
 - Measures per-molecule inference + optimization time
 - Generates JSON report with energy, timing, and improvement data
 
-**[scripts/plot_scalability.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/plot_scalability.py:0:0-0:0)** (new):
+**`scripts/plot_scalability.py`** (new):
 - 4 plots: energy comparison bar chart, error vs FCI, timing breakdown, improvement over GQE
 
 ### Run Commands
@@ -1497,7 +1500,7 @@ bash scripts/run_scalability_benchmark.sh results/train/h_cgqe_rl_warmstart.pt
     --max-qubits 24 --use-bf16 --curriculum --curriculum-warmup 50
 ```
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### User Input
 
@@ -1517,7 +1520,7 @@ The changes are already committed and pushed. Let me verify the remote state:
 
 ### Planner Response
 
-Everything is already pushed to GitHub. The repo at `Quantum-Buddies/Conditional_GQE` on [main](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:749:0-1440:40) has both commits:
+Everything is already pushed to GitHub. The repo at `Quantum-Buddies/Conditional_GQE` on `main` has both commits:
 
 - `c8d7562` — GIC-optimized hyperparameters + scalability benchmark
 - `1bed5d2` — supervised warm start + adaptive theta + pre-constructed data mixing
@@ -1690,7 +1693,7 @@ PYEOF`*
 
 *Grep searched codebase*
 
-*Viewed [experiment.yaml](file:///scratch/kcwp264/Conditional-GQE_materials/configs/experiment.yaml) *
+*Viewed `experiment.yaml` *
 
 ### Planner Response
 
@@ -1704,9 +1707,9 @@ Now I have the full picture. We have `tensornet-mps` and `nvidia-mqpu-mps` backe
 
 Now add MPS backend support to the RL training script. The key change is: when `n_qubits > 24`, automatically switch to `tensornet-mps` backend:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -1714,14 +1717,14 @@ Now let me check where the CUDA-Q target is set and add MPS support:
 
 *Grep searched codebase*
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
 Now I need to add MPS backend support. The key changes are:
 1. Add `--target-option mps` support
 2. When n_qubits > 24, automatically use `tensornet-mps` instead of `nvidia-mqpu`
-3. For MPS, use [evaluate_energies_batch](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:416:0-444:19) (sequential) since MPS is single-GPU
+3. For MPS, use `evaluate_energies_batch` (sequential) since MPS is single-GPU
 
 *Edited relevant file*
 
@@ -1783,19 +1786,19 @@ CUDA-Q 0.14.2 (our pip install) includes `tensornet-mps` — a **Matrix Product 
 
 ### What Was Added
 
-**[src/gqe/models/train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0)**:
+**`src/gqe/models/train_rl_dapo.py`**:
 - Auto-switches from `nvidia-mqpu` to `tensornet-mps` when `n_qubits > mps_threshold` (default 24)
 - New args: `--mps-threshold 24`, `--mps-bond 64` (higher = more accurate, more memory)
 - `--max-qubits` raised to 48
 
-**[configs/scaling_40plus.yaml](file:///scratch/kcwp264/Conditional-GQE_materials/configs/scaling_40plus.yaml:0:0-0:0)** (new):
+**`configs/scaling_40plus.yaml`** (new):
 - N2 cc-pVDZ full: **40 qubits**
 - Benzene CAS(12e,20o): **40 qubits**
 - BeH2 cc-pVDZ: **30 qubits**
 - Ethylene STO-3G: **28 qubits**
 - Plus original 4-20 qubit molecules
 
-**[scripts/run_scalability_benchmark.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh:0:0-0:0)**:
+**`scripts/run_scalability_benchmark.sh`**:
 - Now sweeps **4 → 40+ qubits** (9 molecules)
 - Per-molecule backend: `nvidia-mqpu` for ≤24q, `tensornet-mps` for >24q
 - Reports accuracy + timing for each
@@ -2150,15 +2153,15 @@ RuntimeError: The size of tensor a (65) must match the size of tensor b (64) at 
 
 The positional encoding buffer is too small (64) for the sequence length being generated (65). The model was trained with `max_seq_len=64` but inference is trying to generate longer sequences.
 
-*Viewed [h_cgqe_transformer.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/h_cgqe_transformer.py) *
+*Viewed `h_cgqe_transformer.py` *
 
 ### Planner Response
 
 The model checkpoint has a `pe` buffer of size 64 (trained with old `max_seq_len=64`). When inference tries to generate 65+ tokens, it overflows. Need to resize the buffer after loading.
 
-*Viewed [infer_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/infer_h_cgqe.py) *
+*Viewed `infer_h_cgqe.py` *
 
-*Viewed [infer_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/infer_h_cgqe.py) *
+*Viewed `infer_h_cgqe.py` *
 
 ### Planner Response
 
@@ -2172,7 +2175,7 @@ Now check if `math` is imported:
 
 *Grep searched codebase*
 
-*Viewed [infer_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/infer_h_cgqe.py) *
+*Viewed `infer_h_cgqe.py` *
 
 *Edited relevant file*
 
@@ -2206,7 +2209,7 @@ bash scripts/run_scalability_benchmark.sh results/train/h_cgqe_rl_warmstart.pt
 
 It should now get past N2 and continue to the larger molecules. The first 3 molecules (H2, LiH, BeH2) already completed successfully — their results are saved in `results/scaling_benchmark/`.
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### User Input
 
@@ -2484,9 +2487,9 @@ here help me fix this issue
 
 ### Planner Response
 
-The 40+ qubit molecules don't exist in the Hamiltonian data yet — they need to be generated from the [scaling_40plus.yaml](file:///scratch/kcwp264/Conditional-GQE_materials/configs/scaling_40plus.yaml:0:0-0:0) config. The first 4 molecules (4-20 qubits) worked fine because they're already in the existing data.
+The 40+ qubit molecules don't exist in the Hamiltonian data yet — they need to be generated from the `scaling_40plus.yaml` config. The first 4 molecules (4-20 qubits) worked fine because they're already in the existing data.
 
-*Viewed [generate_hamiltonians.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/data/generate_hamiltonians.py) *
+*Viewed `generate_hamiltonians.py` *
 
 *Grep searched codebase*
 
@@ -2510,9 +2513,9 @@ Good, `frozen-core` is supported (mapped to `freeze_core`). Now let me check if 
 
 PySCF is available. Now let me also check the `--out` argument — the generate script expects a directory, not a file:
 
-*Viewed [generate_hamiltonians.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/data/generate_hamiltonians.py) *
+*Viewed `generate_hamiltonians.py` *
 
-*Viewed [generate_hamiltonians.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/data/generate_hamiltonians.py) *
+*Viewed `generate_hamiltonians.py` *
 
 ### Planner Response
 
@@ -2528,7 +2531,7 @@ Let me update the benchmark script to generate missing molecules on the fly, and
 
 Now update the benchmark script to auto-generate missing molecules before running:
 
-*Viewed [run_scalability_benchmark.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh) *
+*Viewed `run_scalability_benchmark.sh` *
 
 *Edited relevant file*
 
@@ -2838,9 +2841,9 @@ Two issues:
 
 Let me fix the config with explicit active spaces, update the sweep with correct qubit counts, raise `--max-qubits`, and fix the crash.
 
-*Viewed [scaling_40plus.yaml](file:///scratch/kcwp264/Conditional-GQE_materials/configs/scaling_40plus.yaml) *
+*Viewed `scaling_40plus.yaml` *
 
-*Viewed [scaling_40plus.yaml](file:///scratch/kcwp264/Conditional-GQE_materials/configs/scaling_40plus.yaml) *
+*Viewed `scaling_40plus.yaml` *
 
 ### Planner Response
 
@@ -2852,9 +2855,9 @@ Now let me check the optimize script for the crash and `--max-qubits`:
 
 Now let me check the benchmark script to see where `--max-qubits` is passed and where the crash happens:
 
-*Viewed [run_scalability_benchmark.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh) *
+*Viewed `run_scalability_benchmark.sh` *
 
-*Viewed [run_scalability_benchmark.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh) *
+*Viewed `run_scalability_benchmark.sh` *
 
 ### Planner Response
 
@@ -2917,7 +2920,7 @@ It will regenerate the Hamiltonians with the corrected active spaces (the old me
 rm -f results/data/hamiltonians_merged.json results/data/hamiltonians_40plus/hamiltonians.json
 ```
 
-*Viewed [scaling_40plus.yaml](file:///scratch/kcwp264/Conditional-GQE_materials/configs/scaling_40plus.yaml) *
+*Viewed `scaling_40plus.yaml` *
 
 ### User Input
 
@@ -2963,7 +2966,7 @@ Want me to update the benchmark script to use reduced parameters for MPS molecul
 
 yeah I think I also want to do multiple GPUs because that makes a bit more sense
 
-*Viewed [run_scalability_benchmark.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh) *
+*Viewed `run_scalability_benchmark.sh` *
 
 *User accepted the command `rm /scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh`*
 
@@ -3015,7 +3018,7 @@ bash scripts/run_scalability_benchmark.sh results/train/h_cgqe_rl_warmstart.pt
 
 The `rm` ensures the old 56q Hamiltonians get regenerated with the corrected active spaces. The first 4 molecules will be skipped (already complete), so it goes straight to the parallel MPS phase.
 
-*Viewed [run_pipeline.py](file:///scratch/kcwp264/orena_save_focus/scripts/run_pipeline.py) *
+*Viewed `run_pipeline.py` *
 
 ### User Input
 
@@ -3058,7 +3061,7 @@ The OOM suggests we should either:
 
 Want me to update the script to run 2 MPS molecules in parallel instead of 3, and add a lower bond dimension for the 40q molecules?
 
-*Viewed [evaluate.py](file:///scratch/kcwp264/orena_save_focus/scripts/evaluate.py) *
+*Viewed `evaluate.py` *
 
 ### User Input
 
@@ -3083,13 +3086,13 @@ Now I have the info. Key findings:
 
 Let me update the script:
 
-*Viewed [run_scalability_benchmark.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh) *
+*Viewed `run_scalability_benchmark.sh` *
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now I also need to make sure the `CUDAQ_MPS_MAX_BOND` env var is set in the subshell for each parallel process. Since `export` is used in [run_single_molecule](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh:91:0-145:1), it will be inherited by child processes. But for parallel processes, they might race on the env var. Let me fix this by passing it inline:
+Now I also need to make sure the `CUDAQ_MPS_MAX_BOND` env var is set in the subshell for each parallel process. Since `export` is used in `run_single_molecule`, it will be inherited by child processes. But for parallel processes, they might race on the env var. Let me fix this by passing it inline:
 
 *Edited relevant file*
 
@@ -3150,7 +3153,7 @@ bash scripts/run_scalability_benchmark.sh results/train/h_cgqe_rl_warmstart.pt
 
 No need to delete Hamiltonians — they're already generated with correct active spaces. The script will skip the 6 completed molecules and only run the 3 remaining ones.
 
-*Viewed [evaluate.py](file:///scratch/kcwp264/orena_save_focus/scripts/evaluate.py) *
+*Viewed `evaluate.py` *
 
 ### User Input
 
@@ -3209,7 +3212,7 @@ Here's the current status:
 
 Note: `n2_ccpvdz` optimization produced an empty result file — this likely means the `--max-qubits 60` filter passed but the MPS optimization failed silently (possibly all sequences had 0 operators or the energy evaluation crashed). I should check the optimize script's handling of MPS failures once the run finishes.
 
-*Viewed [evaluate.py](file:///scratch/kcwp264/orena_save_focus/scripts/evaluate.py) *
+*Viewed `evaluate.py` *
 
 *User accepted the command `srun --partition=gpu --gres=gpu:l40s:3 --cpus-per-task=8 --mem-per-cpu=16G --time=12:00:00 --pty bash`*
 
@@ -3225,7 +3228,7 @@ can you run these scripts in sbatch and stuff
 
 Let me check the existing Slurm job script for reference, then create one for the scalability benchmark.
 
-*Viewed [gqe-suite.slurm](file:///scratch/kcwp264/Conditional-GQE_materials/jobs/gqe-suite.slurm) *
+*Viewed `gqe-suite.slurm` *
 
 *Edited relevant file*
 
@@ -3257,7 +3260,7 @@ ls -la results/scaling_benchmark/opt_*.json
 
 The script will skip the 4 completed small molecules and the 2 completed 32q molecules (n2_ccpvdz, beh2_ccpvdz), then run the remaining 3: ethylene (28q), benzene_cas20 (40q), n2_ccpvdz_cas20 (40q) — 2 at a time with MPS bond dimension control + fp32.
 
-Note: `n2_ccpvdz` has an empty opt file from the previous run, so the [is_complete](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh:84:0-88:1) check will treat it as incomplete and re-run it. If you want to skip it, I can fix the check to look at file content rather than just existence. Want me to do that?
+Note: `n2_ccpvdz` has an empty opt file from the previous run, so the `is_complete` check will treat it as incomplete and re-run it. If you want to skip it, I can fix the check to look at file content rather than just existence. Want me to do that?
 
 ### User Input
 
@@ -3267,9 +3270,9 @@ send them for me
 
 The scaling benchmark job is already submitted (6442664). Let me also submit the ORena FOCUS jobs:
 
-*Viewed [precompute.slurm](file:///scratch/kcwp264/orena_save_focus/jobs/precompute.slurm) *
+*Viewed `precompute.slurm` *
 
-*Viewed [evaluate.slurm](file:///scratch/kcwp264/orena_save_focus/jobs/evaluate.slurm) *
+*Viewed `evaluate.slurm` *
 
 *User accepted the command `mkdir -p /scratch/kcwp264/logs && sbatch /scratch/kcwp264/orena_save_focus/jobs/precompute.slurm && sbatch /scratch/kcwp264/orena_save_focus/jobs/evaluate.slurm`*
 
@@ -3281,9 +3284,9 @@ All 3 jobs submitted:
 
 | Job | ID | Script | GPUs | Time |
 |---|---|---|---|---|
-| Scaling Benchmark | 6442664 | [jobs/scaling_benchmark.slurm](file:///scratch/kcwp264/Conditional-GQE_materials/jobs/scaling_benchmark.slurm:0:0-0:0) | 3x L40S | 12h |
-| ORena Precompute | 6442670 | [jobs/precompute.slurm](file:///scratch/kcwp264/orena_save_focus/jobs/precompute.slurm:0:0-0:0) | 1x L40S | 6h |
-| ORena Evaluate | 6442671 | [jobs/evaluate.slurm](file:///scratch/kcwp264/orena_save_focus/jobs/evaluate.slurm:0:0-0:0) | 1x L40S | 4h |
+| Scaling Benchmark | 6442664 | `jobs/scaling_benchmark.slurm` | 3x L40S | 12h |
+| ORena Precompute | 6442670 | `jobs/precompute.slurm` | 1x L40S | 6h |
+| ORena Evaluate | 6442671 | `jobs/evaluate.slurm` | 1x L40S | 4h |
 
 ## Monitor All Jobs
 
@@ -3420,25 +3423,25 @@ elif isinstance(d, dict):
 
 *Grep searched codebase*
 
-*Viewed [qwen_vlm.py](file:///scratch/kcwp264/orena_save_focus/src/reasoning/qwen_vlm.py) *
+*Viewed `qwen_vlm.py` *
 
 ### Planner Response
 
 Now let me check the MPS optimization issue and fix the ORena import:
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
 ### Planner Response
 
-Now I see the issue — the optimization script catches exceptions per-sequence but if the heuristic ranking step crashes (line 254), the whole molecule section fails and produces empty results. Let me also check the [_evaluate_fixed_theta_energy](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py:116:0-134:89) function:
+Now I see the issue — the optimization script catches exceptions per-sequence but if the heuristic ranking step crashes (line 254), the whole molecule section fails and produces empty results. Let me also check the `_evaluate_fixed_theta_energy` function:
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
 ### Planner Response
 
@@ -3462,13 +3465,13 @@ Now fix the ORena transformers import:
 
 Now let me also check if the evaluate script is using mock mode or real mode — the previous run used the real pipeline which hit the VLM error. Also, let me check the evaluate.slurm to see if it passes `--mock`:
 
-*Viewed [evaluate.slurm](file:///scratch/kcwp264/orena_save_focus/jobs/evaluate.slurm) *
+*Viewed `evaluate.slurm` *
 
 ### Planner Response
 
-The evaluate script uses `run_pipeline.py evaluate` not [evaluate.py](file:///scratch/kcwp264/orena_save_focus/scripts/evaluate.py:0:0-0:0). Let me check what [run_pipeline.py](file:///scratch/kcwp264/orena_save_focus/scripts/run_pipeline.py:0:0-0:0) does for evaluate:
+The evaluate script uses `run_pipeline.py evaluate` not `evaluate.py`. Let me check what `run_pipeline.py` does for evaluate:
 
-*Viewed [run_pipeline.py](file:///scratch/kcwp264/orena_save_focus/scripts/run_pipeline.py) *
+*Viewed `run_pipeline.py` *
 
 ### Planner Response
 
@@ -3500,11 +3503,11 @@ Import works. Now let me also update the scaling benchmark script to run MPS mol
 
 Now update the benchmark script — run MPS molecules sequentially (1 GPU at a time) to avoid OOM, and further reduce params for 40q molecules:
 
-*Viewed [run_scalability_benchmark.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh) *
+*Viewed `run_scalability_benchmark.sh` *
 
-*Viewed [run_scalability_benchmark.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh) *
+*Viewed `run_scalability_benchmark.sh` *
 
-*Viewed [run_scalability_benchmark.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_scalability_benchmark.sh) *
+*Viewed `run_scalability_benchmark.sh` *
 
 ### Planner Response
 
@@ -3618,19 +3621,19 @@ for model in ['Qwen/Qwen3-VL-8B-Instruct', 'Qwen/Qwen2.5-VL-7B-Instruct']:
 
 Both are public. Let me use `Qwen/Qwen3-VL-8B-Instruct` since the project intended Qwen3-VL. Now update the config:
 
-*Viewed [default.yaml](file:///scratch/kcwp264/orena_save_focus/configs/default.yaml) *
+*Viewed `default.yaml` *
 
 *Edited relevant file*
 
 ### Planner Response
 
-Now I also need to check if the [QwenVLReasoner](file:///scratch/kcwp264/orena_save_focus/src/reasoning/qwen_vlm.py:26:0-324:22) class passes `max_model_len` and `gpu_memory_utilization` to the transformers backend. Let me check:
+Now I also need to check if the `QwenVLReasoner` class passes `max_model_len` and `gpu_memory_utilization` to the transformers backend. Let me check:
 
-*Viewed [qwen_vlm.py](file:///scratch/kcwp264/orena_save_focus/src/reasoning/qwen_vlm.py) *
+*Viewed `qwen_vlm.py` *
 
 ### Planner Response
 
-Also update the default model path in the [QwenVLReasoner](file:///scratch/kcwp264/orena_save_focus/src/reasoning/qwen_vlm.py:26:0-324:22) constructor:
+Also update the default model path in the `QwenVLReasoner` constructor:
 
 *Edited relevant file*
 
@@ -3692,7 +3695,7 @@ tail -f /scratch/kcwp264/logs/orena-eval_6505543.out
 squeue -u kcwp264
 ```
 
-*Viewed [evaluate.slurm](file:///scratch/kcwp264/orena_save_focus/jobs/evaluate.slurm) *
+*Viewed `evaluate.slurm` *
 
 ### User Input
 
@@ -3781,7 +3784,7 @@ This is directly relevant to your **agentic-sfm** project — the GRPO approach 
 
 Ready for the PDF — send it over and I'll dig deeper.
 
-*Viewed [s42256-026-01262-4.pdf](file:///scratch/kcwp264/Conditional-GQE_materials/s42256-026-01262-4.pdf) *
+*Viewed `s42256-026-01262-4.pdf` *
 
 ### User Input
 
@@ -3823,17 +3826,17 @@ print(f'Extracted {len(text)} chars to /tmp/chemeleon2_text.txt')
 
 *Checked command status*
 
-*Viewed [chemeleon2_text.txt](file:///tmp/chemeleon2_text.txt) *
+*Viewed `chemeleon2_text.txt` *
 
-*Viewed [chemeleon2_text.txt](file:///tmp/chemeleon2_text.txt) *
+*Viewed `chemeleon2_text.txt` *
 
-*Viewed [chemeleon2_text.txt](file:///tmp/chemeleon2_text.txt) *
+*Viewed `chemeleon2_text.txt` *
 
-*Viewed [chemeleon2_text.txt](file:///tmp/chemeleon2_text.txt) *
+*Viewed `chemeleon2_text.txt` *
 
-*Viewed [chemeleon2_text.txt](file:///tmp/chemeleon2_text.txt) *
+*Viewed `chemeleon2_text.txt` *
 
-*Viewed [chemeleon2_text.txt](file:///tmp/chemeleon2_text.txt) *
+*Viewed `chemeleon2_text.txt` *
 
 ### Planner Response
 
@@ -3896,11 +3899,11 @@ Want me to start implementing? I'd suggest starting with **1–3** (diversity re
 
 Let me first read the current RL training code and the model to understand the full structure before making changes.
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -3916,7 +3919,7 @@ Now I have everything I need. Let me set up the todo list and start implementing
 
 ### Planner Response
 
-**Edit 1**: Add batch diversity (leave-one-out MMD), creativity reward, and mSUN metric functions after [_words_commute](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:578:0-588:33):
+**Edit 1**: Add batch diversity (leave-one-out MMD), creativity reward, and mSUN metric functions after `_words_commute`:
 
 *Edited relevant file*
 
@@ -3924,7 +3927,7 @@ Now I have everything I need. Let me set up the todo list and start implementing
 
 ### Planner Response
 
-**Edit 2**: Add KL divergence to reference policy in [dapo_loss](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:841:0-891:33):
+**Edit 2**: Add KL divergence to reference policy in `dapo_loss`:
 
 *Edited relevant file*
 
@@ -3956,9 +3959,9 @@ Now add the Chemeleon2-mode preset logic right after `args = parser.parse_args()
 
 Now I need to modify the training loop. Let me read the current state of the reward computation and loss sections:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -3968,13 +3971,13 @@ Now I'll add the batch-level rewards (MMD diversity + creativity) after the per-
 
 ### Planner Response
 
-Now I need to modify the loss computation to pass `ref_log_probs` and `kl_coef` to [dapo_loss](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:841:0-910:43). Let me read the loss computation section:
+Now I need to modify the loss computation to pass `ref_log_probs` and `kl_coef` to `dapo_loss`. Let me read the loss computation section:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
-I need to add reference model log-prob computation and pass `ref_log_probs` + `kl_coef` to all three [dapo_loss](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:841:0-910:43) calls. Let me do this with a multi_edit:
+I need to add reference model log-prob computation and pass `ref_log_probs` + `kl_coef` to all three `dapo_loss` calls. Let me do this with a multi_edit:
 
 *Edited relevant file*
 
@@ -3984,13 +3987,13 @@ I need to add reference model log-prob computation and pass `ref_log_probs` + `k
 
 Now let me add mSUN metric computation in the training loop and logging. Let me read the logging section:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
 Now let me read the logging section to add mSUN metrics:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -4014,7 +4017,7 @@ Now update the logging section to include mSUN in the progress bar and metrics l
 
 Now add mSUN to the final summary print:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 *Edited relevant file*
 
@@ -4102,12 +4105,12 @@ All 7 tasks complete. Here's a summary of everything implemented in `@/scratch/k
 
 ### New functions (Chemeleon2-inspired)
 
-- **[compute_batch_diversity_mmd()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:621:0-709:22)** — Leave-one-out MMD diversity reward using polynomial kernel on Pauli histogram embeddings. Attributes per-sample marginal contribution to batch diversity, directly preventing mode collapse (Chemeleon2 Fig. 2c ablation).
-- **[compute_creativity_batch()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:724:0-779:18)** — Continuous creativity reward combining in-batch uniqueness and novelty vs replay buffer, with smooth Jaccard distance gradients for borderline cases.
-- **[compute_msun_metric()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:782:0-834:5)** — mSUN-style evaluation metric: fraction of circuits that are converged (below HF+threshold), unique (non-duplicated), and novel (has entangling ops + operator diversity).
-- **[_pauli_histogram_embedding()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:595:0-612:14)** / **[_polynomial_kernel()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:615:0-618:41)** / **[_normalized_edit_distance()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:712:0-721:42)** — Helper functions for the above.
+- **`compute_batch_diversity_mmd()`** — Leave-one-out MMD diversity reward using polynomial kernel on Pauli histogram embeddings. Attributes per-sample marginal contribution to batch diversity, directly preventing mode collapse (Chemeleon2 Fig. 2c ablation).
+- **`compute_creativity_batch()`** — Continuous creativity reward combining in-batch uniqueness and novelty vs replay buffer, with smooth Jaccard distance gradients for borderline cases.
+- **`compute_msun_metric()`** — mSUN-style evaluation metric: fraction of circuits that are converged (below HF+threshold), unique (non-duplicated), and novel (has entangling ops + operator diversity).
+- **`_pauli_histogram_embedding()`** / **`_polynomial_kernel()`** / **`_normalized_edit_distance()`** — Helper functions for the above.
 
-### Modified [dapo_loss()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:841:0-910:43)
+### Modified `dapo_loss()`
 
 - Added **KL divergence penalty** to frozen reference policy using the k3 estimator (`exp(Δ) - 1 - Δ`), matching Chemeleon2's `β·KL[π_θ||π_ref]`.
 - New parameters: `ref_log_probs`, `kl_coef` (backward compatible — defaults to 0/disabled).
@@ -4131,7 +4134,7 @@ All 7 tasks complete. Here's a summary of everything implemented in `@/scratch/k
 
 All new features default to **disabled** (weights = 0.0). Existing training runs are unaffected unless `--chemeleon2-mode` or individual flags are explicitly set.
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### User Input
 
@@ -4147,7 +4150,7 @@ Let me check available checkpoints and existing job scripts to set up the traini
 
 *Searched filesystem*
 
-*Viewed [gqe-suite.slurm](file:///scratch/kcwp264/Conditional-GQE_materials/jobs/gqe-suite.slurm) *
+*Viewed `gqe-suite.slurm` *
 
 *Searched filesystem*
 
@@ -4260,7 +4263,7 @@ Job **6536368** submitted and pending (waiting for GPU resources). Here's the su
 **Logs**: `results/logs/rl-chemeleon2-6536368.{out,err}`
 
 **Configuration**:
-- **Checkpoint**: [h_cgqe_uccsd_model.pt](file:///mnt/scratch/kcwp264/Conditional-GQE_materials/results/train/h_cgqe_uccsd_model.pt:0:0-0:0) (supervised pretrained, 149 vocab, d_model=256)
+- **Checkpoint**: `h_cgqe_uccsd_model.pt` (supervised pretrained, 149 vocab, d_model=256)
 - **Molecules**: h2 (4q), lih (12q), beh2 (14q), n2 (20q) — all ≤24 qubits
 - **GPUs**: 3× L40S with `nvidia-mqpu` backend
 - **Mode**: `--chemeleon2-mode` (conservative regime)
@@ -4285,7 +4288,7 @@ tail -f /scratch/kcwp264/Conditional-GQE_materials/results/logs/rl-chemeleon2-65
 tail -f /scratch/kcwp264/Conditional-GQE_materials/results/logs/rl-chemeleon2-6536368.err
 ```
 
-*Viewed [rl_dapo_chemeleon2.slurm](file:///scratch/kcwp264/Conditional-GQE_materials/jobs/rl_dapo_chemeleon2.slurm) *
+*Viewed `rl_dapo_chemeleon2.slurm` *
 
 ### User Input
 
@@ -4475,7 +4478,7 @@ Found the bug. The error is at line 1609 — `torch.stack([s["sequence"] for s i
 
 The fix: pad sequences and log_probs to `max_seq_len` when pushing to the replay buffer.
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 *Edited relevant file*
 
@@ -4483,7 +4486,7 @@ The fix: pad sequences and log_probs to `max_seq_len` when pushing to the replay
 
 Now I also need to handle the first iteration (iter_idx == 0) where `sequences` and `old_log_probs` from the current batch may also have variable lengths. Let me also pad those:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -4493,7 +4496,7 @@ The first iteration uses fresh sequences from the same batch (always same length
 
 *User accepted the command `sbatch /scratch/kcwp264/Conditional-GQE_materials/jobs/rl_dapo_chemeleon2_1gpu.slurm`*
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### User Input
 
@@ -4649,7 +4652,7 @@ The bug fix (padding sequences to `max_seq_len` before pushing to the replay buf
 
 *Edited relevant file*
 
-*Viewed [phase1-grpo.slurm](file:///mnt/scratch/kcwp264/agentic-sfm/jobs/phase1-grpo.slurm) *
+*Viewed `phase1-grpo.slurm` *
 
 ### User Input
 
@@ -4710,7 +4713,7 @@ Add `--nodelist=gpu0XX` to request a specific node if needed.
 
 **Chemeleon2 Training Results Summary**
 
-Generated 3 plots in [/scratch/kcwp264/Conditional-GQE_materials/results/plots/](file:///scratch/kcwp264/Conditional-GQE_materials/results/plots:0:0-0:0):
+Generated 3 plots in `/scratch/kcwp264/Conditional-GQE_materials/results/plots/`:
 
 1. **chemeleon2_training_curves.png** (645KB) - 6-panel overview:
    - Loss: Decreased from ~7.5 to ~1.9 (stable convergence)
@@ -4801,7 +4804,7 @@ ls -lh results/plots/chemeleon2_*.png
 # Then download/view the PNG files
 ```
 
-*Viewed [benchmark_plot_manifest.json](file:///scratch/kcwp264/Conditional-GQE_materials/results/plots/benchmark_plot_manifest.json) *
+*Viewed `benchmark_plot_manifest.json` *
 
 ### User Input
 
@@ -4836,19 +4839,19 @@ usage: evaluate_h_cgqe.py [-h] --generated GENERATED --baseline BASELINE [--hami
 evaluate_h_cgqe.py: error: the following arguments are required: --generated, --baseline, --out
 Fix this please?
 
-*Viewed [evaluate_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/evaluate_h_cgqe.py) *
+*Viewed `evaluate_h_cgqe.py` *
 
 *Searched filesystem*
 
 *Searched filesystem*
 
-*Viewed [infer_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/infer_h_cgqe.py) *
+*Viewed `infer_h_cgqe.py` *
 
-*Viewed [infer_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/infer_h_cgqe.py) *
+*Viewed `infer_h_cgqe.py` *
 
 ### Planner Response
 
-The [evaluate_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/evaluate_h_cgqe.py:0:0-0:0) script is for comparing pre-generated circuits against a baseline. You need to first generate circuits using [infer_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/infer_h_cgqe.py:0:0-0:0).
+The `evaluate_h_cgqe.py` script is for comparing pre-generated circuits against a baseline. You need to first generate circuits using `infer_h_cgqe.py`.
 
 **Correct workflow:**
 
@@ -4930,17 +4933,17 @@ Saved results to results/inference/chemeleon2_generated.json
 
 *Checked command status*
 
-*Viewed [circuit_analysis.txt](file:///tmp/circuit_analysis.txt) *
+*Viewed `circuit_analysis.txt` *
 
-*Viewed [infer_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/infer_h_cgqe.py) *
+*Viewed `infer_h_cgqe.py` *
 
-*Viewed [infer_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/infer_h_cgqe.py) *
+*Viewed `infer_h_cgqe.py` *
 
 ### Planner Response
 
 **Critical finding: both models are in mode collapse during inference.**
 
-The [infer_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/infer_h_cgqe.py:0:0-0:0) script defaults to **greedy decoding** unless you pass `--sample`. Since you didn't use `--sample`, both supervised and Chemeleon2 generated the exact same single sequence 100 times per molecule.
+The `infer_h_cgqe.py` script defaults to **greedy decoding** unless you pass `--sample`. Since you didn't use `--sample`, both supervised and Chemeleon2 generated the exact same single sequence 100 times per molecule.
 
 Results so far:
 - **Diversity = 0.01** for both models on all molecules
@@ -4985,7 +4988,7 @@ python scripts/analyze_generated_circuits.py \
     --chemeleon2 results/inference/chemeleon2_sampled.json
 ```
 
-Note: [infer_h_cgqe.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/infer_h_cgqe.py:0:0-0:0) doesn't support `top_p` or `explore_eps` from training — only `temperature` and [sample](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:88:4-91:59). If diversity is still low after this, we should add `top_p`/`explore_eps` to the inference script.
+Note: `infer_h_cgqe.py` doesn't support `top_p` or `explore_eps` from training — only `temperature` and `sample`. If diversity is still low after this, we should add `top_p`/`explore_eps` to the inference script.
 
 ### User Input
 
@@ -5144,17 +5147,17 @@ let's set these up and do
 
 *Updated todo list*
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
-*Viewed [optimize_h_cgqe_coefficients.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/optimize_h_cgqe_coefficients.py) *
+*Viewed `optimize_h_cgqe_coefficients.py` *
 
 ### Planner Response
 
 Now let me look at the RL training script to understand the CLI args for the ablation study:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -5275,11 +5278,11 @@ Stage 2 completed. Ablation and BeH2 logs exist but seem to have failed early. L
 
 *Checked command status*
 
-*Viewed [ablation_full.out](file:///scratch/kcwp264/Conditional-GQE_materials/results/logs/ablation_full.out) *
+*Viewed `ablation_full.out` *
 
 ### Planner Response
 
-The ablation and BeH2 scripts failed — [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0) requires `--molecules` and `--out` but the scripts used `--output`. Let me fix both scripts.
+The ablation and BeH2 scripts failed — `train_rl_dapo.py` requires `--molecules` and `--out` but the scripts used `--output`. Let me fix both scripts.
 
 *Grep searched codebase*
 
@@ -5336,7 +5339,7 @@ Here are the complete results:
 
 ## Ablation & BeH2: Failed ❌
 
-Both scripts failed because [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0) requires `--molecules` and `--out` (not `--output`), and the scripts were missing `--molecules` entirely. **I've fixed both scripts.** Resubmit:
+Both scripts failed because `train_rl_dapo.py` requires `--molecules` and `--out` (not `--output`), and the scripts were missing `--molecules` entirely. **I've fixed both scripts.** Resubmit:
 
 ```bash
 # Ablation study (6 variants × ~12 min = ~70 min)
@@ -5359,7 +5362,7 @@ bash scripts/run_ablation_study.sh
 bash scripts/run_beh2_boosted.sh
 ```
 
-*Viewed [run_beh2_boosted.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_beh2_boosted.sh) *
+*Viewed `run_beh2_boosted.sh` *
 
 ### User Input
 
@@ -5451,7 +5454,7 @@ sbatch --wrap "bash /scratch/kcwp264/Conditional-GQE_materials/scripts/run_beh2_
     --output=/scratch/kcwp264/Conditional-GQE_materials/results/logs/beh2-boost-%j.out
 ```
 
-*Viewed [plot_chameleon2_comprehensive.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/plot_chameleon2_comprehensive.py) *
+*Viewed `plot_chameleon2_comprehensive.py` *
 
 ### User Input
 
@@ -5573,7 +5576,7 @@ Now I have the full picture. Here's the scaling situation:
 
 ## Where We Are on Scaling
 
-**21 molecules** in [hamiltonians_merged.json](file:///mnt/scratch/kcwp264/Conditional-GQE_materials/results/data/hamiltonians_merged.json:0:0-0:0), spanning **4 to 40 qubits**:
+**21 molecules** in `hamiltonians_merged.json`, spanning **4 to 40 qubits**:
 
 | Tier | Molecules | Qubits | Status |
 |------|-----------|--------|--------|
@@ -5781,7 +5784,7 @@ for tier, mols in tiers.items():
 
 *Checked command status*
 
-*Viewed [generate_hamiltonians.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/data/generate_hamiltonians.py) *
+*Viewed `generate_hamiltonians.py` *
 
 ### Planner Response
 
@@ -5817,13 +5820,13 @@ The **Mitsubishi Chemical & AIST** use case is literally our project: **"Harness
 
 ## What I've Created
 
-### 1. Expanded Dataset ([configs/experiment_scaling_gic2026.yaml](file:///scratch/kcwp264/Conditional-GQE_materials/configs/experiment_scaling_gic2026.yaml:0:0-0:0))
+### 1. Expanded Dataset (`configs/experiment_scaling_gic2026.yaml`)
 - **33 molecules** (up from 21), organized by split:
   - **Train**: H2, LiH, BeH2, N2 + bond stretching series (10 molecules)
   - **Val**: H2O, NH3, CH4, ethylene, formaldehyde, acetylene, HF, CO + larger basis sets
   - **Test**: EUV photoresist molecules — IMePh, iodobenzene, methyl iodide, phenol, o-cresol, anisole, benzene, toluene + diarylethene fragment (photochromic switch)
 
-### 2. Full Scaling Pipeline ([scripts/run_gic2026_scaling.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_gic2026_scaling.sh:0:0-0:0))
+### 2. Full Scaling Pipeline (`scripts/run_gic2026_scaling.sh`)
 6-step pipeline:
 1. **Generate Hamiltonians** for all 33 molecules
 2. **Retrain Chemeleon2 RL** on all simulatable molecules (≤24 qubits), 500 epochs
@@ -5832,7 +5835,7 @@ The **Mitsubishi Chemical & AIST** use case is literally our project: **"Harness
 5. **GQE baseline** — CUDA-Q `solvers.gqe()` for comparison
 6. **Scaling plots** — comprehensive visualization
 
-### 3. Scaling Visualization ([scripts/plot_gic2026_scaling.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/plot_gic2026_scaling.py:0:0-0:0))
+### 3. Scaling Visualization (`scripts/plot_gic2026_scaling.py`)
 6 plots:
 - **Energy vs qubits** — all three methods (supervised, Chemeleon2, GQE baseline)
 - **Energy error vs qubits** — log scale with chemical accuracy threshold
@@ -5841,7 +5844,7 @@ The **Mitsubishi Chemical & AIST** use case is literally our project: **"Harness
 - **EUV photoresist focus** — bar chart for Mitsubishi-relevant molecules
 - **Training curves** — 6-panel RL training metrics
 
-### 4. Slurm Job ([jobs/gic2026_scaling.slurm](file:///scratch/kcwp264/Conditional-GQE_materials/jobs/gic2026_scaling.slurm:0:0-0:0))
+### 4. Slurm Job (`jobs/gic2026_scaling.slurm`)
 3-GPU, 8-hour job for the full pipeline.
 
 ## Submit
@@ -5876,7 +5879,7 @@ can you check what part of the GIC have we done so far here?
 
 *User accepted the command `cat /scratch/kcwp264/Conditional-GQE_materials/results/logs/gic2026-scale-6560042.out 2>&1 | tail -40 && echo "=== ERR ===" && cat /scratch/kcwp264/Conditional-GQE_materials/results/logs/gic2026-scale-6560042.err 2>&1 | tail -40`*
 
-*Viewed [generate_hamiltonians.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/data/generate_hamiltonians.py) *
+*Viewed `generate_hamiltonians.py` *
 
 ### Planner Response
 
@@ -5918,7 +5921,7 @@ if isinstance(dataset, dict):
 
 The working config wraps molecules under `dataset.molecules`. Our new config has them directly as a list under `dataset`. Need to fix the config format:
 
-*Viewed [experiment_scaling.yaml](file:///scratch/kcwp264/Conditional-GQE_materials/configs/experiment_scaling.yaml) *
+*Viewed `experiment_scaling.yaml` *
 
 ### Planner Response
 
@@ -5968,7 +5971,7 @@ Here's the complete status of what's done and what's pending:
 | **Chemeleon2 RL training** (4 molecules, 200 epochs) | ✅ Done | `results/train/h_cgqe_rl_chemeleon2_1gpu.pt` + metrics |
 | **Inference** (100 stochastic samples, 4 molecules) | ✅ Done | `results/inference/supervised_sampled.json`, `chemeleon2_sampled.json` |
 | **Stage 2 optimization** (L-BFGS-B, top-20, 4 molecules) | ✅ Done | `results/eval/supervised_stage2_optimized.json`, `chemeleon2_stage2_optimized.json` |
-| **Results analysis** (diversity, energy comparison) | ✅ Done | [scripts/analyze_generated_circuits.py](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/analyze_generated_circuits.py:0:0-0:0) |
+| **Results analysis** (diversity, energy comparison) | ✅ Done | `scripts/analyze_generated_circuits.py` |
 | **Plots** (5 plots: energy comparison, delta, diversity, training curves, summary table) | ✅ Done | `results/plots/*.png` |
 
 **Key results from pilot:**
@@ -6027,7 +6030,7 @@ sbatch --wrap "bash scripts/run_beh2_boosted.sh" \
 
 Want me to cancel and resubmit the GIC job now?
 
-*Viewed [phase1_grpo.yaml](file:///scratch/kcwp264/agentic-sfm/configs/phase1_grpo.yaml) *
+*Viewed `phase1_grpo.yaml` *
 
 ### User Input
 
@@ -6070,7 +6073,7 @@ tail -f /scratch/kcwp264/Conditional-GQE_materials/results/logs/gic2026-scale-65
 
 *Edited relevant file*
 
-*Viewed [make_match_videos.py](file:///scratch/kcwp264/make_match_videos.py) *
+*Viewed `make_match_videos.py` *
 
 *User accepted the command `which colmap || true; colmap -h 2>&1 | head -5; which ffmpeg || true; which openmvs || true; which open3d || true; /scratch/kcwp264/.conda_envs/agentic-sfm/bin/python - <<'PY'
 > import importlib.util
@@ -6175,9 +6178,9 @@ The working config has 13 atoms for phenol (6C + 1O + 6H = 50 electrons). Our ne
 
 Toluene fixed. Now fix phenol — let me check the exact current content:
 
-*Viewed [experiment_scaling_gic2026.yaml](file:///scratch/kcwp264/Conditional-GQE_materials/configs/experiment_scaling_gic2026.yaml) *
+*Viewed `experiment_scaling_gic2026.yaml` *
 
-*Viewed [experiment_scaling_gic2026.yaml](file:///scratch/kcwp264/Conditional-GQE_materials/configs/experiment_scaling_gic2026.yaml) *
+*Viewed `experiment_scaling_gic2026.yaml` *
 
 *Edited relevant file*
 
@@ -6256,7 +6259,7 @@ bash scripts/run_gic2026_scaling.sh
 - **phenol_cas12**: was missing the ring H at `[0, 2.48, 0]` (49e → 50e)
 - **toluene_cas12**: was missing 3 methyl H + 1 ring H (47e → 50e)
 
-*Viewed [make_match_videos.py](file:///scratch/kcwp264/make_match_videos.py) *
+*Viewed `make_match_videos.py` *
 
 *Edited relevant file*
 
@@ -6276,17 +6279,17 @@ Hamiltonians generated successfully (33 molecules, ethylene correctly skipped at
 
 *Grep searched codebase*
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
 The segfault is from CUDA-Q's `nvidia-mqpu` backend on L40S — the same PCIe IPC issue we've seen before. The previous successful RL training used single-GPU (`1gpu` in the checkpoint name). Let me fix the script:
 
-*Viewed [run_gic2026_scaling.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_gic2026_scaling.sh) *
+*Viewed `run_gic2026_scaling.sh` *
 
 *Grep searched codebase*
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -6306,11 +6309,11 @@ Now also fix the Stage 2 optimization and GQE baseline in the same script — th
 
 Now let me also check if the `--target-option none` will be handled correctly by the training script:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
-With `--target-option none`, it falls through to line 1306-1308: `cudaq.set_target("nvidia")` — single GPU mode. And at line 1496, the condition `args.target_option == "mqpu"` won't match, so it falls to [evaluate_energies_batch](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:416:0-444:19) (single-GPU synchronous). This is correct.
+With `--target-option none`, it falls through to line 1306-1308: `cudaq.set_target("nvidia")` — single GPU mode. And at line 1496, the condition `args.target_option == "mqpu"` won't match, so it falls to `evaluate_energies_batch` (single-GPU synchronous). This is correct.
 
 Re-run:
 
@@ -6323,13 +6326,13 @@ bash scripts/run_gic2026_scaling.sh --skip-hamiltonians
 
 - **Step 1 (Hamiltonians)**: ✅ Completed — 33 molecules generated (ethylene correctly skipped at 28q > 24q max)
 - **Step 2 (RL training)**: ❌ Segfaulted at epoch 0 — `cudaq.set_target("nvidia", option="mqpu")` + `cudaq.observe_async(qpu_id=...)` triggers the known L40S PCIe IPC segfault
-- **Fix**: Changed all `--target-option mqpu` → `--target-option none` across the script (RL training, Stage 2 optimization, GQE baseline). This forces single-GPU mode via `cudaq.set_target("nvidia")` and [evaluate_energies_batch](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:416:0-444:19) (synchronous `cudaq.observe`)
+- **Fix**: Changed all `--target-option mqpu` → `--target-option none` across the script (RL training, Stage 2 optimization, GQE baseline). This forces single-GPU mode via `cudaq.set_target("nvidia")` and `evaluate_energies_batch` (synchronous `cudaq.observe`)
 
 **Tradeoff**: Single-GPU is ~3× slower for energy evaluation, but it won't segfault. For 33 molecules × 32 samples × 500 epochs, expect ~4-6 hours instead of ~2-3 hours.
 
 *Edited relevant file*
 
-*Viewed [run_gic2026_scaling.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_gic2026_scaling.sh) *
+*Viewed `run_gic2026_scaling.sh` *
 
 ### User Input
 
@@ -6341,7 +6344,7 @@ bash scripts/run_gic2026_scaling.sh --skip-hamiltonians
 
 `Unknown feature flag 'none'` — CUDA-Q doesn't accept `none` as a target option. The fix is to not pass `--target-option` at all, so it falls through to the default `cudaq.set_target("nvidia")` path.
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -6357,11 +6360,11 @@ The issue: with `--target-option none`, line 1297 doesn't match `"mqpu"`, so it 
 
 ### Planner Response
 
-Wait — line 1307 calls `cudaq.set_target(args.target)` which is `cudaq.set_target("nvidia")`. That should work. But the error says `Unknown feature flag 'none'`. Maybe the error is coming from the [evaluate_energies_batch](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:416:0-444:19) path — let me check:
+Wait — line 1307 calls `cudaq.set_target(args.target)` which is `cudaq.set_target("nvidia")`. That should work. But the error says `Unknown feature flag 'none'`. Maybe the error is coming from the `evaluate_energies_batch` path — let me check:
 
 *Grep searched codebase*
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -6403,9 +6406,9 @@ Very short log — the crash happens immediately at target setup. But we just pr
 
 ### Planner Response
 
-Found it! In [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0) at line 1297, the condition checks `target_option == "mqpu"`. With `--target-option none`, it doesn't match, so it goes to `else` at line 1306 → `cudaq.set_target("nvidia")`. That should work...
+Found it! In `train_rl_dapo.py` at line 1297, the condition checks `target_option == "mqpu"`. With `--target-option none`, it doesn't match, so it goes to `else` at line 1306 → `cudaq.set_target("nvidia")`. That should work...
 
-But wait — maybe the error is coming from the **inference or Stage 2 scripts** further down the pipeline, not from the RL training. Let me check — the error says `Aborted (core dumped)` on the [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0) line. Let me look more carefully at what happens. Maybe `cudaq.set_target` was already called with `mqpu` from a previous run and the state persists? No, each Python process is fresh.
+But wait — maybe the error is coming from the **inference or Stage 2 scripts** further down the pipeline, not from the RL training. Let me check — the error says `Aborted (core dumped)` on the `train_rl_dapo.py` line. Let me look more carefully at what happens. Maybe `cudaq.set_target` was already called with `mqpu` from a previous run and the state persists? No, each Python process is fresh.
 
 Let me actually test the exact command:
 
@@ -6476,7 +6479,7 @@ That works too. Let me actually run the exact training command with a tiny epoch
 
 Reproduced. The error happens with `--target-option none` but not without it. Let me check if there's somewhere in the code that passes `target_option` to `cudaq.set_target`:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
@@ -6498,17 +6501,17 @@ Without `--target-option`, it works perfectly. The default `target_option` is `"
 
 ### Planner Response
 
-But wait — the previous segfault was with `mqpu` and 3 GPUs. The training script at line 1496 checks `n_gpus > 1` and calls [evaluate_energies_parallel](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:447:0-491:19) which uses `observe_async(qpu_id=...)`. On 3 GPUs this will segfault again.
+But wait — the previous segfault was with `mqpu` and 3 GPUs. The training script at line 1496 checks `n_gpus > 1` and calls `evaluate_energies_parallel` which uses `observe_async(qpu_id=...)`. On 3 GPUs this will segfault again.
 
 I need to also patch the training script to force single-GPU evaluation even when multiple GPUs are visible:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
 The fix: add a `--single-gpu` flag that forces `n_gpus = 1` for evaluation, or simply make the parallel path opt-in rather than automatic. The simplest fix is to add a CLI arg:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 *Edited relevant file*
 
@@ -6543,9 +6546,9 @@ bash scripts/run_gic2026_scaling.sh --skip-hamiltonians
 
 **Root cause**: CUDA-Q's C++ runtime intercepts `--target-option` from `sys.argv` before Python's argparse processes it. Passing `--target-option none` caused CUDA-Q to try to set feature flag `'none'`, which doesn't exist → `abort()`.
 
-**Fix**: Added `--single-gpu` flag to [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0) that forces `n_gpus = 1`, preventing the [evaluate_energies_parallel](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:447:0-491:19) path (which uses `cudaq.observe_async(qpu_id=...)` that segfaults on PCIe-only L40S). Removed all `--target-option none` from the script — the default `mqpu` works fine with 1 GPU.
+**Fix**: Added `--single-gpu` flag to `train_rl_dapo.py` that forces `n_gpus = 1`, preventing the `evaluate_energies_parallel` path (which uses `cudaq.observe_async(qpu_id=...)` that segfaults on PCIe-only L40S). Removed all `--target-option none` from the script — the default `mqpu` works fine with 1 GPU.
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### User Input
 
@@ -6583,7 +6586,7 @@ There are **two distinct failure modes** — one is a known CUDA-Q bug, the othe
 
 ### 1. CUDA-Q `make_kernel` thread-safety bug (GitHub #2821, #4359)
 
-**Not your issue** — your code already builds the kernel once at module level ([_get_gqe_kernel()](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:316:0-327:22) singleton at `@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:315`). This was fixed in your codebase previously.
+**Not your issue** — your code already builds the kernel once at module level (`_get_gqe_kernel()` singleton at `@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:315`). This was fixed in your codebase previously.
 
 ### 2. L40S PCIe IPC segfault (your actual issue)
 
@@ -6604,11 +6607,11 @@ When I tried to work around this by passing `--target-option none`, CUDA-Q's C++
 | `mqpu` + 1 GPU (`qpu_id=0` only) | ✅ Works — `observe_async(qpu_id=0)` stays on GPU 0, no IPC needed |
 | `mqpu` + `n_gpus > 1` + `observe_async(qpu_id >= 1)` | ❌ Segfault — CUDA IPC broken on PCIe L40S |
 | `--target-option none` | ❌ Abort — CUDA-Q intercepts the flag |
-| `--single-gpu` (forces `n_gpus=1`) | ✅ Works — falls through to [evaluate_energies_batch](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:416:0-444:19) (synchronous `cudaq.observe` on GPU 0) |
+| `--single-gpu` (forces `n_gpus=1`) | ✅ Works — falls through to `evaluate_energies_batch` (synchronous `cudaq.observe` on GPU 0) |
 
 ### The `--single-gpu` fix
 
-The `--single-gpu` flag I added at `@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:1297-1299` sets `n_gpus = 1`, which means the condition at line 1496 (`n_gpus > 1`) is never true, so [evaluate_energies_parallel](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:447:0-491:19) (which uses `observe_async(qpu_id=...)`) is never called. Instead, [evaluate_energies_batch](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:416:0-444:19) (synchronous `cudaq.observe` on GPU 0) is used.
+The `--single-gpu` flag I added at `@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:1297-1299` sets `n_gpus = 1`, which means the condition at line 1496 (`n_gpus > 1`) is never true, so `evaluate_energies_parallel` (which uses `observe_async(qpu_id=...)`) is never called. Instead, `evaluate_energies_batch` (synchronous `cudaq.observe` on GPU 0) is used.
 
 **Tradeoff**: ~3× slower energy evaluation since all 32 samples are evaluated sequentially on 1 GPU instead of parallelized across 3. For 33 molecules × 32 samples × 500 epochs, expect ~4-6h instead of ~2-3h.
 
@@ -6618,7 +6621,7 @@ Per the [CUDA-Q multi-GPU docs](https://nvidia.github.io/cuda-quantum/0.14.0/usi
 ```python
 result = cudaq.observe(kernel, ham, n_qubits, execution=cudaq.parallel.thread)
 ```
-This distributes Hamiltonian terms across GPUs using threads (not MPI/IPC). This might avoid the smcuda IPC issue entirely. Would require code changes to [evaluate_energies_batch](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:416:0-444:19) but could give you the 3× speedup back.
+This distributes Hamiltonian terms across GPUs using threads (not MPI/IPC). This might avoid the smcuda IPC issue entirely. Would require code changes to `evaluate_energies_batch` but could give you the 3× speedup back.
 
 *User accepted the command `srun --partition=gpu --gres=gpu:l40s:3 --cpus-per-task=24 --mem=128G --time=08:00:00 --pty bash`*
 
@@ -6655,19 +6658,19 @@ print('num_qpus:', cudaq.get_platform().num_qpus())
 
 ### Planner Response
 
-`cudaq.parallel.thread` is available in CUDA-Q 0.14.2. Currently only 1 GPU visible (login node or 1-GPU session). Let me now modify [evaluate_energies_batch](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:416:0-444:19) to use it:
+`cudaq.parallel.thread` is available in CUDA-Q 0.14.2. Currently only 1 GPU visible (login node or 1-GPU session). Let me now modify `evaluate_energies_batch` to use it:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
 Now let me also check the dispatch logic at line 1496 to see the full picture:
 
-*Viewed [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py) *
+*Viewed `train_rl_dapo.py` *
 
 ### Planner Response
 
-Now I'll modify [evaluate_energies_batch](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:416:0-444:19) to use `cudaq.parallel.thread` when multiple GPUs are available, and update the dispatch logic:
+Now I'll modify `evaluate_energies_batch` to use `cudaq.parallel.thread` when multiple GPUs are available, and update the dispatch logic:
 
 *Edited relevant file*
 
@@ -6706,8 +6709,8 @@ bash scripts/run_gic2026_scaling.sh --skip-hamiltonians
 
 **What changed:**
 
-- [evaluate_energies_batch](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:416:0-455:19) now accepts an `execution` parameter
-- When `n_gpus > 1` and `mqpu` target is set, it uses `cudaq.parallel.thread` instead of [evaluate_energies_parallel](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:458:0-502:19) (which used `observe_async(qpu_id=...)`)
+- `evaluate_energies_batch` now accepts an `execution` parameter
+- When `n_gpus > 1` and `mqpu` target is set, it uses `cudaq.parallel.thread` instead of `evaluate_energies_parallel` (which used `observe_async(qpu_id=...)`)
 - `cudaq.parallel.thread` distributes **Hamiltonian terms** across GPUs within a single synchronous `cudaq.observe()` call using threads — no IPC, no `qpu_id`, no segfault
 - The `--single-gpu` flag is no longer needed and has been removed from the script
 
@@ -6785,7 +6788,7 @@ The competition wants teams to demonstrate:
 
 ### How Our Pipeline Maps
 
-Our [run_gic2026_scaling.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_gic2026_scaling.sh:0:0-0:0) pipeline directly addresses all four pillars:
+Our `run_gic2026_scaling.sh` pipeline directly addresses all four pillars:
 1. **33 molecules** spanning 4–24 qubits with curriculum learning → scaling
 2. **Chemeleon2 RL** with KL anchoring, MMD diversity, creativity rewards → candidate generation quality
 3. **Stage 2 L-BFGS-B** optimization → accuracy improvement
@@ -6804,7 +6807,7 @@ Based on the competition focus, the strongest differentiators of our approach ar
 
 The competition is **not** about building quantum hardware — it's about **algorithmic innovation in GQE** applied to real materials. Our H-cGQE + Chemeleon2 RL pipeline is well-aligned with this focus.
 
-*Viewed [stage1-surgenet.slurm](file:///scratch/kcwp264/Cholec_Vjepa-2/jobs/stage1-surgenet.slurm) *
+*Viewed `stage1-surgenet.slurm` *
 
 ### User Input
 
@@ -6943,7 +6946,7 @@ Here's the full breakdown of what Phase 3 expects and where we stand:
 
 ### Recommended Next Steps (in priority order)
 
-1. **Run the scaling pipeline** ([run_gic2026_scaling.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_gic2026_scaling.sh:0:0-0:0)) on 3 GPUs to get fresh results across all 33 molecules
+1. **Run the scaling pipeline** (`run_gic2026_scaling.sh`) on 3 GPUs to get fresh results across all 33 molecules
 2. **Run classical VQE baseline** on the same molecules for comparison
 3. **Collect specific numbers**: circuit depth, qubit count, wall-clock runtime, energy errors for all molecules
 4. **Update the Phase 3 PDF** with new results, plots, and numbers
@@ -7071,7 +7074,7 @@ The **FMO approach is our strongest scaling argument** — it's already built, h
 
 *Edited relevant file*
 
-*Viewed [x_post_draft.md](file:///scratch/kcwp264/x_post_draft.md) *
+*Viewed `x_post_draft.md` *
 
 ### User Input
 
@@ -7195,7 +7198,7 @@ The merge is straightforward: commit local changes and push to `Conditional_GQE`
 
 63 changes to commit. Let me first update `.gitignore` to exclude transient files, then stage and commit everything meaningful.
 
-*Viewed [.gitignore](file:///scratch/kcwp264/Conditional-GQE_materials/.gitignore) *
+*Viewed `.gitignore` *
 
 *Edited relevant file*
 
@@ -7209,7 +7212,7 @@ Now let me stage all changes and commit.
 
 ### Planner Response
 
-The log files and plots are being staged. Let me fix the [.gitignore](file:///scratch/kcwp264/Conditional-GQE_materials/.gitignore:0:0-0:0) and unstage them.
+The log files and plots are being staged. Let me fix the `.gitignore` and unstage them.
 
 *Edited relevant file*
 
@@ -7223,7 +7226,7 @@ The log files and plots are being staged. Let me fix the [.gitignore](file:///sc
 
 ### Planner Response
 
-The plot exception in [.gitignore](file:///scratch/kcwp264/Conditional-GQE_materials/.gitignore:0:0-0:0) is letting PNGs through. Let me fix that.
+The plot exception in `.gitignore` is letting PNGs through. Let me fix that.
 
 *Edited relevant file*
 
@@ -7262,7 +7265,7 @@ Commit succeeded. Now push to `Conditional_GQE`.
 
 ### Planner Response
 
-Pushed successfully. There's a warning about a large file (`hamiltonians_40plus.json` at 99 MB). Let me add it to [.gitignore](file:///scratch/kcwp264/Conditional-GQE_materials/.gitignore:0:0-0:0) and handle that, plus now archive the `Conditional-GQE_materials` repo by adding a redirect notice.
+Pushed successfully. There's a warning about a large file (`hamiltonians_40plus.json` at 99 MB). Let me add it to `.gitignore` and handle that, plus now archive the `Conditional-GQE_materials` repo by adding a redirect notice.
 
 *User accepted the command `cd /scratch/kcwp264/Conditional-GQE_materials && git log --oneline -3 && echo "---SIZE---" && du -sh results/data/hamiltonians_40plus.json/hamiltonians.json results/data/hamiltonians_40plus/hamiltonians.json 2>/dev/null`*
 
@@ -7270,7 +7273,7 @@ Pushed successfully. There's a warning about a large file (`hamiltonians_40plus.
 
 ### Planner Response
 
-The 100 MB file will cause issues with GitHub LFS. Let me remove it from future commits and add to [.gitignore](file:///scratch/kcwp264/Conditional-GQE_materials/.gitignore:0:0-0:0).
+The 100 MB file will cause issues with GitHub LFS. Let me remove it from future commits and add to `.gitignore`.
 
 *Edited relevant file*
 
@@ -7348,7 +7351,7 @@ Done. Here's what was completed:
 
 You should now archive `Conditional-GQE_materials` on GitHub (Settings → scroll to bottom → Archive this repository) so it becomes read-only.
 
-*Viewed [.gitignore](file:///scratch/kcwp264/Conditional-GQE_materials/.gitignore) *
+*Viewed `.gitignore` *
 
 ### User Input
 
@@ -7398,13 +7401,13 @@ Now I have a complete picture. Let me also check what we already have for qBraid
 
 *Grep searched codebase*
 
-*Viewed [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py) *
+*Viewed `qbraid_backend.py` *
 
-*Viewed [requirements-qbraid.txt](file:///scratch/kcwp264/Conditional-GQE_materials/requirements-qbraid.txt) *
+*Viewed `requirements-qbraid.txt` *
 
 ### Planner Response
 
-Excellent — we already have a [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0) that translates our H-cGQE circuits to Qiskit and submits to qBraid devices. Here's the full picture:
+Excellent — we already have a `qbraid_backend.py` that translates our H-cGQE circuits to Qiskit and submits to qBraid devices. Here's the full picture:
 
 ---
 
@@ -7441,7 +7444,7 @@ Excellent — we already have a [qbraid_backend.py](file:///scratch/kcwp264/Cond
 **Priority 1: qBraid GPU for RL training + reproducibility (Phase 3 requirement)**
 
 The competition requires judges to reproduce results on qBraid. Use a qBraid GPU instance to:
-- Run the full [run_gic2026_scaling.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_gic2026_scaling.sh:0:0-0:0) pipeline
+- Run the full `run_gic2026_scaling.sh` pipeline
 - Verify our code works in qBraid Lab out-of-the-box
 - Generate reproducible results
 
@@ -7489,14 +7492,14 @@ Use `qbraid:qbraid:sim:qir-sv` (free, up to 30q) to validate all our circuits ru
 
 ### Next Steps
 
-1. **Spin up a `gpu-l40s` instance on qBraid Lab** — clone the repo, install [requirements-qbraid.txt](file:///scratch/kcwp264/Conditional-GQE_materials/requirements-qbraid.txt:0:0-0:0), run the pipeline
-2. **Run H2 + LiH on Rigetti Cepheus** via our existing [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0) — real QPU results for the write-up
+1. **Spin up a `gpu-l40s` instance on qBraid Lab** — clone the repo, install `requirements-qbraid.txt`, run the pipeline
+2. **Run H2 + LiH on Rigetti Cepheus** via our existing `qbraid_backend.py` — real QPU results for the write-up
 3. **Validate all circuits on free qBraid simulator** — zero cost, satisfies reproducibility
 4. **Update Phase 3 PDF** with QPU results + qBraid reproducibility section
 
 The QPU results would be a **major differentiator** — most teams won't have real hardware execution. Even just H2 on Rigetti would let us claim "validated on real quantum hardware" which directly addresses the Phase 3 "Platform Use" and "Phase 3 Execution" rubric criteria.
 
-*Viewed [fpn.py](file:///scratch/kcwp264/Cholec_Vjepa-2/core_app/models/fpn.py) *
+*Viewed `fpn.py` *
 
 ### User Input
 
@@ -7518,7 +7521,7 @@ I'll create a qBraid strategy document and push it.
 
 ### Planner Response
 
-Pushed. The qBraid strategy document is now live at [docs/QBRAID_STRATEGY.md](file:///scratch/kcwp264/Conditional-GQE_materials/docs/QBRAID_STRATEGY.md:0:0-0:0) in the `Quantum-Buddies/Conditional_GQE` repo. It covers:
+Pushed. The qBraid strategy document is now live at `docs/QBRAID_STRATEGY.md` in the `Quantum-Buddies/Conditional_GQE` repo. It covers:
 
 - **GPU instance pricing** and time estimates for 11,000 credits
 - **QPU access** — Rigetti Cepheus-1-108Q (cheapest at 0.0425 cr/shot), IQM, IonQ options
@@ -7526,9 +7529,9 @@ Pushed. The qBraid strategy document is now live at [docs/QBRAID_STRATEGY.md](fi
 - **QPU execution commands** for H2 (4q, ~683 cr) and LiH (8q, ~819 cr) on Rigetti
 - **Free simulator** validation path (0 credits, up to 30q)
 - **qBraid Lab setup** — clone, install, run full pipeline step-by-step
-- **Existing infrastructure** — [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0), [requirements-qbraid.txt](file:///scratch/kcwp264/Conditional-GQE_materials/requirements-qbraid.txt:0:0-0:0), `qbraid_skill/`
+- **Existing infrastructure** — `qbraid_backend.py`, `requirements-qbraid.txt`, `qbraid_skill/`
 
-*Viewed [setup_env.sh](file:///scratch/kcwp264/Isaac-GR00T/scripts/setup_env.sh) *
+*Viewed `setup_env.sh` *
 
 ### User Input
 
@@ -7706,7 +7709,7 @@ qbraid envs list                    # List Python environments
 qbraid skills create                # Create AI coding skill
 ```
 
-### 6. What This Means for Our [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0)
+### 6. What This Means for Our `qbraid_backend.py`
 
 Our existing code at `@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py` already uses `QbraidProvider` correctly. Key improvements we could make based on the docs:
 
@@ -7720,7 +7723,7 @@ Our existing code at `@/scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/q
 
 The **batch job** approach is the biggest win — it would reduce H2 QPU cost from ~683 credits (15 separate tasks) to ~53 credits (1 batch task + shots). For LiH (185 terms), that's 184 × 30 = 5,520 credits saved.
 
-*Viewed [rfdetr-stage1.slurm](file:///scratch/kcwp264/Cholec_Vjepa-2/jobs/rfdetr-stage1.slurm) *
+*Viewed `rfdetr-stage1.slurm` *
 
 ### User Input
 
@@ -7793,8 +7796,8 @@ git push origin main
 | `*.pth` / `*.pt` checkpoints | All `.py` source code |
 | Large Hamiltonian JSONs (>50MB) | Configs (`.yaml`, `.yml`) |
 | `*.npy` benchmark arrays | Shell scripts (`.sh`) |
-| PDF reports | [requirements-qbraid.txt](file:///scratch/kcwp264/Conditional-GQE_materials/requirements-qbraid.txt:0:0-0:0) |
-| Plot PNGs (>5MB) | [README.md](file:///scratch/kcwp264/Conditional-GQE_materials/README.md:0:0-0:0), `docs/` |
+| PDF reports | `requirements-qbraid.txt` |
+| Plot PNGs (>5MB) | `README.md`, `docs/` |
 
 ---
 
@@ -7936,7 +7939,7 @@ export QBRAID_API_KEY="your_key"
 
 ### Method 2: qBraid SDK (Qiskit circuit translation)
 
-Your existing [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0) already uses this approach:
+Your existing `qbraid_backend.py` already uses this approach:
 
 ```python
 from qbraid import QbraidProvider
@@ -8069,11 +8072,11 @@ git push origin main
 | Feature | CUDA-Q Native (`cudaq.set_target`) | qBraid SDK (`QbraidProvider`) |
 |---|---|---|
 | **Code changes needed** | None — just change `set_target()` | Translate to Qiskit circuit first |
-| **Your existing code** | Works as-is | Needs [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0) translation |
+| **Your existing code** | Works as-is | Needs `qbraid_backend.py` translation |
 | **Batch mode** | Automatic (single `observe` call) | `as_batch=True` parameter |
 | **Async/future persistence** | `cudaq.sample_async` + save to disk | `job.async_result(timeout=120)` |
 | **C++ support** | `nvq++ --target qbraid` | Python only |
-| **Best for** | Our CUDA-Q kernels in [train_rl_dapo.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/models/train_rl_dapo.py:0:0-0:0) | Qiskit circuits in [qbraid_backend.py](file:///scratch/kcwp264/Conditional-GQE_materials/src/gqe/eval/qbraid_backend.py:0:0-0:0) |
+| **Best for** | Our CUDA-Q kernels in `train_rl_dapo.py` | Qiskit circuits in `qbraid_backend.py` |
 
 ### Key Reminders
 
@@ -8083,4 +8086,4 @@ git push origin main
 - **Free simulator for judges** — include a `validate_on_qbraid.py` script that costs 0 credits
 - **CUDA-Q native path is preferred** — your kernels already work, just swap `set_target("nvidia")` → `set_target("qbraid", machine="aws:rigetti:qpu:cepheus-1-108q")`
 
-Want me to update the [QBRAID_STRATEGY.md](file:///scratch/kcwp264/Conditional-GQE_materials/docs/QBRAID_STRATEGY.md:0:0-0:0) in the repo with all this info and push it?
+Want me to update the `QBRAID_STRATEGY.md` in the repo with all this info and push it?

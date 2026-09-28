@@ -83,7 +83,7 @@ Measuring individual Hamiltonian terms sequentially wastes credits on separate t
 
 ## 5. Unified Workflow Orchestration
 
-We bind all steps together using the orchestrator script `[run_hpc_qbraid_workflow.sh](../scripts/run_hpc_qbraid_workflow.sh)`.
+We bind all steps together using the orchestrator script [`run_hpc_qbraid_workflow.sh`](../scripts/run_hpc_qbraid_workflow.sh).
 
 ### Step 1: Submit training/pre-processing to Slurm
 ```bash

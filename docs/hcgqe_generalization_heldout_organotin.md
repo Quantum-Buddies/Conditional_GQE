@@ -270,7 +270,7 @@ Only after that bar: consider GNN wiring + multi-molecule 14-char SFT. Held-out 
 
 *Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
 
-```
+```bash
 # infer / QSCI (unblocked)
 #SBATCH --partition=gpu --gres=gpu:1 --cpus-per-task=8 --mem=85G --time=02:00:00
 

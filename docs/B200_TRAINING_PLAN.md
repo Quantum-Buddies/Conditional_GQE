@@ -346,7 +346,7 @@ The `scripts/run_40q_scaling_pipeline.sh` script demonstrates end-to-end converg
 
 CUDA-Q and Triton (used by `torch.compile`) both embed LLVM. Importing `cudaq` **before** calling `torch.compile` causes:
 
-```
+```text
 CommandLine Error: Option 'debug-counter' registered more than once!
 LLVM ERROR: inconsistency in registered CommandLine options
 ```
@@ -367,7 +367,7 @@ Exit code 134 (SIGABRT). Confirmed on qBraid H200 and B200.
 
 Multi-component reward with auxiliary gating:
 
-```
+```text
 r = w₁·(-E/|E_ref|) + w₂·entanglement_frac + w₃·(-depth/max_len) + w₄·non_commute_frac + w₅·diversity
 ```
 

@@ -1,3 +1,6 @@
+> [!NOTE]
+> Internal session log kept for provenance — not polished documentation. See README.md / docs/ for curated docs.
+
 ## B200 Training Strategy (Canonical Decision — 2026-07-23)
 
 ### Architecture Decision: Supervised Warm-start → DAPO RL

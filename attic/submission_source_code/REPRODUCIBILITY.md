@@ -1,3 +1,6 @@
+> [!NOTE]
+> Internal session log kept for provenance — not polished documentation. See README.md / docs/ for curated docs.
+
 # Reproducibility Guide — Quantum-Buddies GIC 2026 Phase 3
 
 ## Quick Start

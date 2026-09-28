@@ -172,7 +172,7 @@ mindmap
 
 ## 3. Data & Checkpoint Artifact Map (`results/`)
 
-```
+```text
 results/
 ├── data/
 │   ├── hamiltonians.json                  # 35 GIC challenge molecules (4–28q)

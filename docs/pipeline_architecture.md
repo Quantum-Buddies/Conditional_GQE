@@ -123,7 +123,7 @@ qBraid Lab provides on-demand GPU instances (H200, B200, L40S, etc.) accessible 
 - **Time**: ~5-15 min per molecule (rate limited)
 
 ### QWC Grouping (Key Algorithm)
-```
+```text
 Input: 15 Pauli terms for H2 (e.g., IZIZ, ZIZI, IZZZ, XIXI, ...)
 Output: 5 QWC groups (3x reduction)
   Group 0: {ZIZI, IZIZ, IZZI, ZZII, ZZZZ} — all Z-basis, one circuit
@@ -220,7 +220,7 @@ Each group → one circuit with combined measurement basis → one job to QPU/si
 
 ## Data Flow Summary
 
-```
+```text
 [PySCF/OpenFermion]
        │
        ▼
@@ -300,7 +300,7 @@ Each molecule has a state: `uninitialized → hamiltonian_generated → sft_trai
 6. **Bit ordering**: Qiskit little-endian vs Rigetti big-endian (reverse_bits flag)
 
 ### Key File Paths
-```
+```text
 <repo-root>/
 ├── configs/gic2026_molecules.yaml          # 35 molecule definitions
 ├── configs/experiment.yaml                 # Model hyperparams

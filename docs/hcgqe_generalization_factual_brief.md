@@ -1,6 +1,6 @@
 # H-cGQE graph-conditioned zero-shot: factual brief
 
-**Date:** 21 August 2026  
+**Date:** 21 August 2026
 **Verdict:** **No.** The Hub/README claim that a chemistry GNN conditions the decoder for zero-shot organotin circuits is **not supported** by checkpoints, infer code, or logged energies. What exists is Hamiltonian-conditioned generation on small organics, plus a frozen 12-char dialect failure on SnO 14q.
 
 Canonical tin contract (unchanged): [`tin_euv_execution_plan.md`](tin_euv_execution_plan.md). Executable holdout protocol: [`hcgqe_generalization_heldout_organotin.md`](hcgqe_generalization_heldout_organotin.md). Industrial plan file was not edited.
@@ -84,15 +84,15 @@ Closest “train A, infer B” **energy** proxy: organic mixed-length SFT → Sn
 
 ## What does **not** exist
 
-- Held-out organotin (methyltin / n-Bu / aromatic Sn) ΔE table  
-- Any ΔE vs number of unique training graphs / epochs **generalization series** (do not invent one)  
-- GNN prefix inside `generate()` for tin or organics  
-- Sn in SFT names or DAPO molecule lists  
-- 14-char H-cGQE QSCI on SnO is **done** (job 7434600: best +2.597 mHa / 21 dets; union32 +2.149 mHa; misses 1.6 mHa)  
-- Methyltin **MatGen-Q SI** XYZ (blocked: `results/tin_ab/methyltin_xyz_blocker.json`). Labelled-ours DFT XYZ exists under `results/tin_ab/methyltin_ours/` — do not copy into `tin_resist.yaml`.  
-- Trackio project (CLI broken on login Python 3.9; no trackio files in this repo). Scratch W&B runs are `dino_foresight.train`  
-- GIC 2026 public score sheet (competition closed; independent paper experiment)  
-- 72.6 → 21.2 kcal/mol as a GQE number ([arXiv:2607.23988](https://arxiv.org/abs/2607.23988) **classical UCCSD(T)**)  
+- Held-out organotin (methyltin / n-Bu / aromatic Sn) ΔE table
+- Any ΔE vs number of unique training graphs / epochs **generalization series** (do not invent one)
+- GNN prefix inside `generate()` for tin or organics
+- Sn in SFT names or DAPO molecule lists
+- 14-char H-cGQE QSCI on SnO is **done** (job 7434600: best +2.597 mHa / 21 dets; union32 +2.149 mHa; misses 1.6 mHa)
+- Methyltin **MatGen-Q SI** XYZ (blocked: `results/tin_ab/methyltin_xyz_blocker.json`). Labelled-ours DFT XYZ exists under `results/tin_ab/methyltin_ours/` — do not copy into `tin_resist.yaml`.
+- Trackio project (CLI broken on login Python 3.9; no trackio files in this repo). Scratch W&B runs are `dino_foresight.train`
+- GIC 2026 public score sheet (competition closed; independent paper experiment)
+- 72.6 → 21.2 kcal/mol as a GQE number ([arXiv:2607.23988](https://arxiv.org/abs/2607.23988) **classical UCCSD(T)**)
 - 92 eV IMePh on L40S ([arXiv:2602.20234](https://arxiv.org/abs/2602.20234))
 
 Published “GNN conditions GQE” result is **Ising combinatorial optimisation**, ≤10 qubits ([arXiv:2501.16986](https://arxiv.org/abs/2501.16986) / Digital Discovery), **not** organotin \(E_0\).
@@ -109,13 +109,13 @@ Published “GNN conditions GQE” result is **Ising combinatorial optimisation*
 
 *Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
 
-1. **Dialect is measured:** 14-char infer on SnO is job **7434600**. In-distribution: every word length 14; \(n_\mathrm{samples}=64\); best single **+2.597 mHa / 21 dets**; union cap 32 **+2.149 mHa**. **Misses 1.6 mHa.** This is **not** zero-shot. **Do not DAPO.**  
-2. **Wire GNN only after that.** Four columns on the **same** H: GNN+HEnc+dec / HEnc+dec / decoder-only / HF.  
-3. **Train diversity vs held-out ΔE** (the plot that does not exist today): x = number of unique train connectivities (exact-length vocab); y = zero-shot ΔE vs CASCI on held-out topologies.  
-   - **Train (seen):** GIC light set + SnO 14q. Optional labelled-ours methyltin 0 after documented DFT (`docs/methyltin_ours_dft_mp2_opt.md`).  
-   - **Hold out:** aromatic Sn only after XYZ exists; n-Bu vs Me only if **both** have ours or SI XYZ. **Do not invent MatGen-Q XYZ.**  
-   - **AIRE sizes:** statevector **≤24q**; QSCI/MPS **28–32q**.  
-   - Every row: ΔE vs CASCI, vs HF, vs per-instance VQE/ADAPT/GPT-2; \(N_\mathrm{dets}\); word length \(= n_q\); Tanimoto + atom-type histogram vs nearest train graph; split label `seen` / `held-out` / `in-distribution-SFT`.  
+1. **Dialect is measured:** 14-char infer on SnO is job **7434600**. In-distribution: every word length 14; \(n_\mathrm{samples}=64\); best single **+2.597 mHa / 21 dets**; union cap 32 **+2.149 mHa**. **Misses 1.6 mHa.** This is **not** zero-shot. **Do not DAPO.**
+2. **Wire GNN only after that.** Four columns on the **same** H: GNN+HEnc+dec / HEnc+dec / decoder-only / HF.
+3. **Train diversity vs held-out ΔE** (the plot that does not exist today): x = number of unique train connectivities (exact-length vocab); y = zero-shot ΔE vs CASCI on held-out topologies.
+   - **Train (seen):** GIC light set + SnO 14q. Optional labelled-ours methyltin 0 after documented DFT (`docs/methyltin_ours_dft_mp2_opt.md`).
+   - **Hold out:** aromatic Sn only after XYZ exists; n-Bu vs Me only if **both** have ours or SI XYZ. **Do not invent MatGen-Q XYZ.**
+   - **AIRE sizes:** statevector **≤24q**; QSCI/MPS **28–32q**.
+   - Every row: ΔE vs CASCI, vs HF, vs per-instance VQE/ADAPT/GPT-2; \(N_\mathrm{dets}\); word length \(= n_q\); Tanimoto + atom-type histogram vs nearest train graph; split label `seen` / `held-out` / `in-distribution-SFT`.
 4. **Do not** sbatch DAPO, paid QPU, or 92 eV. Do not plot 72.6→21.2 as model accuracy.
 
 ---

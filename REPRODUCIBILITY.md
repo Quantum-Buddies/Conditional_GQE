@@ -240,7 +240,7 @@ Every result JSON in `results/phase3_final/` contains a manifest with:
 - `energy_hartree`, `reference_energy_hartree`, `error_mha`
 - `wall_time_seconds`, `status`
 
-Run `python scripts/lock_environment.sh` to capture environment metadata before experiments.
+Run `bash scripts/lock_environment.sh` to capture environment metadata before experiments.
 
 ## QPU Preflight
 

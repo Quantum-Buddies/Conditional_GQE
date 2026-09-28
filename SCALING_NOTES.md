@@ -194,7 +194,7 @@ When running `mpiexec -np 3` on AIRE with `--cpus-per-task=8`, MPI may complain 
 
 ### Hamiltonian Output Path
 `generate_hamiltonians.py --out results/data/hamiltonians_scaling.json` creates a **directory** with `hamiltonians.json` inside it. All downstream commands must use:
-```
+```text
 results/data/hamiltonians_scaling.json/hamiltonians.json
 ```
 

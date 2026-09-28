@@ -2,7 +2,7 @@
 
 ## Architecture Overview
 
-```
+```text
 Molecular structure
         │
         ▼
@@ -138,7 +138,7 @@ r_hardware = -λ_d · depth - λ_2q · n_2q_gates - λ_native · n_non_native - 
 ```
 
 **Strong version** — Condition generation on device descriptor:
-```
+```text
 p(circuit | molecule, Hamiltonian, device)
 ```
 
@@ -290,7 +290,7 @@ Hardware validation, device-aware circuit assessment, and selected fragment exec
 
 ### QPU Funnel
 
-```
+```text
 Many AI-generated circuits (1000s)
           │
           ▼
@@ -449,7 +449,7 @@ Recombine fragment energies, propagate uncertainties, compare with classical ref
 ### FMO2 Many-Body Expansion
 
 #### Formula
-```
+```text
 E_FMO2 = Σ_i E_i + Σ_{i<j} ΔE_{ij}
 
 where:
@@ -469,7 +469,7 @@ For N=5 fragments: 5 monomers + C(5,2)=10 dimers = 15 calculations
 
 #### FMO Bridge: 40q Parent → Small Fragments
 
-```
+```text
 40-qubit parent active space
            │
            ▼

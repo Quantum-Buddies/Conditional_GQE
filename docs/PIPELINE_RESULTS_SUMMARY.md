@@ -337,7 +337,7 @@ This document compiles every pipeline stage, result, and technical detail across
 ### Figure 2: Training Pipeline Flow
 **Type**: Horizontal flowchart
 **Content**:
-```
+```text
 SFT (cross-entropy) → DAPO RL (energy reward) → L-BFGS-B optimization → QPU submission
      ↓                      ↓                        ↓                    ↓
   96.2% acc            MAP-Elites              Optimized θ           SQD energy

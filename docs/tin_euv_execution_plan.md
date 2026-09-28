@@ -209,7 +209,7 @@ Pass criterion in the script: pool-native ΔE < 1.6 mHa **without** filling 49/4
 
 **SBATCH shape (already in file):**
 
-```
+```bash
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
@@ -288,7 +288,7 @@ Required edits:
 
 **SBATCH shape (already in file):**
 
-```
+```bash
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:3
 #SBATCH --cpus-per-task=24
@@ -302,7 +302,7 @@ Do not launch from scratch on 3 GPUs until 1-GPU SFT on the 14-char pool has a n
 
 File: `jobs/tin_casci_refs.sbatch`.
 
-```
+```bash
 #SBATCH --partition=nodes
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=256G
@@ -342,7 +342,7 @@ Do **not** buy qBraid GPU hours for this. AIRE already has L40S.
 
 Dump under `$SCRATCH` (not `$HOME`, not `$TMP_SHARED`):
 
-```
+```text
 results/tin_ab/
   hamiltonians_tin/hamiltonians.json
   pool_sno14q.json

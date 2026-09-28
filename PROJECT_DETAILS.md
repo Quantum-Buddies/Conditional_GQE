@@ -10,16 +10,16 @@ This repository contains the full benchmark stack used across this project:
 ## Repository Layout
 
 ```text
-Conditional-GQE_materials/
+Conditional_GQE/
 ├── configs/
-│   └── experiment.yaml
-├── hamitonian_pipeline/
-│   └── test.py
+│   ├── experiment.yaml
+│   ├── experiment_scaling.yaml
+│   └── gic2026_molecules.yaml
 ├── jobs/
-│   └── gqe-suite.slurm
+│   └── *.sbatch                   # Slurm templates (site-specific — see jobs/README.md)
 ├── proposals/
 │   ├── deep-research-report.md
-│   └── phase-1/2 PDFs
+│   └── phase reports (PDF)
 ├── results/
 │   ├── baselines/
 │   ├── data/
@@ -28,19 +28,20 @@ Conditional-GQE_materials/
 │   └── train/
 ├── scripts/
 │   ├── plot_benchmarks.sh
+│   ├── run_all_reproducible.sh
 │   └── run_full_benchmark.sh
 ├── src/gqe/
 │   ├── baselines/
 │   │   ├── run_adapt_vqe.py
-│   │   ├── run_cudaq_vqe.py
 │   │   ├── run_cudaq_gqe.py
+│   │   └── run_cudaq_vqe.py
 │   ├── data/
 │   │   └── generate_hamiltonians.py
 │   ├── eval/
 │   │   ├── aggregate_metrics.py
-│   │   ├── plot_benchmark_results.py
+│   │   └── plot_benchmark_results.py
 │   ├── models/
-│   │   ├── train_supervised.py
+│   │   └── train_supervised.py
 │   └── __init__.py
 ├── README.md
 ├── requirements.txt
@@ -187,16 +188,3 @@ A targeted warning filter is included to reduce noisy CUDA driver-version warnin
 - `run_cudaq_gqe.py` follows NVIDIA docs-oriented operator-pool and `solvers.gqe(...)` flow for H2.
 - Uses `cudaq.pauli_word` typed kernel argument to match CUDA-Q kernel typing constraints.
 - If `cudaq` / `cudaq-solvers[gqe]` are not installed, the script emits a clear error with install guidance.
-
-## Push workflow
-
-After changes are committed:
-
-```bash
-git add -A
-git commit -m "Update experiment suite and docs"
-git push -u origin main
-```
-
-If push fails due authentication/network policy, authenticate with the same account used for:
-`https://github.com/Quantum-Buddies/Conditional-GQE_materials`.
