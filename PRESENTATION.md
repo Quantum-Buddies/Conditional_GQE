@@ -213,6 +213,8 @@ MPS scales polynomially (~O(n²)), not exponentially — this is how we reach 28
 
 ### Training: AIRE HPC → qBraid GH200
 
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
+
 | Platform | GPU | VRAM | Max Qubits | Cost | Role |
 |----------|-----|------|-----------|------|------|
 | AIRE HPC | 3× L40S | 48 GB each | 24q | Free (university) | Development, smoke tests |

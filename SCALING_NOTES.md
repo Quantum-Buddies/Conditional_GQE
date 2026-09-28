@@ -6,10 +6,12 @@ Scale GQE and H-cGQE quantum simulations to larger qubit counts (12–22+ qubits
 
 ## Environment
 
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
+
 - **HPC:** AIRE cluster, 3× NVIDIA L40S GPUs per node (48 GB HBM3 each, PCIe-only, no NVLink)
-- **CUDA-Q:** v0.14.2, installed in conda env `/mnt/scratch/kcwp264/.conda_envs/cudaq-env`
-- **Project root:** `/scratch/kcwp264/Conditional-GQE_materials`
-- **Python:** `/mnt/scratch/kcwp264/.conda_envs/cudaq-env/bin/python`
+- **CUDA-Q:** v0.14.2, installed in conda env `cudaq-env`
+- **Project root:** `<repo-root>`
+- **Python:** `$SCRATCH/.conda_envs/cudaq-env/bin/python`
 - **SLURM allocation:** `srun --pty -p gpu --gres=gpu:3 --cpus-per-task=8 --mem=64G -t 20:00:00 /bin/bash`
 
 ## CUDA-Q Backends Used
@@ -232,8 +234,8 @@ Create plots comparing Phase 3 (8q) vs scaling (12–22q) results and update REA
 
 ```bash
 # On AIRE GPU node with 3× L40S:
-export PY=/mnt/scratch/kcwp264/.conda_envs/cudaq-env/bin/python
-cd /scratch/kcwp264/Conditional-GQE_materials
+export PY=$SCRATCH/.conda_envs/cudaq-env/bin/python
+cd <repo-root>
 
 # Run full pipeline (skips Hamiltonian generation if already exists):
 bash scripts/run_scaling_3gpu.sh

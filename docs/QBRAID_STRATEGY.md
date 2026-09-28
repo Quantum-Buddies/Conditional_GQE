@@ -137,6 +137,8 @@ python scripts/submit_qpu_async.py --retrieve results/eval/qpu_manifest_meta.jso
 We orchestrate the local HPC cluster development and remote qBraid QPU execution using the orchestrator script `scripts/run_hpc_qbraid_workflow.sh`.
 
 ### Step 1: Submit Pre-processing & RL Training to Slurm
+
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
 Submit the local GPU scaling workflow directly to Slurm from your repository directory:
 ```bash
 bash scripts/run_hpc_qbraid_workflow.sh --hpc-submit

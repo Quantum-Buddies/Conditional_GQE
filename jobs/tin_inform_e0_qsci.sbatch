@@ -17,11 +17,11 @@
 #SBATCH --error=/scratch/kcwp264/Conditional-GQE_materials/logs/%x_%A_%a.err
 
 set -euo pipefail
-source /scratch/kcwp264/.aire_scratch_env.sh
+source "${SCRATCH_ROOT:-/scratch/kcwp264}/.aire_scratch_env.sh"
 module load cuda/12.6.2
 module load miniforge/24.7.1
 source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate /scratch/kcwp264/.conda_envs/cudaq-env
+conda activate "${SCRATCH_ROOT:-/scratch/kcwp264}/.conda_envs/cudaq-env"
 
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
@@ -31,7 +31,8 @@ export NCCL_IB_DISABLE=1
 export NCCL_NET=Socket
 export CUDAQ_NVIDIA_OPTION="${CUDAQ_NVIDIA_OPTION:-fp64}"
 
-ROOT=/scratch/kcwp264/Conditional-GQE_materials
+ROOT=${SCRATCH_ROOT:-/scratch/kcwp264}/Conditional-GQE_materials
+export GQE_MATGENQ_DIR="${GQE_MATGENQ_DIR:-${SCRATCH_ROOT:-/scratch/kcwp264}/baselines/gqe-qsci-euv-photoresists/code}"
 OUT="${ROOT}/results/tin_ab/methyltin_ours"
 LIGANDS=(me cf3)
 IDX="${SLURM_ARRAY_TASK_ID:-0}"

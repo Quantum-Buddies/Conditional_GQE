@@ -13,11 +13,11 @@
 #SBATCH --error=/scratch/kcwp264/Conditional-GQE_materials/logs/%x_%j.err
 
 set -euo pipefail
-source /scratch/kcwp264/.aire_scratch_env.sh
+source "${SCRATCH_ROOT:-/scratch/kcwp264}/.aire_scratch_env.sh"
 # CUDA-Q 0.15.1 venv: native qbraid target. Do not conda activate cudaq-env (0.14 + solvers).
 
-ROOT=/scratch/kcwp264/Conditional-GQE_materials
-PYTHON=/scratch/kcwp264/.conda_envs/cudaq15-qbraid/bin/python
+ROOT=${SCRATCH_ROOT:-/scratch/kcwp264}/Conditional-GQE_materials
+PYTHON=${SCRATCH_ROOT:-/scratch/kcwp264}/.conda_envs/cudaq15-qbraid/bin/python
 HAM="${ROOT}/results/tin_ab/hamiltonians_tin/hamiltonians.json"
 EXP="${ROOT}/experiments/cudaq-gqe-cepheus-sno14"
 OUT_DIR="${EXP}/outputs"

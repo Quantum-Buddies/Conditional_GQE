@@ -11,8 +11,8 @@ The H-cGQE pipeline spans **three compute tiers**: AIRE HPC (classical GPU train
 ### Hardware
 - 28 nodes × 3 NVIDIA L40S GPUs (48GB, PCIe, no NVLink)
 - Slurm scheduler: `--partition=gpu --gres=gpu:l40s:N`
-- Conda env: `cudaq-env` at `/scratch/kcwp264/.conda_envs/cudaq-env/`
-- Scratch: `/scratch/kcwp264/`
+- Conda env: `cudaq-env` (e.g. `$SCRATCH/.conda_envs/cudaq-env/` on AIRE)
+- Scratch: `$SCRATCH/` (site-specific)
 
 ### Connection
 - SSH into AIRE login node → `sbatch` job submission
@@ -301,7 +301,7 @@ Each molecule has a state: `uninitialized → hamiltonian_generated → sft_trai
 
 ### Key File Paths
 ```
-/scratch/kcwp264/Conditional-GQE_materials/
+<repo-root>/
 ├── configs/gic2026_molecules.yaml          # 35 molecule definitions
 ├── configs/experiment.yaml                 # Model hyperparams
 ├── results/data/hamiltonians_gic2026/      # Generated Hamiltonians

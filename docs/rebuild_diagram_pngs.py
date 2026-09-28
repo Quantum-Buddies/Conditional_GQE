@@ -9,7 +9,7 @@ import subprocess
 import json
 from pathlib import Path
 
-ROOT = Path("/scratch/kcwp264/Conditional-GQE_materials")
+ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "docs" / "mermaid_svgs"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 

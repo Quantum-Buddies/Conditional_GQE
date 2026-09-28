@@ -17,7 +17,7 @@ import shutil
 from pathlib import Path
 from PIL import Image
 
-OUT_DIR = Path("/scratch/kcwp264/Conditional-GQE_materials/docs")
+OUT_DIR = Path(__file__).resolve().parent
 FRAME_DIR = OUT_DIR / "_gif_frames_suite"
 FRAME_DIR.mkdir(exist_ok=True)
 

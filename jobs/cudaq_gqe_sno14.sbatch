@@ -13,18 +13,18 @@
 #SBATCH --error=/scratch/kcwp264/Conditional-GQE_materials/logs/%x_%j.err
 
 set -euo pipefail
-source /scratch/kcwp264/.aire_scratch_env.sh
+source "${SCRATCH_ROOT:-/scratch/kcwp264}/.aire_scratch_env.sh"
 module load cuda/12.6.2
 module load miniforge/24.7.1
 source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate /scratch/kcwp264/.conda_envs/cudaq-env
+conda activate "${SCRATCH_ROOT:-/scratch/kcwp264}/.conda_envs/cudaq-env"
 
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export CUDAQ_NVIDIA_OPTION="${CUDAQ_NVIDIA_OPTION:-fp64}"
 
-ROOT=/scratch/kcwp264/Conditional-GQE_materials
+ROOT=${SCRATCH_ROOT:-/scratch/kcwp264}/Conditional-GQE_materials
 HAM="${ROOT}/results/tin_ab/hamiltonians_tin/hamiltonians.json"
 EXP="${ROOT}/experiments/cudaq-gqe-cepheus-sno14"
 OUT_DIR="${EXP}/outputs"
@@ -66,7 +66,7 @@ Path("experiments/cudaq-gqe-cepheus-sno14/outputs/cudaq_versions.json").write_te
 if not payload["has_qbraid"]:
     print(
         "NOTE: cudaq-env 0.14.2 has no qbraid target (expected). "
-        "QIR-SV/Cepheus use /scratch/kcwp264/.conda_envs/cudaq15-qbraid (0.15.1)."
+        "QIR-SV/Cepheus use ${SCRATCH_ROOT:-/scratch/kcwp264}/.conda_envs/cudaq15-qbraid (0.15.1)."
     )
 PY
 

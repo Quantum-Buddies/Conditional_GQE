@@ -3,14 +3,21 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 from collections import Counter
 from pathlib import Path
 
 import numpy as np
 
-ROOT = Path("/scratch/kcwp264/Conditional-GQE_materials")
-BASE = Path("/scratch/kcwp264/baselines/gqe-qsci-euv-photoresists/code")
+ROOT = Path(__file__).resolve().parents[1]
+_raw_base = os.environ.get("GQE_MATGENQ_DIR", "").strip()
+BASE = Path(_raw_base).expanduser() if _raw_base else Path("/nonexistent-matgenq")
+if not BASE.is_dir():
+    raise SystemExit(
+        "Set GQE_MATGENQ_DIR to your clone of the "
+        "gqe-qsci-euv-photoresists baselines repo"
+    )
 # Login node: never import cudaq (AIRE A2). NumpySampler is sufficient here.
 sys.modules.setdefault("cudaq", None)
 sys.path.insert(0, str(BASE))

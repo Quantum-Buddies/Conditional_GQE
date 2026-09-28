@@ -51,9 +51,11 @@ Conditional-GQE_materials/
 
 ## Environment
 
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
+
 Reference environment path used by this project:
 
-- `/mnt/scratch/kcwp264/.conda_envs/cudaq-env/bin/python`
+- `$SCRATCH/.conda_envs/cudaq-env/bin/python`
 
 Core dependency file:
 

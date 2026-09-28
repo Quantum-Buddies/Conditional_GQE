@@ -75,7 +75,7 @@ PDF: `proposals/Ryoushi_Quantum_Buddies__Phase3_Version1.pdf` (6 pages)
 
 ## Reproducibility
 
-- Conda env: `cudaq-env` at `/scratch/kcwp264/.conda_envs/cudaq-env/`
+- Conda env: `cudaq-env`
 - All scripts: `scripts/phase3/00_smoke_test.sh` through `08_build_report.sh`
 - Result JSONs: `results/phase3_final/`
 - Git: `phase3-submission` branch (latest commit includes pipeline safeguards)

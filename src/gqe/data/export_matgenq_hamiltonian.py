@@ -10,13 +10,18 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
 
 from tqdm.auto import tqdm
 
-DEFAULT_MATGENQ_CODE = Path("/scratch/kcwp264/baselines/gqe-qsci-euv-photoresists/code")
+MATGENQ_ENV = "GQE_MATGENQ_DIR"
+MATGENQ_HINT = (
+    "Set GQE_MATGENQ_DIR to your clone of the "
+    "gqe-qsci-euv-photoresists baselines repo"
+)
 
 
 def _to_serializable_terms(qubit_ham: Any) -> list[dict[str, float | str]]:
@@ -87,7 +92,12 @@ def main() -> None:
         required=True,
         help="hamiltonians.json path, or a directory that will contain it",
     )
-    parser.add_argument("--matgenq-code", type=Path, default=DEFAULT_MATGENQ_CODE)
+    parser.add_argument(
+        "--matgenq-code",
+        type=Path,
+        default=None,
+        help=f"Path to the baselines 'code' dir (defaults to ${MATGENQ_ENV})",
+    )
     parser.add_argument("--bond-length", type=float, default=1.8325)
     parser.add_argument(
         "--skip-jw-check",
@@ -96,8 +106,14 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    raw = args.matgenq_code or os.environ.get(MATGENQ_ENV, "")
+    if not str(raw).strip():
+        raise SystemExit(MATGENQ_HINT)
+    matgenq_code = Path(str(raw)).expanduser()
+    if not matgenq_code.is_dir():
+        raise SystemExit(MATGENQ_HINT)
     record = export_sno_14q(
-        matgenq_code=args.matgenq_code,
+        matgenq_code=matgenq_code,
         bond_length=args.bond_length,
         skip_jw_check=args.skip_jw_check,
     )

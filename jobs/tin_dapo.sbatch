@@ -14,11 +14,11 @@
 #SBATCH --error=/scratch/kcwp264/Conditional-GQE_materials/logs/%x_%j.err
 
 set -euo pipefail
-source /scratch/kcwp264/.aire_scratch_env.sh
+source "${SCRATCH_ROOT:-/scratch/kcwp264}/.aire_scratch_env.sh"
 module load cuda/12.6.2
 module load miniforge/24.7.1
 source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate /scratch/kcwp264/.conda_envs/cudaq-env
+conda activate "${SCRATCH_ROOT:-/scratch/kcwp264}/.conda_envs/cudaq-env"
 
 export NCCL_P2P_DISABLE=1
 export NCCL_IB_DISABLE=1
@@ -28,8 +28,8 @@ export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export OMP_NUM_THREADS=8
 export MKL_NUM_THREADS=8
 
-ROOT=/scratch/kcwp264/Conditional-GQE_materials
-OUT=/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab
+ROOT=${SCRATCH_ROOT:-/scratch/kcwp264}/Conditional-GQE_materials
+OUT=${SCRATCH_ROOT:-/scratch/kcwp264}/Conditional-GQE_materials/results/tin_ab
 mkdir -p "${OUT}" "${ROOT}/logs"
 cd "${ROOT}"
 export PYTHONPATH="${ROOT}:${PYTHONPATH:-}"

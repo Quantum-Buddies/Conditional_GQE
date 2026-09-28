@@ -10,12 +10,12 @@ Canonical stacks:
 
 | Role | Path | Upstream |
 |---|---|---|
-| H-cGQE (ours) | `/scratch/kcwp264/Conditional-GQE_materials` | [Quantum-Buddies/Conditional_GQE](https://github.com/Quantum-Buddies/Conditional_GQE) |
-| MatGen-Q baseline | `/scratch/kcwp264/baselines/gqe-qsci-euv-photoresists` | [KarimElgammal/gqe-qsci-euv-photoresists](https://github.com/KarimElgammal/gqe-qsci-euv-photoresists) |
+| H-cGQE (ours) | `<repo-root>` | [Quantum-Buddies/Conditional_GQE](https://github.com/Quantum-Buddies/Conditional_GQE) |
+| MatGen-Q baseline | `$GQE_MATGENQ_DIR` (clone of the gqe-qsci-euv-photoresists baselines repo) | [KarimElgammal/gqe-qsci-euv-photoresists](https://github.com/KarimElgammal/gqe-qsci-euv-photoresists) |
 | Preprint | arXiv:[2607.23988](https://arxiv.org/abs/2607.23988) | Elgammal & Maußner |
 | Checkpoint | `results/train/h_cgqe_uccsd_model.pt` (31 MB, 27 Jun 2026) | Hub: [Ryukijano/h-cgqe-gic2026](https://huggingface.co/Ryukijano/h-cgqe-gic2026) — **ground-state circuit generator** |
 
-Scratch-root `/scratch/kcwp264` has **no git remote**. Cloud orchestrate kickoff is unavailable here (`CURSOR_API_KEY` unset; `bun` missing). This plan is the local execution contract.
+Scratch-root `$SCRATCH` has **no git remote**. Cloud orchestrate kickoff is unavailable here (`CURSOR_API_KEY` unset; `bun` missing). This plan is the local execution contract.
 
 ---
 
@@ -54,13 +54,15 @@ Active-space correlation on published SnO 14q: **6.12 mHa** (RHF −288.10300087
 
 ## 3. AIRE contract (do not improvise)
 
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
+
 Source first, always:
 
 ```bash
-source /scratch/kcwp264/.aire_scratch_env.sh
+source .aire_scratch_env.sh
 ```
 
-Env: `conda activate /scratch/kcwp264/.conda_envs/cudaq-env`.
+Env: `conda activate cudaq-env`.
 Modules in GPU jobs: `cuda/12.6.2` + `miniforge/24.7.1`.
 **Never train on login-node A2 GPUs.** Probe CUDA-Q only inside `srun -p gpu --gres=gpu:1`.
 
@@ -358,7 +360,7 @@ IMePh isomer fix is Track B after tin A/B, not part of this dump.
 
 ## 7. Existing sbatch files (exact)
 
-All live in `/scratch/kcwp264/Conditional-GQE_materials/jobs/`. All source `.aire_scratch_env.sh`, activate `cudaq-env`, and make `seff` optional.
+All live in `<repo-root>/jobs/`. All source `.aire_scratch_env.sh`, activate `cudaq-env`, and make `seff` optional.
 
 | File | When to submit | Do not submit if |
 |---|---|---|
@@ -439,8 +441,8 @@ This plan is mirrored onto the existing page [Implementation Plan: H-cGQE vs Mat
 Inputs for Phase 1.5 are on disk. The job does **not** train and does **not** DAPO. It is the S4 existence proof that 14-char pool circuits QSCI-sample this H.
 
 ```bash
-source /scratch/kcwp264/.aire_scratch_env.sh
-cd /scratch/kcwp264/Conditional-GQE_materials
+source .aire_scratch_env.sh
+cd <repo-root>
 sbatch jobs/tin_qsci_controls.sbatch
 ```
 

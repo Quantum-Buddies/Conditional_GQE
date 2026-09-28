@@ -107,6 +107,8 @@ Published “GNN conditions GQE” result is **Ising combinatorial optimisation*
 
 ## Recommended metric protocol (molecules we can run on AIRE)
 
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
+
 1. **Dialect is measured:** 14-char infer on SnO is job **7434600**. In-distribution: every word length 14; \(n_\mathrm{samples}=64\); best single **+2.597 mHa / 21 dets**; union cap 32 **+2.149 mHa**. **Misses 1.6 mHa.** This is **not** zero-shot. **Do not DAPO.**  
 2. **Wire GNN only after that.** Four columns on the **same** H: GNN+HEnc+dec / HEnc+dec / decoder-only / HF.  
 3. **Train diversity vs held-out ΔE** (the plot that does not exist today): x = number of unique train connectivities (exact-length vocab); y = zero-shot ΔE vs CASCI on held-out topologies.  

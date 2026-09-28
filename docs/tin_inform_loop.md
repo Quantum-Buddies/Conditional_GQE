@@ -26,8 +26,8 @@ Driver: `src/gqe/eval/tin_inform_loop.py` + `jobs/tin_inform_loop_step.sbatch` (
 CLI (repo root, `cudaq-env` not required for pick):
 
 ```bash
-source /scratch/kcwp264/.aire_scratch_env.sh
-cd /scratch/kcwp264/Conditional-GQE_materials
+source .aire_scratch_env.sh
+cd <repo-root>
 PYTHONPATH=. python src/gqe/eval/tin_inform_rank.py \
   --scores results/tin_ab/methyltin_ours/scores.json \
   --out-dir results/tin_ab/methyltin_ours
@@ -100,7 +100,9 @@ Geometries live under `results/tin_ab/methyltin_ours/` with `label: ours`. Do no
 
 ## AIRE: 3× L40S split
 
-Max **3 GPUs / node** (L40S 48 GB, PCIe, no NVLink). Never train or DFT on login-node A2 GPUs. Source `/scratch/kcwp264/.aire_scratch_env.sh`; env `cudaq-env` for GPU QSCI.
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
+
+Max **3 GPUs / node** (L40S 48 GB, PCIe, no NVLink). Never train or DFT on login-node A2 GPUs. Source `.aire_scratch_env.sh`; env `cudaq-env` for GPU QSCI.
 
 Independent Hamiltonians scale as a **Slurm array of 1 GPU**, not as `nvidia,mgpu`
 (CUDA-Q only distributes a statevector across GPUs above ~25 qubits). DFT remaining

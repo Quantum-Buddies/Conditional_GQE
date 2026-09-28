@@ -1,5 +1,8 @@
 # QUICKSTART — Conditional-GQE Phase 3
 
+> **Note:** This is the frozen Phase-3 submission flow; for the current
+> development install see [README.md](README.md#quick-start-qbraid).
+
 ## Setup
 
 ```bash

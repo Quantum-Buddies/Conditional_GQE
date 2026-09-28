@@ -39,7 +39,7 @@ bash scripts/run_all_reproducible.sh qpu
 | qiskit | 2.0+ | ADAPT-VQE baseline |
 | qBraid SDK | 0.9+ | QPU job submission |
 
-- **Conda env (local)**: `cudaq-env` at `/scratch/kcwp264/.conda_envs/cudaq-env/`
+- **Conda env (local)**: `cudaq-env`
 - **Lock script**: `bash scripts/lock_environment.sh` captures git commit, Python/pip versions, GPU info
 
 ### Critical Import Order
@@ -52,6 +52,8 @@ import cudaq          # SECOND — safe after torch.compile
 ```
 
 ## Hardware
+
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
 
 - **Development**: AIRE HPC, 3× NVIDIA L40S (48GB, PCIe-only, no NVLink)
 - **qBraid GPU profiles**: L40S, H200, B200 available on-demand

@@ -3,7 +3,7 @@
 
 All numbers are copied from on-disk JSON (no fitted curves, no invented
 held-out organotin series). Run from cudaq-env after sourcing
-/scratch/kcwp264/.aire_scratch_env.sh.
+source .aire_scratch_env.sh (site script).
 """
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ import numpy as np
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 
-ROOT = Path("/scratch/kcwp264/Conditional-GQE_materials")
+ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "results/generalization"
 OUT.mkdir(parents=True, exist_ok=True)
 

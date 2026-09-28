@@ -50,9 +50,9 @@ model-index:
   </p>
   <p align="center">
     <a href="https://github.com/Quantum-Buddies/Conditional_GQE/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-    <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python"></a>
+    <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.11+-blue.svg" alt="Python"></a>
     <a href="https://pytorch.org/"><img src="https://img.shields.io/badge/PyTorch-2.7+-red.svg" alt="PyTorch"></a>
-    <a href="https://nvidia.github.io/cuda-quantum/"><img src="https://img.shields.io/badge/CUDA--Q-0.8+-green.svg" alt="CUDA-Q"></a>
+    <a href="https://nvidia.github.io/cuda-quantum/"><img src="https://img.shields.io/badge/CUDA--Q-%3E%3D0.10-green.svg" alt="CUDA-Q"></a>
     <a href="https://huggingface.co/Ryukijano/h-cgqe-gic2026"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Model%20Card-yellow.svg" alt="Hugging Face"></a>
     <a href="https://account.qbraid.com?gitHubUrl=https://github.com/Quantum-Buddies/Conditional_GQE.git"><img src="https://qbraid-static.s3.amazonaws.com/logos/Launch_on_qBraid_white.png" alt="Launch on qBraid" height="20"></a>
   </p>
@@ -305,6 +305,21 @@ The framework is benchmarked across the complete GIC 2026 challenge molecule sui
 
 ---
 
+## Organotin EUV-resist informatics (post-GIC)
+
+Post-challenge work applying the same toolkit to **organotin EUV photoresists** — a materials-informatics loop, not a "GQE proposes molecules" claim:
+
+- **Goal**: rank R–Sn(OH)₃ ligand templates by DFT-computed Sn–C bond dissociation energies (BDE) and 0/+1 ionization potentials (IP) to identify candidates that cleave Sn–C under EUV exposure.
+- **Quantum component**: a frozen 14-character H-cGQE checkpoint generates circuits for tin-containing fragments; energies are scored via optional AVAS+CASCI references and a 1-GPU CUDA-Q QSCI path.
+- **Code**: `src/gqe/eval/tin_*.py`, `src/gqe/eval/qsci_map.py`, `src/gqe/eval/cudaq_qbraid_target.py`; data prep in `src/gqe/data/{export_matgenq_hamiltonian,prepare_sno14_sft_dataset,rsn_oh3_templates}.py`.
+- **Configs**: `configs/tin_resist.yaml`, `configs/methyltin_ours_opt.yaml`.
+- **Docs**: [`docs/tin_euv_execution_plan.md`](docs/tin_euv_execution_plan.md), [`docs/tin_inform_loop.md`](docs/tin_inform_loop.md), [`docs/hcgqe_generalization_heldout_organotin.md`](docs/hcgqe_generalization_heldout_organotin.md).
+- **Results**: `results/tin_ab/`. Early outputs are **diagnostic** (e.g., +2.597 mHa / 21 determinants on one QSCI job) — not a headline win.
+
+**Status**: active research; results are diagnostic, not a validated discovery claim. Job scripts under `jobs/` are AIRE-cluster Slurm templates and will need site-specific edits elsewhere.
+
+---
+
 ## Quick start (qBraid)
 
 ### 1. Clone and one-shot setup
@@ -321,13 +336,12 @@ bash scripts/setup_env.sh
 - Installs Python dependencies via `python3 -m pip` (qBraid-safe)
 - Verifies GPU, CUDA-Q, and audits critical files
 
-**LFS artifacts on `main`:**
+**LFS artifacts on `main`** (requires `git lfs pull`):
 
 | File | Purpose |
 |---|---|
 | `results/train/h_cgqe_model_b200_sft.pt` | SFT warm-start checkpoint |
 | `results/train/gqe_supervised_dataset.pt` | Supervised training dataset |
-| `results/train/rl_energy_cache.sqlite` | 25K circuit→energy cache (4–28q) |
 | `results/train/rl_pretrain_from_cache.json` | 24K pretrain bootstrap circuits |
 
 ### 2. Environment

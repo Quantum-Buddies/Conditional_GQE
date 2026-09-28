@@ -2,12 +2,13 @@
 
 This document provides a comprehensive guide to the hybrid HPC-Quantum-AI workflow designed for the GIC 2026 Phase 3 pipeline. It coordinates local HPC cluster runs (using Slurm on AIRE) with remote cloud quantum execution and post-training alignment on the qBraid platform.
 
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
+
 ---
 
 ## 1. Setup & Authentication
 
-The qBraid CLI and SDK are installed inside the target conda environment:
-`/scratch/kcwp264/.conda_envs/cudaq-env/`
+The qBraid CLI and SDK are installed inside the target conda environment `cudaq-env`:
 
 ### Credentials File & Shell Environment
 Your API key is configured permanently in both your shell profile and the native qBraid CLI settings:
@@ -16,7 +17,7 @@ Your API key is configured permanently in both your shell profile and the native
 
 Verify credentials and check active devices:
 ```bash
-/scratch/kcwp264/.conda_envs/cudaq-env/bin/qbraid devices list
+$SCRATCH/.conda_envs/cudaq-env/bin/qbraid devices list
 ```
 
 ---
@@ -82,7 +83,7 @@ Measuring individual Hamiltonian terms sequentially wastes credits on separate t
 
 ## 5. Unified Workflow Orchestration
 
-We bind all steps together using the orchestrator script `[run_hpc_qbraid_workflow.sh](file:///scratch/kcwp264/Conditional-GQE_materials/scripts/run_hpc_qbraid_workflow.sh)`.
+We bind all steps together using the orchestrator script `[run_hpc_qbraid_workflow.sh](../scripts/run_hpc_qbraid_workflow.sh)`.
 
 ### Step 1: Submit training/pre-processing to Slurm
 ```bash

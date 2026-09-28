@@ -5,7 +5,7 @@
 **Factual audit + plots (21 Aug evening):** [`hcgqe_generalization_factual_brief.md`](hcgqe_generalization_factual_brief.md) and `results/generalization/` (inventory JSON, four figures). Tin contract Phases 0–7 unchanged; **§17 informatics loop appended**.
 **Canonical tin contract (do not replace):** [`docs/tin_euv_execution_plan.md`](tin_euv_execution_plan.md)
 **Materials-informatics loop (not GQE inverse design):** labelled-ours DFT 0/+1 **IP / Sn–C BDE ranking** on `RSn(OH)3` — [`tin_euv_execution_plan.md` §17](tin_euv_execution_plan.md); [`tin_inform_loop.md`](tin_inform_loop.md); opt scaffold [`methyltin_ours_dft_mp2_opt.md`](methyltin_ours_dft_mp2_opt.md).
-**Do not edit:** `/users/kcwp264/.cursor/plans/industrial_tin_euv_gqe_f3714a97.plan.md`
+**Do not edit:** the local plan file `industrial_tin_euv_gqe_f3714a97.plan.md` (outside the repo, in the author's Cursor plans directory)
 
 One-sentence claim to test (not a result): a graph-conditioned H-cGQE decoder should emit a native-length UCCSD circuit for an unseen organotin topology in one forward pass, with ΔE vs CASCI beating per-instance VQE/GPT-2-GQE that otherwise sit at Hartree–Fock.
 
@@ -232,9 +232,9 @@ If (1) ≉ (2) ≉ (3) ≈ HF on unseen Sn, the GNN is not doing the work. The e
 Exact-length mask is implemented. Job **7431349** wrote a real ckpt. **Do not DAPO. Do not iodine-DAPO onto SnO. Do not paid QPU.**
 
 ```bash
-source /scratch/kcwp264/.aire_scratch_env.sh
-cd /scratch/kcwp264/Conditional-GQE_materials
-export TIN_SFT_CKPT=/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/h_cgqe_sft_pool14_7431349.pt
+source .aire_scratch_env.sh
+cd <repo-root>
+export TIN_SFT_CKPT=<repo-root>/results/tin_ab/h_cgqe_sft_pool14_7431349.pt
 sbatch jobs/tin_infer_pool14.sbatch
 ```
 
@@ -268,6 +268,8 @@ Only after that bar: consider GNN wiring + multi-molecule 14-char SFT. Held-out 
 
 ## 6. AIRE job shapes (copy, do not improvise)
 
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
+
 ```
 # infer / QSCI (unblocked)
 #SBATCH --partition=gpu --gres=gpu:1 --cpus-per-task=8 --mem=85G --time=02:00:00
@@ -280,7 +282,7 @@ Only after that bar: consider GNN wiring + multi-molecule 14-char SFT. Held-out 
 # NCCL_P2P_DISABLE=1 NCCL_IB_DISABLE=1 NCCL_NET=Socket
 ```
 
-Env: `source /scratch/kcwp264/.aire_scratch_env.sh`; `conda activate /scratch/kcwp264/.conda_envs/cudaq-env`; modules `cuda/12.6.2` + `miniforge/24.7.1` in GPU jobs. Checkpoints/logs on `$SCRATCH`. No API keys in sbatch.
+Env: `source .aire_scratch_env.sh`; `conda activate cudaq-env`; modules `cuda/12.6.2` + `miniforge/24.7.1` in GPU jobs. Checkpoints/logs on `$SCRATCH`. No API keys in sbatch.
 
 ---
 
@@ -290,7 +292,7 @@ Env: `source /scratch/kcwp264/.aire_scratch_env.sh`; `conda activate /scratch/kc
 
 **(b) Literature.** GPT-QE [2401.09253](https://arxiv.org/abs/2401.09253); conditional-GQE GNN is **Ising CO** [2501.16986](https://arxiv.org/abs/2501.16986); tin baseline [2607.23988](https://arxiv.org/abs/2607.23988); ADAPT-GQE [2607.22468](https://arxiv.org/abs/2607.22468); EUV Sn–C chemistry is photon/electron-driven, not GQE. No public GIC score sheet.
 
-**(c) This file:** `/scratch/kcwp264/Conditional-GQE_materials/docs/hcgqe_generalization_heldout_organotin.md`
+**(c) This file:** `<repo-root>/docs/hcgqe_generalization_heldout_organotin.md`
 
 **(d) Capability vs story:** **story ahead of the data.**
 

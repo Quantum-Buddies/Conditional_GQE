@@ -16,6 +16,8 @@ This path exists so we can build **our** RSn(OH)₃ 0/+1 geometries without pret
 | `src/gqe/eval/tin_inform_rank.py` | Rank ΔBDE + CXRO proxy; next-ligand picker. |
 | `jobs/tin_inform_dft.sbatch` | AIRE `nodes` array 0–4 (Me, Et, n-Bu, vinyl, Ph). |
 
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
+
 Do **not** copy ours coordinates into `tin_resist.yaml`. Do **not** score 72.6 → 21.2 kcal/mol as a GQE number (classical UCCSD(T) in [arXiv:2607.23988](https://arxiv.org/abs/2607.23988)).
 
 ## Chemistry
@@ -33,9 +35,9 @@ Unevaluated pool (picker only): i-Pr, n-Pr, allyl, CF3.
 ## How to run (do not invent MatGen-Q XYZ)
 
 ```bash
-source /scratch/kcwp264/.aire_scratch_env.sh
-conda activate /scratch/kcwp264/.conda_envs/cudaq-env
-cd /scratch/kcwp264/Conditional-GQE_materials
+source .aire_scratch_env.sh
+conda activate cudaq-env
+cd <repo-root>
 export PYTHONPATH="$PWD:${PYTHONPATH:-}"
 
 # Starting guesses only (login node OK):

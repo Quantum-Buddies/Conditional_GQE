@@ -78,7 +78,7 @@ Then use `--use-nvfp4` flag in `train_rl_dapo.py`.
 ## Learned Workspace Facts
 
 ### Project structure
-- Project root: `/scratch/kcwp264/Conditional-GQE_materials`
+- Project root: `<repo-root>`
 - Upstream GitHub: `Quantum-Buddies/Conditional_GQE` (remote folder name `Conditional-GQE_materials`)
 - DGX Spark env manifests: `environment-dgx-spark.yml` (base stack), `environment-dgx-spark-cudaq.yml` (includes `cudaq-solvers[gqe]`)
 - Two-stage pipeline: (1) Autoregressive circuit synthesis via H-cGQE Transformer (GPT-2 style), (2) Classical L-BFGS-B optimization of rotation coefficients (thetas) parallelized across GPUs using CUDA-Q's `nvidia-mqpu` target.
@@ -96,10 +96,12 @@ Then use `--use-nvfp4` flag in `train_rl_dapo.py`.
   - `jobs/gqe-suite.slurm` — Slurm job script
 
 ### Environment
-- **Conda env**: `cudaq-env` at `/scratch/kcwp264/.conda_envs/cudaq-env/` (also accessible as `/mnt/scratch/kcwp264/.conda_envs/cudaq-env/`)
+- **Conda env**: `cudaq-env` (on the cluster typically `$SCRATCH/.conda_envs/cudaq-env/`)
 - **Python**: via cudaq-env (CUDA-Q, Open MPI 5.0.10 with `--with-cuda`)
 - **Platform**: AIRE HPC, 28 nodes × 3 NVIDIA L40S GPUs (PCIe-only, no NVLink), 24 AMD cores, 256GB RAM per node
 - **Slurm**: `--partition=gpu --gres=gpu:l40s:N` (max 3 per node)
+
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
 
 ### Key discoveries and fixes
 - **Diagonal sequence collapse**: On larger molecules (LiH, BeH2, N2), the model under-generates entangling operations (X/Y terms) and produces commuting Z-only sequences that get trapped at Hartree-Fock energy baseline due to zero gradients.

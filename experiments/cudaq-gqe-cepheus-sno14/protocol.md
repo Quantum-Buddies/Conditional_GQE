@@ -67,7 +67,7 @@ Pass: \(\Delta E \le 1.6\) mHa.
 | Ablation | GQE circuit without S-CORE repair vs with repair (exploratory on QPU counts) |
 | Seeds | GQE `cfg.seed=3047`; sampling `{42,43,44}` on GPU |
 | Hyperparameters | `ngates=6`, `max_iters=25`, `num_samples` = library default (5), pool scales as `run_cudaq_gqe.py` |
-| Hardware | Train/observe: 1× L40S, `cudaq.set_target("nvidia", option="fp64")`. Sample dry: qBraid QIR-SV. Hardware sample: Cepheus via qBraid CUDA-Q target, **not** qBraid Python SDK |
+| Hardware | *Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.* Train/observe: 1× L40S, `cudaq.set_target("nvidia", option="fp64")`. Sample dry: qBraid QIR-SV. Hardware sample: Cepheus via qBraid CUDA-Q target, **not** qBraid Python SDK |
 | Leakage | Ligand DFT rank table is frozen; this experiment does not write `rank_table.json` |
 
 ## Data
@@ -128,8 +128,8 @@ Amendments: two CUDA-Q installs; C1 H1 falsified (job 7443318); no Cepheus
 2026-08-23: Two CUDA-Q installs. `cudaq-solvers` 0.6 requires CUDA-Q 0.14
 (`libcudaq-solvers.so` undefined `should_log` on 0.15). Native
 `cudaq.set_target("qbraid")` ships in 0.15.0+. Train/GPU QSCI use
-`/scratch/kcwp264/.conda_envs/cudaq-env` (0.14.2). qBraid QIR-SV and
-Cepheus sample use `/scratch/kcwp264/.conda_envs/cudaq15-qbraid` (0.15.1).
+`cudaq-env` (0.14.2). qBraid QIR-SV and
+Cepheus sample use `cudaq15-qbraid` (0.15.1).
 Hypothesis, pass metric, and QPU gates unchanged.
 
 2026-08-23: Job 7443216 ran library defaults (`ngates=20`, `max_iters=100`)

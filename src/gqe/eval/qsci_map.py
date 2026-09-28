@@ -16,13 +16,29 @@ conventions and could not reproduce Demo A (+2.869 mHa).
 """
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 
-DEFAULT_MATGENQ_CODE = Path("/scratch/kcwp264/baselines/gqe-qsci-euv-photoresists/code")
+MATGENQ_ENV = "GQE_MATGENQ_DIR"
+MATGENQ_HINT = (
+    "Set GQE_MATGENQ_DIR to your clone of the "
+    "gqe-qsci-euv-photoresists baselines repo"
+)
+
+
+def resolve_matgenq_code(matgenq_code: Path | str | None = None) -> Path:
+    """MatGen-Q ``code/`` dir: explicit arg, else ``GQE_MATGENQ_DIR``."""
+    raw = matgenq_code if matgenq_code is not None else os.environ.get(MATGENQ_ENV, "")
+    if not str(raw).strip():
+        raise FileNotFoundError(MATGENQ_HINT)
+    code = Path(str(raw)).expanduser()
+    if not code.is_dir():
+        raise FileNotFoundError(MATGENQ_HINT)
+    return code.resolve()
 
 
 def hf_bitstring_cudaq(n_qubits: int, n_electrons: int) -> str:
@@ -62,8 +78,7 @@ def unique_bitstrings_from_counts(counts: dict[str, int]) -> list[str]:
 
 def import_matgenq_qsci(matgenq_code: Path | None = None):
     """Import MatGen-Q ``demo.qsci`` without importing cudaq."""
-    code = Path(matgenq_code) if matgenq_code is not None else DEFAULT_MATGENQ_CODE
-    code = code.resolve()
+    code = resolve_matgenq_code(matgenq_code)
     if not (code / "demo" / "qsci.py").is_file():
         raise FileNotFoundError(f"MatGen-Q demo/qsci.py not under {code}")
     if str(code) not in sys.path:
@@ -87,8 +102,7 @@ def import_matgenq_qsci(matgenq_code: Path | None = None):
 
 def load_sno_subspace_engine(matgenq_code: Path | None = None, verbose: bool = False):
     """Build SnO (2e,7o) molecular QSCI engine (PySCF integrals, no cudaq)."""
-    code = Path(matgenq_code) if matgenq_code is not None else DEFAULT_MATGENQ_CODE
-    code = code.resolve()
+    code = resolve_matgenq_code(matgenq_code)
     if str(code) not in sys.path:
         sys.path.insert(0, str(code))
     from demo.molecule import SnOMolecule  # type: ignore[import-not-found]

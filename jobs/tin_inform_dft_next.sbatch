@@ -13,16 +13,16 @@
 #SBATCH --error=/scratch/kcwp264/Conditional-GQE_materials/logs/%x_%A_%a.err
 
 set -euo pipefail
-source /scratch/kcwp264/.aire_scratch_env.sh
+source "${SCRATCH_ROOT:-/scratch/kcwp264}/.aire_scratch_env.sh"
 module load miniforge/24.7.1
 source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate /scratch/kcwp264/.conda_envs/cudaq-env
+conda activate "${SCRATCH_ROOT:-/scratch/kcwp264}/.conda_envs/cudaq-env"
 
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-32}"
 export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-32}"
 export OPENBLAS_NUM_THREADS="${SLURM_CPUS_PER_TASK:-32}"
 
-ROOT=/scratch/kcwp264/Conditional-GQE_materials
+ROOT=${SCRATCH_ROOT:-/scratch/kcwp264}/Conditional-GQE_materials
 OUT="${ROOT}/results/tin_ab/methyltin_ours"
 LIGANDS=(vinyl cf3)
 IDX="${SLURM_ARRAY_TASK_ID:-0}"

@@ -112,6 +112,8 @@ This document compiles every pipeline stage, result, and technical detail across
 ## 4. Hardware Stack
 
 ### AIRE HPC Cluster (Local)
+
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
 - 28 nodes × 3 NVIDIA L40S (48GB, PCIe, no NVLink)
 - Slurm `--partition=gpu --gres=gpu:l40s:N`
 - Limit: 24 qubits (cuStateVec distributed segfault on PCIe)

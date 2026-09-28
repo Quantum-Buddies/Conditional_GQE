@@ -12,19 +12,19 @@
 #SBATCH --error=/scratch/kcwp264/Conditional-GQE_materials/logs/%x_%j.err
 
 set -euo pipefail
-source /scratch/kcwp264/.aire_scratch_env.sh
+source "${SCRATCH_ROOT:-/scratch/kcwp264}/.aire_scratch_env.sh"
 module load cuda/12.6.2
 module load miniforge/24.7.1
 source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate /scratch/kcwp264/.conda_envs/cudaq-env
+conda activate "${SCRATCH_ROOT:-/scratch/kcwp264}/.conda_envs/cudaq-env"
 
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export PYTHONHASHSEED=0
 
-ROOT=/scratch/kcwp264/Conditional-GQE_materials
-OUT=/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab
+ROOT=${SCRATCH_ROOT:-/scratch/kcwp264}/Conditional-GQE_materials
+OUT=${SCRATCH_ROOT:-/scratch/kcwp264}/Conditional-GQE_materials/results/tin_ab
 HAM="${OUT}/hamiltonians_tin/hamiltonians.json"
 POOL="${OUT}/pool_sno14q.json"
 CKPT="${TIN_SFT_CKPT:-${OUT}/h_cgqe_sft_pool14_7431349.pt}"

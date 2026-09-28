@@ -2,6 +2,8 @@
 
 ## Status: Draft — July 16, 2026
 
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
+
 ## 1. Current Pipeline State
 
 ### What works

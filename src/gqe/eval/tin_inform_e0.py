@@ -42,6 +42,7 @@ from src.gqe.eval.tin_inform_dft import (  # noqa: E402
     _parse_mem_mb,
     make_mol,
 )
+from src.gqe.eval.qsci_map import resolve_matgenq_code  # noqa: E402
 
 DEFAULT_OUT = Path("results/tin_ab/methyltin_ours")
 DEFAULT_THRESHOLDS = (0.20, 0.25, 0.30, 0.35, 0.40, 0.50, 0.60, 0.80)
@@ -49,7 +50,7 @@ MAX_QUBITS_L40S = 24
 MAX_FCI_DETS = 2_000_000
 PYSCF_VERBOSE_DEFAULT = 3
 FAIR_PAIR_IDS = {"me_cf3": ("me", "cf3")}
-MATGENQ_DEMO = Path("/scratch/kcwp264/baselines/gqe-qsci-euv-photoresists/code")
+MATGENQ_ENV = "GQE_MATGENQ_DIR"
 POOL_NATIVE_ANGLES = (0.1, -0.1)
 E0_KEYS = (
     "e0_casci_ha",
@@ -897,6 +898,7 @@ def pool_native_operators(
     *,
     max_ops: int = 64,
     angle: float = 0.1,
+    matgenq_dir: Path | str | None = None,
 ) -> tuple[list[str], list[float], dict[str, Any]]:
     """UCCSD-like first-Pauli pool words sized to n_qubits. Never pad 14-char."""
     if n_qubits == 14:
@@ -905,7 +907,7 @@ def pool_native_operators(
         }
     else:
         meta = {}
-    demo_root = str(MATGENQ_DEMO)
+    demo_root = str(resolve_matgenq_code(matgenq_dir))
     if demo_root not in sys.path:
         sys.path.insert(0, demo_root)
     from demo.pool import enumerate_uccsd_excitations, excitation_pauli_words
@@ -970,6 +972,7 @@ def run_qsci_job(
     n_samples: Sequence[int],
     qsci_sampler: str = "both",
     max_pool_ops: int = 64,
+    matgenq_dir: Path | str | None = None,
 ) -> Path:
     try:
         import cudaq
@@ -1019,7 +1022,7 @@ def run_qsci_job(
 
     if "pool-native" in want:
         ops, thetas, pool_meta = pool_native_operators(
-            n_qubits, n_electrons, max_ops=int(max_pool_ops)
+            n_qubits, n_electrons, max_ops=int(max_pool_ops), matgenq_dir=matgenq_dir
         )
         print(
             f"  Primary sampler=pool-native-uccsd  n_ops={len(ops)} "
@@ -1145,6 +1148,15 @@ def build_parser() -> argparse.ArgumentParser:
         default=64,
         help="Cap on pool-native first-Pauli UCCSD words (sized to n_qubits).",
     )
+    parser.add_argument(
+        "--matgenq-dir",
+        type=Path,
+        default=None,
+        help=(
+            f"Path to the gqe-qsci-euv-photoresists baselines 'code' dir "
+            f"(pool-native sampler). Defaults to ${MATGENQ_ENV}."
+        ),
+    )
     parser.add_argument("--n-shots", type=int, default=8192)
     parser.add_argument("--n-samples", type=int, nargs="+", default=[100, 500, 1000])
     parser.add_argument("--ingest-qsci", type=Path, default=None)
@@ -1180,6 +1192,7 @@ def main(argv: list[str] | None = None) -> int:
             n_samples=args.n_samples,
             qsci_sampler=args.qsci_sampler,
             max_pool_ops=args.max_pool_ops,
+            matgenq_dir=args.matgenq_dir,
         )
         if args.rank:
             maybe_rank(out_dir)

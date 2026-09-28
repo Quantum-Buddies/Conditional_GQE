@@ -263,6 +263,8 @@ Memory formula: `2^n qubits × 16 bytes (complex128) = VRAM needed`
 
 ### GPU Scaling Ladder
 
+*Paths/partition names shown are for the University of Leeds AIRE cluster — adapt for your site.*
+
 | Mode | Qubits | Backend | GPU | VRAM Needed | Notes |
 |------|--------|---------|-----|-------------|-------|
 | SV | 4-24 | `nvidia` / `nvidia-mqpu` | L40S | 256MB-256MB | AIRE cluster (PCIe IPC limit) |
