@@ -1,0 +1,643 @@
+{
+  "audit_date": "2026-08-22",
+  "verdict": "no_measured_graph_conditioned_zero_shot",
+  "verdict_sentence": "H-cGQE does not currently show graph-conditioned zero-shot generalization. Generate-time conditioning is a HamiltonianEncoder over Pauli terms; the GNN is a separate property-regression checkpoint never loaded by infer. Mixed-length SFT on SnO 14q emitted 12-char words and sat at Hartree\u2013Fock. In-distribution 14-char pool SFT (job 7434600) recovered below HF but missed 1.6 mHa. No held-out organotin energy table exists.",
+  "forbidden_not_plotted": {
+    "sn_c_collapse_kcal_mol": {
+      "value": "72.6 \u2192 21.2",
+      "source": "arXiv:2607.23988 classical UCCSD(T)",
+      "note": "Not a GQE/H-cGQE number. Never plotted as model accuracy."
+    },
+    "imeph_92eV": {
+      "source": "arXiv:2602.20234",
+      "note": "~200 logical qubits; out of scope on 3\u00d7 L40S."
+    },
+    "gic2026_score_sheet": "Competition closed; no public numerical score sheet."
+  },
+  "training": {
+    "sft_uccsd_dataset": {
+      "path": "results/train/gqe_dataset_summary.json",
+      "checkpoint": "results/train/h_cgqe_uccsd_model.pt",
+      "n_named_instances": 15,
+      "names": [
+        "beh2",
+        "beh2_1.3_full",
+        "h2",
+        "h2_0.74",
+        "h2o_1.0_631g_cas8",
+        "imeph_cas12",
+        "iodobenzene_cas12",
+        "lih",
+        "lih_1.6_631g",
+        "lih_1.6_full",
+        "methyl_iodide_cas12",
+        "n2",
+        "n2_1.1_631g_cas8",
+        "n2_1.1_full",
+        "phenol_cas12"
+      ],
+      "n_sequences": 275,
+      "n_original": 25,
+      "n_augmented": 250,
+      "vocab_size": 317,
+      "unique_chemical_graphs_connectivity": [
+        "H2",
+        "H2O",
+        "LiH",
+        "BeH2",
+        "N2",
+        "iodobenzene",
+        "methyl_iodide",
+        "imeph",
+        "phenol"
+      ],
+      "n_unique_chemical_graphs": 9,
+      "sn_or_organotin_in_sft": false,
+      "imeph_note": "imeph_cas12 was in the SFT JSON. YAML isomer was the wrong 2-iodo-6-methylphenol layout until 21 Aug 2026; current YAML is 4-iodo-2-methylphenol Oc1ccc(I)cc1C. Eval numbers predate the fix."
+    },
+    "sft_uccsd_vocab_word_lengths": {
+      "4": 8,
+      "12": 59,
+      "14": 20,
+      "16": 19,
+      "20": 19,
+      "22": 20
+    },
+    "sft_uccsd_metrics": {
+      "n_params_state_dict": 7852853,
+      "vocab_size": 149,
+      "best_val_loss": 1.1826924979686737,
+      "n_epochs_logged": 278,
+      "final_val_acc": 0.9923809523809524,
+      "gnn_tensors_in_checkpoint": false
+    },
+    "sft_b200": {
+      "checkpoint": "results/train/h_cgqe_model_b200_sft.pt",
+      "vocab_size": 317,
+      "best_val_loss": 1.0367504358291626,
+      "final_val_acc": 0.9619047619047619,
+      "sn_in_operator_vocab": false,
+      "note": "Not the SnO infer checkpoint."
+    },
+    "sft_pool14_sno": {
+      "job": "7431349",
+      "checkpoint": "results/tin_ab/h_cgqe_sft_pool14_7431349.pt",
+      "metrics": "results/tin_ab/h_cgqe_sft_pool14_7431349_metrics.json",
+      "n_teacher_sequences": 2097,
+      "vocab_size": 53,
+      "unique_operator_words": {
+        "14": 49
+      },
+      "all_words_length_14": true,
+      "best_val_loss": 3.9475921348289207,
+      "final_val_loss": 4.205091335155346,
+      "final_val_acc": 0.10133729569093611,
+      "epochs_run": 26,
+      "early_stopped": true,
+      "split": "in_distribution_sno_teacher_sequences",
+      "zero_shot": false,
+      "gnn_used": false
+    },
+    "dapo": {
+      "tin_dapo_submitted": false,
+      "cancelled_job": "7431324",
+      "vanilla_dapo_molecules": [
+        "h2",
+        "lih",
+        "beh2",
+        "n2"
+      ],
+      "qbraid_rl_n_molecules": 32,
+      "qbraid_rl_molecules": [
+        "anisole_cas12",
+        "beh2",
+        "beh2_1.0",
+        "beh2_1.6",
+        "benzene_cas12",
+        "ch4",
+        "co",
+        "diarylethene_frag_cas12",
+        "h2",
+        "h2_0.5",
+        "h2_1.0",
+        "h2_1.5",
+        "h2_2.0",
+        "h2o",
+        "h2o_1.0_631g_cas8",
+        "hf",
+        "imeph_cas12",
+        "iodobenzene_cas12",
+        "lih",
+        "lih_1.2",
+        "lih_1.6_631g",
+        "lih_2.0",
+        "lih_3.0",
+        "methyl_iodide_cas12",
+        "n2",
+        "n2_1.1_631g_cas8",
+        "n2_1.8",
+        "n2_2.5",
+        "nh3",
+        "ocresol_cas12",
+        "phenol_cas12",
+        "toluene_cas12"
+      ],
+      "qbraid_rl_n_epochs": 24,
+      "qbraid_rl_mean_reward_first": 2.046667779840798,
+      "qbraid_rl_mean_reward_last": 1.0432076903421703,
+      "sn_or_organotin_in_dapo": false,
+      "note": "DAPO/QD-GRPO was on small organics (H2/LiH/BeH2/N2 core; qBraid 32-name mix). No SnO DAPO."
+    }
+  },
+  "gnn": {
+    "code": "src/gqe/models/chemistry_encoder.py",
+    "architecture": "EdgeAwareMessageBlock MPNN; saved ckpt is 2 layers, hidden/latent/cond=32 (Hub prose says 3-layer 128).",
+    "checkpoints": [
+      "results/train/chemistry_encoder.pt",
+      "results/train/graph_conditioning.pt"
+    ],
+    "training_task": "Hamiltonian property regression (n_qubits, Pauli counts, \u2026)",
+    "property_ablation": {
+      "path": "results/tables/conditioning_ablation_main_summary.json",
+      "n_samples": 5,
+      "graph_val_mae": 274.5416259765625,
+      "flat_val_mae": 308.58172607421875,
+      "note": "Property MAE on 5 samples; not a circuit-generation ablation."
+    },
+    "wired_into_HcGQEModel_generate": false,
+    "loaded_by_infer_h_cgqe": false,
+    "sn_atomic_number_in_PERIODIC_TABLE": true,
+    "sn_smiles_token_present": true,
+    "used_at_tin_infer": false
+  },
+  "generate_time_conditioning": {
+    "module": "HamiltonianEncoder in src/gqe/models/h_cgqe_transformer.py",
+    "input": "Pauli term ids + coefficients",
+    "not": "molecular graph / ChemistryEncoder prefix tokens"
+  },
+  "seen_eval_gic2026": [
+    {
+      "molecule": "h2_0.5",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 12.329225698378021,
+      "hf_de_mha": 12.057897946249563,
+      "delta_minus_hf_mha": 0.2713277521284585,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "h2_0.74",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 20.53756178737931,
+      "hf_de_mha": 20.380888142986553,
+      "delta_minus_hf_mha": 0.15667364439275744,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "h2_1.0",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 35.07000431905083,
+      "hf_de_mha": 34.94739420130699,
+      "delta_minus_hf_mha": 0.12261011774383945,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "h2_1.5",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 87.23565370856446,
+      "hf_de_mha": 87.22450875242427,
+      "delta_minus_hf_mha": 0.011144956140185514,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "h2_2.0",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 164.7690823546689,
+      "hf_de_mha": 164.807929258594,
+      "delta_minus_hf_mha": -0.038846903925076504,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "lih_1.2",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 2.12233700375819,
+      "hf_de_mha": 2.0506513724454223,
+      "delta_minus_hf_mha": 0.07168563131276784,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "lih_1.6",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 1.8801702306161516,
+      "hf_de_mha": 1.8121690754373532,
+      "delta_minus_hf_mha": 0.06800115517879846,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "lih_2.0",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 2.0347869442254307,
+      "hf_de_mha": 1.9738843861967226,
+      "delta_minus_hf_mha": 0.06090255802870814,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "lih_3.0",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 16.916490341396084,
+      "hf_de_mha": 16.89865036275684,
+      "delta_minus_hf_mha": 0.01783997863924469,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "n2_1.1",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 128.83168829483793,
+      "hf_de_mha": 126.55000189380416,
+      "delta_minus_hf_mha": 2.2816864010337667,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "n2_1.8",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 442.59867943613074,
+      "hf_de_mha": 442.0898996642251,
+      "delta_minus_hf_mha": 0.5087797719056653,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "n2_2.5",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 817.7965029462655,
+      "hf_de_mha": 817.3553778041054,
+      "delta_minus_hf_mha": 0.4411251421601037,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "iodobenzene",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 3.5293237915539066,
+      "hf_de_mha": 1.9596479560277658,
+      "delta_minus_hf_mha": 1.5696758355261409,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "methyl_iodide",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 1.5078758779054624,
+      "hf_de_mha": 4.710373081252328,
+      "delta_minus_hf_mha": -3.2024972033468657,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "imeph",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 25.394567719558836,
+      "hf_de_mha": 19.01490905220271,
+      "delta_minus_hf_mha": 6.379658667356125,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "phenol",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 45.30061745720104,
+      "hf_de_mha": 44.805414317124814,
+      "delta_minus_hf_mha": 0.495203140076228,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    },
+    {
+      "molecule": "beh2_1.3",
+      "split": "seen_in_family",
+      "hcgqe_de_mha": 56.93927162348977,
+      "hf_de_mha": 33.75791833312647,
+      "delta_minus_hf_mha": 23.181353290363305,
+      "n_samples": 100,
+      "source": "results/eval/h_cgqe_evaluation_gic2026.json"
+    }
+  ],
+  "ch3i_8q_lbfgs": {
+    "path": "results/phase3_final/benchmark_ch3i_consolidated.json",
+    "split": "seen_iodine_toy",
+    "h_cgqe_rlqf_mha": 0.6285014360400965,
+    "cudaq_gqe_mha": 2.6457628855496296,
+    "hea_vqe_mha": 987.7934028272648,
+    "not_organotin_zero_shot": true
+  },
+  "sno14q": {
+    "casci_ha": -288.10912104,
+    "hf_mha": 6.12,
+    "n_fci": 49,
+    "geometry": "Sn\u2013O 1.8325 \u00c5, def2-SVP + ECP28MDF, (2e,7o)",
+    "frozen_infer": {
+      "job": "7386634",
+      "n_samples": 16,
+      "n_unique_sequences": 3,
+      "all_operator_words_length_12": true,
+      "n_operator_tokens": 318,
+      "qsci_wrong_endianness_mha": 6.02181478240027,
+      "qsci_mapping_fixed_mha": 6.120172029909554,
+      "n_dets_fixed": 1,
+      "dialect": "12-char padded; not MatGen-Q 14-char pool",
+      "split": "unseen_Sn_wrong_operator_dialect"
+    },
+    "s4_numpy": {
+      "path": "results/tin_ab/qsci_controls_cpu_numpy.json",
+      "hf_mha": 6.120172029909554,
+      "matgenq_smoke_best_mha": 2.881918892455815,
+      "frozen_12char_mha": 6.120172029909554,
+      "best_pool14_mha": 3.933521771443793,
+      "best_pool14_column": "pool14q_random_2",
+      "best_pool14_n_dets": 11,
+      "union_greedy_mha": 0.9526376310873275,
+      "union_greedy_n_dets": 21,
+      "gate1_pool_native_pass": true
+    },
+    "s4_cudaq_7431345": {
+      "path": "results/tin_ab/qsci_controls_7431345.json",
+      "matgenq_smoke_best_mha": 2.151911921316696,
+      "union_greedy_mha": 1.421578797589973,
+      "union_greedy_n_dets": 21,
+      "best_pool14_mha": 4.382000852160672,
+      "best_pool14_column": "pool14q_single_157",
+      "gate1_pool_native_pass": true
+    },
+    "per_instance_vqe": {
+      "uccsd_vqe_mha": 1.2264877113921102e-05,
+      "uccsd_vqe_n_eval": 490,
+      "adapt_vqe_mha": 8.906391713026096e-05,
+      "adapt_vqe_n_eval": 3112,
+      "adapt_vqe_n_ops": 20,
+      "paths": [
+        "/scratch/kcwp264/baselines/gqe-qsci-euv-photoresists/code/results_vqe.json",
+        "/scratch/kcwp264/baselines/gqe-qsci-euv-photoresists/code/results_adapt_vqe.json"
+      ]
+    },
+    "pool14_infer": {
+      "submitted": true,
+      "job": "7434600",
+      "script": "jobs/tin_infer_pool14.sbatch",
+      "checkpoint": "results/tin_ab/h_cgqe_sft_pool14_7431349.pt",
+      "infer": "results/tin_ab/hcgqe_infer_pool14_7434600.json",
+      "qsci": "results/tin_ab/hcgqe_qsci_pool14_7434600.json",
+      "n_samples": 64,
+      "n_scored": 64,
+      "best_single_mha": 2.596600544904959,
+      "best_single_n_dets": 21,
+      "best_single_sample_id": 9,
+      "union_capped_mha": 2.149444814506296,
+      "union_capped_n_dets": 32,
+      "max_union_dets": 32,
+      "filled_full_ci": false,
+      "s4_pass": false,
+      "split": "in_distribution_sno_teacher_sft",
+      "zero_shot": false,
+      "gnn_used": false,
+      "chemical_accuracy_mha": 1.6,
+      "note": "Native 14-char words. Best single +2.597 mHa / 21 dets; union cap 32 dets +2.149 mHa. Misses 1.6 mHa; not HF; not 49/49."
+    }
+  },
+  "zero_shot": {
+    "held_out_organotin_energy_table": false,
+    "train_on_A_infer_on_B_energy": false,
+    "closest_proxy": "Frozen mixed-length SFT (organic UCCSD vocab) inferred on unseen SnO 14q; emitted 12-char words (318/318); QSCI sat at HF (+6.120 mHa, 1 det) after mapping fix. This is dialect failure + unused GNN, not a GNN generalization score.",
+    "identity_pad_transfer": {
+      "path": "results/eval/h_cgqe_operators_for_qsci.json",
+      "note": "transfer_from_* entries pad operators with identity and self-label as not a converged H-cGQE result."
+    },
+    "smiles_transfer_dataset": {
+      "path": "results/phase3_final/transfer_learning_dataset.json",
+      "note": "SMILES tokenisation of 10 molecules (vocab 53). Not an energy transfer table. No Sn."
+    }
+  },
+  "logging": {
+    "trackio_in_repo": false,
+    "trackio_cli": "Broken on login python3.9 (PEP604 | unions). No trackio files in this repo.",
+    "wandb_on_scratch": "Recent /scratch/kcwp264/wandb runs are dino_foresight.train, not H-cGQE.",
+    "primary_sources": [
+      "results/eval/",
+      "results/tin_ab/",
+      "results/phase3_final/",
+      "results/train/*_metrics.json"
+    ]
+  },
+  "missing_eval": [
+    "\u0394E vs unique training graphs / topologies (no such series logged)",
+    "Held-out organotin (methyltin / n-Bu / aromatic Sn) QSCI vs CASCI",
+    "GNN-on vs GNN-off vs HamiltonianEncoder-only vs decoder-only on the same H",
+    "Methyltin MatGen-Q SI XYZ (public SI missing; do not invent; labelled-ours DFT XYZ exists)",
+    "Trackio project for this campaign"
+  ],
+  "recommended_protocol": {
+    "train_seen": "GIC light set + SnO 14-char pool (exact-length vocab). Optional ours-opt methyltin 0 after documented DFT.",
+    "holdout": "Aromatic Sn (Ph4Sn / Ph3SnOH) only after XYZ exists; n-Bu vs Me only if both have ours or SI XYZ.",
+    "aire_sizes": "Statevector \u226424q; QSCI/MPS 28\u201332q. No 92 eV.",
+    "metrics": [
+      "\u0394E vs CASCI (mHa) same H",
+      "\u0394E vs HF (detect HF-fallback)",
+      "\u0394E vs per-instance UCCSD-VQE / ADAPT-VQE / GPT-2 GQE",
+      "N_dets with union cap 32 at 14q; never score 49/49 as a win",
+      "word length == n_qubits",
+      "Tanimoto + atom-type histogram vs nearest train graph",
+      "split label: seen / held-out / in-distribution-SFT"
+    ],
+    "gnn_ablation_columns": [
+      "GNN + HamiltonianEncoder + decoder",
+      "HamiltonianEncoder + decoder (today)",
+      "decoder-only",
+      "HF"
+    ]
+  },
+  "sources_hub": {
+    "model": "https://huggingface.co/Ryukijano/h-cgqe-gic2026",
+    "hub_weight_file": "h_cgqe_rl_gic2026.pt (same 149-vocab family; no GNN tensors)",
+    "dataset": "https://huggingface.co/datasets/Ryukijano/sno14q-gqe-qsci-s4"
+  },
+  "sft_vs_rl_ablation": {
+    "path": "results/phase3_final/ablation_sft_vs_rl.json",
+    "note": "Seen organics; RL does not rescue N2/BeH2/phenol HF-like errors. No Sn.",
+    "comparisons": [
+      {
+        "molecule": "h2_0.74",
+        "n_qubits": 4,
+        "sft_energy": -1.1167593073964253,
+        "sft_operators": [
+          "IZIZ"
+        ],
+        "sft_error_mha": 20.52,
+        "rl_optimized_energy": -1.137136552017799,
+        "rl_error_mha": 0.15,
+        "fci_energy": -1.137283834488502,
+        "improvement_mha": 20.38
+      },
+      {
+        "molecule": "lih_1.6_full",
+        "n_qubits": 12,
+        "sft_energy": -7.86186664083599,
+        "sft_operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "ZZIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "ZIIIIIIIIIIZ",
+          "IIIIIIIIIIZZ",
+          "IIIZIIZIIIII"
+        ],
+        "sft_error_mha": 1.81,
+        "rl_optimized_energy": -7.8618293572626206,
+        "rl_error_mha": 1.85,
+        "fci_energy": -7.863681624920665,
+        "improvement_mha": -0.04
+      },
+      {
+        "molecule": "n2_1.1_full",
+        "n_qubits": 20,
+        "sft_energy": -107.49653895554192,
+        "sft_operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZZI"
+        ],
+        "sft_error_mha": 126.56,
+        "rl_optimized_energy": -107.49633137037715,
+        "rl_error_mha": 126.77,
+        "fci_energy": -107.62310177201758,
+        "improvement_mha": -0.21
+      },
+      {
+        "molecule": "beh2_1.3_full",
+        "n_qubits": 14,
+        "sft_energy": -15.561278032308028,
+        "sft_operators": [
+          "IZIZ"
+        ],
+        "sft_error_mha": 33.77,
+        "rl_optimized_energy": -15.560232879256166,
+        "rl_error_mha": 34.81,
+        "fci_energy": -15.595047080934544,
+        "improvement_mha": -1.05
+      },
+      {
+        "molecule": "iodobenzene_cas12",
+        "n_qubits": 12,
+        "sft_energy": -7078.008739756695,
+        "sft_operators": [
+          "IZIZ"
+        ],
+        "sft_error_mha": 3.1,
+        "rl_optimized_energy": -7078.008871255745,
+        "rl_error_mha": 2.97,
+        "fci_energy": -7078.011842695108,
+        "improvement_mha": 0.13
+      },
+      {
+        "molecule": "methyl_iodide_cas12",
+        "n_qubits": 12,
+        "sft_energy": -6889.841779348114,
+        "sft_operators": [
+          "ZZIIIIII",
+          "IIIIIZZI",
+          "IIIIIZZI",
+          "ZZIIIIII",
+          "ZIIIZIII",
+          "ZZIIIIII",
+          "ZZIIIIII",
+          "IIIIZIIZ",
+          "ZZIIIIII",
+          "ZZIIIIII",
+          "IIIIZZII",
+          "ZZIIIIII",
+          "ZZIIIIII",
+          "ZZIIIIII",
+          "ZZIIIIII",
+          "ZZIIIIII"
+        ],
+        "sft_error_mha": 1.43,
+        "rl_optimized_energy": -6889.838761559182,
+        "rl_error_mha": 1.59,
+        "fci_energy": -6889.840354306438,
+        "improvement_mha": -0.17
+      },
+      {
+        "molecule": "imeph_cas12",
+        "n_qubits": 12,
+        "sft_energy": -7190.331319272142,
+        "sft_operators": [
+          "IZIZ"
+        ],
+        "sft_error_mha": 25.01,
+        "rl_optimized_energy": -7190.331558070803,
+        "rl_error_mha": 24.78,
+        "fci_energy": -7190.356334261206,
+        "improvement_mha": 0.24
+      },
+      {
+        "molecule": "phenol_cas12",
+        "n_qubits": 12,
+        "sft_energy": -301.61251619477804,
+        "sft_operators": [
+          "IZIZ",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "XYYX",
+          "IZII",
+          "IZII",
+          "IIIIZZII",
+          "IZII",
+          "ZIIIIIII",
+          "IZII",
+          "ZZIIIIII",
+          "IZII",
+          "IZII",
+          "IZII",
+          "IZIZ"
+        ],
+        "sft_error_mha": 45.12,
+        "rl_optimized_energy": -301.61248484019205,
+        "rl_error_mha": 45.15,
+        "fci_energy": -301.6576396779959,
+        "improvement_mha": -0.03
+      }
+    ]
+  }
+}

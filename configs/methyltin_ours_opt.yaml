@@ -1,0 +1,126 @@
+# LABELLED-OURS R–Sn(OH)3 geometry optimisation scaffold.
+# NOT MatGen-Q Table 1. NOT their SI. NOT a substitute for unpublished XYZ.
+#
+# Keep configs/tin_resist.yaml methyltin / methyltin_cation / butyltin_22q
+# at geometry: null until Elgammal/Maußner SI coordinates exist.
+# Any geometry produced from THIS file lives only under
+# results/tin_ab/methyltin_ours/ and is scored vs OUR CASCI.
+#
+# Recipe (PySCF, AIRE --partition=nodes, not login A2, not GPU):
+#   basis def2-SVP; ecp Sn = def2-svp (ECP28MDF, same key as SnOMolecule)
+#   Neutral: charge 0, multiplicity 1 — RKS-B3LYP then MP2 single-point (RHF-MP2)
+#   Cation:  charge 1, multiplicity 2 — UKS-B3LYP then UMP2 single-point
+#   Starting guesses: hand Cartesian templates in src/gqe/data/rsn_oh3_templates.py
+#   CLI: src/gqe/eval/tin_inform_dft.py --ligands me,et,nbu,vinyl,ph
+#   Job:  jobs/tin_inform_dft.sbatch  (array 0-4)
+#   geometry: null stays until a job writes xyz under results/ (do not paste here).
+#
+# Do not invent MatGen-Q coordinates. A starting guess, if used, must be
+# written as ours_starting_guess.xyz with provenance "labelled-ours".
+
+seed: 42
+label: "ours"
+not_matgenq_table1: true
+dataset:
+  basis: "def2-svp"
+  ecp:
+    Sn: "def2-svp"
+  method:
+    dft: "B3LYP"
+    correlated: "MP2"
+    optimizer: "geometric"  # PySCF + geomeTRIC when installed
+  output_dir: "results/tin_ab/methyltin_ours"
+  first_wave: ["me", "et", "nbu", "vinyl", "ph"]
+  unevaluated_pool: ["ipr", "npr", "allyl", "cf3"]
+  molecules:
+    - name: "methyltin_ours_neutral"
+      ligand: "me"
+      smiles: "C[Sn](O)(O)O"
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      geometry: null
+      provenance: "labelled-ours; opt not yet run"
+      note: "CH3Sn(OH)3. Do not treat as MatGen-Q Table 1."
+
+    - name: "methyltin_ours_cation"
+      ligand: "me"
+      smiles: "C[Sn+](O)(O)O"
+      charge: 1
+      multiplicity: 2
+      split: "test"
+      geometry: null
+      provenance: "labelled-ours; opt not yet run"
+      note: "Radical cation. Same ban on MatGen-Q Table 1 claims."
+
+    - name: "ethyltin_ours_neutral"
+      ligand: "et"
+      smiles: "CC[Sn](O)(O)O"
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      geometry: null
+      provenance: "labelled-ours; opt not yet run"
+
+    - name: "ethyltin_ours_cation"
+      ligand: "et"
+      smiles: "CC[Sn+](O)(O)O"
+      charge: 1
+      multiplicity: 2
+      split: "test"
+      geometry: null
+      provenance: "labelled-ours; opt not yet run"
+
+    - name: "nbutyltin_ours_neutral"
+      ligand: "nbu"
+      smiles: "CCCC[Sn](O)(O)O"
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      geometry: null
+      provenance: "labelled-ours; opt not yet run"
+
+    - name: "nbutyltin_ours_cation"
+      ligand: "nbu"
+      smiles: "CCCC[Sn+](O)(O)O"
+      charge: 1
+      multiplicity: 2
+      split: "test"
+      geometry: null
+      provenance: "labelled-ours; opt not yet run"
+
+    - name: "vinyltin_ours_neutral"
+      ligand: "vinyl"
+      smiles: "C=C[Sn](O)(O)O"
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      geometry: null
+      provenance: "labelled-ours; opt not yet run"
+
+    - name: "vinyltin_ours_cation"
+      ligand: "vinyl"
+      smiles: "C=C[Sn+](O)(O)O"
+      charge: 1
+      multiplicity: 2
+      split: "test"
+      geometry: null
+      provenance: "labelled-ours; opt not yet run"
+
+    - name: "phenyltin_ours_neutral"
+      ligand: "ph"
+      smiles: "c1ccccc1[Sn](O)(O)O"
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      geometry: null
+      provenance: "labelled-ours; opt not yet run"
+
+    - name: "phenyltin_ours_cation"
+      ligand: "ph"
+      smiles: "c1ccccc1[Sn+](O)(O)O"
+      charge: 1
+      multiplicity: 2
+      split: "test"
+      geometry: null
+      provenance: "labelled-ours; opt not yet run"

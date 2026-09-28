@@ -1,0 +1,11 @@
+{
+  "dataset": "/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/sft_pool14/gqe_supervised_dataset_sno14.pt",
+  "vocab_size": 53,
+  "n_samples": 2097,
+  "word_length_counts": {
+    "14": 49
+  },
+  "all_operator_words_length_14": true,
+  "max_seq_len": 16,
+  "teacher_n_ops": 10
+}

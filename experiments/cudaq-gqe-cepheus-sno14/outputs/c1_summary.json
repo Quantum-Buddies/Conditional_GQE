@@ -1,0 +1,36 @@
+{
+  "experiment": "cudaq-gqe-cepheus-sno14",
+  "protocol_id": "cudaq-gqe-cepheus-sno14",
+  "h1_pass": false,
+  "casci_ha": -288.10912104,
+  "jobs": {
+    "miswire_ngates20": "7443216",
+    "c1_ngates6": "7443318",
+    "qirsv_first": "7443326",
+    "qirsv_c1": "7443454"
+  },
+  "c1": {
+    "gqe_json": "cudaq_gqe_sno14_7443318.json",
+    "qsci_json": "qsci_gpu_7443318.json",
+    "ngates": 6,
+    "max_iters": 25,
+    "observe_delta_mha": 6.135,
+    "qsci_delta_mha": 6.120174146190038,
+    "n_dets": 1,
+    "n_fci": 49,
+    "pass_chemical_accuracy": false
+  },
+  "qbraid": {
+    "target": "qbraid",
+    "machine_attempted": "qbraid:qbraid:sim:qir-sv",
+    "cudaq": "0.15.1",
+    "auth_ok": true,
+    "device_online": true,
+    "post_jobs": "HTTP 500 RUNTIME_API_ERROR",
+    "cepheus_braket_status": "UNAVAILABLE",
+    "cepheus_submitted": false,
+    "reason": "H1 falsified on GPU; stopping rule 1. Also qBraid Runtime 500 on QIR-SV including a 2q Bell POST."
+  },
+  "not_a_dft_rank": true,
+  "not_advantage_over_shci": true
+}

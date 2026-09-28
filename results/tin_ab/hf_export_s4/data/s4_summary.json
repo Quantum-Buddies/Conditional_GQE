@@ -1,0 +1,111 @@
+{
+  "experiment": "tin_qsci_controls_gate1",
+  "verified_at": "2026-08-21T00:55:00+01:00",
+  "qsci_backend": "matgenq_subspace",
+  "sampler_backend": "numpy",
+  "bitstring_convention": "cudaq_char_q_equals_qubit_q",
+  "molecule": "sno_14q",
+  "casci_energy_ha": -288.109121037883,
+  "chemical_accuracy_mha": 1.6,
+  "full_ci_dets": 49,
+  "n_shots": 8192,
+  "max_union_dets": 32,
+  "gate1_pool_native_pass": true,
+  "smoke_best_near_demo_a": true,
+  "pass_criterion": "pool-native circuit(s) < 1.6 mHa vs CASCI without filling all 49 dets",
+  "mapping_fix": {
+    "root_cause": "Pauli scorer used int(bitstring, 2) LSB-right; CUDA-Q/MatGen-Q leftmost char = qubit 0. HF is 11000000000000, not 00000000000011.",
+    "hf_cudaq": "11000000000000",
+    "modal_bitstring": "11000000000000",
+    "before_job": "7431320",
+    "before_gate1_pool_native_pass": false,
+    "before_smoke_best_mha": 4.169579572646853,
+    "after_smoke_best_mha": 2.881918892455815,
+    "matgenq_demo_a_best_mha": 2.868517844547114,
+    "delta_vs_demo_a_mha": 0.013401047908701003,
+    "gpu_confirm_job": "7431345",
+    "gpu_confirm_status": "PENDING",
+    "gpu_cudaq_agreement": "not_yet_available"
+  },
+  "columns": [
+    {
+      "column": "hf",
+      "error_vs_casci_mha": 6.120172029909554,
+      "n_dets": 1,
+      "qsci_energy_ha": -288.1030008658531,
+      "filled_full_ci": false
+    },
+    {
+      "column": "matgenq_smoke_best",
+      "error_vs_casci_mha": 2.881918892455815,
+      "n_dets": 17,
+      "n_operators": 10,
+      "qsci_energy_ha": -288.1062391189906,
+      "matgenq_reported_best_mha": 2.868517844547114,
+      "filled_full_ci": false
+    },
+    {
+      "column": "frozen_hcgqe_12char_padded",
+      "error_vs_casci_mha": 6.120172029909554,
+      "n_dets": 1,
+      "n_operators": 20,
+      "qsci_energy_ha": -288.1030008658531,
+      "note": "12-char mixed-vocab SFT cannot emit the 289-token 14-char UCCSD pool; padded words sit at HF (+6.12 mHa)."
+    },
+    {
+      "column": "best_pool14q_single",
+      "source": "pool14q_random_2",
+      "kind": "random",
+      "error_vs_casci_mha": 3.933521771443793,
+      "n_dets": 11,
+      "n_operators": 6,
+      "qsci_energy_ha": -288.1051875161116,
+      "filled_full_ci": false
+    },
+    {
+      "column": "pool14q_union_greedy",
+      "error_vs_casci_mha": 0.9526376310873275,
+      "n_dets": 21,
+      "source_circuits": [
+        "pool14q_random_2",
+        "pool14q_single_157",
+        "pool14q_single_162",
+        "pool14q_random_0",
+        "pool14q_single_73"
+      ],
+      "qsci_energy_ha": -288.10816840025194,
+      "filled_full_ci": false,
+      "honest_note": "If N_dets==49, treat best single-circuit as the honest metric"
+    }
+  ],
+  "jobs": {
+    "gpu_qsci_confirm": {
+      "job_id": "7431345",
+      "name": "tin_qsci_ctrl",
+      "state": "PENDING"
+    },
+    "sft_pool14": {
+      "job_id": "7431349",
+      "name": "tin_sft_pool14",
+      "state": "PENDING",
+      "checkpoint": null
+    },
+    "infer_pool14": {
+      "submitted": false,
+      "reason": "no 14-char SFT checkpoint yet; TIN_SFT_CKPT unset"
+    },
+    "dapo": {
+      "submitted": false,
+      "cancelled_job_id": "7431324"
+    }
+  },
+  "stop": {
+    "no_dapo": true,
+    "no_iodine_dapo": true,
+    "no_invented_methyltin_xyz": true,
+    "no_49_of_49_as_gqe_win": true,
+    "no_72p6_to_21p2_as_gqe": true,
+    "no_paid_qpu": true,
+    "next": "14-char infer n_samples=64 union cap 32 after 7431349 writes a real ckpt"
+  }
+}

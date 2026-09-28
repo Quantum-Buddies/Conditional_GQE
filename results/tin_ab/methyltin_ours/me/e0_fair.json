@@ -1,0 +1,94 @@
+{
+  "label": "ours",
+  "not_matgenq_table1": true,
+  "gqe_proposes_molecules": false,
+  "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours E0.",
+  "ligand": "me",
+  "avas": {
+    "method": "pyscf.mcscf.avas",
+    "citation": "Sayfutyarova, Sun, Chan, Knizia, JCTC 13, 4063 (2017); arXiv:1701.07862",
+    "shells": "Sn 5s, Sn 5p, alpha-C 2p (first carbon in labelled-ours XYZ)",
+    "not_matgenq_xyz": true,
+    "l40s_cap_qubits": 24,
+    "fair_pair": "me_cf3",
+    "threshold": 0.4,
+    "threshold_start": 0.2,
+    "ao_labels_rule": "Sn 5s/5p + first-C 2p (atom-indexed)"
+  },
+  "basis": "def2-svp",
+  "ecp": {
+    "Sn": "def2-svp"
+  },
+  "charges": {
+    "0": {
+      "charge": 0,
+      "spin": 0,
+      "xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/me/methyltin_ours_neutral.xyz",
+      "ao_labels": [
+        "0 Sn 5s",
+        "0 Sn 5p",
+        "7 C 2p"
+      ],
+      "threshold": 0.4,
+      "threshold_start": 0.2,
+      "ncas": 11,
+      "nelecas": 14,
+      "n_qubits": 22,
+      "n_fci": 108900,
+      "fair_pair": "me_cf3",
+      "n_core": 22,
+      "hf_energy_ha": -479.1202182825522,
+      "casci_energy_ha": -479.141127438915,
+      "e0_casci_ha": -479.141127438915,
+      "as_correlation_mha": 20.909156362847625,
+      "n_pauli_terms": 20926,
+      "jw_dev_mha": null,
+      "hamiltonian_json": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/me/hamiltonian_c0.json",
+      "molecule_name": "ours_me_c0_22q",
+      "e0_qsci_ha": -479.1252860692276,
+      "delta_e_qsci_mha": 15.84136968739358,
+      "qsci_note": "QSCI is filled by tin_inform_e0.py --ingest-qsci. 14-char H-cGQE is not used unless n_qubits==14.",
+      "job_id": "7441851",
+      "updated_at": "2026-08-22T22:51:11Z",
+      "qsci_n_samples": 1000,
+      "qsci_n_unique": 1649,
+      "qsci_json": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/me/qsci_c0_7441850.json",
+      "qsci_sampler": "pool-native-uccsd",
+      "used_hcgqe_operators": false,
+      "used_14char_hcgqe": false,
+      "qsci_backend": "nvidia",
+      "qsci_updated_at": "2026-08-22T22:55:05Z",
+      "qsci_control_entangled_hf": {
+        "sampler": "entangled-hf",
+        "e0_qsci_ha": -479.1215706852571,
+        "delta_e_qsci_mha": 19.55675365792331,
+        "n_samples_used": 131,
+        "n_unique_bitstrings": 131
+      }
+    }
+  },
+  "updated_at": "2026-08-22T22:55:05Z",
+  "e0_casci_ha": -479.141127438915,
+  "e0_qsci_ha": -479.1252860692276,
+  "delta_e_qsci_mha": 15.84136968739358,
+  "e0_n_qubits": 22,
+  "e0_ncas": 11,
+  "e0_nelecas": 14,
+  "e0_from_charge": 0,
+  "fair_pair": "me_cf3",
+  "fair_avas": {
+    "fair_pair": "me_cf3",
+    "charge": 0,
+    "ao_labels_rule": "Sn 5s/5p + first-C 2p (atom-indexed)",
+    "threshold_start": 0.2,
+    "threshold": 0.4,
+    "ncas": 11,
+    "nelecas": 14,
+    "n_qubits": 22,
+    "n_fci": 108900,
+    "same_threshold_for": [
+      "me",
+      "cf3"
+    ]
+  }
+}

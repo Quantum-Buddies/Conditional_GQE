@@ -129,6 +129,17 @@ def main() -> None:
                         help="Frequency penalty: subtracts penalty * count from logits to prevent repeated operators")
     parser.add_argument("--no-trim", action="store_true",
                         help="Disable trimming of trailing identity / single-qubit Z-only operators")
+    parser.add_argument(
+        "--exact-word-length",
+        action="store_true",
+        help="Only emit operator tokens with len(word)==n_qubits (ablation; mixed SFT vocab)",
+    )
+    parser.add_argument(
+        "--pool",
+        type=Path,
+        default=None,
+        help="Optional pool_sno14q.json: attach a default angle per emitted 14-char word",
+    )
     parser.add_argument("--use-cuda", action="store_true")
     args = parser.parse_args()
 
@@ -158,6 +169,17 @@ def main() -> None:
     model.load_state_dict(ckpt["model_state"])
     model.to(device)
     model.eval()
+
+    word_to_angle: dict[str, float] = {}
+    if args.pool is not None:
+        pool = json.loads(args.pool.read_text())
+        for tok in pool.get("tokens", []):
+            word = str(tok["word"])
+            angle = float(tok["angle"])
+            prev = word_to_angle.get(word)
+            if prev is None or abs(angle) > abs(prev):
+                word_to_angle[word] = angle
+        print(f"Loaded default angles for {len(word_to_angle)} pool words from {args.pool}")
 
     # Resize positional encoding buffer if inference max_seq_len > training max_seq_len
     train_max_len = config["max_seq_len"]
@@ -208,6 +230,7 @@ def main() -> None:
                 sample=args.sample,
                 n_qubits=n_qubits,
                 freq_penalty=args.freq_penalty,
+                exact_word_length=args.exact_word_length,
             )
             words = decode_operator_sequence(generated[0], inv_vocab, trim_trailing=not args.no_trim)
             # Ensure non-diagonal entangling operator constraint (z_only == 0)
@@ -228,9 +251,14 @@ def main() -> None:
                     sample=True,
                     n_qubits=n_qubits,
                     freq_penalty=args.freq_penalty,
+                    exact_word_length=args.exact_word_length,
                 )
                 words = decode_operator_sequence(generated[0], inv_vocab, trim_trailing=not args.no_trim)
-            molecule_results.append({"sample_id": i, "operators": words})
+            molecule_results.append({
+                "sample_id": i,
+                "operators": words,
+                "thetas": [word_to_angle.get(w, 0.1) for w in words] if word_to_angle else [],
+            })
 
         results.append({
             "molecule": molecule,

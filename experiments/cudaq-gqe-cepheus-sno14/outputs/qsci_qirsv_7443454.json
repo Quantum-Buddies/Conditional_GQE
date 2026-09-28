@@ -1,0 +1,15 @@
+{
+  "experiment": "cudaq-gqe-cepheus-sno14",
+  "updated_at": "2026-08-23T05:30:59Z",
+  "molecule": "sno_14q",
+  "backend": "qbraid-qir",
+  "qbraid_machine": "qbraid:qbraid:sim:qir-sv",
+  "n_ops": 6,
+  "two_qubit_gates": 98,
+  "two_qubit_gates_qasm": 0,
+  "two_qubit_gates_pauli_estimate": 98,
+  "pass_chemical_accuracy": false,
+  "sample_error": "RuntimeError: HTTP POST Error - status code 500: : {\"success\":false,\"message\":\"Failed to create job: Runtime API error: 500\",\"error\":{\"message\":\"Failed to create job: Runtime API error: 500\",\"code\":\"RUNTIME_API_ERROR\"}}",
+  "future_path": null,
+  "note": "qBraid sample failed before QSCI. Cepheus stays gated. Do not set CUDAQ_ALLOW_QPU."
+}

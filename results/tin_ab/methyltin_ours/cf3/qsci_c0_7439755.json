@@ -1,0 +1,60 @@
+{
+  "experiment": "labelled_ours_avas_qsci",
+  "description": "Entangled-HF QSCI on labelled-ours AVAS H. Not 14-char H-cGQE unless n_qubits==14. Not a DFT \u0394BDE.",
+  "ligand": "cf3",
+  "charge": 0,
+  "used_14char_hcgqe": false,
+  "results": [
+    {
+      "molecule": "ours_cf3_c0_18q",
+      "n_qubits": 18,
+      "n_electrons": 12,
+      "n_hamiltonian_terms": 9316,
+      "hf_energy": -775.4289217452864,
+      "used_hcgqe_operators": false,
+      "n_operators": 0,
+      "backend": "nvidia",
+      "sweep_results": [
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 128,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.050850629806518555,
+          "diag_time_seconds": 0.16097593307495117,
+          "qsci_energy": -775.4293298240264,
+          "casci_energy": -775.4351849735516,
+          "error_vs_hf": 0.4080787399516339,
+          "error_vs_casci_mha": 5.855149525245906
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 500,
+          "n_samples_used": 128,
+          "n_unique_bitstrings": 128,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.050850629806518555,
+          "diag_time_seconds": 0.20993494987487793,
+          "qsci_energy": -775.4293424292945,
+          "casci_energy": -775.4351849735516,
+          "error_vs_hf": 0.4206840080769325,
+          "error_vs_casci_mha": 5.842544257120608
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 1000,
+          "n_samples_used": 128,
+          "n_unique_bitstrings": 128,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.050850629806518555,
+          "diag_time_seconds": 0.20998835563659668,
+          "qsci_energy": -775.4293424292929,
+          "casci_energy": -775.4351849735516,
+          "error_vs_hf": 0.4206840064853168,
+          "error_vs_casci_mha": 5.842544258712223
+        }
+      ]
+    }
+  ]
+}

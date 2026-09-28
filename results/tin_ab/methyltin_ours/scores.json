@@ -1,0 +1,1417 @@
+{
+  "label": "ours",
+  "not_matgenq_table1": true,
+  "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+  "basis": "def2-svp",
+  "ecp": {
+    "Sn": "def2-svp"
+  },
+  "functional": "B3LYP",
+  "correlated": "MP2_single_point_at_DFT_geom",
+  "out_dir": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours",
+  "first_wave": [
+    "me",
+    "et",
+    "nbu",
+    "vinyl",
+    "ph"
+  ],
+  "unevaluated_pool": [
+    "ipr",
+    "npr",
+    "allyl",
+    "cf3"
+  ],
+  "updated_at": "2026-08-22T14:39:16Z",
+  "ligands": {
+    "allyl": {
+      "label": "ours",
+      "not_matgenq_table1": true,
+      "ligand": "allyl",
+      "name": "allyltin_ours",
+      "smiles": "C=CC[Sn](O)(O)O",
+      "basis": "def2-svp",
+      "ecp": {
+        "Sn": "def2-svp"
+      },
+      "functional": "B3LYP",
+      "optimizer": "geometric",
+      "provenance": "labelled-ours hand Cartesian template; NOT MatGen-Q Table 1; ligand=allyl; SMILES=C=CC[Sn](O)(O)O; src/gqe/data/rsn_oh3_templates.py",
+      "written_at": "2026-08-22T13:22:02Z",
+      "element_counts": {
+        "C": 3,
+        "H": 8,
+        "O": 3,
+        "Sn": 1
+      },
+      "cxro_proxy_13p5nm": {
+        "label": "ours",
+        "kind": "cxro_atomic_f2_proxy",
+        "not_ab_initio_sigma_92eV": true,
+        "citation": "Henke, Gullikson, Davis, At. Data Nucl. Data Tables 54, 181 (1993); CXRO atomic scattering factors f2 interpolated at 91.84 eV (13.5 nm). This is a CXRO-style atomic **proxy**, not ab initio \u03c3(92 eV).",
+        "energy_eV": 91.841,
+        "wavelength_nm": 13.5,
+        "f2_weights": {
+          "Sn": 23.9718,
+          "I": 30.4673,
+          "F": 4.2731,
+          "O": 2.7652,
+          "C": 0.7659,
+          "H": 0.03296
+        },
+        "element_counts": {
+          "C": 3,
+          "H": 8,
+          "O": 3,
+          "Sn": 1
+        },
+        "elements_used": {
+          "C": 0.7659,
+          "H": 0.03296,
+          "O": 2.7652,
+          "Sn": 23.9718
+        },
+        "unknown_elements": [],
+        "weighted_sum_f2": 34.82878,
+        "note": "Sn (and I if present) dominate 13.5 nm absorption in this CXRO f2 sum; F > O > C > H. Do not report as ab initio \u03c3(92 eV)."
+      },
+      "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+      "status": "scored",
+      "opt_converged": {
+        "neutral": true,
+        "cation": true,
+        "R_rad": true
+      },
+      "energies_ha": {
+        "neutral_dft_opt": -558.9231815466757,
+        "cation_dft_opt": -558.6152002422389,
+        "cation_vertical_dft": -558.5940214939762,
+        "R_rad_dft": -117.1771509208128,
+        "sn_oh3_rad_dft": -441.6746821397206,
+        "sn_oh3_cation_dft": -441.37916193259287,
+        "neutral_mp2": {
+          "label": "ours",
+          "hf_ha": -555.9386870124717,
+          "e_corr_ha": -1.1294215757222088,
+          "mp2_ha": -557.0681085881939,
+          "converged_hf": true,
+          "method": "RHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_mp2": {
+          "label": "ours",
+          "hf_ha": -555.6590194190004,
+          "e_corr_ha": -1.0978992263202039,
+          "mp2_ha": -556.7569186453206,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_vertical_mp2": {
+          "label": "ours",
+          "hf_ha": -555.6328150770828,
+          "e_corr_ha": -1.0890143430806514,
+          "mp2_ha": -556.7218294201634,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        }
+      },
+      "ip": {
+        "label": "ours",
+        "vertical_dft": {
+          "ha": 0.3291600526994216,
+          "eV": 8.956901330751423,
+          "kcal_mol": 206.55105155199635
+        },
+        "adiabatic_dft": {
+          "ha": 0.30798130443679383,
+          "eV": 8.380598231570659,
+          "kcal_mol": 193.2611863684
+        },
+        "definitions": {
+          "vertical": "E(+1 at 0-geom) \u2212 E(0 opt)",
+          "adiabatic": "E(+1 opt) \u2212 E(0 opt)"
+        },
+        "vertical_mp2": {
+          "ha": 0.34627916803049175,
+          "eV": 9.422736190214668,
+          "kcal_mol": 217.2934586098217
+        },
+        "adiabatic_mp2": {
+          "ha": 0.31118994287328405,
+          "eV": 8.467909731389694,
+          "kcal_mol": 195.27463738614063
+        }
+      },
+      "bde": {
+        "label": "ours",
+        "level": "B3LYP/def2-svp",
+        "formula_neutral": "E(R\u2022)+E(\u2022Sn(OH)3)\u2212E(RSn(OH)3)",
+        "formula_cation": "E(R\u2022)+E(Sn(OH)3+)\u2212E(RSn(OH)3+)",
+        "cation_channel": "homolytic Sn\u2013C, charge remains on Sn(OH)3+",
+        "bde_neutral": {
+          "ha": 0.07134848614225575,
+          "eV": 1.9414912144829441,
+          "kcal_mol": 44.771851014325286
+        },
+        "bde_cation": {
+          "ha": 0.058887388833227305,
+          "eV": 1.6024074825582166,
+          "kcal_mol": 36.95239439568773
+        },
+        "delta_bde": {
+          "ha": 0.012461097309028446,
+          "eV": 0.3390837319247275,
+          "kcal_mol": 7.819456618637551
+        },
+        "delta_bde_definition": "BDE(0)\u2212BDE(+1)",
+        "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+        "sn_oh3_fragment_converged": {
+          "rad": true,
+          "cation": true
+        }
+      },
+      "paths": {
+        "starting_guess": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/allyl/ours_starting_guess.xyz",
+        "neutral_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/allyl/allyltin_ours_neutral.xyz",
+        "cation_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/allyl/allyltin_ours_cation.xyz"
+      }
+    },
+    "cf3": {
+      "label": "ours",
+      "not_matgenq_table1": true,
+      "ligand": "cf3",
+      "name": "trifluoromethyltin_ours",
+      "smiles": "FC(F)(F)[Sn](O)(O)O",
+      "basis": "def2-svp",
+      "ecp": {
+        "Sn": "def2-svp"
+      },
+      "functional": "B3LYP",
+      "optimizer": "geometric",
+      "provenance": "labelled-ours hand Cartesian template; NOT MatGen-Q Table 1; ligand=cf3; SMILES=FC(F)(F)[Sn](O)(O)O; src/gqe/data/rsn_oh3_templates.py",
+      "written_at": "2026-08-22T00:36:22Z",
+      "element_counts": {
+        "C": 1,
+        "F": 3,
+        "H": 3,
+        "O": 3,
+        "Sn": 1
+      },
+      "cxro_proxy_13p5nm": {
+        "label": "ours",
+        "kind": "cxro_atomic_f2_proxy",
+        "not_ab_initio_sigma_92eV": true,
+        "citation": "Henke, Gullikson, Davis, At. Data Nucl. Data Tables 54, 181 (1993); CXRO atomic scattering factors f2 interpolated at 91.84 eV (13.5 nm). This is a CXRO-style atomic **proxy**, not ab initio \u03c3(92 eV).",
+        "energy_eV": 91.841,
+        "wavelength_nm": 13.5,
+        "f2_weights": {
+          "Sn": 23.9718,
+          "I": 30.4673,
+          "F": 4.2731,
+          "O": 2.7652,
+          "C": 0.7659,
+          "H": 0.03296
+        },
+        "element_counts": {
+          "C": 1,
+          "F": 3,
+          "H": 3,
+          "O": 3,
+          "Sn": 1
+        },
+        "elements_used": {
+          "C": 0.7659,
+          "F": 4.2731,
+          "H": 0.03296,
+          "O": 2.7652,
+          "Sn": 23.9718
+        },
+        "unknown_elements": [],
+        "weighted_sum_f2": 45.951480000000004,
+        "note": "Sn (and I if present) dominate 13.5 nm absorption in this CXRO f2 sum; F > O > C > H. Do not report as ab initio \u03c3(92 eV)."
+      },
+      "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+      "status": "scored",
+      "opt_converged": {
+        "neutral": true,
+        "cation": true,
+        "R_rad": true
+      },
+      "energies_ha": {
+        "neutral_dft_opt": -779.0623587639791,
+        "cation_dft_opt": -778.7028571508436,
+        "cation_vertical_dft": -778.6762241992619,
+        "R_rad_dft": -337.30145521430484,
+        "sn_oh3_rad_dft": -441.6746821397206,
+        "sn_oh3_cation_dft": -441.37916193259287,
+        "neutral_mp2": {
+          "label": "ours",
+          "hf_ha": -775.4289217452915,
+          "e_corr_ha": -1.3972768698605829,
+          "mp2_ha": -776.8261986151521,
+          "converged_hf": true,
+          "method": "RHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_mp2": {
+          "label": "ours",
+          "hf_ha": -775.0795023862331,
+          "e_corr_ha": -1.3871493015601886,
+          "mp2_ha": -776.4666516877933,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_vertical_mp2": {
+          "label": "ours",
+          "hf_ha": -775.0020586248618,
+          "e_corr_ha": -1.4163734228448324,
+          "mp2_ha": -776.4184320477066,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        }
+      },
+      "ip": {
+        "label": "ours",
+        "vertical_dft": {
+          "ha": 0.38613456471716745,
+          "eV": 10.50725678344259,
+          "kcal_mol": 242.3030976232538
+        },
+        "adiabatic_dft": {
+          "ha": 0.3595016131355351,
+          "eV": 9.782537251084282,
+          "kcal_mol": 225.59066818351567
+        },
+        "definitions": {
+          "vertical": "E(+1 at 0-geom) \u2212 E(0 opt)",
+          "adiabatic": "E(+1 opt) \u2212 E(0 opt)"
+        },
+        "vertical_mp2": {
+          "ha": 0.407766567445492,
+          "eV": 11.095893564957144,
+          "kcal_mol": 255.8773842782363
+        },
+        "adiabatic_mp2": {
+          "ha": 0.35954692735879235,
+          "eV": 9.783770313915772,
+          "kcal_mol": 225.61910328791942
+        }
+      },
+      "bde": {
+        "label": "ours",
+        "level": "B3LYP/def2-svp",
+        "formula_neutral": "E(R\u2022)+E(\u2022Sn(OH)3)\u2212E(RSn(OH)3)",
+        "formula_cation": "E(R\u2022)+E(Sn(OH)3+)\u2212E(RSn(OH)3+)",
+        "cation_channel": "homolytic Sn\u2013C, charge remains on Sn(OH)3+",
+        "bde_neutral": {
+          "ha": 0.08622140995362315,
+          "eV": 2.34620408892111,
+          "kcal_mol": 54.104751612977
+        },
+        "bde_cation": {
+          "ha": 0.02224000394585346,
+          "eV": 0.60518133748276,
+          "kcal_mol": 13.955813179223773
+        },
+        "delta_bde": {
+          "ha": 0.06398140600776969,
+          "eV": 1.7410227514383503,
+          "kcal_mol": 40.14893843375323
+        },
+        "delta_bde_definition": "BDE(0)\u2212BDE(+1)",
+        "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+        "sn_oh3_fragment_converged": {
+          "rad": true,
+          "cation": true
+        }
+      },
+      "paths": {
+        "starting_guess": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/cf3/ours_starting_guess.xyz",
+        "neutral_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/cf3/trifluoromethyltin_ours_neutral.xyz",
+        "cation_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/cf3/trifluoromethyltin_ours_cation.xyz"
+      }
+    },
+    "et": {
+      "label": "ours",
+      "not_matgenq_table1": true,
+      "ligand": "et",
+      "name": "ethyltin_ours",
+      "smiles": "CC[Sn](O)(O)O",
+      "basis": "def2-svp",
+      "ecp": {
+        "Sn": "def2-svp"
+      },
+      "functional": "B3LYP",
+      "optimizer": "geometric",
+      "provenance": "labelled-ours hand Cartesian template; NOT MatGen-Q Table 1; ligand=et; SMILES=CC[Sn](O)(O)O; src/gqe/data/rsn_oh3_templates.py",
+      "written_at": "2026-08-21T20:11:44Z",
+      "element_counts": {
+        "C": 2,
+        "H": 8,
+        "O": 3,
+        "Sn": 1
+      },
+      "cxro_proxy_13p5nm": {
+        "label": "ours",
+        "kind": "cxro_atomic_f2_proxy",
+        "not_ab_initio_sigma_92eV": true,
+        "citation": "Henke, Gullikson, Davis, At. Data Nucl. Data Tables 54, 181 (1993); CXRO atomic scattering factors f2 interpolated at 91.84 eV (13.5 nm). This is a CXRO-style atomic **proxy**, not ab initio \u03c3(92 eV).",
+        "energy_eV": 91.841,
+        "wavelength_nm": 13.5,
+        "f2_weights": {
+          "Sn": 23.9718,
+          "I": 30.4673,
+          "F": 4.2731,
+          "O": 2.7652,
+          "C": 0.7659,
+          "H": 0.03296
+        },
+        "element_counts": {
+          "C": 2,
+          "H": 8,
+          "O": 3,
+          "Sn": 1
+        },
+        "elements_used": {
+          "C": 0.7659,
+          "H": 0.03296,
+          "O": 2.7652,
+          "Sn": 23.9718
+        },
+        "unknown_elements": [],
+        "weighted_sum_f2": 34.06288,
+        "note": "Sn (and I if present) dominate 13.5 nm absorption in this CXRO f2 sum; F > O > C > H. Do not report as ab initio \u03c3(92 eV)."
+      },
+      "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+      "status": "scored",
+      "opt_converged": {
+        "neutral": true,
+        "cation": true,
+        "R_rad": true
+      },
+      "energies_ha": {
+        "neutral_dft_opt": -520.8695607585868,
+        "cation_dft_opt": -520.5333844320975,
+        "cation_vertical_dft": -520.5145644158495,
+        "R_rad_dft": -79.10086866163218,
+        "sn_oh3_rad_dft": -441.6746821397206,
+        "sn_oh3_cation_dft": -441.37916193259287,
+        "neutral_mp2": {
+          "label": "ours",
+          "hf_ha": -518.1227279690822,
+          "e_corr_ha": -1.0098585245185792,
+          "mp2_ha": -519.1325864936008,
+          "converged_hf": true,
+          "method": "RHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_mp2": {
+          "label": "ours",
+          "hf_ha": -517.8034526456802,
+          "e_corr_ha": -0.9877121031390151,
+          "mp2_ha": -518.7911647488191,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_vertical_mp2": {
+          "label": "ours",
+          "hf_ha": -517.7452586477372,
+          "e_corr_ha": -0.9688848877256669,
+          "mp2_ha": -518.7141435354629,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        }
+      },
+      "ip": {
+        "label": "ours",
+        "vertical_dft": {
+          "ha": 0.3549963427373086,
+          "eV": 9.659942598135556,
+          "kcal_mol": 222.76356832541254
+        },
+        "adiabatic_dft": {
+          "ha": 0.3361763264892943,
+          "eV": 9.147823866855202,
+          "kcal_mol": 210.95382982776206
+        },
+        "definitions": {
+          "vertical": "E(+1 at 0-geom) \u2212 E(0 opt)",
+          "adiabatic": "E(+1 opt) \u2212 E(0 opt)"
+        },
+        "vertical_mp2": {
+          "ha": 0.4184429581379163,
+          "eV": 11.386412955801699,
+          "kcal_mol": 262.5769205865316
+        },
+        "adiabatic_mp2": {
+          "ha": 0.34142174478165543,
+          "eV": 9.290558970030373,
+          "kcal_mol": 214.24537950164256
+        }
+      },
+      "bde": {
+        "label": "ours",
+        "level": "B3LYP/def2-svp",
+        "formula_neutral": "E(R\u2022)+E(\u2022Sn(OH)3)\u2212E(RSn(OH)3)",
+        "formula_cation": "E(R\u2022)+E(Sn(OH)3+)\u2212E(RSn(OH)3+)",
+        "cation_channel": "homolytic Sn\u2013C, charge remains on Sn(OH)3+",
+        "bde_neutral": {
+          "ha": 0.09400995723399319,
+          "eV": 2.5581412572623443,
+          "kcal_mol": 58.99213882059759
+        },
+        "bde_cation": {
+          "ha": 0.05335383787246428,
+          "eV": 1.4518318900530747,
+          "kcal_mol": 33.48003874259797
+        },
+        "delta_bde": {
+          "ha": 0.04065611936152891,
+          "eV": 1.1063093672092696,
+          "kcal_mol": 25.512100077999623
+        },
+        "delta_bde_definition": "BDE(0)\u2212BDE(+1)",
+        "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+        "sn_oh3_fragment_converged": {
+          "rad": true,
+          "cation": true
+        }
+      },
+      "paths": {
+        "starting_guess": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/et/ours_starting_guess.xyz",
+        "neutral_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/et/ethyltin_ours_neutral.xyz",
+        "cation_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/et/ethyltin_ours_cation.xyz"
+      }
+    },
+    "ipr": {
+      "label": "ours",
+      "not_matgenq_table1": true,
+      "ligand": "ipr",
+      "name": "isopropyltin_ours",
+      "smiles": "CC(C)[Sn](O)(O)O",
+      "basis": "def2-svp",
+      "ecp": {
+        "Sn": "def2-svp"
+      },
+      "functional": "B3LYP",
+      "optimizer": "geometric",
+      "provenance": "labelled-ours hand Cartesian template; NOT MatGen-Q Table 1; ligand=ipr; SMILES=CC(C)[Sn](O)(O)O; src/gqe/data/rsn_oh3_templates.py",
+      "written_at": "2026-08-22T13:57:04Z",
+      "element_counts": {
+        "C": 3,
+        "H": 10,
+        "O": 3,
+        "Sn": 1
+      },
+      "cxro_proxy_13p5nm": {
+        "label": "ours",
+        "kind": "cxro_atomic_f2_proxy",
+        "not_ab_initio_sigma_92eV": true,
+        "citation": "Henke, Gullikson, Davis, At. Data Nucl. Data Tables 54, 181 (1993); CXRO atomic scattering factors f2 interpolated at 91.84 eV (13.5 nm). This is a CXRO-style atomic **proxy**, not ab initio \u03c3(92 eV).",
+        "energy_eV": 91.841,
+        "wavelength_nm": 13.5,
+        "f2_weights": {
+          "Sn": 23.9718,
+          "I": 30.4673,
+          "F": 4.2731,
+          "O": 2.7652,
+          "C": 0.7659,
+          "H": 0.03296
+        },
+        "element_counts": {
+          "C": 3,
+          "H": 10,
+          "O": 3,
+          "Sn": 1
+        },
+        "elements_used": {
+          "C": 0.7659,
+          "H": 0.03296,
+          "O": 2.7652,
+          "Sn": 23.9718
+        },
+        "unknown_elements": [],
+        "weighted_sum_f2": 34.8947,
+        "note": "Sn (and I if present) dominate 13.5 nm absorption in this CXRO f2 sum; F > O > C > H. Do not report as ab initio \u03c3(92 eV)."
+      },
+      "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+      "status": "scored",
+      "opt_converged": {
+        "neutral": true,
+        "cation": true,
+        "R_rad": true
+      },
+      "energies_ha": {
+        "neutral_dft_opt": -560.1541755005935,
+        "cation_dft_opt": -559.8330930986933,
+        "cation_vertical_dft": -559.8100143060005,
+        "R_rad_dft": -118.39286245028634,
+        "sn_oh3_rad_dft": -441.6746821397206,
+        "sn_oh3_cation_dft": -441.37916193259287,
+        "neutral_mp2": {
+          "label": "ours",
+          "hf_ha": -557.1271671712698,
+          "e_corr_ha": -1.1596239650893738,
+          "mp2_ha": -558.2867911363592,
+          "converged_hf": true,
+          "method": "RHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_mp2": {
+          "label": "ours",
+          "hf_ha": -556.8228137431065,
+          "e_corr_ha": -1.1372463380799198,
+          "mp2_ha": -557.9600600811864,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_vertical_mp2": {
+          "label": "ours",
+          "hf_ha": -556.7509360204017,
+          "e_corr_ha": -1.1231949273095574,
+          "mp2_ha": -557.8741309477113,
+          "converged_hf": false,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        }
+      },
+      "ip": {
+        "label": "ours",
+        "vertical_dft": {
+          "ha": 0.3441611945929708,
+          "eV": 9.365103196947556,
+          "kcal_mol": 215.96441021196333
+        },
+        "adiabatic_dft": {
+          "ha": 0.3210824019001848,
+          "eV": 8.737097254893232,
+          "kcal_mol": 201.48224914730184
+        },
+        "definitions": {
+          "vertical": "E(+1 at 0-geom) \u2212 E(0 opt)",
+          "adiabatic": "E(+1 opt) \u2212 E(0 opt)"
+        },
+        "vertical_mp2": {
+          "ha": 0.4126601886479193,
+          "eV": 11.229055781637916,
+          "kcal_mol": 258.9481779452355
+        },
+        "adiabatic_mp2": {
+          "ha": 0.326731055172786,
+          "eV": 8.890804940863609,
+          "kcal_mol": 205.02683259155665
+        }
+      },
+      "bde": {
+        "label": "ours",
+        "level": "B3LYP/def2-svp",
+        "formula_neutral": "E(R\u2022)+E(\u2022Sn(OH)3)\u2212E(RSn(OH)3)",
+        "formula_cation": "E(R\u2022)+E(Sn(OH)3+)\u2212E(RSn(OH)3+)",
+        "cation_channel": "homolytic Sn\u2013C, charge remains on Sn(OH)3+",
+        "bde_neutral": {
+          "ha": 0.08663091058656391,
+          "eV": 2.3573471688120353,
+          "kcal_mol": 54.361717139782165
+        },
+        "bde_cation": {
+          "ha": 0.061068715814144525,
+          "eV": 1.6617644135647347,
+          "kcal_mol": 38.32119774224275
+        },
+        "delta_bde": {
+          "ha": 0.02556219477241939,
+          "eV": 0.6955827552473004,
+          "kcal_mol": 16.040519397539416
+        },
+        "delta_bde_definition": "BDE(0)\u2212BDE(+1)",
+        "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+        "sn_oh3_fragment_converged": {
+          "rad": true,
+          "cation": true
+        }
+      },
+      "paths": {
+        "starting_guess": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/ipr/ours_starting_guess.xyz",
+        "neutral_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/ipr/isopropyltin_ours_neutral.xyz",
+        "cation_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/ipr/isopropyltin_ours_cation.xyz"
+      }
+    },
+    "me": {
+      "label": "ours",
+      "not_matgenq_table1": true,
+      "ligand": "me",
+      "name": "methyltin_ours",
+      "smiles": "C[Sn](O)(O)O",
+      "basis": "def2-svp",
+      "ecp": {
+        "Sn": "def2-svp"
+      },
+      "functional": "B3LYP",
+      "optimizer": "geometric",
+      "provenance": "labelled-ours hand Cartesian template; NOT MatGen-Q Table 1; ligand=me; SMILES=C[Sn](O)(O)O; src/gqe/data/rsn_oh3_templates.py",
+      "written_at": "2026-08-21T20:10:26Z",
+      "element_counts": {
+        "C": 1,
+        "H": 6,
+        "O": 3,
+        "Sn": 1
+      },
+      "cxro_proxy_13p5nm": {
+        "label": "ours",
+        "kind": "cxro_atomic_f2_proxy",
+        "not_ab_initio_sigma_92eV": true,
+        "citation": "Henke, Gullikson, Davis, At. Data Nucl. Data Tables 54, 181 (1993); CXRO atomic scattering factors f2 interpolated at 91.84 eV (13.5 nm). This is a CXRO-style atomic **proxy**, not ab initio \u03c3(92 eV).",
+        "energy_eV": 91.841,
+        "wavelength_nm": 13.5,
+        "f2_weights": {
+          "Sn": 23.9718,
+          "I": 30.4673,
+          "F": 4.2731,
+          "O": 2.7652,
+          "C": 0.7659,
+          "H": 0.03296
+        },
+        "element_counts": {
+          "C": 1,
+          "H": 6,
+          "O": 3,
+          "Sn": 1
+        },
+        "elements_used": {
+          "C": 0.7659,
+          "H": 0.03296,
+          "O": 2.7652,
+          "Sn": 23.9718
+        },
+        "unknown_elements": [],
+        "weighted_sum_f2": 33.23106,
+        "note": "Sn (and I if present) dominate 13.5 nm absorption in this CXRO f2 sum; F > O > C > H. Do not report as ab initio \u03c3(92 eV)."
+      },
+      "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+      "status": "scored",
+      "opt_converged": {
+        "neutral": true,
+        "cation": true,
+        "R_rad": true
+      },
+      "energies_ha": {
+        "neutral_dft_opt": -481.5871238898071,
+        "cation_dft_opt": -481.23047033963104,
+        "cation_vertical_dft": -481.2196263993542,
+        "R_rad_dft": -39.80941022332581,
+        "sn_oh3_rad_dft": -441.6746821397206,
+        "sn_oh3_cation_dft": -441.37916193259287,
+        "neutral_mp2": {
+          "label": "ours",
+          "hf_ha": -479.1202182825597,
+          "e_corr_ha": -0.8624552496078355,
+          "mp2_ha": -479.9826735321675,
+          "converged_hf": true,
+          "method": "RHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_mp2": {
+          "label": "ours",
+          "hf_ha": -478.7820930359032,
+          "e_corr_ha": -0.8399318012200735,
+          "mp2_ha": -479.62202483712326,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_vertical_mp2": {
+          "label": "ours",
+          "hf_ha": -478.73704329744646,
+          "e_corr_ha": -0.8236152370413772,
+          "mp2_ha": -479.56065853448786,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        }
+      },
+      "ip": {
+        "label": "ours",
+        "vertical_dft": {
+          "ha": 0.36749749045293356,
+          "eV": 10.00011615714349,
+          "kcal_mol": 230.60815695362945
+        },
+        "adiabatic_dft": {
+          "ha": 0.3566535501760768,
+          "eV": 9.70503750984159,
+          "kcal_mol": 223.8034816937274
+        },
+        "definitions": {
+          "vertical": "E(+1 at 0-geom) \u2212 E(0 opt)",
+          "adiabatic": "E(+1 opt) \u2212 E(0 opt)"
+        },
+        "vertical_mp2": {
+          "ha": 0.42201499767963924,
+          "eV": 11.483613103457438,
+          "kcal_mol": 264.8184092406908
+        },
+        "adiabatic_mp2": {
+          "ha": 0.36064869504423314,
+          "eV": 9.813750939957641,
+          "kcal_mol": 226.3104729487501
+        }
+      },
+      "bde": {
+        "label": "ours",
+        "level": "B3LYP/def2-svp",
+        "formula_neutral": "E(R\u2022)+E(\u2022Sn(OH)3)\u2212E(RSn(OH)3)",
+        "formula_cation": "E(R\u2022)+E(Sn(OH)3+)\u2212E(RSn(OH)3+)",
+        "cation_channel": "homolytic Sn\u2013C, charge remains on Sn(OH)3+",
+        "bde_neutral": {
+          "ha": 0.10303152676073069,
+          "eV": 2.8036306701993703,
+          "kcal_mol": 64.65325916954433
+        },
+        "bde_cation": {
+          "ha": 0.041898183712362425,
+          "eV": 1.140107660002164,
+          "kcal_mol": 26.29150722554369
+        },
+        "delta_bde": {
+          "ha": 0.06113334304836826,
+          "eV": 1.6635230101972063,
+          "kcal_mol": 38.36175194400064
+        },
+        "delta_bde_definition": "BDE(0)\u2212BDE(+1)",
+        "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+        "sn_oh3_fragment_converged": {
+          "rad": true,
+          "cation": true
+        }
+      },
+      "paths": {
+        "starting_guess": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/me/ours_starting_guess.xyz",
+        "neutral_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/me/methyltin_ours_neutral.xyz",
+        "cation_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/me/methyltin_ours_cation.xyz"
+      }
+    },
+    "nbu": {
+      "label": "ours",
+      "not_matgenq_table1": true,
+      "ligand": "nbu",
+      "name": "nbutyltin_ours",
+      "smiles": "CCCC[Sn](O)(O)O",
+      "basis": "def2-svp",
+      "ecp": {
+        "Sn": "def2-svp"
+      },
+      "functional": "B3LYP",
+      "optimizer": "geometric",
+      "provenance": "labelled-ours hand Cartesian template; NOT MatGen-Q Table 1; ligand=nbu; SMILES=CCCC[Sn](O)(O)O; src/gqe/data/rsn_oh3_templates.py",
+      "written_at": "2026-08-21T20:46:16Z",
+      "element_counts": {
+        "C": 4,
+        "H": 12,
+        "O": 3,
+        "Sn": 1
+      },
+      "cxro_proxy_13p5nm": {
+        "label": "ours",
+        "kind": "cxro_atomic_f2_proxy",
+        "not_ab_initio_sigma_92eV": true,
+        "citation": "Henke, Gullikson, Davis, At. Data Nucl. Data Tables 54, 181 (1993); CXRO atomic scattering factors f2 interpolated at 91.84 eV (13.5 nm). This is a CXRO-style atomic **proxy**, not ab initio \u03c3(92 eV).",
+        "energy_eV": 91.841,
+        "wavelength_nm": 13.5,
+        "f2_weights": {
+          "Sn": 23.9718,
+          "I": 30.4673,
+          "F": 4.2731,
+          "O": 2.7652,
+          "C": 0.7659,
+          "H": 0.03296
+        },
+        "element_counts": {
+          "C": 4,
+          "H": 12,
+          "O": 3,
+          "Sn": 1
+        },
+        "elements_used": {
+          "C": 0.7659,
+          "H": 0.03296,
+          "O": 2.7652,
+          "Sn": 23.9718
+        },
+        "unknown_elements": [],
+        "weighted_sum_f2": 35.72652,
+        "note": "Sn (and I if present) dominate 13.5 nm absorption in this CXRO f2 sum; F > O > C > H. Do not report as ab initio \u03c3(92 eV)."
+      },
+      "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+      "status": "scored",
+      "opt_converged": {
+        "neutral": true,
+        "cation": true,
+        "R_rad": true
+      },
+      "energies_ha": {
+        "neutral_dft_opt": -599.4412938887431,
+        "cation_dft_opt": -599.110713018304,
+        "cation_vertical_dft": -599.0929017098906,
+        "R_rad_dft": -157.67129255600895,
+        "sn_oh3_rad_dft": -441.6746821397206,
+        "sn_oh3_cation_dft": -441.37916193259287,
+        "neutral_mp2": {
+          "label": "ours",
+          "hf_ha": -596.1373754513243,
+          "e_corr_ha": -1.303358623801674,
+          "mp2_ha": -597.440734075126,
+          "converged_hf": true,
+          "method": "RHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_mp2": {
+          "label": "ours",
+          "hf_ha": -595.6706682793716,
+          "e_corr_ha": -1.2930377521814875,
+          "mp2_ha": -596.9637060315531,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_vertical_mp2": {
+          "label": "ours",
+          "hf_ha": -595.7036531424524,
+          "e_corr_ha": -1.292800972053743,
+          "mp2_ha": -596.9964541145062,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        }
+      },
+      "ip": {
+        "label": "ours",
+        "vertical_dft": {
+          "ha": 0.348392178852464,
+          "eV": 9.480234143833291,
+          "kcal_mol": 218.61939291940715
+        },
+        "adiabatic_dft": {
+          "ha": 0.3305808704391211,
+          "eV": 8.995563751051527,
+          "kcal_mol": 207.44262814457468
+        },
+        "definitions": {
+          "vertical": "E(+1 at 0-geom) \u2212 E(0 opt)",
+          "adiabatic": "E(+1 opt) \u2212 E(0 opt)"
+        },
+        "vertical_mp2": {
+          "ha": 0.44427996061983777,
+          "eV": 12.089473609775634,
+          "kcal_mol": 278.7898844253292
+        },
+        "adiabatic_mp2": {
+          "ha": 0.4770280435728864,
+          "eV": 12.980594343826466,
+          "kcal_mol": 299.33961673577153
+        }
+      },
+      "bde": {
+        "label": "ours",
+        "level": "B3LYP/def2-svp",
+        "formula_neutral": "E(R\u2022)+E(\u2022Sn(OH)3)\u2212E(RSn(OH)3)",
+        "formula_cation": "E(R\u2022)+E(Sn(OH)3+)\u2212E(RSn(OH)3+)",
+        "cation_channel": "homolytic Sn\u2013C, charge remains on Sn(OH)3+",
+        "bde_neutral": {
+          "ha": 0.09531919301355174,
+          "eV": 2.59376737774697,
+          "kcal_mol": 59.81369667605297
+        },
+        "bde_cation": {
+          "ha": 0.06025852970208234,
+          "eV": 1.639718126338281,
+          "kcal_mol": 37.81279828116938
+        },
+        "delta_bde": {
+          "ha": 0.0350606633114694,
+          "eV": 0.954049251408689,
+          "kcal_mol": 22.00089839488359
+        },
+        "delta_bde_definition": "BDE(0)\u2212BDE(+1)",
+        "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+        "sn_oh3_fragment_converged": {
+          "rad": true,
+          "cation": true
+        }
+      },
+      "paths": {
+        "starting_guess": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/nbu/ours_starting_guess.xyz",
+        "neutral_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/nbu/nbutyltin_ours_neutral.xyz",
+        "cation_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/nbu/nbutyltin_ours_cation.xyz"
+      }
+    },
+    "npr": {
+      "label": "ours",
+      "not_matgenq_table1": true,
+      "ligand": "npr",
+      "name": "npropyltin_ours",
+      "smiles": "CCC[Sn](O)(O)O",
+      "basis": "def2-svp",
+      "ecp": {
+        "Sn": "def2-svp"
+      },
+      "functional": "B3LYP",
+      "optimizer": "geometric",
+      "provenance": "labelled-ours hand Cartesian template; NOT MatGen-Q Table 1; ligand=npr; SMILES=CCC[Sn](O)(O)O; src/gqe/data/rsn_oh3_templates.py",
+      "written_at": "2026-08-22T14:39:16Z",
+      "element_counts": {
+        "C": 3,
+        "H": 10,
+        "O": 3,
+        "Sn": 1
+      },
+      "cxro_proxy_13p5nm": {
+        "label": "ours",
+        "kind": "cxro_atomic_f2_proxy",
+        "not_ab_initio_sigma_92eV": true,
+        "citation": "Henke, Gullikson, Davis, At. Data Nucl. Data Tables 54, 181 (1993); CXRO atomic scattering factors f2 interpolated at 91.84 eV (13.5 nm). This is a CXRO-style atomic **proxy**, not ab initio \u03c3(92 eV).",
+        "energy_eV": 91.841,
+        "wavelength_nm": 13.5,
+        "f2_weights": {
+          "Sn": 23.9718,
+          "I": 30.4673,
+          "F": 4.2731,
+          "O": 2.7652,
+          "C": 0.7659,
+          "H": 0.03296
+        },
+        "element_counts": {
+          "C": 3,
+          "H": 10,
+          "O": 3,
+          "Sn": 1
+        },
+        "elements_used": {
+          "C": 0.7659,
+          "H": 0.03296,
+          "O": 2.7652,
+          "Sn": 23.9718
+        },
+        "unknown_elements": [],
+        "weighted_sum_f2": 34.8947,
+        "note": "Sn (and I if present) dominate 13.5 nm absorption in this CXRO f2 sum; F > O > C > H. Do not report as ab initio \u03c3(92 eV)."
+      },
+      "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+      "status": "scored",
+      "opt_converged": {
+        "neutral": true,
+        "cation": true,
+        "R_rad": true
+      },
+      "energies_ha": {
+        "neutral_dft_opt": -560.1555834001178,
+        "cation_dft_opt": -559.8215534490623,
+        "cation_vertical_dft": -559.8034242968549,
+        "R_rad_dft": -118.38551035184265,
+        "sn_oh3_rad_dft": -441.6746821397206,
+        "sn_oh3_cation_dft": -441.37916193259287,
+        "neutral_mp2": {
+          "label": "ours",
+          "hf_ha": -557.1302684227808,
+          "e_corr_ha": -1.1568052616814244,
+          "mp2_ha": -558.2870736844621,
+          "converged_hf": true,
+          "method": "RHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_mp2": {
+          "label": "ours",
+          "hf_ha": -556.8112623764596,
+          "e_corr_ha": -1.1355544237712527,
+          "mp2_ha": -557.9468168002309,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_vertical_mp2": {
+          "label": "ours",
+          "hf_ha": -556.7541967192274,
+          "e_corr_ha": -1.1163843887025202,
+          "mp2_ha": -557.8705811079299,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        }
+      },
+      "ip": {
+        "label": "ours",
+        "vertical_dft": {
+          "ha": 0.3521591032629203,
+          "eV": 9.582737378925632,
+          "kcal_mol": 220.98317367504805
+        },
+        "adiabatic_dft": {
+          "ha": 0.3340299510555269,
+          "eV": 9.089418015898072,
+          "kcal_mol": 209.60695890817672
+        },
+        "definitions": {
+          "vertical": "E(+1 at 0-geom) \u2212 E(0 opt)",
+          "adiabatic": "E(+1 opt) \u2212 E(0 opt)"
+        },
+        "vertical_mp2": {
+          "ha": 0.4164925765322778,
+          "eV": 11.333340368603613,
+          "kcal_mol": 261.35303765095506
+        },
+        "adiabatic_mp2": {
+          "ha": 0.3402568842312803,
+          "eV": 9.25886149967141,
+          "kcal_mol": 213.5144184703198
+        }
+      },
+      "bde": {
+        "label": "ours",
+        "level": "B3LYP/def2-svp",
+        "formula_neutral": "E(R\u2022)+E(\u2022Sn(OH)3)\u2212E(RSn(OH)3)",
+        "formula_cation": "E(R\u2022)+E(Sn(OH)3+)\u2212E(RSn(OH)3+)",
+        "cation_channel": "homolytic Sn\u2013C, charge remains on Sn(OH)3+",
+        "bde_neutral": {
+          "ha": 0.09539090855457744,
+          "eV": 2.59571885703366,
+          "kcal_mol": 59.85869885748416
+        },
+        "bde_cation": {
+          "ha": 0.05688116462681592,
+          "eV": 1.5478153407815196,
+          "kcal_mol": 35.693469699069865
+        },
+        "delta_bde": {
+          "ha": 0.03850974392776152,
+          "eV": 1.0479035162521402,
+          "kcal_mol": 24.16522915841429
+        },
+        "delta_bde_definition": "BDE(0)\u2212BDE(+1)",
+        "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+        "sn_oh3_fragment_converged": {
+          "rad": true,
+          "cation": true
+        }
+      },
+      "paths": {
+        "starting_guess": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/npr/ours_starting_guess.xyz",
+        "neutral_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/npr/npropyltin_ours_neutral.xyz",
+        "cation_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/npr/npropyltin_ours_cation.xyz"
+      }
+    },
+    "ph": {
+      "label": "ours",
+      "not_matgenq_table1": true,
+      "ligand": "ph",
+      "name": "phenyltin_ours",
+      "smiles": "c1ccccc1[Sn](O)(O)O",
+      "basis": "def2-svp",
+      "ecp": {
+        "Sn": "def2-svp"
+      },
+      "functional": "B3LYP",
+      "optimizer": "geometric",
+      "provenance": "labelled-ours hand Cartesian template; NOT MatGen-Q Table 1; ligand=ph; SMILES=c1ccccc1[Sn](O)(O)O; src/gqe/data/rsn_oh3_templates.py",
+      "written_at": "2026-08-21T22:01:11Z",
+      "element_counts": {
+        "C": 6,
+        "H": 8,
+        "O": 3,
+        "Sn": 1
+      },
+      "cxro_proxy_13p5nm": {
+        "label": "ours",
+        "kind": "cxro_atomic_f2_proxy",
+        "not_ab_initio_sigma_92eV": true,
+        "citation": "Henke, Gullikson, Davis, At. Data Nucl. Data Tables 54, 181 (1993); CXRO atomic scattering factors f2 interpolated at 91.84 eV (13.5 nm). This is a CXRO-style atomic **proxy**, not ab initio \u03c3(92 eV).",
+        "energy_eV": 91.841,
+        "wavelength_nm": 13.5,
+        "f2_weights": {
+          "Sn": 23.9718,
+          "I": 30.4673,
+          "F": 4.2731,
+          "O": 2.7652,
+          "C": 0.7659,
+          "H": 0.03296
+        },
+        "element_counts": {
+          "C": 6,
+          "H": 8,
+          "O": 3,
+          "Sn": 1
+        },
+        "elements_used": {
+          "C": 0.7659,
+          "H": 0.03296,
+          "O": 2.7652,
+          "Sn": 23.9718
+        },
+        "unknown_elements": [],
+        "weighted_sum_f2": 37.12648,
+        "note": "Sn (and I if present) dominate 13.5 nm absorption in this CXRO f2 sum; F > O > C > H. Do not report as ab initio \u03c3(92 eV)."
+      },
+      "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+      "status": "scored",
+      "opt_converged": {
+        "neutral": true,
+        "cation": true,
+        "R_rad": true
+      },
+      "energies_ha": {
+        "neutral_dft_opt": -673.1824889285245,
+        "cation_dft_opt": -672.8523546623919,
+        "cation_vertical_dft": -672.8405772620541,
+        "R_rad_dft": -231.39673487331888,
+        "sn_oh3_rad_dft": -441.6746821397206,
+        "sn_oh3_cation_dft": -441.37916193259287,
+        "neutral_mp2": {
+          "label": "ours",
+          "hf_ha": -669.4839000838937,
+          "e_corr_ha": -1.5048774068510256,
+          "mp2_ha": -670.9887774907447,
+          "converged_hf": true,
+          "method": "RHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_mp2": {
+          "label": "ours",
+          "hf_ha": -669.1871631562803,
+          "e_corr_ha": -1.4518640112872567,
+          "mp2_ha": -670.6390271675676,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_vertical_mp2": {
+          "label": "ours",
+          "hf_ha": -669.1754195782613,
+          "e_corr_ha": -1.450621720722596,
+          "mp2_ha": -670.6260412989839,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        }
+      },
+      "ip": {
+        "label": "ours",
+        "vertical_dft": {
+          "ha": 0.34191166647042337,
+          "eV": 9.303890418333722,
+          "kcal_mol": 214.55281000289344
+        },
+        "adiabatic_dft": {
+          "ha": 0.33013426613263164,
+          "eV": 8.983411028768524,
+          "kcal_mol": 207.16237971109518
+        },
+        "definitions": {
+          "vertical": "E(+1 at 0-geom) \u2212 E(0 opt)",
+          "adiabatic": "E(+1 opt) \u2212 E(0 opt)"
+        },
+        "vertical_mp2": {
+          "ha": 0.3627361917608596,
+          "eV": 9.87055461940098,
+          "kcal_mol": 227.6203969155088
+        },
+        "adiabatic_mp2": {
+          "ha": 0.34975032317709065,
+          "eV": 9.517191133628494,
+          "kcal_mol": 219.47164135025542
+        }
+      },
+      "bde": {
+        "label": "ours",
+        "level": "B3LYP/def2-svp",
+        "formula_neutral": "E(R\u2022)+E(\u2022Sn(OH)3)\u2212E(RSn(OH)3)",
+        "formula_cation": "E(R\u2022)+E(Sn(OH)3+)\u2212E(RSn(OH)3+)",
+        "cation_channel": "homolytic Sn\u2013C, charge remains on Sn(OH)3+",
+        "bde_neutral": {
+          "ha": 0.11107191548512674,
+          "eV": 3.022420793346742,
+          "kcal_mol": 69.69867926925298
+        },
+        "bde_cation": {
+          "ha": 0.0764578564801468,
+          "eV": 2.080524264221056,
+          "kcal_mol": 47.9780293078489
+        },
+        "delta_bde": {
+          "ha": 0.034614059004979936,
+          "eV": 0.9418965291256858,
+          "kcal_mol": 21.72064996140407
+        },
+        "delta_bde_definition": "BDE(0)\u2212BDE(+1)",
+        "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+        "sn_oh3_fragment_converged": {
+          "rad": true,
+          "cation": true
+        }
+      },
+      "paths": {
+        "starting_guess": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/ph/ours_starting_guess.xyz",
+        "neutral_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/ph/phenyltin_ours_neutral.xyz",
+        "cation_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/ph/phenyltin_ours_cation.xyz"
+      }
+    },
+    "vinyl": {
+      "label": "ours",
+      "not_matgenq_table1": true,
+      "ligand": "vinyl",
+      "name": "vinyltin_ours",
+      "smiles": "C=C[Sn](O)(O)O",
+      "basis": "def2-svp",
+      "ecp": {
+        "Sn": "def2-svp"
+      },
+      "functional": "B3LYP",
+      "optimizer": "geometric",
+      "provenance": "labelled-ours hand Cartesian template; NOT MatGen-Q Table 1; ligand=vinyl; SMILES=C=C[Sn](O)(O)O; src/gqe/data/rsn_oh3_templates.py",
+      "written_at": "2026-08-22T00:50:03Z",
+      "element_counts": {
+        "C": 2,
+        "H": 6,
+        "O": 3,
+        "Sn": 1
+      },
+      "cxro_proxy_13p5nm": {
+        "label": "ours",
+        "kind": "cxro_atomic_f2_proxy",
+        "not_ab_initio_sigma_92eV": true,
+        "citation": "Henke, Gullikson, Davis, At. Data Nucl. Data Tables 54, 181 (1993); CXRO atomic scattering factors f2 interpolated at 91.84 eV (13.5 nm). This is a CXRO-style atomic **proxy**, not ab initio \u03c3(92 eV).",
+        "energy_eV": 91.841,
+        "wavelength_nm": 13.5,
+        "f2_weights": {
+          "Sn": 23.9718,
+          "I": 30.4673,
+          "F": 4.2731,
+          "O": 2.7652,
+          "C": 0.7659,
+          "H": 0.03296
+        },
+        "element_counts": {
+          "C": 2,
+          "H": 6,
+          "O": 3,
+          "Sn": 1
+        },
+        "elements_used": {
+          "C": 0.7659,
+          "H": 0.03296,
+          "O": 2.7652,
+          "Sn": 23.9718
+        },
+        "unknown_elements": [],
+        "weighted_sum_f2": 33.99696,
+        "note": "Sn (and I if present) dominate 13.5 nm absorption in this CXRO f2 sum; F > O > C > H. Do not report as ab initio \u03c3(92 eV)."
+      },
+      "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+      "status": "scored",
+      "opt_converged": {
+        "neutral": true,
+        "cation": true,
+        "R_rad": true
+      },
+      "energies_ha": {
+        "neutral_dft_opt": -519.6312224831876,
+        "cation_dft_opt": -519.2824518668992,
+        "cation_vertical_dft": -519.2657281053674,
+        "R_rad_dft": -77.84624073210522,
+        "sn_oh3_rad_dft": -441.6746821397206,
+        "sn_oh3_cation_dft": -441.37916193259287,
+        "neutral_mp2": {
+          "label": "ours",
+          "hf_ha": -516.9288299922501,
+          "e_corr_ha": -0.9812864205226532,
+          "mp2_ha": -517.9101164127728,
+          "converged_hf": true,
+          "method": "RHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_mp2": {
+          "label": "ours",
+          "hf_ha": -516.6068514587929,
+          "e_corr_ha": -0.9431769980286887,
+          "mp2_ha": -517.5500284568216,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        },
+        "cation_vertical_mp2": {
+          "label": "ours",
+          "hf_ha": -516.5844668759968,
+          "e_corr_ha": -0.9312375365175223,
+          "mp2_ha": -517.5157044125143,
+          "converged_hf": true,
+          "method": "UHF-MP2",
+          "note": "MP2 single-point at DFT geometry; not a second opt"
+        }
+      },
+      "ip": {
+        "label": "ours",
+        "vertical_dft": {
+          "ha": 0.3654943778201414,
+          "eV": 9.945608685598378,
+          "kcal_mol": 229.35118479893688
+        },
+        "adiabatic_dft": {
+          "ha": 0.34877061628833417,
+          "eV": 9.490531951070693,
+          "kcal_mol": 218.85686599575584
+        },
+        "definitions": {
+          "vertical": "E(+1 at 0-geom) \u2212 E(0 opt)",
+          "adiabatic": "E(+1 opt) \u2212 E(0 opt)"
+        },
+        "vertical_mp2": {
+          "ha": 0.3944120002585123,
+          "eV": 10.732497279084336,
+          "kcal_mol": 247.49726684639433
+        },
+        "adiabatic_mp2": {
+          "ha": 0.36008795595125775,
+          "eV": 9.798492451915468,
+          "kcal_mol": 225.95860385543048
+        }
+      },
+      "bde": {
+        "label": "ours",
+        "level": "B3LYP/def2-svp",
+        "formula_neutral": "E(R\u2022)+E(\u2022Sn(OH)3)\u2212E(RSn(OH)3)",
+        "formula_cation": "E(R\u2022)+E(Sn(OH)3+)\u2212E(RSn(OH)3+)",
+        "cation_channel": "homolytic Sn\u2013C, charge remains on Sn(OH)3+",
+        "bde_neutral": {
+          "ha": 0.11029961136182465,
+          "eV": 3.0014053275482047,
+          "kcal_mol": 69.21405111502291
+        },
+        "bde_cation": {
+          "ha": 0.05704920220114218,
+          "eV": 1.5523878761203493,
+          "kcal_mol": 35.79891486895818
+        },
+        "delta_bde": {
+          "ha": 0.053250409160682466,
+          "eV": 1.4490174514278555,
+          "kcal_mol": 33.41513624606474
+        },
+        "delta_bde_definition": "BDE(0)\u2212BDE(+1)",
+        "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+        "sn_oh3_fragment_converged": {
+          "rad": true,
+          "cation": true
+        }
+      },
+      "paths": {
+        "starting_guess": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/vinyl/ours_starting_guess.xyz",
+        "neutral_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/vinyl/vinyltin_ours_neutral.xyz",
+        "cation_xyz": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/vinyl/vinyltin_ours_cation.xyz"
+      }
+    }
+  }
+}

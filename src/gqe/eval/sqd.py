@@ -525,6 +525,91 @@ def occupancy_guided_recovery(
     return recovered
 
 
+def _occupancy_from_counts(
+    counts: Dict[str, int],
+    n_qubits: int,
+    n_top: int | None = None,
+) -> np.ndarray:
+    """Per-qubit occupancy in LSB-right convention (bit i = qubit i)."""
+    items = sorted(counts.items(), key=lambda kv: -int(kv[1]))
+    if n_top is not None:
+        items = items[:n_top]
+    occupancy = np.zeros(n_qubits, dtype=np.float64)
+    total = 0
+    for bs, w in items:
+        val = int(str(bs), 2)
+        weight = int(w)
+        total += weight
+        for i in range(n_qubits):
+            if (val >> i) & 1:
+                occupancy[i] += weight
+    if total > 0:
+        occupancy /= total
+    return occupancy
+
+
+def repair_bitstring_to_particle_number(
+    bits_int: int,
+    n_qubits: int,
+    n_electrons: int,
+    occupancy: np.ndarray,
+) -> int:
+    """Flip the least-likely bits so Hamming weight equals ``n_electrons``.
+
+    IBM SQD S-CORE lite: noisy samples that leave the particle-number sector
+    are repaired using mean occupancies rather than discarded.
+    """
+    current = bin(bits_int).count("1")
+    if current == n_electrons:
+        return bits_int
+    bits = [(bits_int >> i) & 1 for i in range(n_qubits)]
+    if current > n_electrons:
+        occupied = [i for i in range(n_qubits) if bits[i]]
+        occupied.sort(key=lambda i: occupancy[i])
+        repaired = bits_int
+        for i in occupied[: current - n_electrons]:
+            repaired &= ~(1 << i)
+        return repaired
+    empty = [i for i in range(n_qubits) if not bits[i]]
+    empty.sort(key=lambda i: -occupancy[i])
+    repaired = bits_int
+    for i in empty[: n_electrons - current]:
+        repaired |= 1 << i
+    return repaired
+
+
+def self_consistent_config_recovery(
+    counts: Dict[str, int],
+    n_qubits: int,
+    n_electrons: int,
+    *,
+    max_iters: int = 5,
+    n_top: int = 200,
+) -> Dict[str, int]:
+    """Iteratively repair wrong-N bitstrings using occupancy estimates.
+
+    Valid (correct Hamming weight) counts are kept. Invalid shots are mapped
+    onto the nearest correct-N configuration under the current occupancy
+    and accumulated. Occupancy is recomputed from the repaired histogram.
+    """
+    working = {str(k): int(v) for k, v in counts.items()}
+    occupancy = _occupancy_from_counts(working, n_qubits, n_top=n_top)
+    for _ in range(max(1, int(max_iters))):
+        repaired: Dict[str, int] = {}
+        for bs, w in working.items():
+            val = int(str(bs), 2)
+            new_val = repair_bitstring_to_particle_number(
+                val, n_qubits, n_electrons, occupancy
+            )
+            key = format(new_val, f"0{n_qubits}b")
+            repaired[key] = repaired.get(key, 0) + int(w)
+        occupancy = _occupancy_from_counts(repaired, n_qubits, n_top=n_top)
+        if repaired == working:
+            return repaired
+        working = repaired
+    return working
+
+
 def sqd_energy_with_recovery(
     record: Dict[str, Any],
     counts: Dict[str, int],

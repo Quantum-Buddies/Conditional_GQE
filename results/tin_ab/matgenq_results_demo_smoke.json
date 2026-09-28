@@ -1,0 +1,89 @@
+{
+  "demo": "A (mini GQE+QSCI)",
+  "system": "SnO",
+  "active_space": "(2e,7o)",
+  "qubits": 14,
+  "backend": "cudaq-nvidia (1 GPU)",
+  "smoke": true,
+  "seed": 42,
+  "pool_size": 289,
+  "ngates": 10,
+  "shots": 1000,
+  "iterations": 3,
+  "circuits_per_iteration": 8,
+  "model_parameters": 831744,
+  "energies_ha": {
+    "hf": -288.10300086585346,
+    "casci_reference": -288.10912104,
+    "casci_computed": -288.10912103788326,
+    "best_single_circuit_qsci": -288.1062525200387,
+    "union_refined_qsci": -288.10912103788326
+  },
+  "errors_mha_vs_casci": {
+    "best_single_circuit": 2.868517844547114,
+    "union_refined": 0.0
+  },
+  "gate1": {
+    "pass": true,
+    "abs_deviation_ha": 2.116735231538769e-09
+  },
+  "jw_crosscheck_dev_mha": 5.6843418860808015e-11,
+  "chemical_accuracy_union": true,
+  "union_determinants": 49,
+  "fullci_determinants": 49,
+  "best_circuit": {
+    "tokens": [
+      0,
+      189,
+      73,
+      153,
+      107,
+      110,
+      272,
+      161,
+      225,
+      76,
+      235
+    ],
+    "found_at_iteration": 1,
+    "cx_count": 60,
+    "total_gates": 170
+  },
+  "timings_s": {
+    "molecule_build": 0.2012370005249977,
+    "training_loop": 10.575895294547081,
+    "total": 43.946577705442905
+  },
+  "convergence": [
+    {
+      "iteration": 1,
+      "best_iter_ha": -288.1062525200387,
+      "best_all_ha": -288.1062525200387,
+      "union_ha": -288.10912103788326,
+      "union_err_mha": 0.0,
+      "union_dets": 49,
+      "beta": 0.48,
+      "loss": 0.0016901055350899696
+    },
+    {
+      "iteration": 2,
+      "best_iter_ha": -288.10474580223166,
+      "best_all_ha": -288.1062525200387,
+      "union_ha": -288.10912103788326,
+      "union_err_mha": 0.0,
+      "union_dets": 49,
+      "beta": 0.45999999999999996,
+      "loss": 0.0010237188544124365
+    },
+    {
+      "iteration": 3,
+      "best_iter_ha": -288.10522379027975,
+      "best_all_ha": -288.1062525200387,
+      "union_ha": -288.10912103788326,
+      "union_err_mha": 0.0,
+      "union_dets": 49,
+      "beta": 0.43999999999999995,
+      "loss": 0.0005590860964730382
+    }
+  ]
+}

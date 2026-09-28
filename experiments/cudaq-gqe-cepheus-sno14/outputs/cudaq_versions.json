@@ -1,0 +1,7 @@
+{
+  "cudaq": "CUDA-Q Version 0.14.2 (https://github.com/NVIDIA/cuda-quantum 91ab3092e76dab8887d1fdf0c99a2478ca90581c)",
+  "cudaq_solvers": "CUDA-Q Solvers 0.6.0 (https://github.com/NVIDIA/cudaqx 84d18ca948a8582afe54035c85e2aceb3f3bee19)",
+  "has_qbraid": false,
+  "qbraid_targets": [],
+  "hostname": "gpu025.aire.lee.alces.network"
+}

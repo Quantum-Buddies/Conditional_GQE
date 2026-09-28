@@ -224,27 +224,40 @@ dataset:
         n_active_electrons: 4
         n_active_orbitals: 4
 
+    # Track B IMePh: 4-iodo-2-methylphenol (CAS 60577-30-2).
+    # SMILES Oc1ccc(I)cc1C == Cc1cc(I)ccc1O (OH=C1, Me=C2, I=C4).
+    # Previous Cartesian layout was the wrong isomer (2-iodo-3/6-methylphenol)
+    # and the SMILES map had ICc1ccccc1 (benzyl iodide). Do not use those.
+    # Scope: ground-state energy + stated CAS (4e,4o)=8 qubits only.
+    # OUT OF SCOPE: 92 eV iodine-edge absorption (~200 logical qubits,
+    # arXiv:2602.20234). Do not run 92 eV on L40S.
+    # Geometry: PubChem CID 143713 3D conformer (public; Å). Not MatGen-Q.
     - name: "imeph"
+      smiles: "Oc1ccc(I)cc1C"
+      cas: "60577-30-2"
+      iupac: "4-iodo-2-methylphenol"
+      geometry_source: "PubChem CID 143713 3D conformer (not MatGen-Q)"
       geometry:
-        - ["C", [0.000, 1.400, 0.000]]
-        - ["C", [1.212, 0.700, 0.000]]
-        - ["C", [1.212, -0.700, 0.000]]
-        - ["C", [0.000, -1.400, 0.000]]
-        - ["C", [-1.212, -0.700, 0.000]]
-        - ["C", [-1.212, 0.700, 0.000]]
-        - ["O", [2.420, 1.400, 0.000]]
-        - ["H", [2.900, 2.200, 0.000]]
-        - ["C", [-2.420, 1.400, 0.000]]
-        - ["H", [-3.020, 1.000, 0.870]]
-        - ["H", [-3.020, 1.000, -0.870]]
-        - ["H", [-2.200, 2.400, 0.000]]
-        - ["I", [0.000, 3.500, 0.000]]
-        - ["H", [2.147, -1.240, 0.000]]
-        - ["H", [0.000, -2.480, 0.000]]
-        - ["H", [-2.147, -1.240, 0.000]]
+        - ["I", [3.5373, -0.4243, -0.0007]]
+        - ["O", [-2.5681, 0.8144, 0.0003]]
+        - ["C", [-0.7889, -0.7919, -0.0001]]
+        - ["C", [-1.2358, 0.5296, -0.0006]]
+        - ["C", [0.5789, -1.0656, 0.0006]]
+        - ["C", [-1.7610, -1.9251, -0.0003]]
+        - ["C", [-0.3150, 1.5773, -0.0004]]
+        - ["C", [1.4998, -0.0178, 0.0009]]
+        - ["C", [1.0527, 1.3036, 0.0003]]
+        - ["H", [0.9231, -2.0975, 0.0007]]
+        - ["H", [-1.2519, -2.8954, -0.0008]]
+        - ["H", [-2.3907, -1.8934, 0.8951]]
+        - ["H", [-2.3913, -1.8928, -0.8952]]
+        - ["H", [-0.6567, 2.6088, -0.0005]]
+        - ["H", [1.7531, 2.1350, 0.0002]]
+        - ["H", [-3.0985, 0.0026, 0.0004]]
       charge: 0
       multiplicity: 1
       split: "test"
+      note: "Ground-state + stated CAS (4e,4o) only. 92 eV out of scope."
       active_space:
         mode: "explicit"
         n_active_electrons: 4

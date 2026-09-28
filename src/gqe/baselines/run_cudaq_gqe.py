@@ -81,6 +81,7 @@ PERIODIC_TABLE = {
     "O": 8,
     "F": 9,
     "I": 53,
+    "Sn": 50,
 }
 
 
@@ -255,13 +256,14 @@ def _run_record(
     cfg.use_fabric_logging = False
     cfg.save_trajectory = False
     cfg.verbose = False
+    # solvers.gqe ignores kwargs when a config object is passed; set fields here.
+    cfg.max_iters = int(max_iters)
+    cfg.ngates = int(ngates)
 
     operators_only = [op for op, _coeff, _pstr in op_pool]
     min_energy, best_indices = solvers.gqe(  # type: ignore[union-attr]
         cost,
         operators_only,
-        max_iters=max_iters,
-        ngates=ngates,
         config=cfg,
     )
 

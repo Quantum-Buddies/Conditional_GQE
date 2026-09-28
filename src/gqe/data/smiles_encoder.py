@@ -44,6 +44,8 @@ SMILES_VOCAB = [
     "+", "-", "@", "@@",
     # Special
     ".", "c", "n", "o", "s", "p",
+    # Append-only so existing SMILES-encoder checkpoints keep token ids.
+    "Sn",
 ]
 
 # Build vocab lookup
@@ -58,11 +60,12 @@ EOS_IDX = 3
 class SmilesTokenizer:
     """Chemistry-aware SMILES tokenizer.
 
-    Handles multi-character atoms (Cl, Br, Si, Se, As) and
+    Handles multi-character atoms (Sn, Cl, Br, Si, Se, As) and
     single-character tokens (C, N, O, =, #, etc.).
     """
 
-    MULTI_CHAR_TOKENS = ["Cl", "Br", "Si", "Se", "As", "@@", "Li", "Be", "Mg", "Ca", "Na", "Al"]
+    # Longer tokens first so "Sn" is not split into S + n.
+    MULTI_CHAR_TOKENS = ["Cl", "Br", "Si", "Se", "As", "@@", "Li", "Be", "Mg", "Ca", "Na", "Al", "Sn"]
     SINGLE_CHAR_TOKENS = set(SMILES_VOCAB) - set(MULTI_CHAR_TOKENS) - {"<PAD>", "<UNK>", "< SOS >", "<EOS>"}
 
     def __init__(self, max_length: int = 128) -> None:
@@ -292,8 +295,9 @@ MOLECULE_SMILES = {
     "iodobenzene_cas12": "Ic1ccccc1",
     "methyl_iodide": "CI",
     "methyl_iodide_cas12": "CI",
-    "imeph": "ICc1ccccc1",
-    "imeph_cas12": "ICc1ccccc1",
+    # 4-iodo-2-methylphenol (CAS 60577-30-2). Not benzyl iodide (ICc1ccccc1).
+    "imeph": "Oc1ccc(I)cc1C",
+    "imeph_cas12": "Oc1ccc(I)cc1C",
     "phenol": "Oc1ccccc1",
     "phenol_cas12": "Oc1ccccc1",
     "ethylene": "C=C",
@@ -301,6 +305,16 @@ MOLECULE_SMILES = {
     "benzene_cas20": "c1ccccc1",
     "h2o_1.0_631g_cas8": "O",
     "ch3i": "CI",
+    # Tin-resist A/B vs MatGen-Q (arXiv:2607.23988). SnO is the public 14q instance.
+    "sno": "[Sn]=O",
+    "sno_14q": "[Sn]=O",
+    "methyltin": "C[Sn](O)(O)O",
+    "methyltin_14q": "C[Sn](O)(O)O",
+    "methyltin_cation": "C[Sn+](O)(O)O",
+    "methyltin_cation_14q": "C[Sn+](O)(O)O",
+    "butyltin": "CCCC[Sn](O)(O)O",
+    "butyltin_22q": "CCCC[Sn](O)(O)O",
+    "butyltin_cation": "CCCC[Sn+](O)(O)O",
 }
 
 
@@ -379,7 +393,7 @@ if __name__ == "__main__":
     print("=== SMILES Encoder Test ===")
 
     tokenizer = SmilesTokenizer()
-    test_smiles = ["N#N", "[H][H]", "[LiH]", "C=C", "c1ccccc1", "CI"]
+    test_smiles = ["N#N", "[H][H]", "[LiH]", "C=C", "c1ccccc1", "CI", "[Sn]=O", "C[Sn](O)(O)O"]
     for s in test_smiles:
         tokens = tokenizer.tokenize(s)
         indices, length = tokenizer.encode(s)

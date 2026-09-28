@@ -1,0 +1,147 @@
+{
+  "results": [
+    {
+      "system": "sno_14q",
+      "baseline": "cudaq_gqe",
+      "reference_energy": -288.1091210378824,
+      "baseline_energy": -288.1028736633199,
+      "delta_energy": 0.006247374562519781,
+      "n_spin_orbitals": 14,
+      "n_pauli_terms": 1366,
+      "mode": "cudaq_gqe",
+      "gqe_config": {
+        "max_iters": 25,
+        "ngates": 6,
+        "num_samples": 5,
+        "objective_shift": -284.1836576993607,
+        "objective_scale": 302.17733624589516,
+        "min_scaled_energy": -0.01296992041170597
+      },
+      "n_electrons": 2,
+      "target": "nvidia",
+      "target_option": "fp64",
+      "gqe_selected_operators": [
+        {
+          "index": 2118,
+          "coefficient_real": -0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXZZYZZZZZZYII"
+        },
+        {
+          "index": 1638,
+          "coefficient_real": -0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYZZZZZZZYIII"
+        },
+        {
+          "index": 342,
+          "coefficient_real": -0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYZYIIIIIIIII"
+        },
+        {
+          "index": 460,
+          "coefficient_real": -0.00625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXXZZYIIIIIIII"
+        },
+        {
+          "index": 925,
+          "coefficient_real": 0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYZZZXZYIIIIII"
+        },
+        {
+          "index": 704,
+          "coefficient_real": 0.003125,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXZZYZXIIIIIII"
+        },
+        {
+          "index": 925,
+          "coefficient_real": 0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYZZZXZYIIIIII"
+        },
+        {
+          "index": 3295,
+          "coefficient_real": -0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXZZZZZZZYZZZX"
+        },
+        {
+          "index": 925,
+          "coefficient_real": 0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYZZZXZYIIIIII"
+        },
+        {
+          "index": 1182,
+          "coefficient_real": 0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXZZZYZZXIIIII"
+        },
+        {
+          "index": 2641,
+          "coefficient_real": -0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXZZZZXZZZZZXI"
+        },
+        {
+          "index": 1182,
+          "coefficient_real": 0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXZZZYZZXIIIII"
+        },
+        {
+          "index": 981,
+          "coefficient_real": -0.003125,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYZZZZYXIIIIII"
+        },
+        {
+          "index": 1182,
+          "coefficient_real": 0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXZZZYZZXIIIII"
+        },
+        {
+          "index": 2390,
+          "coefficient_real": 0.003125,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YYZZZZZZZXZXII"
+        },
+        {
+          "index": 1182,
+          "coefficient_real": 0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXZZZYZZXIIIII"
+        },
+        {
+          "index": 3085,
+          "coefficient_real": 0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYZZZXZZZZZZZY"
+        },
+        {
+          "index": 1474,
+          "coefficient_real": 0.00625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXZZZYZZZXIIII"
+        },
+        {
+          "index": 1182,
+          "coefficient_real": 0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXZZZYZZXIIIII"
+        },
+        {
+          "index": 2137,
+          "coefficient_real": 0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXZZXZZZZZZYII"
+        }
+      ]
+    }
+  ]
+}

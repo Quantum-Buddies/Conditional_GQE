@@ -32,6 +32,7 @@ PERIODIC_TABLE = {
     "Cl": 17,
     "Br": 35,
     "I": 53,
+    "Sn": 50,
 }
 
 HALOGENS = {"F", "Cl", "Br", "I"}

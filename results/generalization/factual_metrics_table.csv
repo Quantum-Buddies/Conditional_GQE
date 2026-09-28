@@ -1,0 +1,11 @@
+column,split,de_mha_vs_casci_or_ref,n_dets,word_length,gnn_at_infer,source
+HF_SnO14q,n/a,6.120,1,n/a,n/a,results/tin_ab/qsci_controls_cpu_numpy.json
+frozen_hcgqe_12char_7386634,unseen_Sn_wrong_dialect,6.022,13,12,false,results/tin_ab/hcgqe_qsci_7386634.json
+frozen_hcgqe_12char_mapping_fixed,unseen_Sn_wrong_dialect,6.120,1,12,false,results/tin_ab/qsci_controls_cpu_numpy.json
+hcgqe_14char_sft_best_7434600,in_distribution_sno_sft,2.597,21,14,false,results/tin_ab/hcgqe_qsci_pool14_7434600.json
+hcgqe_14char_sft_union32_7434600,in_distribution_sno_sft,2.149,32,14,false,results/tin_ab/hcgqe_qsci_pool14_7434600.json
+pool_union_greedy_numpy,pool_control_not_policy,0.953,21,14,n/a,results/tin_ab/qsci_controls_cpu_numpy.json
+uccsd_vqe_per_instance,instance_trained,1.226e-05,full_ansatz,14,n/a,baselines/.../results_vqe.json
+ch3i_8q_hcgqe_lbfgs,seen_iodine_toy,0.629,n/a,4,false,results/phase3_final/benchmark_ch3i_consolidated.json
+heldout_organotin,held-out,,,,,DOES_NOT_EXIST
+deltaE_vs_n_unique_graphs,series,,,,,DOES_NOT_EXIST

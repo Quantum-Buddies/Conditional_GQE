@@ -1,0 +1,18 @@
+{
+  "label": "ours",
+  "not_matgenq_table1": true,
+  "ligand": "cf3",
+  "smiles": "FC(F)(F)[Sn](O)(O)O",
+  "functional": "B3LYP",
+  "basis": "def2-svp",
+  "ecp": {
+    "Sn": "def2-svp"
+  },
+  "charge_neutral": 0,
+  "multiplicity_neutral": 1,
+  "charge_cation": 1,
+  "multiplicity_cation": 2,
+  "mp2": "single-point at DFT geom",
+  "date": "2026-08-22T00:36:22Z",
+  "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE."
+}

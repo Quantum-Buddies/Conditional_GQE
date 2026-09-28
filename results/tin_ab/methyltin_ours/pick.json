@@ -1,0 +1,51 @@
+{
+  "disclaimer": "Labelled-ours classical DFT ranking. Not a GQE energy. Not MatGen-Q Table 1. Atomic 13.5 nm values are a Henke/CXRO f2 sum, not a many-body absorption spectrum.",
+  "label": "ours",
+  "not_matgenq_table1": true,
+  "forbidden_gqe_bde_claim": "Do not write 72.6\u219221.2 kcal/mol as a GQE number; that is classical UCCSD(T) in arXiv:2607.23988, not this labelled-ours B3LYP \u0394BDE.",
+  "picked_ligand": null,
+  "picked_display": null,
+  "smiles": null,
+  "rule": "chemical",
+  "pick_tag": "pool_exhausted",
+  "rule_documentation": "Chemical next-ligand rule (used when the 6-D RBF GP is not fit or is too shaky to trust expected improvement): (1) pick CF3 if it is still unevaluated and no scored ligand is electron-withdrawing (n_F>0 or id=cf3); (2) else pick allyl if unevaluated (alkenyl radical stabilization after Sn\u2013C cleavage); (3) else i-Pr, then n-Pr. Classical chemistry heuristic, not a GQE policy.",
+  "unevaluated_pool": [],
+  "first_wave_pending": [],
+  "surrogate": {
+    "seed": 42,
+    "fingerprint": [
+      "n_C",
+      "n_F",
+      "is_aryl",
+      "is_alkenyl",
+      "adiabatic_IP",
+      "BDE0"
+    ],
+    "n_scored_for_gp": 9,
+    "gp_attempted": false,
+    "gp_shaky": true,
+    "gp_shaky_reasons": [
+      "no_unevaluated_ligands"
+    ],
+    "lengthscale": null,
+    "loo_r2": null,
+    "loo_rmse_kcal": null,
+    "candidates": [],
+    "picked_ligand": null,
+    "picked_display": null,
+    "smiles": null,
+    "pick_tag": "pool_exhausted",
+    "rule": "chemical",
+    "rule_documentation": "Chemical next-ligand rule (used when the 6-D RBF GP is not fit or is too shaky to trust expected improvement): (1) pick CF3 if it is still unevaluated and no scored ligand is electron-withdrawing (n_F>0 or id=cf3); (2) else pick allyl if unevaluated (alkenyl radical stabilization after Sn\u2013C cleavage); (3) else i-Pr, then n-Pr. Classical chemistry heuristic, not a GQE policy.",
+    "chemical_fallback": {
+      "ligand": null,
+      "tag": "empty_unevaluated_pool"
+    }
+  },
+  "figures": {
+    "fig_inform_ip_bde": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/fig_inform_ip_bde.png",
+    "fig_inform_rank": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/tin_ab/methyltin_ours/fig_inform_rank.png"
+  },
+  "optional_e0_note": "Optional E0 is labelled-ours AVAS+CASCI then pool-native-uccsd QSCI on our XYZ (entangled-HF is a control). It is not \u0394BDE, not IP, not a 13.5 nm spectrum, and not 14-char H-cGQE unless that Hamiltonian is 14 qubits.",
+  "updated_at": "2026-08-23T00:03:50Z"
+}

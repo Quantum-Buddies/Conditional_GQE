@@ -1,0 +1,147 @@
+{
+ "demo": "B (hardware-protocol QSCI via qBraid)",
+ "system": "SnO",
+ "active_space": "(2e,7o)",
+ "qubits": 14,
+ "backend_kind": "replay",
+ "backend": "offline replay of demo_b_counts_emerald.json",
+ "device": "aws:iqm:qpu:emerald",
+ "production_shots": 5000,
+ "cal_shots": 1000,
+ "dry_run": false,
+ "scramble": null,
+ "seed": null,
+ "energies_ha": {
+  "hf": -288.1030008658533,
+  "casci_reference": -288.10912104,
+  "casci_computed": -288.10912103788297,
+  "union_refined_qsci": -288.10854577475305
+ },
+ "union_err_mha_vs_casci": 0.5752631299174027,
+ "chemical_accuracy_union": true,
+ "union_determinants": 31,
+ "fullci_determinants": 49,
+ "gate1": {
+  "pass": true,
+  "abs_deviation_ha": 2.117019448633073e-09
+ },
+ "per_circuit": [
+  {
+   "label": "P0_doubles_v1_v6",
+   "mapping": [
+    13,
+    12,
+    11,
+    10,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2,
+    1,
+    0
+   ],
+   "bijective": true,
+   "identity": false,
+   "hf_hamming_distance": 0,
+   "gates_pass": true,
+   "qsci_energy_ha": -288.10477462281307,
+   "qsci_err_mha": 4.346415069903742,
+   "n_determinants": 13
+  },
+  {
+   "label": "P1_doubles_v2_v3",
+   "mapping": [
+    13,
+    12,
+    11,
+    10,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2,
+    1,
+    0
+   ],
+   "bijective": true,
+   "identity": false,
+   "hf_hamming_distance": 0,
+   "gates_pass": true,
+   "qsci_energy_ha": -288.1066578653634,
+   "qsci_err_mha": 2.4631725195831677,
+   "n_determinants": 17
+  },
+  {
+   "label": "P2_singles_v1",
+   "mapping": [
+    13,
+    12,
+    11,
+    10,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2,
+    1,
+    0
+   ],
+   "bijective": true,
+   "identity": false,
+   "hf_hamming_distance": 0,
+   "gates_pass": true,
+   "qsci_energy_ha": -288.103000865853,
+   "qsci_err_mha": 6.1201720299663975,
+   "n_determinants": 9
+  },
+  {
+   "label": "P3_doubles_v4_v5",
+   "mapping": [
+    13,
+    12,
+    11,
+    10,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2,
+    1,
+    0
+   ],
+   "bijective": true,
+   "identity": false,
+   "hf_hamming_distance": 0,
+   "gates_pass": true,
+   "qsci_energy_ha": -288.1035358514457,
+   "qsci_err_mha": 5.585186437258471,
+   "n_determinants": 15
+  }
+ ],
+ "all_calibration_gates_pass": true,
+ "sim_gate_pass": false,
+ "sim_gate_note": "dry runs and failed-gate runs do NOT satisfy the QPU rail",
+ "cost_credits": {
+  "this_run": 0.0,
+  "original_run": 6360.0,
+  "cap": 50.0
+ },
+ "timings_s": {
+  "total": 2.3654032989870757
+ },
+ "counts_file": "demo_b_counts_emerald.json",
+ "replay_source": "demo_b_counts_emerald.json"
+}

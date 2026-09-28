@@ -1,0 +1,2355 @@
+{
+  "experiment": "tin_qsci_controls_gate1",
+  "qsci_backend": "matgenq_subspace",
+  "sampler_backend": "cudaq",
+  "bitstring_convention": "cudaq_char_q_equals_qubit_q",
+  "molecule": "sno_14q",
+  "casci_energy": -288.109121037883,
+  "chemical_accuracy_mha": 1.6,
+  "full_ci_dets": 49,
+  "n_shots": 8192,
+  "max_union_dets": 32,
+  "columns": [
+    {
+      "column": "hf",
+      "n_operators": 0,
+      "operators_preview": [],
+      "thetas_preview": [],
+      "n_shots": 8192,
+      "hf_cudaq": "11000000000000",
+      "n_valid_particle_number": 1,
+      "n_dets": 1,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 1,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "matgenq_smoke_best",
+      "n_operators": 10,
+      "operators_preview": [
+        "XXIIIXIIYIIIII",
+        "XXXYIIIIIIIIII",
+        "XXIIIXYIIIIIII",
+        "XXXIIIIIIIIIIY",
+        "XXIXYIIIIIIIII",
+        "XXIIIIIIIXIIYI",
+        "XXIIIIXYIIIIII",
+        "XXIIIXIIIIYIII"
+      ],
+      "thetas_preview": [
+        -0.0125,
+        -0.1,
+        -0.0125,
+        0.05,
+        -0.05,
+        -0.05,
+        0.05,
+        -0.0125
+      ],
+      "n_shots": 8192,
+      "hf_cudaq": "11000000000000",
+      "n_valid_particle_number": 10,
+      "n_dets": 17,
+      "qsci_energy": -288.1069691259617,
+      "error_vs_casci_mha": 2.151911921316696,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 11,
+      "qsci_backend": "matgenq_subspace",
+      "source_tokens": [
+        0,
+        189,
+        73,
+        153,
+        107,
+        110,
+        272,
+        161,
+        225,
+        76,
+        235
+      ],
+      "matgenq_reported_best_mha": 2.868517844547114,
+      "matgenq_reported_union_mha": 0.0,
+      "bitstrings_preview": [
+        {
+          "bits": "11000000000000",
+          "count": 7959
+        },
+        {
+          "bits": "00000000011000",
+          "count": 78
+        },
+        {
+          "bits": "00110000000000",
+          "count": 60
+        },
+        {
+          "bits": "00011000000000",
+          "count": 27
+        },
+        {
+          "bits": "00100000000001",
+          "count": 21
+        },
+        {
+          "bits": "00000011000000",
+          "count": 21
+        },
+        {
+          "bits": "00000000010010",
+          "count": 21
+        },
+        {
+          "bits": "00000100100000",
+          "count": 2
+        },
+        {
+          "bits": "11011000011000",
+          "count": 1
+        },
+        {
+          "bits": "00000110000000",
+          "count": 1
+        },
+        {
+          "bits": "00000100001000",
+          "count": 1
+        }
+      ],
+      "pauli_lsb_crosscheck_mha": 2.611352765711672
+    },
+    {
+      "column": "frozen_hcgqe_12char_padded",
+      "n_operators": 20,
+      "operators_preview": [
+        "IXYZZZZZZXZY",
+        "IIXXZZZXZZZX",
+        "IXZZXZZZZYYI",
+        "XZZXZZYYIIII",
+        "IIIIXYZZYZXI",
+        "IYYZZZZYZZZY",
+        "YZZYZZZZYZZY",
+        "IIXZYZZZZXYI"
+      ],
+      "thetas_preview": [],
+      "n_shots": 8192,
+      "hf_cudaq": "11000000000000",
+      "n_valid_particle_number": 1,
+      "n_dets": 1,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 12,
+      "qsci_backend": "matgenq_subspace"
+    }
+  ],
+  "pool14q_circuits": [
+    {
+      "column": "pool14q_single_1",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XIYIIIIIIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_6",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XIYIIIIIIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_7",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "IXIYIIIIIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_12",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "IXIYIIIIIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_13",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XIIIYIIIIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_18",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XIIIYIIIIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_19",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "IXIIIYIIIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_24",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "IXIIIYIIIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_25",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XIIIIIYIIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10300086585374,
+      "error_vs_casci_mha": 6.1201720292842765,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_30",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XIIIIIYIIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10300086585374,
+      "error_vs_casci_mha": 6.1201720292842765,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_31",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "IXIIIIIYIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10300086585374,
+      "error_vs_casci_mha": 6.1201720292842765,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_36",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "IXIIIIIYIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10300086585374,
+      "error_vs_casci_mha": 6.1201720292842765,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_37",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XIIIIIIIYIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_42",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XIIIIIIIYIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_43",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "IXIIIIIIIYIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_48",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "IXIIIIIIIYIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_49",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XIIIIIIIIIYIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_54",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XIIIIIIIIIYIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_55",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "IXIIIIIIIIIYII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_60",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "IXIIIIIIIIIYII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_61",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XIIIIIIIIIIIYI"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_66",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XIIIIIIIIIIIYI"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_67",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "IXIIIIIIIIIIIY"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_72",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "IXIIIIIIIIIIIY"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_73",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXXYIIIIIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 2,
+      "qsci_energy": -288.1045836457569,
+      "error_vs_casci_mha": 4.537392126110262,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_78",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXXYIIIIIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 2,
+      "qsci_energy": -288.1045836457569,
+      "error_vs_casci_mha": 4.537392126110262,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_79",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXXIIYIIIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_84",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXXIIYIIIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_85",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXXIIIIYIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_90",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXXIIIIYIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_91",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXXIIIIIIYIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_96",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXXIIIIIIYIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_97",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXXIIIIIIIIYII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10302449579734,
+      "error_vs_casci_mha": 6.096542085685996,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_102",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXXIIIIIIIIYII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10302449579734,
+      "error_vs_casci_mha": 6.096542085685996,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_103",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXXIIIIIIIIIIY"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.1032851703812,
+      "error_vs_casci_mha": 5.83586750184395,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_108",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXXIIIIIIIIIIY"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.1032851703812,
+      "error_vs_casci_mha": 5.83586750184395,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_109",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIXYIIIIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_114",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIXYIIIIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_115",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIXYIIIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 2,
+      "qsci_energy": -288.1045836457569,
+      "error_vs_casci_mha": 4.537392126110262,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_120",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIXYIIIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 2,
+      "qsci_energy": -288.1045836457569,
+      "error_vs_casci_mha": 4.537392126110262,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_121",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIXIIYIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_126",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIXIIYIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_127",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIXIIIIYIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_132",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIXIIIIYIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_133",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIXIIIIIIYII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.1032851703812,
+      "error_vs_casci_mha": 5.83586750184395,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_138",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIXIIIIIIYII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.1032851703812,
+      "error_vs_casci_mha": 5.83586750184395,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_139",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIXIIIIIIIIY"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10302449579734,
+      "error_vs_casci_mha": 6.096542085685996,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_144",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIXIIIIIIIIY"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10302449579734,
+      "error_vs_casci_mha": 6.096542085685996,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_145",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIXIIYIIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_150",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIXIIYIIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_151",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIXYIIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_156",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIXYIIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_157",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIXYIIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 2,
+      "qsci_energy": -288.10473903703087,
+      "error_vs_casci_mha": 4.382000852160672,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_162",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIXYIIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 2,
+      "qsci_energy": -288.10473903703087,
+      "error_vs_casci_mha": 4.382000852160672,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_163",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIXIIYIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10306754384726,
+      "error_vs_casci_mha": 6.053494035768381,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_168",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIXIIYIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10306754384726,
+      "error_vs_casci_mha": 6.053494035768381,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_169",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIXIIIIYII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_174",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIXIIIIYII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_175",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIXIIIIIIY"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_180",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIXIIIIIIY"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_181",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIXIIIIYIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_186",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIXIIIIYIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_187",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIXIIYIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_192",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIXIIYIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_193",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIXYIIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10306754384726,
+      "error_vs_casci_mha": 6.053494035768381,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_198",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIXYIIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10306754384726,
+      "error_vs_casci_mha": 6.053494035768381,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_199",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIXYIIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 2,
+      "qsci_energy": -288.1034493519443,
+      "error_vs_casci_mha": 5.67168593875067,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_204",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIXYIIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 2,
+      "qsci_energy": -288.1034493519443,
+      "error_vs_casci_mha": 5.67168593875067,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_205",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIXIIYII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_210",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIXIIYII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_211",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIXIIIIY"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_216",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIXIIIIY"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_217",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIXIIIIIIYIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10302449579734,
+      "error_vs_casci_mha": 6.096542085685996,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_222",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIXIIIIIIYIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10302449579734,
+      "error_vs_casci_mha": 6.096542085685996,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_223",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIXIIIIYIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.1032851703812,
+      "error_vs_casci_mha": 5.83586750184395,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_228",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIXIIIIYIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.1032851703812,
+      "error_vs_casci_mha": 5.83586750184395,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_229",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIXIIYIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_234",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIXIIYIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_235",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIIXYIII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_240",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIIXYIII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_241",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIIIXYII"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 2,
+      "qsci_energy": -288.1030992230997,
+      "error_vs_casci_mha": 6.021814783309765,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_246",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIIIXYII"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 2,
+      "qsci_energy": -288.1030992230997,
+      "error_vs_casci_mha": 6.021814783309765,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_247",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIIIXIIY"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_252",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIIIXIIY"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_253",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIXIIIIIIIIYI"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.1032851703812,
+      "error_vs_casci_mha": 5.83586750184395,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_258",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIXIIIIIIIIYI"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.1032851703812,
+      "error_vs_casci_mha": 5.83586750184395,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_259",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIXIIIIIIYI"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10302449579734,
+      "error_vs_casci_mha": 6.096542085685996,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_264",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIXIIIIIIYI"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.10302449579734,
+      "error_vs_casci_mha": 6.096542085685996,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_265",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIXIIIIYI"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_270",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIXIIIIYI"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_271",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIIXIIYI"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_276",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIIXIIYI"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_277",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIIIIXYI"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_282",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIIIIXYI"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 3,
+      "qsci_energy": -288.103000865853,
+      "error_vs_casci_mha": 6.120172030023241,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_283",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIIIIIXY"
+      ],
+      "thetas_preview": [
+        -0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 2,
+      "qsci_energy": -288.1030992230997,
+      "error_vs_casci_mha": 6.021814783309765,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_single_288",
+      "kind": "single_excitation",
+      "n_operators": 1,
+      "operators_preview": [
+        "XXIIIIIIIIIIXY"
+      ],
+      "thetas_preview": [
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 2,
+      "n_dets": 2,
+      "qsci_energy": -288.1030992230997,
+      "error_vs_casci_mha": 6.021814783309765,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 2,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_random_0",
+      "kind": "random",
+      "n_operators": 6,
+      "operators_preview": [
+        "IXIIIIIIIIIYII",
+        "XIIIYIIIIIIIII",
+        "XXIIXIIIIIIIIY",
+        "XXIIXIIYIIIIII",
+        "XXIIXYIIIIIIII",
+        "IXIIIIIIIIIIIY"
+      ],
+      "thetas_preview": [
+        0.0125,
+        -0.1,
+        -0.0125,
+        0.1,
+        -0.1,
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 8,
+      "n_dets": 12,
+      "qsci_energy": -288.10458407669563,
+      "error_vs_casci_mha": 4.536961187397992,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 10,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_random_1",
+      "kind": "random",
+      "n_operators": 6,
+      "operators_preview": [
+        "XIIIIIIIIIYIII",
+        "XXIIIIIIIIIXYI",
+        "IXIIIIIIIYIIII",
+        "XXIXIIIIIIYIII",
+        "XIIIYIIIIIIIII",
+        "XIIIYIIIIIIIII"
+      ],
+      "thetas_preview": [
+        0.05,
+        0.0125,
+        -0.0125,
+        -0.1,
+        0.05,
+        0.0125
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 5,
+      "n_dets": 9,
+      "qsci_energy": -288.10302456522743,
+      "error_vs_casci_mha": 6.0964726555994275,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 5,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_random_2",
+      "kind": "random",
+      "n_operators": 6,
+      "operators_preview": [
+        "IXIIIIIIIYIIII",
+        "XXIXYIIIIIIIII",
+        "XXIIXYIIIIIIII",
+        "XXIIIXIIIIIIYI",
+        "XIIIYIIIIIIIII",
+        "XXIIIIIIIIIIXY"
+      ],
+      "thetas_preview": [
+        0.1,
+        0.0125,
+        0.1,
+        -0.1,
+        -0.05,
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 7,
+      "n_dets": 11,
+      "qsci_energy": -288.1047162277424,
+      "error_vs_casci_mha": 4.4048101406133355,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 9,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_random_3",
+      "kind": "random",
+      "n_operators": 6,
+      "operators_preview": [
+        "XXXIIIIIIIIYII",
+        "XXIIIIIIIIIXYI",
+        "XXIIIIIIXIIIIY",
+        "XXIXYIIIIIIIII",
+        "XXIIIIIXIIYIII",
+        "XXIIXIIIIIIIIY"
+      ],
+      "thetas_preview": [
+        0.1,
+        0.0125,
+        0.05,
+        0.05,
+        -0.05,
+        0.05
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 7,
+      "n_dets": 13,
+      "qsci_energy": -288.10305039858514,
+      "error_vs_casci_mha": 6.070639297888647,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 7,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_random_4",
+      "kind": "random",
+      "n_operators": 6,
+      "operators_preview": [
+        "XIYIIIIIIIIIII",
+        "XXXIIYIIIIIIII",
+        "XXIXIIIIIIYIII",
+        "XXIIIIXIIIIIIY",
+        "XXIIXIIIIIIIIY",
+        "XXXIIYIIIIIIII"
+      ],
+      "thetas_preview": [
+        0.0125,
+        0.0125,
+        -0.1,
+        -0.1,
+        0.05,
+        -0.05
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 6,
+      "n_dets": 11,
+      "qsci_energy": -288.10305039858514,
+      "error_vs_casci_mha": 6.070639297888647,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 9,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_random_5",
+      "kind": "random",
+      "n_operators": 6,
+      "operators_preview": [
+        "XXIXYIIIIIIIII",
+        "XXIIIIXIIIIYII",
+        "XIIIIIIIIIYIII",
+        "IXIIIIIIIYIIII",
+        "XXIIIIIXYIIIII",
+        "XIIIIIIIIIYIII"
+      ],
+      "thetas_preview": [
+        -0.0125,
+        0.05,
+        0.05,
+        0.1,
+        -0.0125,
+        -0.05
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 5,
+      "n_dets": 9,
+      "qsci_energy": -288.1030679191378,
+      "error_vs_casci_mha": 6.053118745228403,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 5,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_random_6",
+      "kind": "random",
+      "n_operators": 6,
+      "operators_preview": [
+        "XXIXIIIIYIIIII",
+        "XXIIIIXIIIIIIY",
+        "XXIIXIIIIIIYII",
+        "IXIIIYIIIIIIII",
+        "XXIIIIIIIXYIII",
+        "XXIIIIIIIXIIYI"
+      ],
+      "thetas_preview": [
+        0.0125,
+        -0.0125,
+        0.0125,
+        0.05,
+        -0.05,
+        0.05
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 7,
+      "n_dets": 13,
+      "qsci_energy": -288.1032851703812,
+      "error_vs_casci_mha": 5.83586750184395,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 7,
+      "qsci_backend": "matgenq_subspace"
+    },
+    {
+      "column": "pool14q_random_7",
+      "kind": "random",
+      "n_operators": 6,
+      "operators_preview": [
+        "XIIIIIIIIIIIYI",
+        "XXIIIIIXYIIIII",
+        "XIIIIIIIYIIIII",
+        "XXIIIIIIIIIIXY",
+        "XXIIIXYIIIIIII",
+        "XXIXIIIIYIIIII"
+      ],
+      "thetas_preview": [
+        0.0125,
+        -0.05,
+        0.05,
+        -0.1,
+        -0.1,
+        0.1
+      ],
+      "n_shots": 8192,
+      "n_valid_particle_number": 7,
+      "n_dets": 12,
+      "qsci_energy": -288.1031654207539,
+      "error_vs_casci_mha": 5.9556171291319515,
+      "filled_full_ci": false,
+      "modal_bitstring": "11000000000000",
+      "n_unique_raw": 10,
+      "qsci_backend": "matgenq_subspace"
+    }
+  ],
+  "pool14q_union_greedy": {
+    "column": "pool14q_union_greedy",
+    "source_circuits": [
+      "pool14q_single_157",
+      "pool14q_single_162",
+      "pool14q_random_2",
+      "pool14q_random_0",
+      "pool14q_single_73"
+    ],
+    "n_valid_particle_number": 14,
+    "n_dets": 21,
+    "qsci_energy": -288.10769945908544,
+    "error_vs_casci_mha": 1.421578797589973,
+    "filled_full_ci": false,
+    "modal_bitstring": "11000000000000",
+    "n_unique_raw": 18,
+    "qsci_backend": "matgenq_subspace",
+    "honest_note": "If N_dets==49, treat best single-circuit as the honest metric"
+  },
+  "best_pool14q": {
+    "column": "pool14q_single_157",
+    "kind": "single_excitation",
+    "n_operators": 1,
+    "operators_preview": [
+      "XXIIIIXYIIIIII"
+    ],
+    "thetas_preview": [
+      -0.1
+    ],
+    "n_shots": 8192,
+    "n_valid_particle_number": 2,
+    "n_dets": 2,
+    "qsci_energy": -288.10473903703087,
+    "error_vs_casci_mha": 4.382000852160672,
+    "filled_full_ci": false,
+    "modal_bitstring": "11000000000000",
+    "n_unique_raw": 2,
+    "qsci_backend": "matgenq_subspace"
+  },
+  "gate1_pool_native_pass": true,
+  "smoke_best_near_demo_a": true,
+  "pass_criterion": "pool-native circuit(s) < 1.6 mHa vs CASCI without filling all 49 dets"
+}

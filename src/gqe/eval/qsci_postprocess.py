@@ -55,7 +55,9 @@ def qsci_energy_from_bitstrings(
         record: Hamiltonian record with ``n_qubits`` and ``terms``.
         bitstrings: Computational-basis bitstrings (e.g., ``"0101"``). The
             rightmost character is qubit 0 (LSB), consistent with
-            ``int(bitstring, 2)``.
+            ``int(bitstring, 2)``. CUDA-Q / MatGen-Q strings have character
+            ``q`` = qubit ``q`` (leftmost = qubit 0); reverse them first
+            (see ``qsci_map.cudaq_bits_to_lsb``).
 
     Returns:
         Ground-state energy of the Hamiltonian projected onto the bitstring

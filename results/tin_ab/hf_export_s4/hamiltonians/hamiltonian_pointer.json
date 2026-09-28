@@ -1,0 +1,50 @@
+{
+  "local_scratch_path": "results/tin_ab/hamiltonians_tin/hamiltonians.json",
+  "dataset_path": "hamiltonians/hamiltonians.json",
+  "source": "KarimElgammal/gqe-qsci-euv-photoresists SnOMolecule",
+  "arxiv": "2607.23988",
+  "name": "sno_14q",
+  "n_qubits": 14,
+  "n_pauli_terms": 1366,
+  "basis": "def2-svp",
+  "charge": 0,
+  "multiplicity": 1,
+  "active_space": {
+    "mode": "explicit",
+    "n_active_electrons": 2,
+    "n_active_orbitals": 7,
+    "n_core_orbitals": 14,
+    "occupied_indices": [],
+    "active_indices": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ]
+  },
+  "hf_energy_ha": -288.1030008658534,
+  "casci_energy_ha": -288.109121037883,
+  "casci_reference_ha": -288.10912104,
+  "geometry": [
+    [
+      "Sn",
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    [
+      "O",
+      [
+        0.0,
+        0.0,
+        1.8325
+      ]
+    ]
+  ],
+  "note": "Exported MatGen-Q SnOMolecule Hamiltonian (def2-SVP + ECP28MDF). Not an industrial Sn-C resist Hamiltonian. Do not treat as methyltin."
+}

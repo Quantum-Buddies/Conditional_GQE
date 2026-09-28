@@ -397,6 +397,7 @@ class HcGQEModel(nn.Module):
         sample: bool = True,
         n_qubits: int | None = None,
         freq_penalty: float = 1.0,
+        exact_word_length: bool = False,
     ) -> torch.Tensor:
         self.eval()
         _, memory = self.encoder(pauli_ids, coeffs, term_mask)
@@ -407,7 +408,9 @@ class HcGQEModel(nn.Module):
             if force_entanglement:
                 z_only_token_mask = build_z_only_token_mask(vocab, device=memory.device)
             if n_qubits is not None:
-                length_mask = build_length_token_mask(vocab, n_qubits, device=memory.device)
+                length_mask = build_length_token_mask(
+                    vocab, n_qubits, device=memory.device, exact=exact_word_length
+                )
 
         return self.decoder.generate(
             memory,
@@ -450,19 +453,25 @@ def build_length_token_mask(
     vocab: dict[str, int],
     n_qubits: int,
     device: torch.device | str = "cpu",
+    *,
+    exact: bool = False,
 ) -> torch.Tensor:
     """Return a boolean mask of shape (vocab_size,) where True marks tokens
     whose Pauli word length is compatible with the molecule's qubit count.
 
-    Special tokens are always allowed. Operator tokens are allowed only if
-    their word length is <= n_qubits (shorter words are padded during circuit
-    construction).
+    Special tokens are always allowed. Operator tokens are allowed if
+    ``len(word) <= n_qubits`` (default; shorter words are trailing-I padded
+    at circuit construction) or, when ``exact=True``, only if
+    ``len(word) == n_qubits``. Exact matching is the SnO 14q ablation: the
+    mixed SFT vocab still has only ~20 native 14-char words.
     """
     vocab_size = max(vocab.values()) + 1
     mask = torch.zeros(vocab_size, dtype=torch.bool, device=device)
     for word, idx in vocab.items():
         if word in SPECIAL_TOKENS:
             mask[idx] = True
+        elif exact:
+            mask[idx] = len(word) == n_qubits
         else:
             mask[idx] = len(word) <= n_qubits
     return mask

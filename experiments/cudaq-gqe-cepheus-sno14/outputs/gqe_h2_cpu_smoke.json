@@ -1,0 +1,11 @@
+{
+  "results": [
+    {
+      "system": "h2",
+      "baseline": "cudaq_gqe",
+      "status": "error: CUDA-Q GQE baseline requires `cudaq` and `cudaq-solvers[gqe]`.\nInstall into the experiment environment, for example:\n  pip install cudaq-solvers[gqe]",
+      "n_spin_orbitals": 4,
+      "n_pauli_terms": 15
+    }
+  ]
+}

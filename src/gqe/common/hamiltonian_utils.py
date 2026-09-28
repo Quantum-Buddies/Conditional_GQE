@@ -31,6 +31,7 @@ _ATOMIC_NUMBERS = {
     "S": 16,
     "Cl": 17,
     "Ar": 18,
+    "Sn": 50,
 }
 
 

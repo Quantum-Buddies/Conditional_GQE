@@ -1,0 +1,129 @@
+{
+  "hf_bitstring": "11000000000000",
+  "matgenq_smoke_best": {
+    "operators": [
+      "XXIIIXIIYIIIII",
+      "XXXYIIIIIIIIII",
+      "XXIIIXYIIIIIII",
+      "XXXIIIIIIIIIIY",
+      "XXIXYIIIIIIIII",
+      "XXIIIIIIIXIIYI",
+      "XXIIIIXYIIIIII",
+      "XXIIIXIIIIYIII"
+    ],
+    "thetas": [
+      -0.0125,
+      -0.1,
+      -0.0125,
+      0.05,
+      -0.05,
+      -0.05,
+      0.05,
+      -0.0125
+    ],
+    "source_tokens": [
+      0,
+      189,
+      73,
+      153,
+      107,
+      110,
+      272,
+      161,
+      225,
+      76,
+      235
+    ],
+    "bitstrings_preview": [
+      {
+        "bits": "11000000000000",
+        "count": 7989
+      },
+      {
+        "bits": "00000000011000",
+        "count": 73
+      },
+      {
+        "bits": "00110000000000",
+        "count": 52
+      },
+      {
+        "bits": "00011000000000",
+        "count": 24
+      },
+      {
+        "bits": "00000011000000",
+        "count": 20
+      },
+      {
+        "bits": "00100000000001",
+        "count": 15
+      },
+      {
+        "bits": "00000000010010",
+        "count": 14
+      },
+      {
+        "bits": "00000100100000",
+        "count": 2
+      },
+      {
+        "bits": "00000100001000",
+        "count": 2
+      },
+      {
+        "bits": "00000110000000",
+        "count": 1
+      }
+    ],
+    "error_vs_casci_mha": 2.881918892455815,
+    "n_dets": 17
+  },
+  "frozen_hcgqe_12char_padded": {
+    "operators_preview": [
+      "IXYZZZZZZXZY",
+      "IIXXZZZXZZZX",
+      "IXZZXZZZZYYI",
+      "XZZXZZYYIIII",
+      "IIIIXYZZYZXI",
+      "IYYZZZZYZZZY",
+      "YZZYZZZZYZZY",
+      "IIXZYZZZZXYI"
+    ],
+    "n_operators": 20,
+    "error_vs_casci_mha": 6.120172029909554,
+    "n_dets": 1
+  },
+  "best_pool14q_single": {
+    "column": "pool14q_random_2",
+    "operators": [
+      "IXIIIIIIIYIIII",
+      "XXIXYIIIIIIIII",
+      "XXIIXYIIIIIIII",
+      "XXIIIXIIIIIIYI",
+      "XIIIYIIIIIIIII",
+      "XXIIIIIIIIIIXY"
+    ],
+    "thetas": [
+      0.1,
+      0.0125,
+      0.1,
+      -0.1,
+      -0.05,
+      0.1
+    ],
+    "error_vs_casci_mha": 3.933521771443793,
+    "n_dets": 11
+  },
+  "pool14q_union_greedy": {
+    "source_circuits": [
+      "pool14q_random_2",
+      "pool14q_single_157",
+      "pool14q_single_162",
+      "pool14q_random_0",
+      "pool14q_single_73"
+    ],
+    "error_vs_casci_mha": 0.9526376310873275,
+    "n_dets": 21
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "molecule": "CH3Sn(OH)3 / n-BuSn(OH)3",
+  "status": "BLOCKED",
+  "checked_at": "2026-08-20",
+  "public_xyz_in_matgenq_repo": false,
+  "matgenq_repo_path": "/scratch/kcwp264/baselines/gqe-qsci-euv-photoresists",
+  "evidence": [
+    "Public GitHub companion ships Demo A SnO (2e,7o) only; no methyltin/n-butyltin XYZ or Hamiltonian export scripts.",
+    "arXiv:2607.23988 describes AVAS active spaces for CH3Sn(OH)3 and n-BuSn(OH)3 but does not publish coordinate files in the companion code tree we cloned.",
+    "Plan rule: do NOT invent geometries. SnO 14q remains the only honest industrial H until SI / documented opt recipe exists."
+  ],
+  "allowed_next_steps_if_unblocked": [
+    "Obtain SI XYZ or re-optimize with documented recipe (PySCF, def2-SVP+ECP, AVAS as in arXiv:2607.23988)",
+    "Treat resulting H as ours (not theirs) and score vs our CASCI",
+    "Neutral and cation"
+  ],
+  "ours_scaffold": {
+    "config": "configs/methyltin_ours_opt.yaml",
+    "docs": "docs/methyltin_ours_dft_mp2_opt.md",
+    "author_request_draft": "docs/methyltin_xyz_author_request.md",
+    "output_dir": "results/tin_ab/methyltin_ours",
+    "sent_author_request": false
+  },
+  "qpu": "parked"
+}

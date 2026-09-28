@@ -1,0 +1,14 @@
+{
+  "label": "ours",
+  "not_matgenq_table1": true,
+  "e_sn_oh3_rad_ha": -441.6746821397206,
+  "e_sn_oh3_cation_ha": -441.37916193259287,
+  "opt_converged_rad": true,
+  "opt_converged_cation": true,
+  "basis": "def2-svp",
+  "ecp": {
+    "Sn": "def2-svp"
+  },
+  "functional": "B3LYP",
+  "written_at": "2026-08-21T20:09:28Z"
+}

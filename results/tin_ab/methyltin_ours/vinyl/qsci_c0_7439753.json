@@ -1,0 +1,60 @@
+{
+  "experiment": "labelled_ours_avas_qsci",
+  "description": "Entangled-HF QSCI on labelled-ours AVAS H. Not 14-char H-cGQE unless n_qubits==14. Not a DFT \u0394BDE.",
+  "ligand": "vinyl",
+  "charge": 0,
+  "used_14char_hcgqe": false,
+  "results": [
+    {
+      "molecule": "ours_vinyl_c0_24q",
+      "n_qubits": 24,
+      "n_electrons": 14,
+      "n_hamiltonian_terms": 29737,
+      "hf_energy": -516.9288299922516,
+      "used_hcgqe_operators": false,
+      "n_operators": 0,
+      "backend": "nvidia",
+      "sweep_results": [
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 128,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.1024019718170166,
+          "diag_time_seconds": 0.40572452545166016,
+          "qsci_energy": -516.9348864219673,
+          "casci_energy": -516.9769494774337,
+          "error_vs_hf": 6.056429715727063,
+          "error_vs_casci_mha": 42.063055466314836
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 500,
+          "n_samples_used": 128,
+          "n_unique_bitstrings": 128,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.1024019718170166,
+          "diag_time_seconds": 0.49060726165771484,
+          "qsci_energy": -516.9350218384589,
+          "casci_energy": -516.9769494774337,
+          "error_vs_hf": 6.191846207229901,
+          "error_vs_casci_mha": 41.927638974812
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 1000,
+          "n_samples_used": 128,
+          "n_unique_bitstrings": 128,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.1024019718170166,
+          "diag_time_seconds": 0.48952198028564453,
+          "qsci_energy": -516.9350218384564,
+          "casci_energy": -516.9769494774337,
+          "error_vs_hf": 6.19184620472879,
+          "error_vs_casci_mha": 41.92763897731311
+        }
+      ]
+    }
+  ]
+}

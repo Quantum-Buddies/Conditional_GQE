@@ -1,0 +1,83 @@
+{
+  "ligand": "cf3",
+  "fair_pair": "me_cf3",
+  "ao_labels": [
+    "0 Sn 5s",
+    "0 Sn 5p",
+    "7 C 2p"
+  ],
+  "threshold_start": 0.2,
+  "min_threshold": 0.4,
+  "ncas_at_min": 9,
+  "nelecas_at_min": 12,
+  "n_qubits_at_min": 18,
+  "n_fci_at_min": 7056,
+  "n_qubits_at_start": 26,
+  "ncas_at_start": 13,
+  "fits_at_start": false,
+  "attempts": [
+    {
+      "ao_labels": [
+        "0 Sn 5s",
+        "0 Sn 5p",
+        "7 C 2p"
+      ],
+      "threshold": 0.2,
+      "ncas": 13,
+      "nelecas": 14,
+      "n_qubits": 26,
+      "n_fci": 2944656
+    },
+    {
+      "ao_labels": [
+        "0 Sn 5s",
+        "0 Sn 5p",
+        "7 C 2p"
+      ],
+      "threshold": 0.25,
+      "ncas": 13,
+      "nelecas": 14,
+      "n_qubits": 26,
+      "n_fci": 2944656
+    },
+    {
+      "ao_labels": [
+        "0 Sn 5s",
+        "0 Sn 5p",
+        "7 C 2p"
+      ],
+      "threshold": 0.3,
+      "ncas": 13,
+      "nelecas": 14,
+      "n_qubits": 26,
+      "n_fci": 2944656
+    },
+    {
+      "ao_labels": [
+        "0 Sn 5s",
+        "0 Sn 5p",
+        "7 C 2p"
+      ],
+      "threshold": 0.35,
+      "ncas": 13,
+      "nelecas": 14,
+      "n_qubits": 26,
+      "n_fci": 2944656
+    },
+    {
+      "ao_labels": [
+        "0 Sn 5s",
+        "0 Sn 5p",
+        "7 C 2p"
+      ],
+      "threshold": 0.4,
+      "ncas": 9,
+      "nelecas": 12,
+      "n_qubits": 18,
+      "n_fci": 7056
+    }
+  ],
+  "updated_at": "2026-08-22T22:50:54Z",
+  "job_id": "7441848",
+  "array_task_id": "1"
+}

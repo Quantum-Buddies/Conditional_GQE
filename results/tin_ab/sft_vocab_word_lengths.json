@@ -1,0 +1,61 @@
+{
+  "checkpoint": "/scratch/kcwp264/Conditional-GQE_materials/results/train/h_cgqe_uccsd_model.pt",
+  "vocab_size_total": 149,
+  "n_operator_words": 145,
+  "n_special_tokens": 4,
+  "word_length_counts": {
+    "4": 8,
+    "12": 59,
+    "14": 20,
+    "16": 19,
+    "20": 19,
+    "22": 20
+  },
+  "min_word_length": 4,
+  "max_word_length": 22,
+  "config": {
+    "vocab_size": 149,
+    "d_model": 256,
+    "nhead": 8,
+    "encoder_layers": 4,
+    "decoder_layers": 4,
+    "dim_feedforward": 1024,
+    "dropout": 0.3,
+    "max_pauli_len": 24,
+    "max_seq_len": 64
+  },
+  "note": "SFT vocab has mixed lengths (4-22); build_length_token_mask for 14q allows <=14. Frozen infer on sno_14q emitted 12-char words then trailing-I padded \u2014 last two qubits unexcited. Do not DAPO this checkpoint onto SnO; use 14-char pool vocab from scratch instead.",
+  "sample_words_by_length": {
+    "4": [
+      "IXXI",
+      "XXXX",
+      "XXYY"
+    ],
+    "12": [
+      "IIIIXYZZYZXI",
+      "IIIIXYZZZZYX",
+      "IIIIYZZZZZYI"
+    ],
+    "14": [
+      "IIIIXXZZZZZYYI",
+      "IIIXYZYZZXIIII",
+      "IIIYXZZZZZYXII"
+    ],
+    "16": [
+      "IIIIIIYXZZXZZYII",
+      "IIIIIXYZZZZXYIII",
+      "IIIIXXZZZZZYZZZY"
+    ],
+    "20": [
+      "IIIIIIIIIIIIXXZYYIII",
+      "IIIIIIIIIIIIXXZZZXZX",
+      "IIIIIIIIIIIXZZZZXIII"
+    ],
+    "22": [
+      "IIIXZZZXIIIIIIIIIIIIII",
+      "IIXXZYZZZZZZZYIIIIIIII",
+      "IIXYZZZZXZZZYIIIIIIIII"
+    ]
+  },
+  "infer_sno14q_observed_word_length": 12
+}

@@ -1,0 +1,93 @@
+{
+  "gate0": {
+    "status": "done",
+    "files": [
+      "results/tin_ab/sft_vocab_word_lengths.json",
+      "results/tin_ab/pool_sno14q.json"
+    ],
+    "pool_tokens": 289,
+    "pool_word_length": 14
+  },
+  "gate1": {
+    "status": "PASS",
+    "backend": "numpy",
+    "results": "results/tin_ab/qsci_controls_cpu_numpy.json",
+    "gate1_pool_native_pass": true,
+    "hf_mha": 6.120,
+    "matgenq_smoke_best_mha": 2.882,
+    "matgenq_demo_a_best_mha": 2.869,
+    "frozen_hcgqe_12char_mha": 6.120,
+    "best_pool14q_mha": 3.934,
+    "best_pool14q_column": "pool14q_random_2",
+    "best_pool14q_n_dets": 11,
+    "union_greedy_mha": 0.953,
+    "union_greedy_n_dets": 21,
+    "bitstring_convention": "cudaq_char_q_equals_qubit_q",
+    "hf_bitstring": "11000000000000",
+    "prior_fail_job": "7431320",
+    "prior_fail_results": "results/tin_ab/qsci_controls_7431320.json"
+  },
+  "gpu_confirm": {
+    "job_id": "7431345",
+    "name": "tin_qsci_ctrl",
+    "state": "PENDING",
+    "cudaq_agrees_with_numpy": null
+  },
+  "sft_14char": {
+    "job_id": "7431349",
+    "name": "tin_sft_pool14",
+    "state": "PENDING",
+    "checkpoint": null,
+    "dataset": "results/tin_ab/sft_pool14/gqe_supervised_dataset_sno14.pt"
+  },
+  "infer_14char": {
+    "submitted": false,
+    "reason": "TIN_SFT_CKPT is not a real new 14-char checkpoint yet"
+  },
+  "gate2_dapo": {
+    "submitted": false,
+    "cancelled_job_id": "7431324",
+    "reason": "STOP: next is 14-char infer after 7431349, not DAPO"
+  },
+  "methyltin": {
+    "status": "BLOCKED",
+    "note": "results/tin_ab/methyltin_xyz_blocker.json",
+    "ours_scaffold": "configs/methyltin_ours_opt.yaml",
+    "author_request": "docs/methyltin_xyz_author_request.md (draft, unsent)"
+  },
+  "imeph": {
+    "status": "yaml_corrected",
+    "isomer": "4-iodo-2-methylphenol",
+    "smiles": "Oc1ccc(I)cc1C",
+    "cas": "60577-30-2",
+    "cas_space": "(4e,4o)",
+    "euv_92eV": "out_of_scope_not_run"
+  },
+  "qpu": {
+    "status": "parked_replay_only",
+    "replay": "results/tin_ab/demo_b_results_replay_emerald.json",
+    "union_err_mha_vs_casci": 0.575,
+    "union_dets": 31,
+    "fullci_dets": 49,
+    "this_run_credits": 0.0,
+    "live_qbraid_credits": 677.09,
+    "full_emerald_credits": 6360,
+    "full_emerald_fits": false
+  },
+  "artefacts": {
+    "notion": "https://app.notion.com/p/3c2868e41fc08100a534dea8758d899e",
+    "hf_dataset": "https://huggingface.co/datasets/Ryukijano/sno14q-gqe-qsci-s4",
+    "hf_export_local": "results/tin_ab/hf_export_s4"
+  },
+  "stop_gate": {
+    "active": true,
+    "s4_numpy_pass": true,
+    "no_dapo": true,
+    "no_iodine_dapo": true,
+    "no_qpu_spend": true,
+    "no_invented_methyltin_xyz": true,
+    "no_49_of_49_as_gqe_win": true,
+    "no_72p6_to_21p2_as_gqe": true,
+    "next": "14-char infer n_samples=64 union cap 32 after 7431349 ckpt"
+  }
+}

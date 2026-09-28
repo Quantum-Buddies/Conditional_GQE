@@ -54,12 +54,69 @@ except ImportError:
 
 try:
     from src.gqe.eval.qsci_postprocess import qsci_energy_from_bitstrings
+    from src.gqe.eval.qsci_map import (
+        cudaq_bits_to_lsb,
+        hf_bitstring_cudaq,
+        hf_bitstring_lsb_right,
+    )
 except ImportError:
     from gqe.eval.qsci_postprocess import qsci_energy_from_bitstrings
+    from gqe.eval.qsci_map import (
+        cudaq_bits_to_lsb,
+        hf_bitstring_cudaq,
+        hf_bitstring_lsb_right,
+    )
+
+
+def _set_cudaq_target(backend: str) -> None:
+    """Set the CUDA-Q target, honouring CUDAQ_NVIDIA_OPTION (e.g. fp64).
+
+    ``qbraid`` / ``qbraid-qir`` / ``qbraid-cepheus`` go through
+    :func:`src.gqe.eval.cudaq_qbraid_target.set_qbraid_machine` and read
+    ``CUDAQ_QBRAID_MACHINE``. Hardware requires ``CUDAQ_ALLOW_QPU=1``.
+    """
+    if cudaq is None:
+        raise RuntimeError("CUDA-Q is required for QSCI sampling")
+    if backend.startswith("nvidia"):
+        option = os.environ.get("CUDAQ_NVIDIA_OPTION", "").strip()
+        if backend in {"nvidia-fp64", "nvidia:fp64"}:
+            option = option or "fp64"
+        if option:
+            cudaq.set_target("nvidia", option=option)
+        else:
+            cudaq.set_target("nvidia")
+        return
+    if backend in {"qbraid", "qbraid-qir", "qbraid-cepheus"}:
+        try:
+            from src.gqe.eval.cudaq_qbraid_target import (
+                CEPHEUS_BRAKET_MACHINE,
+                QIR_SV_MACHINE,
+                set_qbraid_machine,
+            )
+        except ImportError:
+            from gqe.eval.cudaq_qbraid_target import (
+                CEPHEUS_BRAKET_MACHINE,
+                QIR_SV_MACHINE,
+                set_qbraid_machine,
+            )
+        machine = os.environ.get("CUDAQ_QBRAID_MACHINE")
+        if backend == "qbraid-qir":
+            machine = machine or QIR_SV_MACHINE
+        elif backend == "qbraid-cepheus":
+            machine = machine or CEPHEUS_BRAKET_MACHINE
+        set_qbraid_machine(machine, cudaq_module=cudaq)
+        return
+    cudaq.set_target(backend)
 
 
 def _make_hcgqe_kernel(operators: list[str], thetas: list[float], n_qubits: int, n_electrons: int):
-    """Build a CUDA-Q kernel for HF state + H-cGQE operator sequence."""
+    """Build a CUDA-Q kernel for HF state + H-cGQE operator sequence.
+
+    Matches MatGen-Q ``demo.sampler.gqe_kernel``: X on qubits 0 .. n_electrons-1
+    then ``exp_pauli(theta, q, word)`` with word character q = qubit q.
+    Short Pauli words are trailing-I padded (a dialect hole on SnO 14q; native
+    14-char pool words must not rely on this).
+    """
 
     padded_ops = []
     for w in operators:
@@ -180,25 +237,13 @@ def _make_entangled_hf_kernel():
     return entangled_hf
 
 
-def sample_bitstrings(
+def sample_counts_cudaq(
     kernel: Any,
     kernel_args: tuple,
-    n_qubits: int,
     n_shots: int = 4096,
     seed: int | None = 42,
-) -> list[str]:
-    """Sample computational-basis bitstrings from a CUDA-Q kernel.
-
-    Args:
-        kernel: CUDA-Q kernel function.
-        kernel_args: Arguments to pass to the kernel.
-        n_qubits: Number of qubits (for validation).
-        n_shots: Number of shots to sample.
-        seed: Optional RNG seed.
-
-    Returns:
-        List of unique bitstrings, sorted by frequency (most frequent first).
-    """
+) -> dict[str, int]:
+    """Sample CUDA-Q counts (character q = qubit q; leftmost = qubit 0)."""
     if cudaq is None:
         raise ImportError("CUDA-Q is required for QSCI sampling")
 
@@ -206,11 +251,35 @@ def sample_bitstrings(
         cudaq.set_random_seed(seed)
 
     counts = cudaq.sample(kernel, *kernel_args, shots_count=n_shots)
+    return {str(bs): int(count) for bs, count in counts.items()}
 
-    # Sort by frequency (most frequent first) and return unique bitstrings
-    bitstring_counts = [(bs, int(count)) for bs, count in counts.items()]
-    bitstring_counts.sort(key=lambda x: -x[1])
-    return [bs for bs, _ in bitstring_counts]
+
+def sample_bitstrings(
+    kernel: Any,
+    kernel_args: tuple,
+    n_qubits: int,
+    n_shots: int = 4096,
+    seed: int | None = 42,
+    *,
+    endian: str = "lsb_right",
+) -> list[str]:
+    """Sample unique bitstrings, most frequent first.
+
+    ``endian='lsb_right'`` (default) reverses CUDA-Q strings so qubit 0 is the
+    rightmost character, matching :func:`qsci_energy_from_bitstrings`.
+    ``endian='cudaq'`` keeps MatGen-Q / ``cudaq.sample`` order.
+    """
+    del n_qubits  # validated by the kernel; kept for call-site compatibility
+    counts = sample_counts_cudaq(kernel, kernel_args, n_shots=n_shots, seed=seed)
+    if endian == "lsb_right":
+        converted: dict[str, int] = {}
+        for bits, n in counts.items():
+            key = cudaq_bits_to_lsb(bits)
+            converted[key] = converted.get(key, 0) + n
+        counts = converted
+    elif endian != "cudaq":
+        raise ValueError(f"Unknown endian {endian!r}; use 'lsb_right' or 'cudaq'")
+    return [bs for bs, _ in sorted(counts.items(), key=lambda kv: -kv[1])]
 
 
 def run_qsci_for_molecule(
@@ -259,7 +328,7 @@ def run_qsci_for_molecule(
     if n_qubits <= 24:
         try:
             if cudaq is not None:
-                cudaq.set_target("nvidia")
+                _set_cudaq_target("nvidia")
                 spin_ham = hamiltonian_to_spin_operator(record)
                 hf_kern = _make_hf_kernel()
                 result = cudaq.observe(hf_kern, spin_ham, n_qubits, n_electrons)
@@ -292,7 +361,7 @@ def run_qsci_for_molecule(
             os.environ["CUDAQ_MPS_MAX_BOND"] = str(bond_dim)
 
         try:
-            cudaq.set_target(backend)
+            _set_cudaq_target(backend)
         except Exception as e:
             print(f"    Failed to set backend {backend}: {e}")
             continue
@@ -320,11 +389,15 @@ def run_qsci_for_molecule(
             )
             sample_time = time.time() - t0
 
-            # Always include the HF determinant in the subspace
-            hf_bitstring = format((1 << n_electrons) - 1, f"0{n_qubits}b")
+            # sample_bitstrings default is LSB-right (qubit 0 = rightmost),
+            # matching qsci_energy_from_bitstrings / OpenFermion JW.
+            hf_bitstring = hf_bitstring_lsb_right(n_qubits, n_electrons)
             if hf_bitstring not in all_bitstrings:
                 all_bitstrings.insert(0, hf_bitstring)
-                print(f"    Added HF determinant: {hf_bitstring}")
+                print(
+                    f"    Added HF determinant (LSB-right): {hf_bitstring} "
+                    f"(CUDA-Q HF would be {hf_bitstring_cudaq(n_qubits, n_electrons)})"
+                )
 
             print(f"    Sampled {len(all_bitstrings)} unique bitstrings in {sample_time:.1f}s")
         except Exception as e:
@@ -341,7 +414,13 @@ def run_qsci_for_molecule(
             continue
 
         # Run QSCI at each subspace size
-        for n_samples in n_samples_list:
+        for n_samples in tqdm(
+            n_samples_list,
+            desc=f"QSCI subspace {record.get('name', '')}",
+            unit="N",
+            dynamic_ncols=True,
+            disable=None,
+        ):
             actual_samples = min(n_samples, len(all_bitstrings))
             if actual_samples == 0:
                 continue
@@ -358,6 +437,11 @@ def run_qsci_for_molecule(
                 qsci_energy = None
                 diag_time = time.time() - t0
 
+            casci_energy = record.get("casci_energy", record.get("fci_energy"))
+            casci_ref = float(casci_energy) if casci_energy is not None else None
+            error_vs_casci_mha = None
+            if qsci_energy is not None and casci_ref is not None:
+                error_vs_casci_mha = abs(qsci_energy - casci_ref) * 1000.0
             results["sweep_results"].append({
                 "bond_dim": bond_dim,
                 "n_samples_requested": n_samples,
@@ -367,7 +451,9 @@ def run_qsci_for_molecule(
                 "sample_time_seconds": sample_time,
                 "diag_time_seconds": diag_time,
                 "qsci_energy": qsci_energy,
+                "casci_energy": casci_ref,
                 "error_vs_hf": abs(qsci_energy - hf_energy) * 1000 if qsci_energy is not None and hf_energy is not None else None,
+                "error_vs_casci_mha": error_vs_casci_mha,
             })
 
     return results
@@ -457,6 +543,42 @@ def run_qsci_scaling(
     }
 
 
+def _operators_from_entry(entry: dict[str, Any]) -> tuple[list[str], list[float]]:
+    """Pull an operator sequence from infer JSON or an energy-ranked best_sequence."""
+    best = entry.get("best_sequence") or {}
+    ops = list(best.get("operators") or [])
+    thetas = list(best.get("thetas") or [])
+    if ops:
+        return ops, thetas
+    sequences = entry.get("generated_sequences") or []
+    nonempty = [seq for seq in sequences if seq.get("operators")]
+    if not nonempty:
+        return [], []
+    chosen = max(nonempty, key=lambda seq: len(seq.get("operators") or []))
+    return list(chosen.get("operators") or []), list(chosen.get("thetas") or [])
+
+
+def _load_operators_map(optimized_path: Path) -> dict[str, dict]:
+    with optimized_path.open("r", encoding="utf-8") as f:
+        opt_data = json.load(f)
+    entries: list[dict[str, Any]]
+    if isinstance(opt_data, list):
+        entries = [e for e in opt_data if isinstance(e, dict)]
+    elif isinstance(opt_data, dict):
+        entries = [e for e in opt_data.get("results", []) if isinstance(e, dict)]
+        if not entries and opt_data.get("molecule"):
+            entries = [opt_data]
+    else:
+        entries = []
+    operators_map: dict[str, dict] = {}
+    for entry in entries:
+        mol = entry.get("molecule")
+        ops, thetas = _operators_from_entry(entry)
+        if mol and ops:
+            operators_map[str(mol)] = {"operators": ops, "thetas": thetas}
+    return operators_map
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="GQE-QSCI scaling experiment")
     parser.add_argument("--hamiltonians", type=Path, required=True, help="Path to Hamiltonian JSON")
@@ -471,27 +593,9 @@ def main() -> None:
     parser.add_argument("--out", type=Path, required=True, help="Output path")
     args = parser.parse_args()
 
-    # Load optimized operator sequences if provided
     operators_map: dict[str, dict] = {}
     if args.optimized and args.optimized.exists():
-        with args.optimized.open("r") as f:
-            opt_data = json.load(f)
-        if isinstance(opt_data, list):
-            for entry in opt_data:
-                mol = entry.get("molecule")
-                best = entry.get("best_sequence", {})
-                ops = best.get("operators", [])
-                thetas = best.get("thetas", [])
-                if mol and ops:
-                    operators_map[mol] = {"operators": ops, "thetas": thetas}
-        elif isinstance(opt_data, dict):
-            for entry in opt_data.get("results", []):
-                mol = entry.get("molecule")
-                best = entry.get("best_sequence", {})
-                ops = best.get("operators", [])
-                thetas = best.get("thetas", [])
-                if mol and ops:
-                    operators_map[mol] = {"operators": ops, "thetas": thetas}
+        operators_map = _load_operators_map(args.optimized)
         print(f"Loaded operator sequences for {len(operators_map)} molecules")
 
     result = run_qsci_scaling(

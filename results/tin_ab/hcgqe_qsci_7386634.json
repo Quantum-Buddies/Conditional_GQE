@@ -1,0 +1,52 @@
+{
+  "experiment": "gqe_qsci_scaling",
+  "description": "QSCI scaling: sample determinants from H-cGQE/HF state, diagonalize subspace",
+  "n_samples_list": [
+    1000,
+    5000
+  ],
+  "bond_dims": [
+    64
+  ],
+  "n_shots": 8192,
+  "results": [
+    {
+      "molecule": "sno_14q",
+      "n_qubits": 14,
+      "n_electrons": 2,
+      "n_hamiltonian_terms": 1366,
+      "hf_energy": -288.1030008658538,
+      "used_hcgqe_operators": true,
+      "n_operators": 20,
+      "backend": "nvidia",
+      "sweep_results": [
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 1000,
+          "n_samples_used": 13,
+          "n_unique_bitstrings": 13,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.02677440643310547,
+          "diag_time_seconds": 0.008736133575439453,
+          "qsci_energy": -288.1030992231006,
+          "casci_energy": -288.109121037883,
+          "error_vs_hf": 0.09835724682716318,
+          "error_vs_casci_mha": 6.02181478240027
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 5000,
+          "n_samples_used": 13,
+          "n_unique_bitstrings": 13,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.02677440643310547,
+          "diag_time_seconds": 0.007243633270263672,
+          "qsci_energy": -288.1030992230993,
+          "casci_energy": -288.109121037883,
+          "error_vs_hf": 0.09835724551976455,
+          "error_vs_casci_mha": 6.0218147837076685
+        }
+      ]
+    }
+  ]
+}

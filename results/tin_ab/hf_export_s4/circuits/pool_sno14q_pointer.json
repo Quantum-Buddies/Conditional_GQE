@@ -1,0 +1,23 @@
+{
+  "local_scratch_path": "results/tin_ab/pool_sno14q.json",
+  "dataset_path": "circuits/pool_sno14q.json",
+  "n_tokens": 289,
+  "word_length": 14,
+  "note": "MatGen-Q UCCSD pool, all 14-char words. Frozen h_cgqe_uccsd_model.pt cannot emit this dialect.",
+  "keys": [
+    "molecule",
+    "n_qubits",
+    "n_electrons",
+    "n_orbitals",
+    "source",
+    "angles",
+    "remove_z_ladder",
+    "only_use_first_pauli",
+    "n_tokens",
+    "n_unique_words",
+    "word_length_counts",
+    "all_words_length_14",
+    "unique_words",
+    "tokens"
+  ]
+}

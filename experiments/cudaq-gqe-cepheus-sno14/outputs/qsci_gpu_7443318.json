@@ -1,0 +1,60 @@
+{
+  "experiment": "cudaq-gqe-cepheus-sno14",
+  "updated_at": "2026-08-23T05:28:32Z",
+  "molecule": "sno_14q",
+  "backend": "nvidia",
+  "qbraid_machine": null,
+  "n_qubits": 14,
+  "n_electrons": 2,
+  "n_ops": 6,
+  "operators": [
+    "XXZZZZYZZZZZZY",
+    "XXYZZZZZYIIIII",
+    "YYXXIIIIIIIIII",
+    "YYZZZZYZYIIIII",
+    "XXZZXZZZXIIIII",
+    "YXXZZZZZZYIIII"
+  ],
+  "thetas": [
+    -0.0015625,
+    0.0015625,
+    -0.0015625,
+    -0.0015625,
+    -0.0015625,
+    0.003125
+  ],
+  "shots": 8192,
+  "seed": 42,
+  "n_samples": 32,
+  "casci_ha": -288.10912104,
+  "qsci_energy_ha": -288.1030008658538,
+  "delta_e_qsci_mha": 6.120174146190038,
+  "n_dets": 1,
+  "n_fci": 49,
+  "n_unique_raw_cudaq": 1,
+  "two_qubit_gates_qasm": 0,
+  "two_qubit_gates": 98,
+  "two_qubit_gates_pauli_estimate": 98,
+  "pass_chemical_accuracy": false,
+  "filled_full_ci": false,
+  "recovered": false,
+  "gqe_baseline_energy": -288.1029860475141,
+  "future_path": null,
+  "cudaq_allow_qpu": "",
+  "note": "Library GQE proposed the circuit; energy is classical QSCI vs CASCI. Not a DFT \u0394BDE. Not trained 14-char H-cGQE unless words came from that checkpoint.",
+  "sqd": {
+    "energy": -288.1030008658538,
+    "n_bitstrings": 1,
+    "n_unique_raw": 1,
+    "rejection": {
+      "wrong_particle_number": 0,
+      "wrong_spin_parity": 0,
+      "wrong_spin_squared": 0,
+      "total_valid": 1,
+      "total_invalid": 0
+    }
+  },
+  "bitstrings": [
+    "00000000000011"
+  ]
+}

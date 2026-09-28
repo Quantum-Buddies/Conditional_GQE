@@ -229,6 +229,15 @@ def generate_from_config(
         dynamic_ncols=True,
         disable=None,
     ):
+        if m.get("hamiltonian_source"):
+            print(
+                f"Skipping {m.get('name')!r}: rebuild via {m['hamiltonian_source']} "
+                "(do not use openfermionpyscf for ECP tin Hamiltonians)."
+            )
+            continue
+        if m.get("geometry") is None:
+            print(f"Skipping {m.get('name')!r}: no published geometry (export path required).")
+            continue
         if active_space_overrides:
             m = dict(m)
             m["active_space"] = {**m.get("active_space", {}), **active_space_overrides}

@@ -1,0 +1,143 @@
+{
+  "experiment": "labelled_ours_avas_qsci_fair_me_cf3",
+  "description": "Fair-pair labelled-ours AVAS Hamiltonian. Primary sampler is pool-native UCCSD-like (MatGen-Q demo.pool, sized to n_qubits). Entangled-HF is a named control. Not 14-char H-cGQE. Not a DFT \u0394BDE.",
+  "ligand": "me",
+  "charge": 0,
+  "primary_sampler": "pool-native-uccsd",
+  "control_sampler": "entangled-hf",
+  "used_14char_hcgqe": false,
+  "backend": "nvidia,fp64",
+  "n_shots": 16384,
+  "pool": {
+    "source": "MatGen-Q demo.pool (remove-Z, first Pauli per excitation)",
+    "n_excitations_enumerated": 1092,
+    "n_unique_words": 64,
+    "max_ops": 64,
+    "angle": 0.1,
+    "word_lengths": [
+      22
+    ],
+    "padded_14char": false,
+    "used_14char_hcgqe": false
+  },
+  "results": [
+    {
+      "molecule": "ours_me_c0_22q",
+      "n_qubits": 22,
+      "n_electrons": 14,
+      "n_hamiltonian_terms": 20926,
+      "hf_energy": -479.12021828255337,
+      "used_hcgqe_operators": false,
+      "n_operators": 64,
+      "backend": "nvidia",
+      "sweep_results": [
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 1649,
+          "n_shots": 16384,
+          "sample_time_seconds": 0.03943991661071777,
+          "diag_time_seconds": 0.45581555366516113,
+          "qsci_energy": -479.1209742167756,
+          "casci_energy": -479.141127438915,
+          "error_vs_hf": 0.7559342222407395,
+          "error_vs_casci_mha": 20.153222139413174
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 500,
+          "n_samples_used": 500,
+          "n_unique_bitstrings": 1649,
+          "n_shots": 16384,
+          "sample_time_seconds": 0.03943991661071777,
+          "diag_time_seconds": 2.3632521629333496,
+          "qsci_energy": -479.1229262989957,
+          "casci_energy": -479.141127438915,
+          "error_vs_hf": 2.708016442340977,
+          "error_vs_casci_mha": 18.201139919312936
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 1000,
+          "n_samples_used": 1000,
+          "n_unique_bitstrings": 1649,
+          "n_shots": 16384,
+          "sample_time_seconds": 0.03943991661071777,
+          "diag_time_seconds": 4.774968147277832,
+          "qsci_energy": -479.1252860692276,
+          "casci_energy": -479.141127438915,
+          "error_vs_hf": 5.067786674260333,
+          "error_vs_casci_mha": 15.84136968739358
+        }
+      ],
+      "sampler": "pool-native-uccsd",
+      "used_14char_hcgqe": false,
+      "pool": {
+        "source": "MatGen-Q demo.pool (remove-Z, first Pauli per excitation)",
+        "n_excitations_enumerated": 1092,
+        "n_unique_words": 64,
+        "max_ops": 64,
+        "angle": 0.1,
+        "word_lengths": [
+          22
+        ],
+        "padded_14char": false,
+        "used_14char_hcgqe": false
+      }
+    },
+    {
+      "molecule": "ours_me_c0_22q",
+      "n_qubits": 22,
+      "n_electrons": 14,
+      "n_hamiltonian_terms": 20926,
+      "hf_energy": -479.12021828255337,
+      "used_hcgqe_operators": false,
+      "n_operators": 0,
+      "backend": "nvidia",
+      "sweep_results": [
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 131,
+          "n_shots": 16384,
+          "sample_time_seconds": 0.02694869041442871,
+          "diag_time_seconds": 0.29622340202331543,
+          "qsci_energy": -479.1215532899873,
+          "casci_energy": -479.141127438915,
+          "error_vs_hf": 1.335007433908686,
+          "error_vs_casci_mha": 19.574148927745227
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 500,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 16384,
+          "sample_time_seconds": 0.02694869041442871,
+          "diag_time_seconds": 0.38660573959350586,
+          "qsci_energy": -479.1215706852571,
+          "casci_energy": -479.141127438915,
+          "error_vs_hf": 1.3524027037306041,
+          "error_vs_casci_mha": 19.55675365792331
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 1000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 16384,
+          "sample_time_seconds": 0.02694869041442871,
+          "diag_time_seconds": 0.3869757652282715,
+          "qsci_energy": -479.1215706852563,
+          "casci_energy": -479.141127438915,
+          "error_vs_hf": 1.3524027029347963,
+          "error_vs_casci_mha": 19.556753658719117
+        }
+      ],
+      "sampler": "entangled-hf",
+      "used_14char_hcgqe": false
+    }
+  ]
+}

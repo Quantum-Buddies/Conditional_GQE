@@ -1,0 +1,63 @@
+{
+  "results": [
+    {
+      "system": "sno_14q",
+      "baseline": "cudaq_gqe",
+      "reference_energy": -288.1091210378824,
+      "baseline_energy": -288.1029860475141,
+      "delta_energy": 0.006134990368309445,
+      "n_spin_orbitals": 14,
+      "n_pauli_terms": 1366,
+      "mode": "cudaq_gqe",
+      "gqe_config": {
+        "max_iters": 25,
+        "ngates": 6,
+        "num_samples": 5,
+        "objective_shift": -284.1836576993607,
+        "objective_scale": 302.17733624589516,
+        "min_scaled_energy": -0.012970292009413242
+      },
+      "n_electrons": 2,
+      "target": "nvidia",
+      "target_option": "fp64",
+      "gqe_selected_operators": [
+        {
+          "index": 3126,
+          "coefficient_real": -0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXZZZZYZZZZZZY"
+        },
+        {
+          "index": 1015,
+          "coefficient_real": 0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYZZZZZYIIIII"
+        },
+        {
+          "index": 325,
+          "coefficient_real": -0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YYXXIIIIIIIIII"
+        },
+        {
+          "index": 1242,
+          "coefficient_real": -0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YYZZZZYZYIIIII"
+        },
+        {
+          "index": 1105,
+          "coefficient_real": -0.0015625,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXZZXZZZXIIIII"
+        },
+        {
+          "index": 1323,
+          "coefficient_real": 0.003125,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXXZZZZZZYIIII"
+        }
+      ]
+    }
+  ]
+}

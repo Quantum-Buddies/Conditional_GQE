@@ -1,0 +1,79 @@
+{
+  "paper": "hcgqe_sno14q_dialect_and_labelled_ours_dft",
+  "date": "2026-08-22",
+  "forbidden": {
+    "gqe_bde_72p6_to_21p2": "classical UCCSD(T) in arXiv:2607.23988, never GQE",
+    "imeph_92eV": "arXiv:2602.20234; out of scope on 1-3x L40S",
+    "gic_win": false,
+    "gic_20_40q_official_rubric": "not in public Connected DMV / pqic.org text",
+    "gnn_at_infer": false,
+    "matgenq_methyltin_xyz": null,
+    "union_49_of_49": "tautological CASCI; never a GQE win"
+  },
+  "hamiltonian_sno14q": {
+    "geometry": "Sn-O 1.8325 Angstrom",
+    "basis": "def2-SVP + ECP28MDF",
+    "active_space": "(2e,7o)",
+    "n_qubits": 14,
+    "n_pauli": 1366,
+    "casci_ha": -288.10912104,
+    "hf_gap_mha": 6.120,
+    "n_fci": 49
+  },
+  "sno14q_delta_e_mha": {
+    "hf": {"mha": 6.120, "n_dets": 1, "source": "results/tin_ab/qsci_controls_cpu_numpy.json"},
+    "hcgqe_12char_mapping_fixed": {"mha": 6.120, "n_dets": 1, "job": "7386634"},
+    "hcgqe_14char_sft_best": {
+      "mha": 2.596600544904959,
+      "n_dets": 21,
+      "sample_id": 9,
+      "filled_full_ci": false,
+      "s4_pass": false,
+      "job": "7434600",
+      "source": "results/tin_ab/hcgqe_qsci_pool14_7434600.json"
+    },
+    "hcgqe_14char_sft_union32": {
+      "mha": 2.149444814506296,
+      "n_dets": 32,
+      "max_union_dets": 32,
+      "filled_full_ci": false,
+      "job": "7434600"
+    },
+    "matgenq_smoke_numpy": {"mha": 2.881918892455815, "n_dets": 17},
+    "matgenq_smoke_cudaq": {"mha": 2.151911921316696, "n_dets": 17, "job": "7431345"},
+    "pool_union_numpy": {"mha": 0.9526376310873275, "n_dets": 21, "not_a_trained_policy": true},
+    "uccsd_vqe_per_instance": {"mha": 1.2264877113921102e-05, "n_eval": 490}
+  },
+  "sft_pool14": {
+    "job": "7431349",
+    "checkpoint": "results/tin_ab/h_cgqe_sft_pool14_7431349.pt",
+    "best_val_loss": 3.9475921348289207,
+    "final_val_acc": 0.10133729569093611,
+    "epochs_run": 26,
+    "early_stopped": true,
+    "zero_shot": false,
+    "gnn_used": false
+  },
+  "labelled_ours_dft": {
+    "level": "B3LYP/def2-SVP, ECP Sn=def2-svp",
+    "not_matgenq_table1": true,
+    "primary_rank": "B3LYP DeltaBDE then adiabatic IP",
+    "mp2": "single-point at DFT geom; n-Bu UHF-MP2 adiabatic IP is unphysical (cation MP2 above vertical)",
+    "ligands_kcal_mol": {
+      "cf3": {"delta_bde": 40.148938, "bde0": 54.104752, "bde_cation": 13.955813, "adiabatic_ip_eV": 9.782537},
+      "me": {"delta_bde": 38.361752, "bde0": 64.653259, "bde_cation": 26.291507, "adiabatic_ip_eV": 9.705038},
+      "vinyl": {"delta_bde": 33.415136, "bde0": 69.214051, "bde_cation": 35.798915, "adiabatic_ip_eV": 9.490532},
+      "et": {"delta_bde": 25.512100, "bde0": 58.992139, "bde_cation": 33.480039, "adiabatic_ip_eV": 9.147824},
+      "nbu": {"delta_bde": 22.000898, "bde0": 59.813697, "bde_cation": 37.812798, "adiabatic_ip_eV": 8.995564},
+      "ph": {"delta_bde": 21.720650, "bde0": 69.698679, "bde_cation": 47.978029, "adiabatic_ip_eV": 8.983411},
+      "ipr": {"delta_bde": 16.040519, "bde0": 54.361717, "bde_cation": 38.321198, "adiabatic_ip_eV": 8.737097},
+      "npr": {"delta_bde": 24.165229, "bde0": 59.858699, "bde_cation": 35.693470, "adiabatic_ip_eV": 9.089418},
+      "allyl": {"delta_bde": 7.819457, "bde0": 44.771851, "bde_cation": 36.952394, "adiabatic_ip_eV": 8.380598}
+    },
+    "next_ligand": null,
+    "npr_job": "7439561",
+    "pool_exhausted": true,
+    "pick_rule": "chemical_because_gp_shaky",
+    "optional_e0": "Fair Me/CF3 AVAS thresh 0.4 jobs 7441848/7441849; pool-native QSCI-CASCI Me 15.841 mHa / CF3 5.868 mHa; entangled-HF is control; not 14-char H-cGQE; rank order stays DeltaBDE"
+  }
+}

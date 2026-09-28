@@ -1,0 +1,60 @@
+# Tin-resist A/B vs MatGen-Q (arXiv:2607.23988).
+#
+# The public companion only publishes the SnO (2e,7o) = 14-qubit instance.
+# That Hamiltonian MUST be exported with src/gqe/data/export_matgenq_hamiltonian.py
+# (their SnOMolecule: def2-SVP + ECP28MDF). Do not rebuild it with
+# generate_hamiltonians.py / openfermionpyscf — that path has no ECP and would
+# be a different molecule than GATE 1 CASCI -288.10912104 Ha.
+#
+# CH3Sn(OH)3 / n-BuSn(OH)3 Cartesian geometries are not in the public repo.
+# Neutral vs cation A/B waits on those coordinates. Do not invent XYZ.
+# geometry: null on the MatGen-Q rungs below MUST stay null (not Table 1).
+# Labelled-ours DFT/MP2 opt (def2-SVP+ECP) is a separate path:
+#   configs/methyltin_ours_opt.yaml
+#   docs/methyltin_ours_dft_mp2_opt.md
+# Never copy an ours XYZ into these rungs or claim it as MatGen-Q Table 1.
+
+seed: 42
+dataset:
+  basis: "def2-svp"
+  ecp:
+    Sn: "def2-svp"
+  molecules:
+    - name: "sno_14q"
+      smiles: "[Sn]=O"
+      geometry:
+        - ["Sn", [0.0, 0.0, 0.0]]
+        - ["O", [0.0, 0.0, 1.8325]]
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      hamiltonian_source: "export_matgenq_hamiltonian.py"
+      active_space:
+        mode: "explicit"
+        n_active_electrons: 2
+        n_active_orbitals: 7
+
+    # Documented rungs from arXiv:2607.23988. No public XYZ — skipped by export.
+    - name: "methyltin"
+      smiles: "C[Sn](O)(O)O"
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      geometry: null
+      note: "AVAS Sn 5s/5p + C 2p then +O 2p; public paper rungs 22q/26q/30q. XYZ not published."
+
+    - name: "methyltin_cation"
+      smiles: "C[Sn+](O)(O)O"
+      charge: 1
+      multiplicity: 2
+      split: "test"
+      geometry: null
+      note: "Radical cation of CH3Sn(OH)3. Same AVAS story; XYZ not published."
+
+    - name: "butyltin_22q"
+      smiles: "CCCC[Sn](O)(O)O"
+      charge: 0
+      multiplicity: 1
+      split: "test"
+      geometry: null
+      note: "n-BuSn(OH)3 AVAS (14e,11o)=22q on the alpha carbon. XYZ not published."

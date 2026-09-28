@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-08-21T00:35:00+01:00",
+  "method": "qbraid.runtime.QbraidProvider.client.get_credits_balance (zero-cost; no jobs submitted)",
+  "browser": "account.qbraid.com / Open Quantum UI not reachable from this IDE browser session",
+  "qbraid_credits": 677.09,
+  "aws_credits": 0.0,
+  "auto_recharge": "disabled",
+  "demob_real": false,
+  "paid_jobs_submitted": false,
+  "note": "Live wallet is far below the Phase-3 leftover ~12.8k figure in docs. Full Demo B Emerald (~6360 cr) does not fit. No API keys in this file."
+}
