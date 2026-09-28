@@ -1,0 +1,304 @@
+{
+  "experiment": "gic2026_nisq_pipeline",
+  "description": "H-cGQE + L-BFGS-B + SQD pipeline: AI inference (local GPU) \u2192 QPU execution (Rigetti Cepheus-1-108Q) \u2192 classical post-processing (SQD)",
+  "timestamp": "2026-07-25T23:20:19Z",
+  "pipeline_stages": {
+    "stage_1_ai_inference": {
+      "description": "H-cGQE transformer generates operator sequences",
+      "model": "h_cgqe_rl",
+      "n_molecules_optimized": 5,
+      "molecules": [
+        {
+          "name": "h2",
+          "n_qubits": 4,
+          "n_operators": 20,
+          "optimized_energy": -1.1345535493160361,
+          "n_starts": 0
+        },
+        {
+          "name": "lih",
+          "n_qubits": 12,
+          "n_operators": 20,
+          "optimized_energy": -7.367552887967907,
+          "n_starts": 0
+        },
+        {
+          "name": "beh2",
+          "n_qubits": 14,
+          "n_operators": 20,
+          "optimized_energy": -15.350235178030042,
+          "n_starts": 0
+        },
+        {
+          "name": "iodobenzene",
+          "n_qubits": 8,
+          "n_operators": 20,
+          "optimized_energy": -7078.013802343075,
+          "n_starts": 0
+        },
+        {
+          "name": "n2",
+          "n_qubits": 20,
+          "n_operators": 20,
+          "optimized_energy": -102.0881628262309,
+          "n_starts": 0
+        }
+      ]
+    },
+    "stage_2_classical_optimization": {
+      "description": "L-BFGS-B coefficient optimization on L40S GPU via CUDA-Q",
+      "optimizer": "L-BFGS-B",
+      "backend": "CUDA-Q nvidia target (L40S)",
+      "n_molecules": 5
+    },
+    "stage_3_qpu_execution": {
+      "description": "SQD sampling circuits submitted to Rigetti Cepheus-1-108Q via qBraid",
+      "device": "aws:rigetti:qpu:cepheus-1-108q",
+      "n_sqd_jobs": 3,
+      "n_qwc_jobs": 5,
+      "shots_per_circuit": 4096
+    },
+    "stage_4_post_processing": {
+      "description": "SQD classical diagonalization from QPU measurement counts",
+      "method": "sample-based quantum diagonalization",
+      "symmetry_filters": [
+        "particle_number",
+        "spin_parity"
+      ]
+    }
+  },
+  "results": {
+    "local_sqd_pilot": {
+      "h2_ideal": {
+        "molecule": "h2",
+        "control": "ideal",
+        "n_qubits": 4,
+        "fci_energy": -1.137283834488502,
+        "sqd_energy": -1.137283834488502,
+        "error_mha": 0.0,
+        "variational_bound": true
+      },
+      "h2_noiseless_simulator": {
+        "molecule": "h2",
+        "control": "noiseless_simulator",
+        "n_qubits": 4,
+        "fci_energy": -1.137283834488502,
+        "sqd_energy": -1.137283834488502,
+        "error_mha": 0.0,
+        "variational_bound": true
+      },
+      "h2_noisy_simulator": {
+        "molecule": "h2",
+        "control": "noisy_simulator",
+        "n_qubits": 4,
+        "fci_energy": -1.137283834488502,
+        "sqd_energy": -1.1372838344885032,
+        "error_mha": 1.3322676295501878e-12,
+        "variational_bound": true
+      },
+      "h2_random": {
+        "molecule": "h2",
+        "control": "random",
+        "n_qubits": 4,
+        "fci_energy": -1.137283834488502,
+        "sqd_energy": -1.1372838344885017,
+        "error_mha": 2.220446049250313e-13,
+        "variational_bound": true
+      },
+      "lih_ideal": {
+        "molecule": "lih",
+        "control": "ideal",
+        "n_qubits": 12,
+        "fci_energy": -7.882324378883489,
+        "sqd_energy": -1.381523732605706,
+        "error_mha": 6500.800646277783,
+        "variational_bound": true
+      },
+      "lih_noiseless_simulator": {
+        "molecule": "lih",
+        "control": "noiseless_simulator",
+        "n_qubits": 12,
+        "fci_energy": -7.882324378883489,
+        "sqd_energy": -1.381523732605706,
+        "error_mha": 6500.800646277783,
+        "variational_bound": true
+      },
+      "lih_noisy_simulator": {
+        "molecule": "lih",
+        "control": "noisy_simulator",
+        "n_qubits": 12,
+        "fci_energy": -7.882324378883489,
+        "sqd_energy": -6.182761882904026,
+        "error_mha": 1699.5624959794632,
+        "variational_bound": true
+      },
+      "lih_random": {
+        "molecule": "lih",
+        "control": "random",
+        "n_qubits": 12,
+        "fci_energy": -7.882324378883489,
+        "sqd_energy": -7.73292874524332,
+        "error_mha": 149.39563364016894,
+        "variational_bound": true
+      }
+    },
+    "sv1_simulator": {
+      "h2": {
+        "molecule": "h2",
+        "device": "aws:aws:sim:sv1",
+        "fci_energy": -1.137283834488502,
+        "sqd_energy": -1.137283834488502,
+        "error_mha": 0.0,
+        "variational_bound": true,
+        "n_bitstrings": 6
+      }
+    },
+    "cepheus_qpu_sqd": {
+      "h2": {
+        "molecule": "h2",
+        "device": "aws:rigetti:qpu:cepheus-1-108q",
+        "checkpoint": "supervised",
+        "fci_energy": -1.137283834488502,
+        "sqd_energy": -1.1372838344885017,
+        "error_mha": 2.220446049250313e-13,
+        "variational_bound": true,
+        "n_bitstrings": 6,
+        "n_unique_raw": 16
+      },
+      "lih": {
+        "molecule": "lih",
+        "device": "aws:rigetti:qpu:cepheus-1-108q",
+        "checkpoint": "supervised",
+        "fci_energy": -7.882324378883489,
+        "sqd_energy": -7.14468555036861,
+        "error_mha": 737.6388285148785,
+        "variational_bound": true,
+        "n_bitstrings": 50,
+        "n_unique_raw": 218
+      },
+      "beh2": {
+        "molecule": "beh2",
+        "device": "aws:rigetti:qpu:cepheus-1-108q",
+        "checkpoint": "supervised",
+        "fci_energy": -15.595047080934444,
+        "sqd_energy": -10.054274909533708,
+        "error_mha": 5540.772171400736,
+        "variational_bound": true,
+        "n_bitstrings": 70,
+        "n_unique_raw": 317
+      }
+    },
+    "cepheus_qpu_qwc": {
+      "h2": {
+        "molecule": "h2",
+        "device": "aws:rigetti:qpu:cepheus-1-108q",
+        "qwc_energy": 0.7144407265492868,
+        "fci_energy": -1.137283834488502,
+        "error_mha": 1851.7245610377886
+      }
+    },
+    "cepheus_qpu_rl_sqd": {
+      "h2": {
+        "molecule": "h2",
+        "device": "aws:rigetti:qpu:cepheus-1-108q",
+        "checkpoint": "rl",
+        "fci_energy": -1.137283834488502,
+        "sqd_energy": -1.137283834488502,
+        "error_mha": 0.0,
+        "variational_bound": true,
+        "n_bitstrings": 6,
+        "n_unique_raw": 16
+      },
+      "lih": {
+        "molecule": "lih",
+        "device": "aws:rigetti:qpu:cepheus-1-108q",
+        "checkpoint": "rl",
+        "fci_energy": -7.882324378883489,
+        "sqd_energy": -7.709994132365075,
+        "error_mha": 172.33024651841333,
+        "variational_bound": true,
+        "n_bitstrings": 211,
+        "n_unique_raw": 1935
+      },
+      "beh2": {
+        "molecule": "beh2",
+        "device": "aws:rigetti:qpu:cepheus-1-108q",
+        "checkpoint": "rl",
+        "fci_energy": -15.595047080934444,
+        "sqd_energy": -15.258866786060143,
+        "error_mha": 336.1802948743016,
+        "variational_bound": true,
+        "n_bitstrings": 706,
+        "n_unique_raw": 3465
+      }
+    }
+  },
+  "rl_checkpoint": {
+    "optimized_circuits": [
+      {
+        "name": "h2",
+        "n_qubits": 4,
+        "n_operators": 19,
+        "rl_unoptimized_energy": -1.1173331406155733,
+        "optimized_energy": -1.1313989968183584,
+        "checkpoint": "results/train/h_cgqe_model_qbraid_rl.pt"
+      },
+      {
+        "name": "lih",
+        "n_qubits": 12,
+        "n_operators": 5,
+        "rl_unoptimized_energy": -7.861313966674625,
+        "optimized_energy": -7.855087667854278,
+        "checkpoint": "results/train/h_cgqe_model_qbraid_rl.pt"
+      },
+      {
+        "name": "beh2",
+        "n_qubits": 14,
+        "n_operators": 13,
+        "rl_unoptimized_energy": -15.5579385265799,
+        "optimized_energy": -15.464093333841223,
+        "checkpoint": "results/train/h_cgqe_model_qbraid_rl.pt"
+      }
+    ]
+  },
+  "cost_accounting": {
+    "budget_credits": 13400.0,
+    "total_estimated_credits": 612.24,
+    "remaining_credits": 12787.76,
+    "ledger_entries": [
+      {
+        "job_id": "h2_sqd_cepheus_1785021387",
+        "molecule": "h2",
+        "device": "aws:rigetti:qpu:cepheus-1-108q",
+        "status": "submitted",
+        "shots": 4096,
+        "n_qubits": 4,
+        "measurement_basis": "computational_basis",
+        "pipeline_stage": "sqd_pilot",
+        "estimated_cost_credits": 204.08
+      },
+      {
+        "job_id": "lih_sqd_cepheus_1785021387",
+        "molecule": "lih",
+        "device": "aws:rigetti:qpu:cepheus-1-108q",
+        "status": "submitted",
+        "shots": 4096,
+        "n_qubits": 12,
+        "measurement_basis": "computational_basis",
+        "pipeline_stage": "sqd_pilot",
+        "estimated_cost_credits": 204.08
+      },
+      {
+        "job_id": "beh2_sqd_cepheus_1785021387",
+        "molecule": "beh2",
+        "device": "aws:rigetti:qpu:cepheus-1-108q",
+        "status": "submitted",
+        "shots": 4096,
+        "n_qubits": 14,
+        "measurement_basis": "computational_basis",
+        "pipeline_stage": "sqd_pilot",
+        "estimated_cost_credits": 204.08
+      }
+    ]
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "molecule": "iodobenzene",
+  "n_samples": 15,
+  "n_restarts": 5,
+  "spearman_rho": 0.22696032475080088,
+  "p_value": 0.4159580964242334,
+  "data": [
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.007068520365
+    },
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.0074730592605
+    },
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.009414016602
+    },
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.008785067629
+    },
+    {
+      "operators": [
+        "YYXX",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313371328,
+      "final_energy": -7078.009113488746
+    },
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.009050332815
+    },
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.007730572963
+    },
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.008362285257
+    },
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.008736949942
+    },
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.008734633995
+    },
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.001929900842
+    },
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.007280361624
+    },
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.009158438916
+    },
+    {
+      "operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "proxy_energy": -7078.008313319852,
+      "final_energy": -7078.003586393839
+    },
+    {
+      "operators": [
+        "XYYX"
+      ],
+      "proxy_energy": -7078.008313371328,
+      "final_energy": -7078.008607222548
+    }
+  ]
+}

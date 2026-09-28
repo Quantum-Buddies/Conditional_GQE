@@ -1,0 +1,31 @@
+# Core Python dependencies for the Conditional-GQE suite
+# Tested on Python 3.11+ with CUDA 12.6
+pyyaml>=6.0
+numpy>=2.0
+scipy>=1.14
+torch>=2.7
+matplotlib>=3.9
+tqdm>=4.66
+openfermion>=1.7
+openfermionpyscf>=0.5
+pyscf>=2.13
+qiskit>=2.0
+qiskit-algorithms>=0.4
+qiskit-nature>=0.7
+
+# Model checkpoint downloads from Hugging Face
+huggingface_hub>=0.24
+
+# Report generation
+fpdf>=2.8
+python-docx>=1.1
+
+# QPU access via qBraid
+qbraid-sdk>=0.9
+
+# CUDA-Q (pre-installed on qBraid; for local install)
+# pip install cudaq
+# For GQE solvers: pip install cudaq-solvers[gqe]
+
+# For NVFP4 on B200/Blackwell (optional):
+#   pip install --no-build-isolation transformer_engine[pytorch]

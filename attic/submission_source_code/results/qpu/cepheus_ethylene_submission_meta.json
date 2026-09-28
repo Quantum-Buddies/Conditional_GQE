@@ -1,0 +1,16 @@
+{
+  "molecule": "ethylene",
+  "n_qubits": 28,
+  "n_electrons": 16,
+  "device": "aws:rigetti:qpu:cepheus-1-108q",
+  "shots": 8192,
+  "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb10936bd6f4cecc1c7",
+  "circuit_hash": "sha256:5745bc1afde3a04a4244dd52e370fe8c26cd1a73c87b8020f9f82702f2fae564",
+  "operators": [],
+  "thetas": [],
+  "circuit_depth": 2,
+  "circuit_qasm": "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[28];\ncreg meas[28];\nx q[27];\nx q[26];\nx q[25];\nx q[24];\nx q[23];\nx q[22];\nx q[21];\nx q[20];\nx q[19];\nx q[18];\nx q[17];\nx q[16];\nx q[15];\nx q[14];\nx q[13];\nx q[12];\nbarrier q[0],q[1],q[2],q[3],q[4],q[5],q[6],q[7],q[8],q[9],q[10],q[11],q[12],q[13],q[14],q[15],q[16],q[17],q[18],q[19],q[20],q[21],q[22],q[23],q[24],q[25],q[26],q[27];\nmeasure q[0] -> meas[0];\nmeasure q[1] -> meas[1];\nmeasure q[2] -> meas[2];\nmeasure q[3] -> meas[3];\nmeasure q[4] -> meas[4];\nmeasure q[5] -> meas[5];\nmeasure q[6] -> meas[6];\nmeasure q[7] -> meas[7];\nmeasure q[8] -> meas[8];\nmeasure q[9] -> meas[9];\nmeasure q[10] -> meas[10];\nmeasure q[11] -> meas[11];\nmeasure q[12] -> meas[12];\nmeasure q[13] -> meas[13];\nmeasure q[14] -> meas[14];\nmeasure q[15] -> meas[15];\nmeasure q[16] -> meas[16];\nmeasure q[17] -> meas[17];\nmeasure q[18] -> meas[18];\nmeasure q[19] -> meas[19];\nmeasure q[20] -> meas[20];\nmeasure q[21] -> meas[21];\nmeasure q[22] -> meas[22];\nmeasure q[23] -> meas[23];\nmeasure q[24] -> meas[24];\nmeasure q[25] -> meas[25];\nmeasure q[26] -> meas[26];\nmeasure q[27] -> meas[27];",
+  "n_hamiltonian_terms": 8919,
+  "submit_time": "2026-07-26T11:13:06",
+  "manifest_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_ethylene_sqd_manifest.json"
+}

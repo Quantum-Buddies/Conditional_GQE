@@ -1,0 +1,68 @@
+{
+  "description": "Error mitigation techniques implemented and applied",
+  "techniques": {
+    "REM": {
+      "name": "Reference-State Error Mitigation",
+      "description": "Calibrates readout errors via assignment probability matrix. Raw counts corrected by matrix inversion.",
+      "reference": "Bravyi et al., arXiv:2003.04997 (2020)",
+      "implementation": "src/gqe/eval/mitigation.py",
+      "preflight_check": "Skipped if qubits > 10",
+      "applied_to": "IQM Emerald (8q), Rigetti Cepheus H2 (4q)"
+    },
+    "ZNE": {
+      "name": "Zero-Noise Extrapolation",
+      "description": "Gate folding with scale factors [1,2,3] and Richardson extrapolation.",
+      "reference": "Temme et al., Nature 567, 209-212 (2019)",
+      "implementation": "src/gqe/eval/mitigation.py",
+      "preflight_check": "Skipped if two-qubit gates > 20",
+      "applied_to": "IQM Emerald (6 CNOTs, within threshold)"
+    },
+    "SQD": {
+      "name": "Sample-based Quantum Diagonalization",
+      "description": "Filters QPU bitstrings by particle number + spin parity, diagonalizes in selected subspace.",
+      "reference": "Robledo-Moreno et al., Nature 634, 795-800 (2024)",
+      "applied_to": "Rigetti Cepheus H2, LiH, BeH2 (4096 shots each)",
+      "results": {
+        "h2": {
+          "sqd_energy": -1.137284,
+          "fci_energy": -1.137284,
+          "error_mha": 0.0
+        },
+        "lih": {
+          "sqd_energy": -7.880693,
+          "fci_energy": -7.882324,
+          "error_mha": 1.63
+        },
+        "beh2": {
+          "sqd_energy": -15.272944,
+          "fci_energy": -15.595047,
+          "error_mha": 322.1
+        }
+      }
+    }
+  },
+  "noise_aware_design_elements": [
+    "QWC measurement grouping reduces circuit count 3-5x",
+    "Preflight checks skip ZNE/REM when complexity exceeds hardware thresholds",
+    "SQD symmetry filtering suppresses noisy bitstrings",
+    "Shot budget: 4096 per molecule on Rigetti",
+    "IQM Emerald: 87.5% state fidelity with 13-depth circuit"
+  ],
+  "qwc_grouping": {
+    "h2": {
+      "n_terms": 15,
+      "n_groups": 5,
+      "reduction": "3x"
+    },
+    "lih": {
+      "n_terms": 631,
+      "n_groups": 180,
+      "reduction": "3.5x"
+    },
+    "n2": {
+      "n_terms": 2951,
+      "n_groups": 1308,
+      "reduction": "2.3x"
+    }
+  }
+}

@@ -1,0 +1,904 @@
+[
+  {
+    "molecule": "h2_0.5",
+    "n_qubits": 4,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -1.0543864991685457,
+    "best_operators": [
+      "XYYX",
+      "IZII",
+      "IZIZ"
+    ],
+    "best_thetas": [
+      0.08553667129353053,
+      0.7089436583650691,
+      -0.0198084179144113
+    ],
+    "all_optimized_energies": [
+      -1.0543864991685457,
+      -1.0543864991685457,
+      -1.0543864991685457
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -1.0429963947041259,
+        -1.0505816900628209,
+        -1.043045542519895,
+        -1.0543864991685457
+      ],
+      "all_converged": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "all_iters": [
+        5,
+        10,
+        7,
+        6
+      ],
+      "all_times_seconds": [
+        0.6720943450927734,
+        3.5308821201324463,
+        3.1661415100097656,
+        2.553265333175659
+      ],
+      "best_start_index": 3,
+      "total_time_seconds": 9.922383308410645
+    }
+  },
+  {
+    "molecule": "h2_0.74",
+    "n_qubits": 4,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -1.137136552017799,
+    "best_operators": [
+      "YXXY",
+      "IZII",
+      "IZII",
+      "IZIZ"
+    ],
+    "best_thetas": [
+      -0.11674572575621275,
+      1.17311969133307,
+      1.2212238468848158,
+      0.015145385483099382
+    ],
+    "all_optimized_energies": [
+      -1.137136552017799,
+      -1.1232532522895207,
+      -1.1321129896873856
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -1.137136552017799,
+        -1.1176744483641416,
+        -1.1326919639395494,
+        -1.1168296876415702
+      ],
+      "all_converged": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "all_iters": [
+        10,
+        6,
+        9,
+        2
+      ],
+      "all_times_seconds": [
+        2.9895381927490234,
+        2.785092830657959,
+        3.1511290073394775,
+        0.7893152236938477
+      ],
+      "best_start_index": 0,
+      "total_time_seconds": 9.715075254440308
+    }
+  },
+  {
+    "molecule": "h2_1.0",
+    "n_qubits": 4,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -1.101148571268639,
+    "best_operators": [
+      "XYYX",
+      "IZII",
+      "IZIZ"
+    ],
+    "best_thetas": [
+      -0.1749768177446001,
+      -0.7864373261178619,
+      0.18530144968038037
+    ],
+    "all_optimized_energies": [
+      -1.101148571268639,
+      -1.101148571268639,
+      -1.101148571268639
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -1.1003078698731348,
+        -1.075386040881871,
+        -1.101148571268639,
+        -1.0660773567641215
+      ],
+      "all_converged": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "all_iters": [
+        4,
+        6,
+        12,
+        3
+      ],
+      "all_times_seconds": [
+        2.6143946647644043,
+        1.1836352348327637,
+        4.425510883331299,
+        1.3512012958526611
+      ],
+      "best_start_index": 2,
+      "total_time_seconds": 9.574742078781128
+    }
+  },
+  {
+    "molecule": "h2_1.5",
+    "n_qubits": 4,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -0.9782211720658275,
+    "best_operators": [
+      "XYYX",
+      "IZII",
+      "IZIZ"
+    ],
+    "best_thetas": [
+      0.24036467659944888,
+      0.9988997872627664,
+      -0.19865891398895325
+    ],
+    "all_optimized_energies": [
+      -0.9733844418073893,
+      -0.9782211720658275,
+      -0.9782211720658275
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 43,
+      "all_energies": [
+        -0.9733844418073893,
+        -0.9641134330471297,
+        -0.9204762907545381,
+        -0.9782211720658275
+      ],
+      "all_converged": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "all_iters": [
+        7,
+        2,
+        3,
+        6
+      ],
+      "all_times_seconds": [
+        1.4075219631195068,
+        0.25496792793273926,
+        0.637253999710083,
+        0.9356982707977295
+      ],
+      "best_start_index": 3,
+      "total_time_seconds": 3.2354421615600586
+    }
+  },
+  {
+    "molecule": "h2_2.0",
+    "n_qubits": 4,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -0.8821032415395602,
+    "best_operators": [
+      "XYYX",
+      "IZII",
+      "IZIZ"
+    ],
+    "best_thetas": [
+      -0.9102244540627221,
+      -0.841513994369625,
+      -0.009422927217886887
+    ],
+    "all_optimized_energies": [
+      -0.8821032415395602,
+      -0.8821032415395602,
+      -0.8821032415395602
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -0.8602181115045904,
+        -0.7842041303875869,
+        -0.8821032415395602,
+        -0.8677421961515613
+      ],
+      "all_converged": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "all_iters": [
+        3,
+        4,
+        2,
+        2
+      ],
+      "all_times_seconds": [
+        0.30280375480651855,
+        0.85030198097229,
+        0.33992481231689453,
+        0.21236252784729004
+      ],
+      "best_start_index": 2,
+      "total_time_seconds": 1.7053930759429932
+    }
+  },
+  {
+    "molecule": "lih_1.2",
+    "n_qubits": 8,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -7.835578568080478,
+    "best_operators": [
+      "YXXY",
+      "IZII",
+      "IZIZ"
+    ],
+    "best_thetas": [
+      0.0073282241579808545,
+      0.0028491556061470374,
+      0.02636502180122505
+    ],
+    "all_optimized_energies": [
+      -7.835578568080478,
+      -7.835578568080478,
+      -7.835578568080478
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -7.835077046874144,
+        -7.835424262149627,
+        -7.834642531352214,
+        -7.835578568080478
+      ],
+      "all_converged": [
+        false,
+        true,
+        true,
+        true
+      ],
+      "all_iters": [
+        0,
+        2,
+        3,
+        2
+      ],
+      "all_times_seconds": [
+        0.9394183158874512,
+        1.3366713523864746,
+        1.3367080688476562,
+        1.3368713855743408
+      ],
+      "best_start_index": 3,
+      "total_time_seconds": 4.949669122695923
+    }
+  },
+  {
+    "molecule": "lih_1.6",
+    "n_qubits": 8,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -7.8618293572626206,
+    "best_operators": [
+      "XYYX",
+      "IZII",
+      "IZIZ"
+    ],
+    "best_thetas": [
+      0.007352659751602079,
+      0.0028492509861066787,
+      0.026365016093656615
+    ],
+    "all_optimized_energies": [
+      -7.8618293572626206,
+      -7.8618293572626206,
+      -7.8618293572626206
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -7.861343195486932,
+        -7.861670768465673,
+        -7.860938375951556,
+        -7.8618293572626206
+      ],
+      "all_converged": [
+        false,
+        true,
+        true,
+        true
+      ],
+      "all_iters": [
+        1,
+        4,
+        3,
+        3
+      ],
+      "all_times_seconds": [
+        2.741090774536133,
+        1.794428825378418,
+        1.1674110889434814,
+        2.335918664932251
+      ],
+      "best_start_index": 3,
+      "total_time_seconds": 8.038849353790283
+    }
+  },
+  {
+    "molecule": "lih_2.0",
+    "n_qubits": 8,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -7.830874271079732,
+    "best_operators": [
+      "YXXY",
+      "IZII",
+      "IZIZ"
+    ],
+    "best_thetas": [
+      0.007352658609896627,
+      0.0028493083551825965,
+      0.026365014163633155
+    ],
+    "all_optimized_energies": [
+      -7.830874271079732,
+      -7.830874271079732,
+      -7.830874271079732
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -7.8304307462648755,
+        -7.830712123999349,
+        -7.830095118626917,
+        -7.830874271079732
+      ],
+      "all_converged": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "all_iters": [
+        3,
+        3,
+        4,
+        3
+      ],
+      "all_times_seconds": [
+        1.9968039989471436,
+        2.3886895179748535,
+        1.398432970046997,
+        2.0760021209716797
+      ],
+      "best_start_index": 3,
+      "total_time_seconds": 7.859928607940674
+    }
+  },
+  {
+    "molecule": "lih_3.0",
+    "n_qubits": 8,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -7.710815619869016,
+    "best_operators": [
+      "XYYX",
+      "IZII",
+      "IZIZ"
+    ],
+    "best_thetas": [
+      0.007360749544851003,
+      0.002852480555998588,
+      0.026367200831949253
+    ],
+    "all_optimized_energies": [
+      -7.710815619869016,
+      -7.710815619869016,
+      -7.710815619869016
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -7.7105079498331195,
+        -7.710574309150082,
+        -7.710518112166547,
+        -7.710815619869016
+      ],
+      "all_converged": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "all_iters": [
+        2,
+        2,
+        4,
+        4
+      ],
+      "all_times_seconds": [
+        1.5943925380706787,
+        1.3611457347869873,
+        1.815382480621338,
+        1.907243251800537
+      ],
+      "best_start_index": 3,
+      "total_time_seconds": 6.678164005279541
+    }
+  },
+  {
+    "molecule": "n2_1.1",
+    "n_qubits": 12,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -107.49633137037715,
+    "best_operators": [
+      "XYYX",
+      "IZII",
+      "IZIZ",
+      "IZII",
+      "IZII",
+      "IZII",
+      "XYYX"
+    ],
+    "best_thetas": [
+      0.024170062513086354,
+      0.025367286135632675,
+      -0.0034819461770516508,
+      -0.03962709261153892,
+      0.04668558940624526,
+      -0.017924563488400012,
+      -0.029979812488206765
+    ],
+    "all_optimized_energies": [
+      -107.48892849995852,
+      -107.48892849995852,
+      -107.49633137037715
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 44,
+      "all_energies": [
+        -107.46811171721811,
+        -107.48892849995852,
+        -107.48060104896003,
+        -107.49633137037715
+      ],
+      "all_converged": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "all_iters": [
+        3,
+        4,
+        3,
+        3
+      ],
+      "all_times_seconds": [
+        4.192562818527222,
+        4.8746702671051025,
+        2.9610090255737305,
+        2.615194320678711
+      ],
+      "best_start_index": 3,
+      "total_time_seconds": 14.643436431884766
+    }
+  },
+  {
+    "molecule": "n2_1.8",
+    "n_qubits": 12,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -107.01710856615553,
+    "best_operators": [
+      "XXYY"
+    ],
+    "best_thetas": [
+      0.007336427263688833
+    ],
+    "all_optimized_energies": [
+      -107.01710856615553,
+      -107.01710856615553,
+      -107.01710856615553
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -107.01419918609356,
+        -107.01636230832963,
+        -107.01139228227848,
+        -107.01710856615553
+      ],
+      "all_converged": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "all_iters": [
+        0,
+        3,
+        1,
+        2
+      ],
+      "all_times_seconds": [
+        0.5751934051513672,
+        1.1634204387664795,
+        1.3846614360809326,
+        2.446763277053833
+      ],
+      "best_start_index": 3,
+      "total_time_seconds": 5.570038557052612
+    }
+  },
+  {
+    "molecule": "n2_2.5",
+    "n_qubits": 12,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -106.61677396586816,
+    "best_operators": [
+      "XXYY"
+    ],
+    "best_thetas": [
+      0.007392680491456197
+    ],
+    "all_optimized_energies": [
+      -106.61677396586816,
+      -106.61677396586816,
+      -106.61677396586816
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -106.61433576439309,
+        -106.61614794123408,
+        -106.61198314392435,
+        -106.61677396586816
+      ],
+      "all_converged": [
+        true,
+        false,
+        true,
+        false
+      ],
+      "all_iters": [
+        1,
+        1,
+        3,
+        1
+      ],
+      "all_times_seconds": [
+        0.4152979850769043,
+        0.9273190498352051,
+        0.7099859714508057,
+        0.9003643989562988
+      ],
+      "best_start_index": 3,
+      "total_time_seconds": 2.952967405319214
+    }
+  },
+  {
+    "molecule": "iodobenzene",
+    "n_qubits": 8,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -7078.008871255745,
+    "best_operators": [
+      "XYYX",
+      "IZIZ"
+    ],
+    "best_thetas": [
+      0.009793087963384899,
+      0.0028491145170202806
+    ],
+    "all_optimized_energies": [
+      -7078.008871255745,
+      -7078.008871255745,
+      -7078.008860797354
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -7078.007285516008,
+        -7078.00855630824,
+        -7078.005319794785,
+        -7078.008871255745
+      ],
+      "all_converged": [
+        false,
+        true,
+        false,
+        true
+      ],
+      "all_iters": [
+        2,
+        3,
+        3,
+        4
+      ],
+      "all_times_seconds": [
+        2.1727237701416016,
+        1.3261830806732178,
+        2.3345675468444824,
+        1.4962995052337646
+      ],
+      "best_start_index": 3,
+      "total_time_seconds": 7.329773902893066
+    }
+  },
+  {
+    "molecule": "methyl_iodide",
+    "n_qubits": 8,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -6889.838761559182,
+    "best_operators": [
+      "XYYX"
+    ],
+    "best_thetas": [
+      0.016015122483972598
+    ],
+    "all_optimized_energies": [
+      -6889.838761559182,
+      -6889.838761559182,
+      -6889.838685229409
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -6889.837087694144,
+        -6889.838761559182,
+        -6889.835086167855,
+        -6889.838685229409
+      ],
+      "all_converged": [
+        true,
+        true,
+        true,
+        false
+      ],
+      "all_iters": [
+        2,
+        3,
+        3,
+        2
+      ],
+      "all_times_seconds": [
+        0.9486777782440186,
+        1.207491159439087,
+        1.0622098445892334,
+        0.9908292293548584
+      ],
+      "best_start_index": 1,
+      "total_time_seconds": 4.209208011627197
+    }
+  },
+  {
+    "molecule": "imeph",
+    "n_qubits": 8,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -7190.331558070803,
+    "best_operators": [
+      "XYYX"
+    ],
+    "best_thetas": [
+      0.00838970691368499
+    ],
+    "all_optimized_energies": [
+      -7190.331558070803,
+      -7190.331558070803,
+      -7190.331558070803
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -7190.329816207902,
+        -7190.331039761222,
+        -7190.328442073142,
+        -7190.331558070803
+      ],
+      "all_converged": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "all_iters": [
+        2,
+        2,
+        2,
+        1
+      ],
+      "all_times_seconds": [
+        1.7599055767059326,
+        1.726168155670166,
+        1.8562023639678955,
+        0.7588496208190918
+      ],
+      "best_start_index": 3,
+      "total_time_seconds": 6.101125717163086
+    }
+  },
+  {
+    "molecule": "phenol",
+    "n_qubits": 8,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -301.61248484019205,
+    "best_operators": [
+      "XYYX"
+    ],
+    "best_thetas": [
+      0.007441298467886645
+    ],
+    "all_optimized_energies": [
+      -301.61248484019205,
+      -301.61248484019205,
+      -301.61248484019205
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 42,
+      "all_energies": [
+        -301.610577941494,
+        -301.6119975365446,
+        -301.6087502018155,
+        -301.61248484019205
+      ],
+      "all_converged": [
+        false,
+        true,
+        true,
+        true
+      ],
+      "all_iters": [
+        0,
+        2,
+        3,
+        3
+      ],
+      "all_times_seconds": [
+        0.555354118347168,
+        0.8378801345825195,
+        0.9159026145935059,
+        1.231520652770996
+      ],
+      "best_start_index": 3,
+      "total_time_seconds": 3.5406575202941895
+    }
+  },
+  {
+    "molecule": "beh2_1.3",
+    "n_qubits": 14,
+    "n_sequences_evaluated": 100,
+    "n_sequences_optimized": 3,
+    "best_energy": -15.560232879256166,
+    "best_operators": [
+      "XYYX",
+      "ZIZI",
+      "ZZII",
+      "IIZZ",
+      "XXYY",
+      "YXXY",
+      "IIZZ",
+      "IIIZ",
+      "IZII",
+      "YYXX",
+      "ZIIZ",
+      "IZZI",
+      "IIIZ",
+      "IIZZ",
+      "IZII",
+      "IZZI",
+      "IZII",
+      "IZZI"
+    ],
+    "best_thetas": [
+      0.015229639684008006,
+      -0.04562246763610034,
+      -0.047997041312578315,
+      0.03392125825110301,
+      0.00871396599305134,
+      -0.027529815745392004,
+      0.025179227181861552,
+      -0.02363078025216253,
+      -0.008002209028373196,
+      -0.004897173983692399,
+      0.045531457922123764,
+      0.03919016691830428,
+      -0.022136697448105647,
+      -0.022146570222062435,
+      -0.00780004251527372,
+      -0.04959222750140113,
+      -0.019107623225487383,
+      0.045175401646361454
+    ],
+    "all_optimized_energies": [
+      -15.558148617968943,
+      -15.560232879256166,
+      -15.554803427137337
+    ],
+    "optimization_metadata": {
+      "n_starts": 4,
+      "seed_base": 43,
+      "all_energies": [
+        -15.560232879256166,
+        -15.552808049744602,
+        -15.519821019281416,
+        -15.49549471452784
+      ],
+      "all_converged": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "all_iters": [
+        1,
+        2,
+        1,
+        3
+      ],
+      "all_times_seconds": [
+        1.7220561504364014,
+        16.90379047393799,
+        1.7289526462554932,
+        8.29275369644165
+      ],
+      "best_start_index": 0,
+      "total_time_seconds": 28.647552967071533
+    }
+  }
+]

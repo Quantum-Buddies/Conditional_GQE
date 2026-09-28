@@ -1,0 +1,280 @@
+# B200/H200 Scaling Config — Large Qubit Molecules for Cloud GPU
+#
+# This config targets molecules with 26-40 qubits that were IMPOSSIBLE on
+# AIRE L40S (24-qubit cuStateVec limit due to PCIe IPC segfault).
+#
+# On qBraid B200 (192GB VRAM) or H200 (141GB VRAM):
+#   - nvidia-mgpu target works properly (NVLink interconnect, no IPC issues)
+#   - Statevector for 30 qubits = 2^30 * 16 bytes = 16GB (fits in 141GB+)
+#   - Statevector for 36 qubits = 2^36 * 16 bytes = 1TB (needs mgpu across 4+ B200s)
+#   - tensornet-mps handles 40+ qubits with bond dimension 64-128
+#
+# Credit budget estimates (qBraid):
+#   H200 (549 cr/hr):  Hamiltonian gen + RL training + RAFT = ~8-12 hrs = ~4,400-6,600 cr
+#   B200 (874 cr/hr):  Same pipeline = ~6-8 hrs = ~5,240-6,990 cr
+#   B200x4 (3,395 cr/hr): 36-qubit statevector eval = ~2-3 hrs = ~6,790-10,185 cr
+
+seed: 42
+
+dataset:
+  basis: "sto-3g"
+  molecules:
+  # === BASELINE MOLECULES (for consistency with existing results) ===
+  - name: "h2"
+    geometry: [["H", [0.0, 0.0, 0.0]], ["H", [0.0, 0.0, 0.74]]]
+    charge: 0
+    multiplicity: 1
+    split: "train"
+
+  - name: "lih"
+    geometry: [["Li", [0.0, 0.0, 0.0]], ["H", [0.0, 0.0, 1.6]]]
+    charge: 0
+    multiplicity: 1
+    split: "train"
+
+  - name: "beh2"
+    geometry: [["Be", [0.0, 0.0, 0.0]], ["H", [0.0, 0.0, 1.3]], ["H", [0.0, 0.0, -1.3]]]
+    charge: 0
+    multiplicity: 1
+    split: "train"
+
+  - name: "n2"
+    geometry: [["N", [0.0, 0.0, 0.0]], ["N", [0.0, 0.0, 1.1]]]
+    charge: 0
+    multiplicity: 1
+    split: "train"
+
+  # === 26-32 QUBIT MOLECULES (impossible on L40S, feasible on H200/B200) ===
+  # These use larger active spaces to push beyond the 24-qubit barrier.
+
+  # N2 with 6-31g basis and CAS(10,10) — ~28 qubits
+  - name: "n2_631g_cas10"
+    geometry: [["N", [0.0, 0.0, 0.0]], ["N", [0.0, 0.0, 1.1]]]
+    charge: 0
+    multiplicity: 1
+    split: "train"
+    basis: "6-31g"
+    active_space:
+      mode: "explicit"
+      n_active_electrons: 10
+      n_active_orbitals: 10
+
+  # BeH2 with 6-31g basis — ~26 qubits
+  - name: "beh2_631g"
+    geometry: [["Be", [0.0, 0.0, 0.0]], ["H", [0.0, 0.0, 1.3]], ["H", [0.0, 0.0, -1.3]]]
+    charge: 0
+    multiplicity: 1
+    split: "train"
+    basis: "6-31g"
+
+  # H2O with 6-31g basis and CAS(10,10) — ~28 qubits
+  - name: "h2o_631g_cas10"
+    geometry:
+      - ["O", [0.0, 0.0, 0.0]]
+      - ["H", [0.0, 0.0, 1.0]]
+      - ["H", [0.0, 0.78, -0.5]]
+    charge: 0
+    multiplicity: 1
+    split: "train"
+    basis: "6-31g"
+    active_space:
+      mode: "explicit"
+      n_active_electrons: 10
+      n_active_orbitals: 10
+
+  # NH3 with 6-31g basis — ~28 qubits
+  - name: "nh3_631g"
+    geometry:
+      - ["N", [0.0, 0.0, 0.0]]
+      - ["H", [0.0, 0.0, 1.0]]
+      - ["H", [0.866, 0.0, -0.5]]
+      - ["H", [-0.866, 0.0, -0.5]]
+    charge: 0
+    multiplicity: 1
+    split: "train"
+    basis: "6-31g"
+
+  # C2H4 (ethylene) with 6-31g — ~30 qubits
+  - name: "ethylene_631g"
+    geometry:
+      - ["C", [0.0, 0.0, 0.669]]
+      - ["C", [0.0, 0.0, -0.669]]
+      - ["H", [0.0, 0.924, 1.231]]
+      - ["H", [0.0, -0.924, 1.231]]
+      - ["H", [0.0, 0.924, -1.231]]
+      - ["H", [0.0, -0.924, -1.231]]
+    charge: 0
+    multiplicity: 1
+    split: "train"
+    basis: "6-31g"
+
+  # === 32-40 QUBIT MOLECULES (needs B200 192GB or B200x4 for mgpu) ===
+  # These require tensornet-mps or multi-GPU statevector on B200.
+
+  # Formaldehyde with 6-31g and CAS(12,12) — ~32 qubits
+  - name: "formaldehyde_631g_cas12"
+    geometry:
+      - ["C", [0.0, 0.0, 0.0]]
+      - ["O", [0.0, 1.21, 0.0]]
+      - ["H", [0.94, -0.54, 0.0]]
+      - ["H", [-0.94, -0.54, 0.0]]
+    charge: 0
+    multiplicity: 1
+    split: "test"
+    basis: "6-31g"
+    active_space:
+      mode: "explicit"
+      n_active_electrons: 12
+      n_active_orbitals: 12
+
+  # Benzene with CAS(12,12) — ~32 qubits
+  - name: "benzene_cas12"
+    geometry:
+      - ["C", [0.000, 1.400, 0.000]]
+      - ["C", [1.212, 0.700, 0.000]]
+      - ["C", [1.212, -0.700, 0.000]]
+      - ["C", [0.000, -1.400, 0.000]]
+      - ["C", [-1.212, -0.700, 0.000]]
+      - ["C", [-1.212, 0.700, 0.000]]
+      - ["H", [2.147, 1.240, 0.000]]
+      - ["H", [2.147, -1.240, 0.000]]
+      - ["H", [0.000, -2.480, 0.000]]
+      - ["H", [-2.147, -1.240, 0.000]]
+      - ["H", [-2.147, 1.240, 0.000]]
+      - ["H", [0.000, 2.480, 0.000]]
+    charge: 0
+    multiplicity: 1
+    split: "test"
+    active_space:
+      mode: "explicit"
+      n_active_electrons: 12
+      n_active_orbitals: 12
+
+  # Methanol with 6-31g — ~34 qubits
+  - name: "methanol_631g"
+    geometry:
+      - ["C", [0.0, 0.0, 0.0]]
+      - ["O", [0.0, 1.43, 0.0]]
+      - ["H", [0.0, 1.94, 0.86]]
+      - ["H", [0.89, -0.36, 0.51]]
+      - ["H", [-0.89, -0.36, 0.51]]
+      - ["H", [0.0, -0.36, -1.02]]
+    charge: 0
+    multiplicity: 1
+    split: "test"
+    basis: "6-31g"
+
+  # Acetylene with 6-31g and CAS(14,14) — ~36 qubits
+  - name: "acetylene_631g_cas14"
+    geometry:
+      - ["C", [0.0, 0.0, 0.0]]
+      - ["C", [0.0, 0.0, 1.203]]
+      - ["H", [0.0, 0.0, -1.088]]
+      - ["H", [0.0, 0.0, 2.291]]
+    charge: 0
+    multiplicity: 1
+    split: "test"
+    basis: "6-31g"
+    active_space:
+      mode: "explicit"
+      n_active_electrons: 14
+      n_active_orbitals: 14
+
+  # === EUV PHOTORESIST MOLECULES (Mitsubishi use case, larger active spaces) ===
+  # Phenol with CAS(8,8) on 6-31g — ~30 qubits
+  - name: "phenol_631g_cas8"
+    geometry:
+      - ["C", [0.000, 1.400, 0.000]]
+      - ["C", [1.212, 0.700, 0.000]]
+      - ["C", [1.212, -0.700, 0.000]]
+      - ["C", [0.000, -1.400, 0.000]]
+      - ["C", [-1.212, -0.700, 0.000]]
+      - ["C", [-1.212, 0.700, 0.000]]
+      - ["O", [2.420, 1.400, 0.000]]
+      - ["H", [2.900, 2.200, 0.000]]
+      - ["H", [2.147, -1.240, 0.000]]
+      - ["H", [0.000, -2.480, 0.000]]
+      - ["H", [-2.147, -1.240, 0.000]]
+      - ["H", [0.000, 2.480, 0.000]]
+    charge: 0
+    multiplicity: 1
+    split: "test"
+    basis: "6-31g"
+    active_space:
+      mode: "explicit"
+      n_active_electrons: 8
+      n_active_orbitals: 8
+
+  # === BOND STRETCHING SERIES (for potential energy surfaces, large basis) ===
+  - name: "n2_1.8_631g_cas10"
+    geometry: [["N", [0.0, 0.0, 0.0]], ["N", [0.0, 0.0, 1.8]]]
+    charge: 0
+    multiplicity: 1
+    split: "val"
+    basis: "6-31g"
+    active_space:
+      mode: "explicit"
+      n_active_electrons: 10
+      n_active_orbitals: 10
+
+  - name: "n2_2.5_631g_cas10"
+    geometry: [["N", [0.0, 0.0, 0.0]], ["N", [0.0, 0.0, 2.5]]]
+    charge: 0
+    multiplicity: 1
+    split: "val"
+    basis: "6-31g"
+    active_space:
+      mode: "explicit"
+      n_active_electrons: 10
+      n_active_orbitals: 10
+
+# Model configuration — scaled up for larger GPU memory
+model:
+  hidden_size: 512      # 2x larger than L40S config (256 → 512)
+  num_layers: 8          # 8 layers (was 6)
+  n_heads: 8
+  max_seq_len: 96        # Longer sequences for larger circuits
+  dropout: 0.1
+
+# Training configuration
+training:
+  # RL training
+  rl_epochs: 500
+  n_samples: 64          # More candidates per molecule
+  batch_size: 8
+  lr: 1e-5
+  reuse_iters: 3         # Off-policy GRPO: 3x sample reuse
+  clip_low: 0.2
+  clip_high: 0.28
+  curriculum: true
+  curriculum_warmup: 50
+  curriculum_steps: 4
+
+  # RAFT post-training
+  raft_rounds: 3
+  raft_epochs: 50
+  raft_n_samples: 100
+  raft_top_k: 10
+  raft_adaptive_n: true  # Scale samples by qubit count
+
+  # CUDA-Q
+  target: "nvidia"
+  target_option: "mqpu"
+  max_qubits: 40         # B200/H200 can handle 40+ with MPS
+  mps_threshold: 30      # Switch to MPS above 30 qubits
+  mps_bond: 128          # Higher bond dimension for accuracy
+
+# Scaling targets
+scaling:
+  # Qubit ranges that demonstrate scaling
+  qubit_tiers:
+    - {name: "small",  range: [4, 12],  examples: ["h2", "lih"]}
+    - {name: "medium", range: [12, 24], examples: ["beh2", "n2"]}
+    - {name: "large",  range: [24, 32], examples: ["n2_631g_cas10", "h2o_631g_cas10"]}
+    - {name: "xl",     range: [32, 40], examples: ["benzene_cas12", "methanol_631g"]}
+  # Expected qubit counts (sto-3g unless noted):
+  # h2: 4, lih: 12, beh2: 14, n2: 20
+  # beh2_631g: ~26, n2_631g_cas10: ~28, h2o_631g_cas10: ~28, nh3_631g: ~28
+  # ethylene_631g: ~30, phenol_631g_cas8: ~30
+  # formaldehyde_631g_cas12: ~32, benzene_cas12: ~32
+  # methanol_631g: ~34, acetylene_631g_cas14: ~36

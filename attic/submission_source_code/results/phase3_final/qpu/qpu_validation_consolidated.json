@@ -1,0 +1,80 @@
+{
+  "qbraid_simulator": {
+    "device_id": "qbraid:qbraid:sim:qir-sv",
+    "job_id": "qbraid:qbraid:sim:qir-sv-135b-qjob-6a55f0cc5e6838c8f546a73e",
+    "shots": 2000,
+    "status": "COMPLETED",
+    "counts": {
+      "11110000": 2000
+    },
+    "ideal": true,
+    "cost_credits": 0,
+    "execution_ms": 140
+  },
+  "aws_sv1_simulator": {
+    "device_id": "aws:aws:sim:sv1",
+    "job_id": "aws:aws:sim:sv1-135b-qjob-6a55f3205e6838c8f546a962",
+    "shots": 1024,
+    "status": "COMPLETED",
+    "counts": {
+      "00001111": 1024
+    },
+    "ideal": true,
+    "cost_credits": 0.375,
+    "execution_ms": 5
+  },
+  "iqm_emerald_qpu": {
+    "device_id": "aws:iqm:qpu:emerald",
+    "job_id": "aws:iqm:qpu:emerald-135b-qjob-6a55f39b5e6838c8f546a9ed",
+    "shots": 1024,
+    "status": "COMPLETED",
+    "counts": {
+      "10001111": 8,
+      "00000000": 5,
+      "00000011": 2,
+      "00000100": 1,
+      "00000110": 2,
+      "00000111": 19,
+      "00001000": 13,
+      "00001010": 1,
+      "00001011": 14,
+      "00001100": 10,
+      "00001101": 15,
+      "00001110": 27,
+      "00001111": 896,
+      "00011111": 4,
+      "00101111": 1,
+      "01001111": 6
+    },
+    "ideal": false,
+    "cost_credits": 193.84,
+    "execution_ms": 3791,
+    "expected_state": "00001111",
+    "state_fidelity": 0.875,
+    "hamming_weight_distribution": {
+      "0_errors": 896,
+      "1_bit_error": 94,
+      "2+_bit_errors": 34
+    }
+  },
+  "_source": {
+    "molecule": "methyl_iodide (CH3I)",
+    "operators": [
+      "XYYX"
+    ],
+    "n_qubits": 8,
+    "n_electrons": 4,
+    "gpu_energy_hartree": -6889.839726,
+    "gpu_error_mha": 0.629,
+    "circuit_depth": 12,
+    "circuit_gates": {
+      "h": 8,
+      "cx": 6,
+      "x": 4,
+      "sdg": 2,
+      "s": 2,
+      "rz": 1
+    },
+    "timestamp_utc": "2026-07-14T08:32:15.845104+00:00"
+  }
+}

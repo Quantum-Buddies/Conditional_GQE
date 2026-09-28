@@ -1,0 +1,378 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-07-26T01:21:15Z",
+  "allocation": {
+    "job_id": "6868915",
+    "node": "gpu018",
+    "verification": "squeue/scontrol; all local work invoked with srun --jobid=6868915 --overlap",
+    "new_allocation_created": false
+  },
+  "provider_execution": {
+    "submitted": false,
+    "external_execute_calls": false,
+    "inventory_call_read_only": true
+  },
+  "targets": [
+    {
+      "device_id": "openquantum:iqm:qpu:garnet",
+      "status": "ONLINE",
+      "metadata": {
+        "device_id": "openquantum:iqm:qpu:garnet",
+        "simulator": false,
+        "num_qubits": 20,
+        "provider_name": "iqm",
+        "basis_gates": null,
+        "name": "Garnet (OQ)",
+        "pricing": {
+          "perTask": 0.0,
+          "perShot": 0.0,
+          "perMinute": 0.0
+        },
+        "batch_job_support": false,
+        "queue_depth": 0,
+        "status": "ONLINE",
+        "paradigm": "gate_model",
+        "runtime_config": {
+          "target_program_type": [
+            "qasm2",
+            "qasm3"
+          ],
+          "conversion_scheme": {
+            "conversion_graph": null,
+            "max_path_attempts": 3,
+            "max_path_depth": null
+          },
+          "options": {
+            "transpile": true,
+            "transform": true,
+            "validate": 2,
+            "prepare": true
+          }
+        }
+      },
+      "qasm_target": [
+        "qasm2",
+        "qasm3"
+      ],
+      "pricing": {
+        "perTask": 0.0,
+        "perShot": 0.0,
+        "perMinute": 0.0
+      }
+    },
+    {
+      "device_id": "openquantum:iqm:qpu:emerald",
+      "status": "ONLINE",
+      "metadata": {
+        "device_id": "openquantum:iqm:qpu:emerald",
+        "simulator": false,
+        "num_qubits": 54,
+        "provider_name": "iqm",
+        "basis_gates": null,
+        "name": "Emerald (OQ)",
+        "pricing": {
+          "perTask": 0.0,
+          "perShot": 0.0,
+          "perMinute": 0.0
+        },
+        "batch_job_support": false,
+        "queue_depth": 0,
+        "status": "ONLINE",
+        "paradigm": "gate_model",
+        "runtime_config": {
+          "target_program_type": [
+            "qasm2",
+            "qasm3"
+          ],
+          "conversion_scheme": {
+            "conversion_graph": null,
+            "max_path_attempts": 3,
+            "max_path_depth": null
+          },
+          "options": {
+            "transpile": true,
+            "transform": true,
+            "validate": 2,
+            "prepare": true
+          }
+        }
+      },
+      "qasm_target": [
+        "qasm2",
+        "qasm3"
+      ],
+      "pricing": {
+        "perTask": 0.0,
+        "perShot": 0.0,
+        "perMinute": 0.0
+      }
+    },
+    {
+      "device_id": "openquantum:ionq:qpu:forte-1",
+      "status": "ONLINE",
+      "metadata": {
+        "device_id": "openquantum:ionq:qpu:forte-1",
+        "simulator": false,
+        "num_qubits": 36,
+        "provider_name": "ionq",
+        "basis_gates": "{'ti', 'ccnot', 'swap', 'cvi', 'v', 'cv', 'rz', 'y', 'csi', 'gpi2', 'not', 'z', 'cti', 'vi', 'cnot', 'si', 'x', 'ry', 's', 'cry', 'crz', 'h', 'gpi', 't', 'cx', 'ch', 'cy', 'cz', 'cs', 'ct', 'id', 'zz', 'crx', 'rx'}",
+        "name": "Forte 1 (OQ)",
+        "pricing": {
+          "perTask": 0.0,
+          "perShot": 0.0,
+          "perMinute": 0.0
+        },
+        "batch_job_support": false,
+        "queue_depth": 0,
+        "status": "ONLINE",
+        "paradigm": "gate_model",
+        "runtime_config": {
+          "target_program_type": [
+            "qasm2",
+            "qasm3"
+          ],
+          "conversion_scheme": {
+            "conversion_graph": null,
+            "max_path_attempts": 3,
+            "max_path_depth": null
+          },
+          "options": {
+            "transpile": true,
+            "transform": true,
+            "validate": 2,
+            "prepare": true
+          }
+        }
+      },
+      "qasm_target": [
+        "qasm2",
+        "qasm3"
+      ],
+      "pricing": {
+        "perTask": 0.0,
+        "perShot": 0.0,
+        "perMinute": 0.0
+      }
+    },
+    {
+      "device_id": "openquantum:ionq:qpu:forte-enterprise",
+      "status": "ONLINE",
+      "metadata": {
+        "device_id": "openquantum:ionq:qpu:forte-enterprise",
+        "simulator": false,
+        "num_qubits": 36,
+        "provider_name": "ionq",
+        "basis_gates": "{'ti', 'ccnot', 'swap', 'cvi', 'v', 'cv', 'rz', 'y', 'csi', 'gpi2', 'not', 'z', 'cti', 'vi', 'cnot', 'si', 'x', 'ry', 's', 'cry', 'crz', 'h', 'gpi', 't', 'cx', 'ch', 'cy', 'cz', 'cs', 'ct', 'id', 'zz', 'crx', 'rx'}",
+        "name": "Forte Enterprise 1 (OQ)",
+        "pricing": {
+          "perTask": 0.0,
+          "perShot": 0.0,
+          "perMinute": 0.0
+        },
+        "batch_job_support": false,
+        "queue_depth": 0,
+        "status": "ONLINE",
+        "paradigm": "gate_model",
+        "runtime_config": {
+          "target_program_type": [
+            "qasm2",
+            "qasm3"
+          ],
+          "conversion_scheme": {
+            "conversion_graph": null,
+            "max_path_attempts": 3,
+            "max_path_depth": null
+          },
+          "options": {
+            "transpile": true,
+            "transform": true,
+            "validate": 2,
+            "prepare": true
+          }
+        }
+      },
+      "qasm_target": [
+        "qasm2",
+        "qasm3"
+      ],
+      "pricing": {
+        "perTask": 0.0,
+        "perShot": 0.0,
+        "perMinute": 0.0
+      }
+    },
+    {
+      "device_id": "aws:rigetti:qpu:cepheus-1-108q",
+      "status": "ONLINE",
+      "metadata": {
+        "device_id": "aws:rigetti:qpu:cepheus-1-108q",
+        "simulator": false,
+        "num_qubits": 107,
+        "provider_name": "rigetti",
+        "basis_gates": null,
+        "name": "Cepheus-1-108Q (AWS)",
+        "pricing": {
+          "perTask": 30.0,
+          "perShot": 0.0425,
+          "perMinute": 0.0
+        },
+        "batch_job_support": false,
+        "queue_depth": 0,
+        "status": "ONLINE",
+        "paradigm": "gate_model",
+        "runtime_config": {
+          "target_program_type": "qasm3",
+          "conversion_scheme": {
+            "conversion_graph": null,
+            "max_path_attempts": 3,
+            "max_path_depth": null
+          },
+          "options": {
+            "transpile": true,
+            "transform": true,
+            "validate": 2,
+            "prepare": true
+          }
+        }
+      },
+      "qasm_target": "qasm3",
+      "pricing": {
+        "perTask": 30.0,
+        "perShot": 0.0425,
+        "perMinute": 0.0
+      }
+    }
+  ],
+  "h2_pilot": {
+    "source_manifest": "results/qpu/cepheus_scaling_29_dryrun_v2/manifests/h2_1.0_sqd_cepheus_manifest.json",
+    "identical_circuit_hash": "sha256:1b06e0d86b2d3600b46cb5ae84ae826e38719070b3a6906bb07e78a85586ef41",
+    "qasm2_parse": "passed",
+    "qasm3_export": "passed",
+    "qasm3_import_not_installed": "not tested locally",
+    "n_qubits": 4,
+    "depth": 97,
+    "two_qubit_gates": 60,
+    "gate_counts": {
+      "cx": 60,
+      "h": 56,
+      "rz": 20,
+      "s": 14,
+      "sdg": 14,
+      "measure": 4,
+      "x": 2,
+      "barrier": 1
+    },
+    "native_gate_assumption": "No provider-native gates assumed; QASM3 target conversion/transpilation is delegated to qBraid. Existing source is QASM2 and parses locally.",
+    "rigetti_format_check": "Existing path uses qiskit.qasm2.loads then qBraid device.run(QuantumCircuit); no direct Rigetti SDK format relabeling performed.",
+    "local_validation": {
+      "shots": 4096,
+      "unique_bitstrings": 2,
+      "counts": {
+        "0011": 18,
+        "1100": 4078
+      },
+      "hf_energy_hartree": -1.0661086493179366,
+      "sqd_energy_hartree": -1.101150330232619,
+      "fci_energy_hartree": -1.101150330232619,
+      "sqd_error_vs_fci_mha": 0.0,
+      "variational_bound_satisfied": true,
+      "n_symmetry_filtered": 2,
+      "monotonicity_ok": true,
+      "spin_parity_filter": "disabled for ideal H2 portability check; fixed-N filter retained"
+    },
+    "existing_sv1_reference": "results/qpu/h2_sv1_sqd_results.json is a separate h2 geometry/result and was not mixed with h2_1.0."
+  },
+  "fmo2": {
+    "status": "prepared_simulator_only",
+    "method": "non_embedded_active_space_mbe2_prototype",
+    "components": [
+      {
+        "name": "frag_iodo",
+        "n_qubits": 4,
+        "n_electrons": 2,
+        "n_operators": 26,
+        "fixed_n_energy_hartree": -6871.934872960561,
+        "manifest": "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/fmo2_simulator_only_manifests/frag_iodo_simulator_only_manifest.json"
+      },
+      {
+        "name": "frag_ortho",
+        "n_qubits": 4,
+        "n_electrons": 2,
+        "n_operators": 14,
+        "fixed_n_energy_hartree": -74.98443971262424,
+        "manifest": "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/fmo2_simulator_only_manifests/frag_ortho_simulator_only_manifest.json"
+      },
+      {
+        "name": "frag_meta_para",
+        "n_qubits": 4,
+        "n_electrons": 2,
+        "n_operators": 14,
+        "fixed_n_energy_hartree": -113.03273105006252,
+        "manifest": "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/fmo2_simulator_only_manifests/frag_meta_para_simulator_only_manifest.json"
+      },
+      {
+        "name": "dim_frag_iodo_frag_ortho",
+        "n_qubits": 8,
+        "n_electrons": 4,
+        "n_operators": 192,
+        "fixed_n_energy_hartree": -6947.368481792124,
+        "manifest": "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/fmo2_simulator_only_manifests/dim_frag_iodo_frag_ortho_simulator_only_manifest.json"
+      },
+      {
+        "name": "dim_frag_iodo_frag_meta_para",
+        "n_qubits": 8,
+        "n_electrons": 4,
+        "n_operators": 184,
+        "fixed_n_energy_hartree": -6985.381115355775,
+        "manifest": "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/fmo2_simulator_only_manifests/dim_frag_iodo_frag_meta_para_simulator_only_manifest.json"
+      },
+      {
+        "name": "dim_frag_ortho_frag_meta_para",
+        "n_qubits": 8,
+        "n_electrons": 4,
+        "n_operators": 184,
+        "fixed_n_energy_hartree": -188.2981679296156,
+        "manifest": "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/fmo2_simulator_only_manifests/dim_frag_ortho_frag_meta_para_simulator_only_manifest.json"
+      }
+    ],
+    "limitations": [
+      "This is a non-embedded active-space MBE2 prototype, not FMO2.",
+      "Independently optimized fragment active spaces are not a common orbital partition of the parent Hamiltonian.",
+      "No electrostatic embedding, projection operator, or environmental polarization is included.",
+      "Unconstrained ground energies are reported only to diagnose particle-number-sector collapse.",
+      "HF/CCSD/CCSD(T) references use full molecular calculations and are not directly equivalent to the truncated active-space Hamiltonians."
+    ]
+  },
+  "approval_commands": {
+    "cepheus": "python scripts/submit_cepheus_manifest_bundle.py --bundle <single-device-bundle.json> --execute --approve-cost 204.08  # do not run without approval; existing bundle script is Rigetti-specific",
+    "iqm_ionq": "Use the corresponding target manifest only after status is ONLINE and cost is explicitly approved; no submit command was executed.",
+    "per_device": [
+      {
+        "device_id": "aws:rigetti:qpu:cepheus-1-108q",
+        "bundle": "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/approval_bundle_aws_rigetti_qpu_cepheus-1-108q.json",
+        "command": "python scripts/submit_cepheus_manifest_bundle.py --bundle results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/approval_bundle_aws_rigetti_qpu_cepheus-1-108q.json --execute --approve-cost 204.08  # explicit approval required; do not run automatically"
+      },
+      {
+        "device_id": "openquantum:ionq:qpu:forte-1",
+        "bundle": "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/approval_bundle_openquantum_ionq_qpu_forte-1.json",
+        "command": "python scripts/submit_cepheus_manifest_bundle.py --bundle results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/approval_bundle_openquantum_ionq_qpu_forte-1.json --execute --approve-cost 0.00  # explicit approval required; do not run automatically"
+      },
+      {
+        "device_id": "openquantum:ionq:qpu:forte-enterprise",
+        "bundle": "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/approval_bundle_openquantum_ionq_qpu_forte-enterprise.json",
+        "command": "python scripts/submit_cepheus_manifest_bundle.py --bundle results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/approval_bundle_openquantum_ionq_qpu_forte-enterprise.json --execute --approve-cost 0.00  # explicit approval required; do not run automatically"
+      },
+      {
+        "device_id": "openquantum:iqm:qpu:emerald",
+        "bundle": "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/approval_bundle_openquantum_iqm_qpu_emerald.json",
+        "command": "python scripts/submit_cepheus_manifest_bundle.py --bundle results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/approval_bundle_openquantum_iqm_qpu_emerald.json --execute --approve-cost 0.00  # explicit approval required; do not run automatically"
+      },
+      {
+        "device_id": "openquantum:iqm:qpu:garnet",
+        "bundle": "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/approval_bundle_openquantum_iqm_qpu_garnet.json",
+        "command": "python scripts/submit_cepheus_manifest_bundle.py --bundle results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/approval_bundle_openquantum_iqm_qpu_garnet.json --execute --approve-cost 0.00  # explicit approval required; do not run automatically"
+      }
+    ]
+  },
+  "recommendation": "Approve exactly one first pilot on openquantum:iqm:qpu:garnet: it is ONLINE, has queue depth 0, supports QASM2 and QASM3, is 20q (well above this 4q circuit), and inventory pricing is 0.00 credits/task and 0.00 credits/shot. Keep AWS Cepheus as the paid fallback at 204.08 credits; do not approve both."
+}

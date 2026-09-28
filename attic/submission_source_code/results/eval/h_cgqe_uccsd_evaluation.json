@@ -1,0 +1,50 @@
+[
+  {
+    "molecule": "h2_0.74",
+    "reference_energy": -1.137283834488502,
+    "baseline_energy": -1.1167324557605753,
+    "baseline_delta": 0.02055137872792656,
+    "best_generated_energy": -1.1166825699905745,
+    "avg_generated_energy": -1.116656132823078,
+    "error_vs_reference": 0.02060126449792743,
+    "baseline_error_vs_reference": 0.02055137872792656,
+    "improvement_over_baseline": -4.9885770000868135e-05,
+    "n_samples": 50
+  },
+  {
+    "molecule": "lih_1.6_full",
+    "reference_energy": -7.882324378883481,
+    "baseline_energy": -7.368402748249014,
+    "baseline_delta": 0.5139216306344663,
+    "best_generated_energy": -7.8616462494208985,
+    "avg_generated_energy": -7.861393014527405,
+    "error_vs_reference": 0.020678129462582184,
+    "baseline_error_vs_reference": 0.5139216306344663,
+    "improvement_over_baseline": 0.4932435011718841,
+    "n_samples": 50
+  },
+  {
+    "molecule": "n2_1.1_full",
+    "reference_energy": null,
+    "baseline_energy": -102.09663812024507,
+    "baseline_delta": null,
+    "best_generated_energy": -107.49303278533033,
+    "avg_generated_energy": -107.45753548762518,
+    "error_vs_reference": null,
+    "baseline_error_vs_reference": null,
+    "improvement_over_baseline": 5.3963946650852535,
+    "n_samples": 50
+  },
+  {
+    "molecule": "beh2_1.3_full",
+    "reference_energy": -15.59504708093446,
+    "baseline_energy": -15.35006925556739,
+    "baseline_delta": 0.24497782536706936,
+    "best_generated_energy": -15.561204633963731,
+    "avg_generated_energy": -15.560631947952798,
+    "error_vs_reference": 0.0338424469707288,
+    "baseline_error_vs_reference": 0.24497782536706936,
+    "improvement_over_baseline": 0.21113537839634056,
+    "n_samples": 50
+  }
+]

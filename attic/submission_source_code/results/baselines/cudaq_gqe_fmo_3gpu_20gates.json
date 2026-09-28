@@ -1,0 +1,290 @@
+{
+  "results": [
+    {
+      "system": "I_C_bond_region",
+      "baseline": "cudaq_gqe",
+      "reference_energy": -6887.892329966283,
+      "baseline_energy": -6887.717154273734,
+      "delta_energy": 0.1751756925486916,
+      "n_spin_orbitals": 4,
+      "n_pauli_terms": 15,
+      "mode": "cudaq_gqe",
+      "gqe_config": {
+        "max_iters": 50,
+        "ngates": 20,
+        "num_samples": 5,
+        "objective_shift": -6887.463974456263,
+        "objective_scale": 6889.179288564631,
+        "min_scaled_energy": -3.6750359868165106e-05
+      },
+      "n_electrons": 2,
+      "target": "nvidia",
+      "target_option": "mqpu,fp32",
+      "gqe_selected_operators": [
+        {
+          "index": 77,
+          "coefficient_real": 0.00039982628449088077,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYY"
+        },
+        {
+          "index": 0,
+          "coefficient_real": -0.0026870314430512163,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIZI"
+        },
+        {
+          "index": 33,
+          "coefficient_real": -0.003623779754165616,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZZII"
+        },
+        {
+          "index": 66,
+          "coefficient_real": -9.995657112272019e-05,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YYXX"
+        },
+        {
+          "index": 2,
+          "coefficient_real": -0.0053740628861024325,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIZI"
+        },
+        {
+          "index": 57,
+          "coefficient_real": -0.003244700206173202,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIZ"
+        },
+        {
+          "index": 56,
+          "coefficient_real": 0.003244700206173202,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIZ"
+        },
+        {
+          "index": 79,
+          "coefficient_real": -9.995657112272019e-05,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYYX"
+        },
+        {
+          "index": 33,
+          "coefficient_real": -0.003623779754165616,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZZII"
+        },
+        {
+          "index": 17,
+          "coefficient_real": 0.0102272985500296,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 57,
+          "coefficient_real": -0.003244700206173202,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIZ"
+        },
+        {
+          "index": 17,
+          "coefficient_real": 0.0102272985500296,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 24,
+          "coefficient_real": 0.0020526844773156266,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIZZ"
+        },
+        {
+          "index": 17,
+          "coefficient_real": 0.0102272985500296,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 57,
+          "coefficient_real": -0.003244700206173202,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIZ"
+        },
+        {
+          "index": 17,
+          "coefficient_real": 0.0102272985500296,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 57,
+          "coefficient_real": -0.003244700206173202,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIZ"
+        },
+        {
+          "index": 17,
+          "coefficient_real": 0.0102272985500296,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 57,
+          "coefficient_real": -0.003244700206173202,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIZ"
+        },
+        {
+          "index": 60,
+          "coefficient_real": 9.995657112272019e-05,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXXY"
+        }
+      ]
+    },
+    {
+      "system": "phenyl_ring",
+      "baseline": "cudaq_gqe",
+      "reference_energy": -189.54028229684278,
+      "baseline_energy": -189.3920698286984,
+      "delta_energy": 0.14821246814437927,
+      "n_spin_orbitals": 4,
+      "n_pauli_terms": 15,
+      "mode": "cudaq_gqe",
+      "gqe_config": {
+        "max_iters": 50,
+        "ngates": 20,
+        "num_samples": 5,
+        "objective_shift": -189.1200918938343,
+        "objective_scale": 190.30708411653322,
+        "min_scaled_energy": -0.0014291530242189765
+      },
+      "n_electrons": 2,
+      "target": "nvidia",
+      "target_option": "mqpu,fp32",
+      "gqe_selected_operators": [
+        {
+          "index": 58,
+          "coefficient_real": 0.0031313397286875247,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIZ"
+        },
+        {
+          "index": 80,
+          "coefficient_real": 0.00039027619289497316,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYYX"
+        },
+        {
+          "index": 60,
+          "coefficient_real": 0.00019513809644748658,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXXY"
+        },
+        {
+          "index": 74,
+          "coefficient_real": -0.00039027619289497316,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYY"
+        },
+        {
+          "index": 74,
+          "coefficient_real": -0.00039027619289497316,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYY"
+        },
+        {
+          "index": 55,
+          "coefficient_real": -0.0007828349321718812,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIZ"
+        },
+        {
+          "index": 76,
+          "coefficient_real": -0.0007805523857899463,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYY"
+        },
+        {
+          "index": 4,
+          "coefficient_real": 0.010411187264161985,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIII"
+        },
+        {
+          "index": 55,
+          "coefficient_real": -0.0007828349321718812,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIZ"
+        },
+        {
+          "index": 74,
+          "coefficient_real": -0.00039027619289497316,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYY"
+        },
+        {
+          "index": 76,
+          "coefficient_real": -0.0007805523857899463,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYY"
+        },
+        {
+          "index": 75,
+          "coefficient_real": 0.00039027619289497316,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYY"
+        },
+        {
+          "index": 20,
+          "coefficient_real": 0.0030787692234230156,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIZ"
+        },
+        {
+          "index": 76,
+          "coefficient_real": -0.0007805523857899463,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYY"
+        },
+        {
+          "index": 74,
+          "coefficient_real": -0.00039027619289497316,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYY"
+        },
+        {
+          "index": 52,
+          "coefficient_real": 0.0031313397286875247,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIZI"
+        },
+        {
+          "index": 81,
+          "coefficient_real": -0.00039027619289497316,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XYYX"
+        },
+        {
+          "index": 77,
+          "coefficient_real": 0.0007805523857899463,
+          "coefficient_imag": 0.0,
+          "pauli_word": "XXYY"
+        },
+        {
+          "index": 63,
+          "coefficient_real": -0.00039027619289497316,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXXY"
+        },
+        {
+          "index": 60,
+          "coefficient_real": 0.00019513809644748658,
+          "coefficient_imag": 0.0,
+          "pauli_word": "YXXY"
+        }
+      ]
+    }
+  ]
+}

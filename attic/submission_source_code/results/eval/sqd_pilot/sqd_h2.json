@@ -1,0 +1,158 @@
+{
+  "molecule": "h2",
+  "n_qubits": 4,
+  "n_electrons": 2,
+  "fci_energy": -1.137283834488502,
+  "hf_energy": -1.1167593073964253,
+  "n_operators": 20,
+  "controls": {
+    "ideal": {
+      "counts": {
+        "0011": 26,
+        "1100": 4070
+      },
+      "analysis": {
+        "n_unique_bitstrings": 2,
+        "n_total_shots": 4096,
+        "subspace_sizes": [
+          2
+        ],
+        "sqd_energies": [
+          -1.137283834488502
+        ],
+        "symmetry_filtered_energies": [
+          -1.137283834488502
+        ],
+        "monotonicity_ok": true,
+        "n_symmetry_filtered_bitstrings": 2,
+        "best_energy": -1.137283834488502,
+        "fci_energy": -1.137283834488502,
+        "hf_energy": -1.1167593073964253,
+        "error_vs_fci_mha": 0.0,
+        "variational_bound_satisfied": true
+      },
+      "source": "cudaq_statevector"
+    },
+    "noiseless_simulator": {
+      "counts": {
+        "0011": 33,
+        "1100": 4063
+      },
+      "analysis": {
+        "n_unique_bitstrings": 2,
+        "n_total_shots": 4096,
+        "subspace_sizes": [
+          2
+        ],
+        "sqd_energies": [
+          -1.137283834488502
+        ],
+        "symmetry_filtered_energies": [
+          -1.137283834488502
+        ],
+        "monotonicity_ok": true,
+        "n_symmetry_filtered_bitstrings": 2,
+        "best_energy": -1.137283834488502,
+        "fci_energy": -1.137283834488502,
+        "hf_energy": -1.1167593073964253,
+        "error_vs_fci_mha": 0.0,
+        "variational_bound_satisfied": true
+      },
+      "source": "qiskit_aer_statevector"
+    },
+    "noisy_simulator": {
+      "counts": {
+        "0001": 2,
+        "1100": 3589,
+        "0101": 1,
+        "1001": 2,
+        "1011": 73,
+        "0011": 62,
+        "0111": 6,
+        "0100": 65,
+        "1111": 75,
+        "1000": 61,
+        "0110": 22,
+        "1101": 42,
+        "1110": 70,
+        "1010": 21,
+        "0000": 5
+      },
+      "analysis": {
+        "n_unique_bitstrings": 15,
+        "n_total_shots": 4096,
+        "subspace_sizes": [
+          4,
+          8,
+          15
+        ],
+        "sqd_energies": [
+          -0.4456158154821731,
+          -1.1372838344885032,
+          -1.137283834488501
+        ],
+        "symmetry_filtered_energies": [
+          -1.1372838344885008
+        ],
+        "monotonicity_ok": true,
+        "n_symmetry_filtered_bitstrings": 6,
+        "best_energy": -1.1372838344885032,
+        "fci_energy": -1.137283834488502,
+        "hf_energy": -1.1167593073964253,
+        "error_vs_fci_mha": 1.3322676295501878e-12,
+        "variational_bound_satisfied": true
+      },
+      "source": "qiskit_aer_depolarizing",
+      "noise_model": "depolarizing",
+      "error_rate": 0.001
+    },
+    "random": {
+      "counts": {
+        "0001": 256,
+        "1100": 273,
+        "1010": 249,
+        "0111": 275,
+        "0110": 253,
+        "1101": 250,
+        "1011": 247,
+        "0011": 262,
+        "1000": 269,
+        "1111": 266,
+        "0010": 286,
+        "0101": 250,
+        "1110": 245,
+        "0100": 241,
+        "0000": 237,
+        "1001": 237
+      },
+      "analysis": {
+        "n_unique_bitstrings": 16,
+        "n_total_shots": 4096,
+        "subspace_sizes": [
+          4,
+          8,
+          16
+        ],
+        "sqd_energies": [
+          -0.5382054475648966,
+          -1.1372838344885008,
+          -1.1372838344885012
+        ],
+        "symmetry_filtered_energies": [
+          -1.1372838344885017
+        ],
+        "monotonicity_ok": true,
+        "n_symmetry_filtered_bitstrings": 6,
+        "best_energy": -1.1372838344885017,
+        "fci_energy": -1.137283834488502,
+        "hf_energy": -1.1167593073964253,
+        "error_vs_fci_mha": 2.220446049250313e-13,
+        "variational_bound_satisfied": true
+      },
+      "source": "uniform_random"
+    }
+  },
+  "convergence": {
+    "error": "Data has no positive values, and therefore cannot be log-scaled."
+  }
+}

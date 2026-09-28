@@ -1,0 +1,13 @@
+{
+  "results": [
+    {
+      "system": "h2",
+      "baseline": "cudaq_vqe",
+      "reference_energy": -1.1371757102406845,
+      "baseline_energy": -1.137171693147872,
+      "delta_energy": 4.017092812613754e-06,
+      "n_spin_orbitals": 4,
+      "mode": "cudaq_uccsd_vqe"
+    }
+  ]
+}

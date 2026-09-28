@@ -1,0 +1,57 @@
+[
+  {
+    "molecule": "methyl_iodide_cas12",
+    "manifest": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_methyl_iodide_cas12_sqd_manifest.json",
+    "n_qubits": 12
+  },
+  {
+    "molecule": "phenol_cas12",
+    "manifest": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_phenol_cas12_sqd_manifest.json",
+    "n_qubits": 12
+  },
+  {
+    "molecule": "imeph_cas12",
+    "manifest": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_imeph_cas12_sqd_manifest.json",
+    "n_qubits": 12
+  },
+  {
+    "molecule": "ocresol_cas12",
+    "manifest": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_ocresol_cas12_sqd_manifest.json",
+    "n_qubits": 12
+  },
+  {
+    "molecule": "anisole_cas12",
+    "manifest": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_anisole_cas12_sqd_manifest.json",
+    "n_qubits": 12
+  },
+  {
+    "molecule": "toluene_cas12",
+    "manifest": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_toluene_cas12_sqd_manifest.json",
+    "n_qubits": 12
+  },
+  {
+    "molecule": "benzene_cas12",
+    "manifest": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_benzene_cas12_sqd_manifest.json",
+    "n_qubits": 12
+  },
+  {
+    "molecule": "n2",
+    "manifest": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_n2_sqd_manifest.json",
+    "n_qubits": 20
+  },
+  {
+    "molecule": "ethylene",
+    "manifest": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_ethylene_sqd_manifest.json",
+    "n_qubits": 28
+  },
+  {
+    "molecule": "beh2",
+    "manifest": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_beh2_sqd_manifest.json",
+    "n_qubits": 14
+  },
+  {
+    "molecule": "lih",
+    "manifest": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_lih_sqd_manifest.json",
+    "n_qubits": 12
+  }
+]

@@ -1,0 +1,368 @@
+{
+  "description": "Circuit efficiency metrics for GIC Phase 3",
+  "gpu_benchmarks": [
+    {
+      "molecule": "h2_0.5",
+      "n_qubits": 4,
+      "n_operators": 3,
+      "circuit_depth": 16,
+      "cnot_count": 8,
+      "total_gates": 19,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "h2_0.74",
+      "n_qubits": 4,
+      "n_operators": 4,
+      "circuit_depth": 18,
+      "cnot_count": 8,
+      "total_gates": 20,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "h2_1.0",
+      "n_qubits": 4,
+      "n_operators": 3,
+      "circuit_depth": 16,
+      "cnot_count": 8,
+      "total_gates": 19,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "h2_1.5",
+      "n_qubits": 4,
+      "n_operators": 3,
+      "circuit_depth": 16,
+      "cnot_count": 8,
+      "total_gates": 19,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "h2_2.0",
+      "n_qubits": 4,
+      "n_operators": 3,
+      "circuit_depth": 16,
+      "cnot_count": 8,
+      "total_gates": 19,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "lih_1.2",
+      "n_qubits": 8,
+      "n_operators": 3,
+      "circuit_depth": 16,
+      "cnot_count": 8,
+      "total_gates": 19,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "lih_1.6",
+      "n_qubits": 8,
+      "n_operators": 3,
+      "circuit_depth": 16,
+      "cnot_count": 8,
+      "total_gates": 19,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "lih_2.0",
+      "n_qubits": 8,
+      "n_operators": 3,
+      "circuit_depth": 16,
+      "cnot_count": 8,
+      "total_gates": 19,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "lih_3.0",
+      "n_qubits": 8,
+      "n_operators": 3,
+      "circuit_depth": 16,
+      "cnot_count": 8,
+      "total_gates": 19,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "n2_1.1",
+      "n_qubits": 12,
+      "n_operators": 7,
+      "circuit_depth": 31,
+      "cnot_count": 14,
+      "total_gates": 37,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "n2_1.8",
+      "n_qubits": 12,
+      "n_operators": 1,
+      "circuit_depth": 9,
+      "cnot_count": 6,
+      "total_gates": 15,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "n2_2.5",
+      "n_qubits": 12,
+      "n_operators": 1,
+      "circuit_depth": 9,
+      "cnot_count": 6,
+      "total_gates": 15,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "iodobenzene",
+      "n_qubits": 8,
+      "n_operators": 2,
+      "circuit_depth": 14,
+      "cnot_count": 8,
+      "total_gates": 18,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "methyl_iodide",
+      "n_qubits": 8,
+      "n_operators": 1,
+      "circuit_depth": 9,
+      "cnot_count": 6,
+      "total_gates": 15,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "imeph",
+      "n_qubits": 8,
+      "n_operators": 1,
+      "circuit_depth": 9,
+      "cnot_count": 6,
+      "total_gates": 15,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "phenol",
+      "n_qubits": 8,
+      "n_operators": 1,
+      "circuit_depth": 9,
+      "cnot_count": 6,
+      "total_gates": 15,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    },
+    {
+      "molecule": "beh2_1.3",
+      "n_qubits": 14,
+      "n_operators": 18,
+      "circuit_depth": 91,
+      "cnot_count": 42,
+      "total_gates": 92,
+      "rl_optimization_time_s": 0,
+      "lbfgs_optimization_time_s": 0,
+      "total_wall_clock_s": 0,
+      "backend": "CUDA-Q nvidia (statevector)"
+    }
+  ],
+  "qpu_circuits": [
+    {
+      "molecule": "h2",
+      "n_qubits": 4,
+      "n_operators": 19,
+      "circuit_depth": 107,
+      "cnot_count": 54,
+      "total_gates": 121,
+      "optimization_time_s": 39.27,
+      "operators": [
+        "XXYY",
+        "IZIZ",
+        "ZIIZ",
+        "ZZII",
+        "ZZII",
+        "XYYX",
+        "YYXX",
+        "ZZII",
+        "YYXX",
+        "IIZI",
+        "YYXX",
+        "IIZI",
+        "YXXY",
+        "IIZZ",
+        "ZIII",
+        "IZIZ",
+        "ZIII",
+        "IIZZ",
+        "IZZI"
+      ]
+    },
+    {
+      "molecule": "lih",
+      "n_qubits": 12,
+      "n_operators": 5,
+      "circuit_depth": 73,
+      "cnot_count": 58,
+      "total_gates": 103,
+      "optimization_time_s": 11.19,
+      "operators": [
+        "IXZYYZZZXIII",
+        "IXZYZZZZYXII",
+        "IIYXXYII",
+        "IIXXYYII",
+        "IIIXZXZXZZZX"
+      ]
+    },
+    {
+      "molecule": "beh2",
+      "n_qubits": 14,
+      "n_operators": 13,
+      "circuit_depth": 188,
+      "cnot_count": 150,
+      "total_gates": 239,
+      "optimization_time_s": 35.34,
+      "operators": [
+        "IIIXYZYZZXIIII",
+        "XZZZZZZZZXIIII",
+        "XZXZZZYZZZYIII",
+        "IIYZXZXZYIIIII",
+        "IIXZXZZZZZYZZY",
+        "XZZZYZYZXIIIII",
+        "IIIYZXZYXIIIII",
+        "IIIYXZZZZZYXII",
+        "IIYXZZXZZYII",
+        "IIIIZIIZ",
+        "YYXXIIII",
+        "ZIII",
+        "IIIIIIIIZIIZ"
+      ]
+    }
+  ],
+  "qpu_submissions": [
+    {
+      "molecule": "h2",
+      "device": "aws:rigetti:qpu:cepheus-1-108q",
+      "n_qubits": 4,
+      "shots": 4096,
+      "sqd_energy": -1.137283834488502,
+      "fci_energy": -1.137283834488502,
+      "error_vs_fci_mha": 0.0,
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a6597ba0936bd6f4cecb1e6"
+    },
+    {
+      "molecule": "lih",
+      "device": "aws:rigetti:qpu:cepheus-1-108q",
+      "n_qubits": 12,
+      "shots": 4096,
+      "sqd_energy": -7.880693323204017,
+      "fci_energy": -7.882324378883457,
+      "error_vs_fci_mha": 1.6310556794394415,
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a6597bb0936bd6f4cecb1e9"
+    },
+    {
+      "molecule": "beh2",
+      "device": "aws:rigetti:qpu:cepheus-1-108q",
+      "n_qubits": 14,
+      "shots": 4096,
+      "sqd_energy": -15.272943917608767,
+      "fci_energy": -15.595047080934403,
+      "error_vs_fci_mha": 322.10316332563593,
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a6597bc0936bd6f4cecb1ec"
+    },
+    {
+      "molecule": "methyl_iodide (CH3I)",
+      "device": "aws:iqm:qpu:emerald",
+      "n_qubits": 8,
+      "shots": 1024,
+      "circuit_depth": 13,
+      "cnot_count": 6,
+      "state_fidelity": 0.875,
+      "execution_time_ms": 3791,
+      "qBraid_credits_used": 193.84
+    }
+  ],
+  "training_compute": {
+    "sft_training": {
+      "epochs": 300,
+      "model_params": 7705397,
+      "compute": "CPU"
+    },
+    "rl_training": {
+      "epochs": 24,
+      "molecules": 32,
+      "gpu": "3x L40S",
+      "estimated_gpu_hours": 42
+    },
+    "total_training_compute": "~42 GPU-hours (RL) + ~4 CPU-hours (SFT)"
+  },
+  "qbraid_credit_summary": {
+    "total_credits_available": 13400,
+    "total_credits_used": 612,
+    "percentage_used": 4.6,
+    "breakdown": {
+      "rigetti_cepheus": {
+        "tasks": 3,
+        "shots_per_task": 4096,
+        "cost_per_shot_cr": 0.0425,
+        "cost_per_task_cr": 30
+      },
+      "iqm_emerald": {
+        "tasks": 1,
+        "shots": 1024,
+        "cost_per_shot_cr": 0.16,
+        "cost_per_task_cr": 30,
+        "total_cr": 193.84
+      },
+      "simulators": {
+        "qir_sv": {
+          "shots": 2000,
+          "cost": 0
+        },
+        "aws_sv1": {
+          "shots": 1024,
+          "cost": 0
+        }
+      }
+    }
+  }
+}

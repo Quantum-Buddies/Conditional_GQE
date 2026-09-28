@@ -1,0 +1,41 @@
+{
+  "export_type": "sqd_sampling",
+  "measurement_basis": "computational_basis",
+  "molecule": "lih",
+  "n_qubits": 12,
+  "n_electrons": 4,
+  "n_operators": 5,
+  "operators": [
+    "IXZYYZZZXIII",
+    "IXZYZZZZYXII",
+    "IIYXXYII",
+    "IIXXYYII",
+    "IIIXZXZXZZZX"
+  ],
+  "thetas": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "device": "aws:rigetti:qpu:cepheus-1-108q",
+  "shots": 4096,
+  "circuit_hash": "sha256:1094c87ff4d4a4dd1450c90499085730f38d0f7336ce09655ce253a509c2b6a7",
+  "circuit_qasm": "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[12];\ncreg meas[12];\nx q[11];\nx q[10];\nx q[9];\nx q[8];\nh q[10];\nh q[8];\ns q[8];\nh q[7];\ns q[7];\nh q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\ncx q[9],q[10];\nrz(0) q[10];\ncx q[9],q[10];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\nh q[10];\nsdg q[8];\nh q[8];\nsdg q[7];\nh q[7];\nh q[3];\nh q[10];\nh q[8];\ns q[8];\nh q[3];\ns q[3];\nh q[2];\ncx q[2],q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\ncx q[9],q[10];\nrz(0) q[10];\ncx q[9],q[10];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\ncx q[2],q[3];\nh q[10];\nsdg q[8];\nh q[8];\nsdg q[3];\nh q[3];\nh q[2];\nh q[9];\ns q[9];\nh q[8];\nh q[7];\nh q[6];\ns q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\nrz(0) q[9];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\nsdg q[9];\nh q[9];\nh q[8];\nh q[7];\nsdg q[6];\nh q[6];\nh q[9];\nh q[8];\nh q[7];\ns q[7];\nh q[6];\ns q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\nrz(0) q[9];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\nh q[9];\nh q[8];\nsdg q[7];\nh q[7];\nsdg q[6];\nh q[6];\nh q[8];\nh q[6];\nh q[4];\nh q[0];\ncx q[0],q[1];\ncx q[1],q[2];\ncx q[2],q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\nrz(0) q[8];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\ncx q[2],q[3];\ncx q[1],q[2];\ncx q[0],q[1];\nh q[8];\nh q[6];\nh q[4];\nh q[0];\nbarrier q[0],q[1],q[2],q[3],q[4],q[5],q[6],q[7],q[8],q[9],q[10],q[11];\nmeasure q[0] -> meas[0];\nmeasure q[1] -> meas[1];\nmeasure q[2] -> meas[2];\nmeasure q[3] -> meas[3];\nmeasure q[4] -> meas[4];\nmeasure q[5] -> meas[5];\nmeasure q[6] -> meas[6];\nmeasure q[7] -> meas[7];\nmeasure q[8] -> meas[8];\nmeasure q[9] -> meas[9];\nmeasure q[10] -> meas[10];\nmeasure q[11] -> meas[11];",
+  "circuit_depth": 70,
+  "circuit_gates": {
+    "cx": 58,
+    "h": 40,
+    "measure": 12,
+    "s": 8,
+    "sdg": 8,
+    "rz": 5,
+    "x": 4,
+    "barrier": 1
+  },
+  "n_hamiltonian_terms": 631,
+  "pipeline_stage": "sqd_pilot",
+  "export_timestamp": "2026-07-26T02:44:32Z",
+  "description": "Computational-basis sampling circuit for SQD. Submit to QPU, collect counts, then run sqd_energy_from_counts()."
+}

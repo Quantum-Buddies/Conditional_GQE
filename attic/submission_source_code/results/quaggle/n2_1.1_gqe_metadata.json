@@ -1,0 +1,41 @@
+{
+  "molecule": "n2_1.1",
+  "n_qubits": 12,
+  "n_electrons": 2,
+  "circuit_depth": 30,
+  "gate_count": 47,
+  "n_gates_per_type": {
+    "h": 16,
+    "cx": 14,
+    "rz": 7,
+    "sdg": 4,
+    "s": 4,
+    "x": 2
+  },
+  "operators": [
+    "XYYX",
+    "IZII",
+    "IZIZ",
+    "IZII",
+    "IZII",
+    "IZII",
+    "XYYX"
+  ],
+  "thetas": [
+    0.024170062513086354,
+    0.025367286135632675,
+    -0.0034819461770516508,
+    -0.03962709261153892,
+    0.04668558940624526,
+    -0.017924563488400012,
+    -0.029979812488206765
+  ],
+  "energy_ha": -107.49633137037715,
+  "hf_energy_ha": null,
+  "fci_energy_ha": null,
+  "source": "Conditional-GQE (H-cGQE Transformer + L-BFGS-B)",
+  "source_checkpoint": null,
+  "qasm_file": "n2_1.1_gqe_demo.qasm",
+  "qasm_ansatz_file": "n2_1.1_gqe_ansatz.qasm",
+  "quaggle_import_instructions": "1. Open Quaggle Circuit Builder\n2. Import the QASM file (OpenQASM 2.0 format)\n3. The circuit includes Hartree-Fock initial state + GQE ansatz\n4. Run on simulator or export to QPU\n5. Reference energy values in metadata JSON for comparison"
+}

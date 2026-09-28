@@ -1,0 +1,74 @@
+[
+  {
+    "molecule": "anisole_cas12",
+    "n_qubits": 12,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddae0936bd6f4cecc1be",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_anisole_cas12_submission_meta.json"
+  },
+  {
+    "molecule": "beh2",
+    "n_qubits": 14,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddaf0936bd6f4cecc1c1",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_beh2_submission_meta.json"
+  },
+  {
+    "molecule": "benzene_cas12",
+    "n_qubits": 12,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb00936bd6f4cecc1c4",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_benzene_cas12_submission_meta.json"
+  },
+  {
+    "molecule": "ethylene",
+    "n_qubits": 28,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb10936bd6f4cecc1c7",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_ethylene_submission_meta.json"
+  },
+  {
+    "molecule": "imeph_cas12",
+    "n_qubits": 12,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb30936bd6f4cecc1ca",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_imeph_cas12_submission_meta.json"
+  },
+  {
+    "molecule": "lih",
+    "n_qubits": 12,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb40936bd6f4cecc1cd",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_lih_submission_meta.json"
+  },
+  {
+    "molecule": "methyl_iodide_cas12",
+    "n_qubits": 12,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb50936bd6f4cecc1d1",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_methyl_iodide_cas12_submission_meta.json"
+  },
+  {
+    "molecule": "n2",
+    "n_qubits": 20,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb60936bd6f4cecc1d8",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_n2_submission_meta.json"
+  },
+  {
+    "molecule": "ocresol_cas12",
+    "n_qubits": 12,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb70936bd6f4cecc1de",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_ocresol_cas12_submission_meta.json"
+  },
+  {
+    "molecule": "phenol_cas12",
+    "n_qubits": 12,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb90936bd6f4cecc1e1",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_phenol_cas12_submission_meta.json"
+  },
+  {
+    "molecule": "toluene_cas12",
+    "n_qubits": 12,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddba0936bd6f4cecc1e4",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_toluene_cas12_submission_meta.json"
+  },
+  {
+    "molecule": "iodobenzene",
+    "n_qubits": 8,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddbc0936bd6f4cecc1ed",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_iodobenzene_submission_meta.json"
+  }
+]

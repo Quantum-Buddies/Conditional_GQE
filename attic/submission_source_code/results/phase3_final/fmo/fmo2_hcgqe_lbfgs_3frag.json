@@ -1,0 +1,59 @@
+{
+  "method": "hcgqe_rl_lbfgsb",
+  "molecule": "iodobenzene_cas12",
+  "n_fragments": 3,
+  "fmo2_energy": -7060.856441691375,
+  "monomer_energies": [
+    -6871.8796016126835,
+    -74.98177523273743,
+    -113.02906034561458
+  ],
+  "dimer_energies": {
+    "0_1": -6947.226878097188,
+    "0_2": -6985.315368637125,
+    "1_2": -188.20463214809752
+  },
+  "parent_energy": -7061.103524430482,
+  "fmo2_exact": -7061.092180833148,
+  "error_vs_parent_mha": 247.08273910709977,
+  "error_vs_exact_fmo2_mha": 235.73914177268307,
+  "max_dimer_qubits": 8,
+  "parent_qubits": 12,
+  "genuine_scaling": true,
+  "fragment_details": {
+    "monomers": [
+      {
+        "name": "frag_iodo",
+        "energy": -6871.8796016126835,
+        "n_thetas": 19
+      },
+      {
+        "name": "frag_ortho",
+        "energy": -74.98177523273743,
+        "n_thetas": 19
+      },
+      {
+        "name": "frag_meta_para",
+        "energy": -113.02906034561458,
+        "n_thetas": 19
+      }
+    ],
+    "dimers": [
+      {
+        "name": "dim_frag_iodo_frag_ortho",
+        "energy": -6947.226878097188,
+        "n_thetas": 19
+      },
+      {
+        "name": "dim_frag_iodo_frag_meta_para",
+        "energy": -6985.315368637125,
+        "n_thetas": 19
+      },
+      {
+        "name": "dim_frag_ortho_frag_meta_para",
+        "energy": -188.20463214809752,
+        "n_thetas": 19
+      }
+    ]
+  }
+}

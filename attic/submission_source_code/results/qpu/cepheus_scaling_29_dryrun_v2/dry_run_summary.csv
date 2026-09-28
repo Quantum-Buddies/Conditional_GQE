@@ -1,0 +1,30 @@
+molecule,status,n_qubits,n_electrons,n_operators,raw_depth,transpiled_depth,raw_two_qubit_gates,transpiled_two_qubit_gates,shots,estimated_cost,reference_type,reference_energy,manifest_path,warnings,rejection_reasons
+methyl_iodide_cas12,rejected,12,6,21,,,,,4096,0.0,stored_fci,-6889.853479551035,,,7 malformed/padded Pauli words (all operators must be explicit 12-character IXYZ strings)
+benzene_cas12,rejected,12,6,13,,,,,4096,0.0,stored_fci,-227.94786860093672,,,1 malformed/padded Pauli words (all operators must be explicit 12-character IXYZ strings)
+phenol_cas12,warning,12,6,2,47,113,38,35,4096,204.08,stored_fci,-301.6581690576164,results/qpu/cepheus_scaling_29_dryrun_v2/manifests/phenol_cas12_sqd_cepheus_manifest.json,very shallow operator sequence may provide inadequate determinant support,
+anisole_cas12,rejected,12,6,17,,,,,4096,0.0,stored_fci,-337.70949463921784,,,2 malformed/padded Pauli words (all operators must be explicit 12-character IXYZ strings)
+toluene_cas12,warning,12,6,1,26,66,20,20,4096,204.08,stored_fci,-266.4940953969434,results/qpu/cepheus_scaling_29_dryrun_v2/manifests/toluene_cas12_sqd_cepheus_manifest.json,very shallow operator sequence may provide inadequate determinant support,
+imeph_cas12,rejected,12,6,18,,,,,4096,0.0,stored_fci,-7187.026980076353,,,4 malformed/padded Pauli words (all operators must be explicit 12-character IXYZ strings)
+iodobenzene_cas12,rejected,12,6,3,,,,,4096,0.0,stored_fci,-7061.103524430529,,very shallow operator sequence may provide inadequate determinant support,tracked energy -7078.149054000 is below same-record FCI reference -7061.103524431
+ocresol_cas12,rejected,12,6,2,,,,,4096,0.0,stored_fci,-337.5982294788453,,very shallow operator sequence may provide inadequate determinant support,2 malformed/padded Pauli words (all operators must be explicit 12-character IXYZ strings)
+diarylethene_frag_cas12,rejected,12,6,3,,,,,4096,0.0,stored_fci,-657.0324564083844,,very shallow operator sequence may provide inadequate determinant support,2 malformed/padded Pauli words (all operators must be explicit 12-character IXYZ strings)
+hf,rejected,12,10,4,,,,,4096,0.0,stored_fci,-98.59662417998742,,,2 malformed/padded Pauli words (all operators must be explicit 12-character IXYZ strings)
+h2o,rejected,14,10,3,,,,,4096,0.0,stored_fci,-74.98966212608191,,very shallow operator sequence may provide inadequate determinant support,3 malformed/padded Pauli words (all operators must be explicit 14-character IXYZ strings)
+nh3,warning,16,10,1,26,66,20,20,4096,204.08,stored_fci,-55.496232821082835,results/qpu/cepheus_scaling_29_dryrun_v2/manifests/nh3_sqd_cepheus_manifest.json,very shallow operator sequence may provide inadequate determinant support,
+ch4,rejected,18,10,13,,,,,4096,0.0,stored_fci,-39.80591330165194,,,13 malformed/padded Pauli words (all operators must be explicit 18-character IXYZ strings)
+n2,rejected,20,14,8,,,,,4096,0.0,stored_fci,-107.6541224475226,,20-22q SQD is likely shot-limited at 4096 shots; symmetry-filtered determinant support may be too sparse,4 malformed/padded Pauli words (all operators must be explicit 20-character IXYZ strings)
+co,rejected,20,14,19,,,,,4096,0.0,stored_fci,-111.36332031516334,,20-22q SQD is likely shot-limited at 4096 shots; symmetry-filtered determinant support may be too sparse,18 malformed/padded Pauli words (all operators must be explicit 20-character IXYZ strings)
+h2_0.5,accepted,4,2,19,85,135,50,39,4096,204.08,stored_fci,-1.0551597944706248,results/qpu/cepheus_scaling_29_dryrun_v2/manifests/h2_0.5_sqd_cepheus_manifest.json,,
+h2_1.0,accepted,4,2,20,97,148,60,45,4096,204.08,stored_fci,-1.1011503302326187,results/qpu/cepheus_scaling_29_dryrun_v2/manifests/h2_1.0_sqd_cepheus_manifest.json,,
+h2_1.5,accepted,4,2,19,108,145,68,45,4096,204.08,stored_fci,-0.9981493534714101,results/qpu/cepheus_scaling_29_dryrun_v2/manifests/h2_1.5_sqd_cepheus_manifest.json,,
+h2_2.0,accepted,4,2,20,72,126,40,37,4096,204.08,stored_fci,-0.9486411121761853,results/qpu/cepheus_scaling_29_dryrun_v2/manifests/h2_2.0_sqd_cepheus_manifest.json,,
+lih_1.2,rejected,12,4,17,,,,,4096,0.0,stored_fci,-7.852430853195922,,,3 malformed/padded Pauli words (all operators must be explicit 12-character IXYZ strings)
+lih_2.0,rejected,12,4,22,,,,,4096,0.0,stored_fci,-7.861087772481499,,,13 malformed/padded Pauli words (all operators must be explicit 12-character IXYZ strings)
+lih_3.0,rejected,12,4,8,,,,,4096,0.0,stored_fci,-7.798843159502411,,,2 malformed/padded Pauli words (all operators must be explicit 12-character IXYZ strings)
+lih_1.6_631g,warning,22,4,5,173,477,166,166,4096,204.08,stored_hf,-7.979321565020139,results/qpu/cepheus_scaling_29_dryrun_v2/manifests/lih_1.6_631g_sqd_cepheus_manifest.json,FCI reference unavailable; HF is the only stored reference; 20-22q SQD is likely shot-limited at 4096 shots; symmetry-filtered determinant support may be too sparse,
+beh2_1.0,rejected,14,6,18,,,,,4096,0.0,stored_fci,-15.481741069507589,,,5 malformed/padded Pauli words (all operators must be explicit 14-character IXYZ strings)
+beh2_1.6,rejected,14,6,12,,,,,4096,0.0,stored_fci,-15.554623690074317,,,10 malformed/padded Pauli words (all operators must be explicit 14-character IXYZ strings)
+n2_1.8,rejected,20,14,6,,,,,4096,0.0,stored_fci,-107.4834573505643,,20-22q SQD is likely shot-limited at 4096 shots; symmetry-filtered determinant support may be too sparse,3 malformed/padded Pauli words (all operators must be explicit 20-character IXYZ strings)
+n2_2.5,rejected,20,14,8,223,511,192,165,4096,0.0,stored_fci,-107.44041576424125,,20-22q SQD is likely shot-limited at 4096 shots; symmetry-filtered determinant support may be too sparse,"depth exceeds thresholds: raw=223/500, transpiled=511/500"
+n2_1.1_631g_cas8,rejected,16,8,6,,,,,4096,0.0,stored_fci,-108.95757478277567,,,3 malformed/padded Pauli words (all operators must be explicit 16-character IXYZ strings)
+h2o_1.0_631g_cas8,rejected,16,8,5,,,,,4096,0.0,stored_fci,-76.0229092314288,,,2 malformed/padded Pauli words (all operators must be explicit 16-character IXYZ strings)

@@ -1,0 +1,16 @@
+fragments:
+  - name: "I_C_bond_region"
+    atom_indices: [0, 1]
+    charge: -1  # 53(I) + 6(C) + 1 = 60e
+    active_space:
+      mode: "explicit"
+      n_active_electrons: 2
+      n_active_orbitals: 2
+
+  - name: "phenyl_ring"
+    atom_indices: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    charge: 1   # 30(C) + 5(H) - 1 = 34e
+    active_space:
+      mode: "explicit"
+      n_active_electrons: 2
+      n_active_orbitals: 2

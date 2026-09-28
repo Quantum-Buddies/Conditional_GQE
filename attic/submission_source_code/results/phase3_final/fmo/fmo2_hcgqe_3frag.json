@@ -1,0 +1,22 @@
+{
+  "method": "hcgqe_rl",
+  "molecule": "iodobenzene_cas12",
+  "n_fragments": 3,
+  "fmo2_energy": -7060.888454415622,
+  "monomer_energies": [
+    -6871.843104999551,
+    -74.98346365194443,
+    -113.03185581529468
+  ],
+  "dimer_energies": {
+    "0_1": -6947.226878097188,
+    "0_2": -6985.315368637125,
+    "1_2": -188.20463214809752
+  },
+  "parent_energy": -7061.103524430482,
+  "fragmentation_error_mha": 215.0700148604301,
+  "hcgqe_vs_exact_mha": 203.7264175260134,
+  "max_dimer_qubits": 8,
+  "parent_qubits": 12,
+  "genuine_scaling": true
+}

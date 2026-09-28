@@ -1,0 +1,29 @@
+{
+  "molecule": "methyl_iodide",
+  "n_qubits": 8,
+  "n_electrons": 2,
+  "circuit_depth": 12,
+  "gate_count": 21,
+  "n_gates_per_type": {
+    "h": 8,
+    "cx": 6,
+    "x": 2,
+    "sdg": 2,
+    "s": 2,
+    "rz": 1
+  },
+  "operators": [
+    "XYYX"
+  ],
+  "thetas": [
+    0.016015122483972598
+  ],
+  "energy_ha": -6889.838761559182,
+  "hf_energy_ha": null,
+  "fci_energy_ha": null,
+  "source": "Conditional-GQE (H-cGQE Transformer + L-BFGS-B)",
+  "source_checkpoint": null,
+  "qasm_file": "methyl_iodide_gqe_demo.qasm",
+  "qasm_ansatz_file": "methyl_iodide_gqe_ansatz.qasm",
+  "quaggle_import_instructions": "1. Open Quaggle Circuit Builder\n2. Import the QASM file (OpenQASM 2.0 format)\n3. The circuit includes Hartree-Fock initial state + GQE ansatz\n4. Run on simulator or export to QPU\n5. Reference energy values in metadata JSON for comparison"
+}

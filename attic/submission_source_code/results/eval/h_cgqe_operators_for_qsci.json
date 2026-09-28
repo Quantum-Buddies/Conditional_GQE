@@ -1,0 +1,1182 @@
+[
+  {
+    "molecule": "h2",
+    "best_sequence": {
+      "operators": [
+        "XXYY",
+        "IZIZ",
+        "ZIIZ",
+        "ZZII",
+        "ZZII",
+        "XYYX",
+        "YYXX",
+        "ZZII",
+        "YYXX",
+        "IIZI",
+        "YYXX",
+        "IIZI",
+        "YXXY",
+        "IIZZ",
+        "ZIII",
+        "IZIZ",
+        "ZIII",
+        "IIZZ",
+        "IZZI"
+      ],
+      "thetas": [
+        0.08234358151050884,
+        0.051067358532505616,
+        -0.02961832717770457,
+        -0.6157931872430179,
+        0.07376487966819005,
+        0.04545438900080764,
+        -0.06219959767361792,
+        -0.017067040428182037,
+        -0.09225773967915152,
+        -0.779415707645736,
+        0.04997286686749273,
+        0.03060391461870733,
+        0.08669219832884859,
+        -0.7411130120240732,
+        -0.02109936417508848,
+        0.0003556021819489753,
+        -0.04793966059632707,
+        -0.0711577851224646,
+        -0.007124673763987746
+      ],
+      "energy": -1.1173331406155733
+    },
+    "theta_source": "lbfgs_b"
+  },
+  {
+    "molecule": "h2_0.5",
+    "best_sequence": {
+      "operators": [
+        "XXYY",
+        "IZIZ",
+        "ZIIZ",
+        "ZZII",
+        "ZZII",
+        "XYYX",
+        "ZIIZ",
+        "YYXX",
+        "IIZI",
+        "YYXX",
+        "IIZI",
+        "IIZI",
+        "IIZI",
+        "YXXY",
+        "XYXY",
+        "IZII",
+        "ZIII",
+        "IIZZ",
+        "IZZI"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -1.0434643058625426
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "h2_1.0",
+    "best_sequence": {
+      "operators": [
+        "XXYY",
+        "IZIZ",
+        "ZIIZ",
+        "ZZII",
+        "ZZII",
+        "XYYX",
+        "YYXX",
+        "ZZII",
+        "YYXX",
+        "IIZI",
+        "YYXX",
+        "IIZI",
+        "IIZI",
+        "YXXY",
+        "ZIZI",
+        "IZIZ",
+        "XYXY",
+        "ZIII",
+        "IIZZ",
+        "IZIZ"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -1.0665503431656427
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "h2_1.5",
+    "best_sequence": {
+      "operators": [
+        "XXYY",
+        "IZIZ",
+        "ZIIZ",
+        "YYXX",
+        "ZZII",
+        "XYYX",
+        "YYXX",
+        "ZZII",
+        "YYXX",
+        "IIZI",
+        "YYXX",
+        "IIZI",
+        "IIZI",
+        "YXXY",
+        "XXXX",
+        "XYXY",
+        "ZIZI",
+        "IZIZ",
+        "ZIZI"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -0.9118283742793273
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "h2_2.0",
+    "best_sequence": {
+      "operators": [
+        "XXYY",
+        "IIIZ",
+        "IIZI",
+        "YZYI",
+        "ZIII",
+        "IIZZ",
+        "ZIII",
+        "IZIZ",
+        "YYXX",
+        "ZZII",
+        "YYXX",
+        "IIZI",
+        "IZZI",
+        "IIZI",
+        "IIIZ",
+        "IIZI",
+        "IZII",
+        "XYYX",
+        "IIZZ",
+        "IZZI"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -0.7846151922331912
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "anisole_cas12",
+    "best_sequence": {
+      "operators": [
+        "IXYZZZZZZXZY",
+        "IIXXZZZXZZZX",
+        "IIIXZXZXZZZX",
+        "IIIIIIIIIZII",
+        "IIIYIYIIIIII",
+        "IIIZIIIIIIZI",
+        "IZIIIIIZIIII",
+        "IZIIIIIZ",
+        "XZZZXZYZYIII",
+        "IIIXXZZYZYII",
+        "IZIXZXII",
+        "IIIIIIIZIIZI",
+        "IZZIIIIIIIII",
+        "IZIIIIZIIIII",
+        "IIIIZIIIIIII",
+        "IIIZIIIIIIII",
+        "ZIIIIZIIIIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -337.6848372462751
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "benzene_cas12",
+    "best_sequence": {
+      "operators": [
+        "IXYZZZZZZXZY",
+        "IYXZZZYZZZXI",
+        "XZZXZZZZZYZY",
+        "ZIIZIIIIIIII",
+        "IZIIIIIIIZII",
+        "IXZZZYXZYIII",
+        "ZZIIIIII",
+        "IYYZZZZYZZZY",
+        "YZZYZZZZYZZY",
+        "IXZZZYXZYIII",
+        "IXZZYZZZZZXY",
+        "IYZXZZZXZZZY",
+        "XZZZXZYZYIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -227.8891834150635
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "diarylethene_frag_cas12",
+    "best_sequence": {
+      "operators": [
+        "IXYZZZZZZXZY",
+        "ZZII",
+        "IIZIIIZI"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -656.9725538249364
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "hf",
+    "best_sequence": {
+      "operators": [
+        "IIXYYXII",
+        "ZIIIIIII",
+        "YZZYZZYZZZZY",
+        "IIIXZZZZZZZX"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -98.56681506514379
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "imeph_cas12",
+    "best_sequence": {
+      "operators": [
+        "IIXZYZZZZXYI",
+        "IIIIIZZIIIII",
+        "IZIIIIIIIIII",
+        "IZZIIIII",
+        "IXZYYZZZXIII",
+        "IIIIZIIIIIIZ",
+        "IIIIIIIZ",
+        "ZIIIIIIZIIII",
+        "ZIIZIIIIIIII",
+        "IZIIIIIIIZII",
+        "ZIIIIIIIZIII",
+        "IIIIIIIIZZII",
+        "ZIIIIIII",
+        "IIIIZIIIIIII",
+        "IIIIIIIIIIZI",
+        "ZIIIIIIIIZII",
+        "IIIZIIZI",
+        "IIZZIIIIIIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -7187.002075462224
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "iodobenzene_cas12",
+    "best_sequence": {
+      "operators": [
+        "IXYZZZZZZXZY",
+        "IIXZZYZZZXYI",
+        "IYZZZYXXIIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -7078.149053999885
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "lih",
+    "best_sequence": {
+      "operators": [
+        "IXZYYZZZXIII",
+        "IXZYZZZZYXII",
+        "IIYXXYII",
+        "IIXXYYII",
+        "IIIXZXZXZZZX"
+      ],
+      "thetas": [
+        -0.025981922873065676,
+        0.04717003070552894,
+        0.02853250300560187,
+        0.02603842988278144,
+        -0.01138069976404749
+      ],
+      "energy": -7.861313966674625
+    },
+    "theta_source": "lbfgs_b"
+  },
+  {
+    "molecule": "lih_1.2",
+    "best_sequence": {
+      "operators": [
+        "IXZYYZZZXIII",
+        "XZZXXXIIIIII",
+        "IXZYZZYZZZXI",
+        "IIIIIIIIIZZI",
+        "IZIIZIII",
+        "IIYXXYII",
+        "IIIIIZZIIIII",
+        "IIIIIIIZIIZI",
+        "IZIIIIIIIZII",
+        "IIIXZXZZZZXX",
+        "IZZIIIIIIIII",
+        "IZIIIIZIIIII",
+        "IIZZIIIIIIII",
+        "IZZIIIII",
+        "ZIIIIIIIIIIZ",
+        "XZXZZZXZZZXI",
+        "YZZYZXZZZXII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -7.834150035061619
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "lih_2.0",
+    "best_sequence": {
+      "operators": [
+        "IZIIIIIIZIII",
+        "XYIIIIYX",
+        "IZZIIIII",
+        "IIIIIZIZ",
+        "IIIYIYII",
+        "ZIIIIIIZ",
+        "IYXZZZYZZZXI",
+        "XZZXZZZZZYZY",
+        "IXZYZZXYIIII",
+        "IXZXZZYYIIII",
+        "IIIIIZIIIIZI",
+        "IIIIIZZIIIII",
+        "IIIIIIZI",
+        "IIIIZIII",
+        "IIIIIZII",
+        "IIZIIZII",
+        "IIIZIIIZ",
+        "IIXYYXII",
+        "IIYZYZXZZZZX",
+        "ZIIIZIII",
+        "IZXZXIII",
+        "IIIIIIZIIIZI"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -7.829690174383883
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "lih_3.0",
+    "best_sequence": {
+      "operators": [
+        "IXZYYZZZXIII",
+        "XZZXXXIIIIII",
+        "IXZYZZYZZZXI",
+        "YXZZZZYXIIII",
+        "IXYZZZYZZZXI",
+        "ZIIIIIIZIIII",
+        "IIZI",
+        "ZIIIIIZI"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -7.709420433519485
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "methyl_iodide_cas12",
+    "best_sequence": {
+      "operators": [
+        "IXYZZZZZZXZY",
+        "IZZI",
+        "IIZZIIII",
+        "IIXYIIYX",
+        "IIIIIIZZ",
+        "IIIIIZZI",
+        "ZIIIIIIZIIII",
+        "IIZIIIIIIZII",
+        "XZZXZZZZZYZY",
+        "IIXZZXIIIIII",
+        "ZZIIIIIIIIII",
+        "IIIZIIZIIIII",
+        "ZIIIIIIZIIII",
+        "XZZX",
+        "ZIIIIZII",
+        "ZIIIIIIIIIII",
+        "IIIZIIIIIIII",
+        "IZIIIIIIIZII",
+        "ZIIIIIIIZIII",
+        "IZIIIIZIIIII",
+        "YXZZZZYXIIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -6889.838736475615
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "ocresol_cas12",
+    "best_sequence": {
+      "operators": [
+        "XYYXIIII",
+        "IIIZIIZI"
+      ],
+      "thetas": [
+        0.1,
+        0.1
+      ],
+      "energy": -337.57132713387426
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "phenol_cas12",
+    "best_sequence": {
+      "operators": [
+        "IXYZZZZZZXZY",
+        "IIXXZZZXZZZX"
+      ],
+      "thetas": [
+        0.1,
+        0.1
+      ],
+      "energy": -301.6124670256942
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "toluene_cas12",
+    "best_sequence": {
+      "operators": [
+        "IXYZZZZZZXZY"
+      ],
+      "thetas": [
+        0.1
+      ],
+      "energy": -266.44073801215853
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "beh2",
+    "best_sequence": {
+      "operators": [
+        "IIIXYZYZZXIIII",
+        "XZZZZZZZZXIIII",
+        "XZXZZZYZZZYIII",
+        "IIYZXZXZYIIIII",
+        "IIXZXZZZZZYZZY",
+        "XZZZYZYZXIIIII",
+        "IIIYZXZYXIIIII",
+        "IIIYXZZZZZYXII",
+        "IIYXZZXZZYII",
+        "IIIIZIIZ",
+        "YYXXIIII",
+        "ZIII",
+        "IIIIIIIIZIIZ"
+      ],
+      "thetas": [
+        0.054791440290694014,
+        -0.012224348119268535,
+        0.07171984835107673,
+        0.039473769865407494,
+        -0.0811647894307577,
+        0.0951248628382068,
+        0.05222817325141526,
+        0.05721312845167788,
+        -0.07437748050473943,
+        -0.009922805225284076,
+        -0.0258404051054203,
+        0.0853529976230045,
+        0.028773023446055306
+      ],
+      "energy": -15.5579385265799
+    },
+    "theta_source": "lbfgs_b"
+  },
+  {
+    "molecule": "beh2_1.0",
+    "best_sequence": {
+      "operators": [
+        "IIIXYZYZZXIIII",
+        "XZZZZZZZZXIIII",
+        "XZXZZZYZZZYIII",
+        "IIYZXZXZYIIIII",
+        "IIXZXZZZZZYZZY",
+        "XZZZYZYZXIIIII",
+        "IIIYZXZYXIIIII",
+        "IIIYXZZZZZYXII",
+        "IIYZZYZYZYIIII",
+        "IIIYZZZYIIIIII",
+        "YZXZZZZZYZZZXI",
+        "YYXX",
+        "IIZIIZII",
+        "XXXX",
+        "IIIIIIZIZIIIII",
+        "IIYXZZXZZYII",
+        "IIIXZYXZZYII",
+        "IYZYIIIIIIIIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -15.452354641537848
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "beh2_1.6",
+    "best_sequence": {
+      "operators": [
+        "IXZYYZZZXIII",
+        "XZYZZZZXZZYI",
+        "IIIIZIII",
+        "IIIIZIIIIIIZ",
+        "IIIIIIZIIIIIII",
+        "IZIIZIIIIIIIII",
+        "IIIZIIII",
+        "IIIIIZIZ",
+        "IIIYIYIIIIII",
+        "IIIZIIIIIIZI",
+        "IIZZIIIIIIII",
+        "IXZXZZYYIIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -15.50252015597636
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "h2o",
+    "best_sequence": {
+      "operators": [
+        "YYIYYIII",
+        "IIIIIIIIIIIZ",
+        "ZIZI"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -74.93649139218525
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "h2o_1.0_631g_cas8",
+    "best_sequence": {
+      "operators": [
+        "XZYZZZZZZXYIIIII",
+        "IIIIXZYZXZZZYIII",
+        "IIXZZXZZZYYIIIII",
+        "IZXZXIII",
+        "IXZZZXZYZYIIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -75.97791781663915
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "n2_1.1_631g_cas8",
+    "best_sequence": {
+      "operators": [
+        "XZYZZZZZZXYIIIII",
+        "IIIIXZYZXZZZYIII",
+        "IIXZZXZZZYYIIIII",
+        "ZIIIIZIIIIII",
+        "IZIIIIIIIIII",
+        "IXXI"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -108.8671594028788
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "nh3",
+    "best_sequence": {
+      "operators": [
+        "XZYZZZZZZXYIIIII"
+      ],
+      "thetas": [
+        0.1
+      ],
+      "energy": -55.43576102742402
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "ch4",
+    "best_sequence": {
+      "operators": [
+        "IXZYYZZZXIII",
+        "XZZXXXIIIIII",
+        "IIZIIZII",
+        "IXZYZXZZZZZY",
+        "ZIIIZIIIIIII",
+        "IIIIIIIIIZII",
+        "IIIIXXYY",
+        "IIZIIIIIIZII",
+        "IIIIIIIZIIZI",
+        "YZZYZXZZZXII",
+        "IIIXZZZXYZYIIIII",
+        "IIXZZZZXXZZZZXII",
+        "IIYXZZZZYZXIIIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -39.7192312766544
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "co",
+    "best_sequence": {
+      "operators": [
+        "XZYZZZZZZXYIIIII",
+        "IIIIXZYZXZZZYIII",
+        "IIXZZXZZZYYIIIII",
+        "XZZZZZXZYZZZZYII",
+        "IIZIIIZI",
+        "IIIIIIIXZZXZZZZZZYZY",
+        "YZZZXZZZZZYXII",
+        "IIYYZZXZXIIIII",
+        "IIZIIIIIIIIZ",
+        "IZXZXIII",
+        "IIYZXZXZYIIIII",
+        "IIXZXZZZZZYZZY",
+        "IIYZZYZYZYIIII",
+        "ZIIIIIIIZIIIII",
+        "IIIIIIIIIIIIZZ",
+        "IIYZYZXZZZZX",
+        "IIZIIIII",
+        "ZIIIIIIZIIII",
+        "ZIIIIIIIIZIIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -111.20192725782333
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "n2",
+    "best_sequence": {
+      "operators": [
+        "IIIIIIIYZZZZXZZZXZZY",
+        "XZZZZXZZZZZZZZYZZZZY",
+        "IIIXZZZZZZYZZZZXZZZY",
+        "IIIIIIIXZZXZZZZZZYZY",
+        "IIIIIIIIIIZZ",
+        "IXZYZZXYIIII",
+        "IIXZXZZZZZYY",
+        "IIXZYZZZZXYI"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -107.48486992276818
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "n2_1.8",
+    "best_sequence": {
+      "operators": [
+        "IIIIIIIYZZZZXZZZXZZY",
+        "XZZZZXZZZZZZZZYZZZZY",
+        "IIIXZZZZZZYZZZZXZZZY",
+        "XZZXXXIIIIII",
+        "IZIIIZII",
+        "IIYZXZXZYIIIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -107.00833911696832
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "n2_2.5",
+    "best_sequence": {
+      "operators": [
+        "IIIIIIIYZZZZXZZZXZZY",
+        "XZZZZXZZZZZZZZYZZZZY",
+        "IIIXZZZZZZYZZZZXZZZY",
+        "IIIIIIIXZZXZZZZZZYZY",
+        "IIIIIIIIIIIIXXZZZXZX",
+        "IIIIIIIIXZZZZYZZXZYI",
+        "IIIIIIIIYZZXZZZYZXII",
+        "IIIIIIIYZYZZZZZZXZXI"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -106.61389602668706
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "lih_1.6_631g",
+    "best_sequence": {
+      "operators": [
+        "IIXYZZZZXZZZYIIIIIIIII",
+        "IXZXZZZYZZZZZZZZZZZZZY",
+        "IXZXZYZZZZZZZZZZZZZYII",
+        "XZZYZZZZZZZZZZZXZZYIII",
+        "YZYZXZZZZZZZZZZZZXIIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -7.9781092000111435
+    },
+    "theta_source": "default_0.1"
+  },
+  {
+    "molecule": "formaldehyde",
+    "best_sequence": {
+      "operators": [
+        "IIIIIIIIIIIYZZZZXZZZXZZY",
+        "IIIIXZZZZXZZZZZZZZYZZZZY",
+        "IIIIIIIXZZZZZZYZZZZXZZZY",
+        "IIIIIIIIIIIXZZXZZZZZZYZY",
+        "IIIIIIIIIIIIIIZZ",
+        "IIIIIXZYZZXYIIII",
+        "IIIIIIXZXZZZZZYY",
+        "IIIIIIXZYZZZZXYI"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -107.48486992276818
+    },
+    "theta_source": "transfer_from_n2",
+    "transfer_source": "n2",
+    "transfer_source_nq": 20,
+    "padded_by": 4,
+    "optimization_status": "unoptimized_placeholder",
+    "optimization_note": "Thetas left at default 0.1; operators transferred from another molecule and padded with identity. Energy is not a converged H-cGQE result."
+  },
+  {
+    "molecule": "ethylene",
+    "best_sequence": {
+      "operators": [
+        "IIIIIIIIXZYZZZZZZXYIIIII",
+        "IIIIIIIIIIIIXZYZXZZZYIII",
+        "IIIIIIIIIIXZZXZZZYYIIIII",
+        "IIIIIIIIXZZZZZXZYZZZZYII",
+        "IIIIIIIIIIZIIIZI",
+        "IIIIIIIIIIIIIIIXZZXZZZZZZYZY",
+        "IIIIIIIIYZZZXZZZZZYXII",
+        "IIIIIIIIIIYYZZXZXIIIII",
+        "IIIIIIIIIIZIIIIIIIIZ",
+        "IIIIIIIIIZXZXIII",
+        "IIIIIIIIIIYZXZXZYIIIII",
+        "IIIIIIIIIIXZXZZZZZYZZY",
+        "IIIIIIIIIIYZZYZYZYIIII",
+        "IIIIIIIIZIIIIIIIZIIIII",
+        "IIIIIIIIIIIIIIIIIIIIZZ",
+        "IIIIIIIIIIYZYZXZZZZX",
+        "IIIIIIIIIIZIIIII",
+        "IIIIIIIIZIIIIIIZIIII",
+        "IIIIIIIIZIIIIIIIIZIIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -111.20192725782333
+    },
+    "theta_source": "transfer_from_co",
+    "transfer_source": "co",
+    "transfer_source_nq": 20,
+    "padded_by": 8,
+    "optimization_status": "unoptimized_placeholder",
+    "optimization_note": "Thetas left at default 0.1; operators transferred from another molecule and padded with identity. Energy is not a converged H-cGQE result."
+  },
+  {
+    "molecule": "benzene_cas20",
+    "best_sequence": {
+      "operators": [
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIXYZZZZZZXZY",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIYXZZZYZZZXI",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIXZZXZZZZZYZY",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIZIIZIIIIIIII",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIZIIIIIIIZII",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIXZZZYXZYIII",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIZZIIIIII",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIYYZZZZYZZZY",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIYZZYZZZZYZZY",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIXZZZYXZYIII",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIXZZYZZZZZXY",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIYZXZZZXZZZY",
+        "IIIIIIIIIIIIIIIIIIIIIIIIIIIIXZZZXZYZYIII"
+      ],
+      "thetas": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "energy": -227.8891834150635
+    },
+    "theta_source": "transfer_from_benzene_cas12",
+    "transfer_source": "benzene_cas12",
+    "transfer_source_nq": 12,
+    "padded_by": 28,
+    "optimization_status": "unoptimized_placeholder",
+    "optimization_note": "Thetas left at default 0.1; operators transferred from another molecule and padded with identity. Energy is not a converged H-cGQE result."
+  }
+]

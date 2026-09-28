@@ -1,0 +1,35 @@
+{
+  "export_type": "sqd_sampling",
+  "measurement_basis": "computational_basis",
+  "molecule": "phenol_cas12",
+  "n_qubits": 12,
+  "n_electrons": 6,
+  "n_operators": 2,
+  "operators": [
+    "IXYZZZZZZXZY",
+    "IIXXZZZXZZZX"
+  ],
+  "thetas": [
+    0.01,
+    0.01
+  ],
+  "device": "aws:rigetti:qpu:cepheus-1-108q",
+  "shots": 4096,
+  "circuit_hash": "sha256:9576d9cb8ca666e3b2622618d274c3c5ca8b021b393ae90b3cd86ff90885343a",
+  "circuit_qasm": "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[12];\ncreg meas[12];\nx q[11];\nx q[10];\nx q[9];\nx q[8];\nx q[7];\nx q[6];\nh q[10];\nh q[9];\ns q[9];\nh q[2];\nh q[0];\ns q[0];\ncx q[0],q[1];\ncx q[1],q[2];\ncx q[2],q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\ncx q[9],q[10];\nrz(-0.02) q[10];\ncx q[9],q[10];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\ncx q[2],q[3];\ncx q[1],q[2];\ncx q[0],q[1];\nh q[10];\nsdg q[9];\nh q[9];\nh q[2];\nsdg q[0];\nh q[0];\nh q[9];\nh q[8];\nh q[4];\nh q[0];\ncx q[0],q[1];\ncx q[1],q[2];\ncx q[2],q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\nrz(-0.02) q[9];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\ncx q[2],q[3];\ncx q[1],q[2];\ncx q[0],q[1];\nh q[9];\nh q[8];\nh q[4];\nh q[0];\nbarrier q[0],q[1],q[2],q[3],q[4],q[5],q[6],q[7],q[8],q[9],q[10],q[11];\nmeasure q[0] -> meas[0];\nmeasure q[1] -> meas[1];\nmeasure q[2] -> meas[2];\nmeasure q[3] -> meas[3];\nmeasure q[4] -> meas[4];\nmeasure q[5] -> meas[5];\nmeasure q[6] -> meas[6];\nmeasure q[7] -> meas[7];\nmeasure q[8] -> meas[8];\nmeasure q[9] -> meas[9];\nmeasure q[10] -> meas[10];\nmeasure q[11] -> meas[11];",
+  "circuit_depth": 47,
+  "circuit_gates": {
+    "cx": 38,
+    "h": 16,
+    "measure": 12,
+    "x": 6,
+    "s": 2,
+    "rz": 2,
+    "sdg": 2,
+    "barrier": 1
+  },
+  "n_hamiltonian_terms": 923,
+  "pipeline_stage": "sqd_pilot",
+  "export_timestamp": "2026-07-26T01:01:08Z",
+  "description": "Computational-basis sampling circuit for SQD. Submit to QPU, collect counts, then run sqd_energy_from_counts()."
+}

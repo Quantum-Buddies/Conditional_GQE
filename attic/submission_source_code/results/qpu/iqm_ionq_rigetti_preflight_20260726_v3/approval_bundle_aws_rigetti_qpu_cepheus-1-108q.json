@@ -1,0 +1,11 @@
+{
+  "dry_run": true,
+  "device": "aws:rigetti:qpu:cepheus-1-108q",
+  "shots_per_job": 4096,
+  "cost_per_job_credits": 204.08,
+  "accepted_count": 1,
+  "projected_cost_credits": 204.08,
+  "manifests": [
+    "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/aws_rigetti_qpu_cepheus-1-108q_h2_1.0_pilot_manifest.json"
+  ]
+}

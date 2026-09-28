@@ -1,0 +1,230 @@
+{
+  "experiment": "gic_phase3_consolidated_results",
+  "description": "Consolidated results for GIC Phase 3 submission",
+  "sections": {
+    "benchmark_ch3i": {
+      "description": "H-cGQE vs HEA-VQE vs CUDA-Q GQE on CH3I (8q)",
+      "reference_energy": -6889.840354306438,
+      "methods": [
+        {
+          "method": "hardware_efficient_vqe",
+          "energy_hartree": -6888.8525609036105,
+          "error_mha": 987.7934028272648,
+          "qubits": 8,
+          "wall_time_seconds": 9.681711170822382
+        },
+        {
+          "method": "cudaq_gqe",
+          "energy_hartree": -6889.843000069323,
+          "error_mha": 2.6457628855496296,
+          "qubits": 8,
+          "wall_time_seconds": 0
+        },
+        {
+          "method": "h_cgqe_rlqf",
+          "energy_hartree": -6889.839725805002,
+          "error_mha": 0.6285014360400965,
+          "qubits": 8,
+          "wall_time_seconds": 0
+        }
+      ]
+    },
+    "qsci_scaling": {
+      "description": "QSCI scaling from 4q to 40q using MPS backend",
+      "molecules": [
+        {
+          "molecule": "h2",
+          "n_qubits": 4,
+          "n_electrons": 2,
+          "n_hamiltonian_terms": 15,
+          "qsci_energy": -1.1372838344885021,
+          "hf_energy": -1.1167593073964253,
+          "n_bitstrings": 6,
+          "sample_time_seconds": 0.049218177795410156,
+          "diag_time_seconds": 0.00139617919921875,
+          "backend": "nvidia"
+        },
+        {
+          "molecule": "lih",
+          "n_qubits": 12,
+          "n_electrons": 4,
+          "n_hamiltonian_terms": 631,
+          "qsci_energy": -7.8618647698086646,
+          "hf_energy": -7.8618647698086415,
+          "n_bitstrings": 93,
+          "sample_time_seconds": 0.031348228454589844,
+          "diag_time_seconds": 0.026349782943725586,
+          "backend": "nvidia"
+        },
+        {
+          "molecule": "beh2",
+          "n_qubits": 14,
+          "n_electrons": 6,
+          "n_hamiltonian_terms": 666,
+          "qsci_energy": -15.561278032308069,
+          "hf_energy": -15.561278032308035,
+          "n_bitstrings": 129,
+          "sample_time_seconds": 0.030393600463867188,
+          "diag_time_seconds": 0.03639650344848633,
+          "backend": "nvidia"
+        },
+        {
+          "molecule": "n2",
+          "n_qubits": 20,
+          "n_electrons": 14,
+          "n_hamiltonian_terms": 2951,
+          "qsci_energy": -107.49650051179775,
+          "hf_energy": -107.49650051179738,
+          "n_bitstrings": 129,
+          "sample_time_seconds": 0.03822207450866699,
+          "diag_time_seconds": 0.11030054092407227,
+          "backend": "nvidia"
+        },
+        {
+          "molecule": "formaldehyde",
+          "n_qubits": 24,
+          "n_electrons": 16,
+          "n_hamiltonian_terms": 9257,
+          "qsci_energy": -112.35244597683335,
+          "hf_energy": -112.35244597683345,
+          "n_bitstrings": 129,
+          "sample_time_seconds": 0.09611749649047852,
+          "diag_time_seconds": 0.2608063220977783,
+          "backend": "nvidia"
+        },
+        {
+          "molecule": "ethylene",
+          "n_qubits": 28,
+          "n_electrons": 16,
+          "n_hamiltonian_terms": 8919,
+          "qsci_energy": -77.07031619333556,
+          "hf_energy": null,
+          "n_bitstrings": 131,
+          "sample_time_seconds": 11.844982147216797,
+          "diag_time_seconds": 0.26555848121643066,
+          "backend": "tensornet-mps"
+        },
+        {
+          "molecule": "benzene_cas20",
+          "n_qubits": 40,
+          "n_electrons": 12,
+          "n_hamiltonian_terms": 29897,
+          "qsci_energy": -227.89009111989714,
+          "hf_energy": null,
+          "n_bitstrings": 131,
+          "sample_time_seconds": 18.139729738235474,
+          "diag_time_seconds": 0.921314001083374,
+          "backend": "tensornet-mps"
+        }
+      ]
+    },
+    "mps_scaling": {
+      "description": "Statevector vs MPS comparison across qubit counts",
+      "molecules": [
+        {
+          "molecule": "h2_0.74",
+          "n_qubits": 4,
+          "statevector_energy": -0.5382054475648965,
+          "mps_energies": {
+            "32": -0.5382054475648957,
+            "64": -0.5382054475648957,
+            "128": -0.5382054475648957,
+            "256": -0.5382054475648957
+          },
+          "statevector_runtime": 0.5758912563323975
+        },
+        {
+          "molecule": "beh2_1.3_full",
+          "n_qubits": 14,
+          "statevector_energy": -8.97861004524498,
+          "mps_energies": {
+            "32": -8.978610045244977,
+            "64": -8.978610045244977,
+            "128": -8.978610045244977,
+            "256": -8.978610045244977
+          },
+          "statevector_runtime": 0.030627965927124023
+        },
+        {
+          "molecule": "n2_1.1_631g_cas8",
+          "n_qubits": 16,
+          "statevector_energy": -103.56033368364095,
+          "mps_energies": {
+            "32": -103.56033368364093,
+            "64": -103.56033368364093,
+            "128": -103.56033368364093,
+            "256": -103.56033368364093
+          },
+          "statevector_runtime": 0.025504350662231445
+        },
+        {
+          "molecule": "n2_1.1_full",
+          "n_qubits": 20,
+          "statevector_energy": -60.5737918473974,
+          "mps_energies": {
+            "32": -60.57379184739743,
+            "64": -60.57379184739743,
+            "128": -60.57379184739743,
+            "256": -60.57379184739743
+          },
+          "statevector_runtime": 0.04952359199523926
+        },
+        {
+          "molecule": "formaldehyde",
+          "n_qubits": 24,
+          "statevector_energy": -62.1727381411377,
+          "mps_energies": {
+            "32": -62.17273814113773,
+            "64": -62.17273814113773,
+            "128": -62.17273814113773,
+            "256": -62.17273814113773
+          },
+          "statevector_runtime": 0.7006638050079346
+        },
+        {
+          "molecule": "ethylene",
+          "n_qubits": 28,
+          "statevector_energy": null,
+          "mps_energies": {
+            "32": -39.61562137289818,
+            "64": -39.61562137289818,
+            "128": -39.61562137289818,
+            "256": -39.61562137289818
+          },
+          "statevector_runtime": 0.0
+        }
+      ]
+    },
+    "qpu_validation": {
+      "description": "QPU submissions to Rigetti, IQM, IonQ",
+      "submissions": [
+        {
+          "device": "qbraid:qbraid:sim:qir-sv",
+          "job_id": "qbraid:qbraid:sim:qir-sv-135b-qjob-6a55f0cc5e6838c8f546a73e",
+          "shots": 2000,
+          "status": "COMPLETED"
+        },
+        {
+          "device": "aws:aws:sim:sv1",
+          "job_id": "aws:aws:sim:sv1-135b-qjob-6a55f3205e6838c8f546a962",
+          "shots": 1024,
+          "status": "COMPLETED"
+        },
+        {
+          "device": "aws:iqm:qpu:emerald",
+          "job_id": "aws:iqm:qpu:emerald-135b-qjob-6a55f39b5e6838c8f546a9ed",
+          "shots": 1024,
+          "status": "COMPLETED"
+        }
+      ]
+    },
+    "transfer_learning": {
+      "description": "Cross-molecule transfer learning with SMILES encoding",
+      "n_molecules": 10,
+      "vocab_size": 53
+    },
+    "fmo2": {
+      "description": "FMO2 error decomposition"
+    }
+  }
+}

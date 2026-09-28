@@ -1,0 +1,25 @@
+{
+  "molecule": "frag_ortho",
+  "n_qubits": 4,
+  "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddeb0936bd6f4cecc213",
+  "device": "aws:rigetti:qpu:cepheus-1-108q",
+  "shots": 4096,
+  "counts": {
+    "0000": 15,
+    "0100": 203,
+    "0101": 1,
+    "0110": 1,
+    "0111": 1,
+    "1000": 213,
+    "1001": 1,
+    "1010": 2,
+    "1011": 1,
+    "1100": 3582,
+    "1101": 24,
+    "1110": 45,
+    "1111": 7
+  },
+  "n_bitstrings": 13,
+  "total_shots": 4096,
+  "retrieve_time": "2026-07-26T11:16:20"
+}

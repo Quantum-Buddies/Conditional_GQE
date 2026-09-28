@@ -1,0 +1,10 @@
+{
+  "job_id": "aws:iqm:qpu:emerald-135b-qjob-6a55f39b5e6838c8f546a9ed",
+  "status": "JobStatus.COMPLETED",
+  "completed": true,
+  "counts": {
+    "raw_result": "Result(\n  device_id=aws:iqm:qpu:emerald,\n  job_id=aws:iqm:qpu:emerald-135b-qjob-6a55f39b5e6838c8f546a9ed,\n  success=True,\n  data=GateModelResultData(measurement_counts={'10001111': 8, '00000000': 5, '00000011': 2, '00000100': 1, '00000110': 2, '00000111': 19, '00001000': 13, '00001010': 1, '00001011': 14, '00001100': 10, '00001101': 15, '00001110': 27, '00001111': 896, '00011111': 4, '00101111': 1, '01001111': 6}, measurements=array(shape=(1024, 8), dtype=object), measurement_probabilities=None),\n  time_stamps=TimeStamps(createdAt=datetime.datetime(2026, 7, 14, 8, 30, 21, 677000, tzinfo=datetime.timezone.utc), endedAt=datetime.datetime(2026, 7, 14, 8, 30, 25, 468000, tzinfo=datetime.timezone.utc), executionDuration=3791),\n  cost=Credits('193.84'),\n  status=COMPLETED\n)"
+  },
+  "retrieve_time_seconds": 0.3716714382171631,
+  "retrieve_time_utc": "2026-07-14T08:31:34Z"
+}

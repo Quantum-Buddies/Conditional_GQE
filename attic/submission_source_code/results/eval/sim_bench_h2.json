@@ -1,0 +1,223 @@
+{
+  "description": "qBraid simulator benchmark: energy accuracy, shot noise, SQD recovery",
+  "timestamp": "2026-07-25T20:12:38Z",
+  "config": {
+    "hamiltonians": "results/data/hamiltonians_gic2026/hamiltonians.json",
+    "optimized": "results/eval/h_cgqe_optimized.json",
+    "molecules": [
+      "h2"
+    ],
+    "devices": [
+      "ionq:ionq:sim:simulator"
+    ],
+    "shots": [
+      1024,
+      4096
+    ],
+    "sqd_enabled": true
+  },
+  "simulator_specs": {
+    "ionq:ionq:sim:simulator": {
+      "max_qubits": 29,
+      "cost": "free",
+      "batch_support": false
+    },
+    "qbraid:qbraid:sim:qir-sv": {
+      "max_qubits": 30,
+      "cost": "free",
+      "batch_support": true
+    },
+    "aws:aws:sim:sv1": {
+      "max_qubits": 34,
+      "cost": "7.5 credits/min",
+      "batch_support": false
+    },
+    "aws:aws:sim:dm1": {
+      "max_qubits": 17,
+      "cost": "7.5 credits/min",
+      "batch_support": false
+    }
+  },
+  "results": [
+    {
+      "molecule": "h2",
+      "n_qubits": 4,
+      "n_electrons": 2,
+      "operators": [
+        "IZIZ",
+        "IZZI",
+        "XXYY",
+        "XYYX",
+        "IZIZ",
+        "YYXX",
+        "IZZI",
+        "IIIZ",
+        "IIIZ",
+        "IZIZ",
+        "YYXX",
+        "IIIZ",
+        "IZZI",
+        "IIZI",
+        "IZZI",
+        "IZII",
+        "IIZI",
+        "IZZI",
+        "XXYY",
+        "YXXY"
+      ],
+      "n_operators": 20,
+      "circuit_metrics": {
+        "depth": 88,
+        "two_qubit_gates": 52,
+        "total_gates": 146,
+        "n_qubits": 4
+      },
+      "qwc_stats": {
+        "n_hamiltonian_terms": 15,
+        "n_qwc_groups": 5,
+        "reduction_ratio": 3.0,
+        "group_sizes": [
+          11,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "gpu_energy_ha": -1.1345535493160361,
+      "fci_energy_ha": -1.1372838344885028,
+      "hf_energy_ha": -1.1167593073964255,
+      "device_results": {
+        "ionq:ionq:sim:simulator": {
+          "device": "ionq:ionq:sim:simulator",
+          "cost": "free",
+          "max_qubits": 29,
+          "shot_results": [
+            {
+              "shots": 1024,
+              "sim_energy_ha": -1.1149636384823358,
+              "device_used": "ionq:ionq:sim:simulator",
+              "runtime_seconds": 42.57,
+              "sim_gpu_diff_mha": 19.5899,
+              "sim_fci_err_mha": 22.3202,
+              "gpu_fci_err_mha": 2.7303,
+              "n_qwc_groups": 5,
+              "status": "ok",
+              "sqd_recovery": {
+                "unfiltered": [
+                  {
+                    "subspace_size": 16,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 32,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 64,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 128,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 256,
+                    "energy": -1.137283834488502
+                  }
+                ],
+                "symmetry_filtered": [
+                  {
+                    "subspace_size": 16,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 32,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 64,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 128,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 256,
+                    "energy": -1.137283834488502
+                  }
+                ],
+                "best_unfiltered": -1.137283834488502,
+                "best_filtered": -1.137283834488502
+              },
+              "sqd_best_energy_ha": -1.137283834488502,
+              "sqd_fci_err_mha": 0.0
+            },
+            {
+              "shots": 4096,
+              "sim_energy_ha": -1.113547931747842,
+              "device_used": "ionq:ionq:sim:simulator",
+              "runtime_seconds": 36.27,
+              "sim_gpu_diff_mha": 21.0056,
+              "sim_fci_err_mha": 23.7359,
+              "gpu_fci_err_mha": 2.7303,
+              "n_qwc_groups": 5,
+              "status": "ok",
+              "sqd_recovery": {
+                "unfiltered": [
+                  {
+                    "subspace_size": 16,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 32,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 64,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 128,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 256,
+                    "energy": -1.137283834488502
+                  }
+                ],
+                "symmetry_filtered": [
+                  {
+                    "subspace_size": 16,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 32,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 64,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 128,
+                    "energy": -1.137283834488502
+                  },
+                  {
+                    "subspace_size": 256,
+                    "energy": -1.137283834488502
+                  }
+                ],
+                "best_unfiltered": -1.137283834488502,
+                "best_filtered": -1.137283834488502
+              },
+              "sqd_best_energy_ha": -1.137283834488502,
+              "sqd_fci_err_mha": 0.0
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "job_id": "aws:aws:sim:sv1-135b-qjob-6a55f3205e6838c8f546a962",
+  "status": "JobStatus.COMPLETED",
+  "completed": true,
+  "counts": {
+    "raw_result": "Result(\n  device_id=aws:aws:sim:sv1,\n  job_id=aws:aws:sim:sv1-135b-qjob-6a55f3205e6838c8f546a962,\n  success=True,\n  data=GateModelResultData(measurement_counts={'00001111': 1024}, measurements=array(shape=(1024, 8), dtype=object), measurement_probabilities=None),\n  time_stamps=TimeStamps(createdAt=datetime.datetime(2026, 7, 14, 8, 28, 19, 101000, tzinfo=datetime.timezone.utc), endedAt=datetime.datetime(2026, 7, 14, 8, 28, 21, 108000, tzinfo=datetime.timezone.utc), executionDuration=5),\n  cost=Credits('0.375'),\n  status=COMPLETED\n)"
+  },
+  "retrieve_time_seconds": 0.5302820205688477,
+  "retrieve_time_utc": "2026-07-14T08:30:03Z"
+}

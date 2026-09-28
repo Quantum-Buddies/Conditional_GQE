@@ -88,3 +88,9 @@ benchmark_sv.py
 
 # Plan files
 scripts/plan_qbraid_experiments.py
+
+# --- Repo hygiene (public release) ---
+logs/
+*.bak
+**/tmp/
+docs/methyltin_xyz_author_request.md

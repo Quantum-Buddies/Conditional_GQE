@@ -1,0 +1,204 @@
+{
+  "experiment": "gqe_qsci_improved",
+  "description": "QSCI with tiled operators (4\u00d7n_qubits) + L-BFGS-B",
+  "depth_multiplier": 4,
+  "n_shots": 8192,
+  "results": [
+    {
+      "molecule": "n2",
+      "n_qubits": 20,
+      "n_electrons": 14,
+      "n_operators": 80,
+      "hf_energy": -107.49650051179738,
+      "sweep_results": [
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 100,
+          "n_samples_used": 78,
+          "n_unique_bitstrings": 78,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.043205976486206055,
+          "diag_time_seconds": 0.08927083015441895,
+          "qsci_energy": -107.49650051179786,
+          "error_vs_hf_mha": 4.831690603168681e-10
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 500,
+          "n_samples_used": 78,
+          "n_unique_bitstrings": 78,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.043205976486206055,
+          "diag_time_seconds": 0.05350947380065918,
+          "qsci_energy": -107.4965005117977,
+          "error_vs_hf_mha": 3.268496584496461e-10
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 1000,
+          "n_samples_used": 78,
+          "n_unique_bitstrings": 78,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.043205976486206055,
+          "diag_time_seconds": 0.05362749099731445,
+          "qsci_energy": -107.4965005117979,
+          "error_vs_hf_mha": 5.258016244624741e-10
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 5000,
+          "n_samples_used": 78,
+          "n_unique_bitstrings": 78,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.043205976486206055,
+          "diag_time_seconds": 0.05392909049987793,
+          "qsci_energy": -107.4965005117976,
+          "error_vs_hf_mha": 2.2737367544323206e-10
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 100,
+          "n_samples_used": 78,
+          "n_unique_bitstrings": 78,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03525900840759277,
+          "diag_time_seconds": 0.05407905578613281,
+          "qsci_energy": -107.49650051179763,
+          "error_vs_hf_mha": 2.5579538487363607e-10
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 500,
+          "n_samples_used": 78,
+          "n_unique_bitstrings": 78,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03525900840759277,
+          "diag_time_seconds": 0.054360389709472656,
+          "qsci_energy": -107.4965005117976,
+          "error_vs_hf_mha": 2.2737367544323206e-10
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 1000,
+          "n_samples_used": 78,
+          "n_unique_bitstrings": 78,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03525900840759277,
+          "diag_time_seconds": 0.05396556854248047,
+          "qsci_energy": -107.49650051179763,
+          "error_vs_hf_mha": 2.5579538487363607e-10
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 5000,
+          "n_samples_used": 78,
+          "n_unique_bitstrings": 78,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03525900840759277,
+          "diag_time_seconds": 0.054132699966430664,
+          "qsci_energy": -107.49650051179802,
+          "error_vs_hf_mha": 6.394884621840902e-10
+        }
+      ],
+      "theta_source": "lbfgs_b_tiled"
+    },
+    {
+      "molecule": "formaldehyde",
+      "n_qubits": 24,
+      "n_electrons": 16,
+      "n_operators": 96,
+      "hf_energy": -112.35244597683345,
+      "sweep_results": [
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 100,
+          "n_samples_used": 99,
+          "n_unique_bitstrings": 99,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.07154417037963867,
+          "diag_time_seconds": 0.14020681381225586,
+          "qsci_energy": -112.35244597683374,
+          "error_vs_hf_mha": 2.842170943040401e-10
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 500,
+          "n_samples_used": 99,
+          "n_unique_bitstrings": 99,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.07154417037963867,
+          "diag_time_seconds": 0.14031648635864258,
+          "qsci_energy": -112.3524459768337,
+          "error_vs_hf_mha": 2.5579538487363607e-10
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 1000,
+          "n_samples_used": 99,
+          "n_unique_bitstrings": 99,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.07154417037963867,
+          "diag_time_seconds": 0.14028644561767578,
+          "qsci_energy": -112.3524459768335,
+          "error_vs_hf_mha": 4.263256414560601e-11
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 5000,
+          "n_samples_used": 99,
+          "n_unique_bitstrings": 99,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.07154417037963867,
+          "diag_time_seconds": 0.14082694053649902,
+          "qsci_energy": -112.35244597683374,
+          "error_vs_hf_mha": 2.842170943040401e-10
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 100,
+          "n_samples_used": 99,
+          "n_unique_bitstrings": 99,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.06869721412658691,
+          "diag_time_seconds": 0.1403827667236328,
+          "qsci_energy": -112.35244597683354,
+          "error_vs_hf_mha": 8.526512829121202e-11
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 500,
+          "n_samples_used": 99,
+          "n_unique_bitstrings": 99,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.06869721412658691,
+          "diag_time_seconds": 0.14105701446533203,
+          "qsci_energy": -112.35244597683351,
+          "error_vs_hf_mha": 5.6843418860808015e-11
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 1000,
+          "n_samples_used": 99,
+          "n_unique_bitstrings": 99,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.06869721412658691,
+          "diag_time_seconds": 0.14031744003295898,
+          "qsci_energy": -112.35244597683375,
+          "error_vs_hf_mha": 2.984279490192421e-10
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 5000,
+          "n_samples_used": 99,
+          "n_unique_bitstrings": 99,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.06869721412658691,
+          "diag_time_seconds": 0.13994312286376953,
+          "qsci_energy": -112.35244597683368,
+          "error_vs_hf_mha": 2.2737367544323206e-10
+        }
+      ],
+      "theta_source": "lbfgs_b_tiled"
+    }
+  ]
+}

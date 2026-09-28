@@ -1,0 +1,11 @@
+{
+  "dry_run": true,
+  "device": "openquantum:ionq:qpu:forte-enterprise",
+  "shots_per_job": 4096,
+  "cost_per_job_credits": 0.0,
+  "accepted_count": 1,
+  "projected_cost_credits": 0.0,
+  "manifests": [
+    "results/qpu/iqm_ionq_rigetti_preflight_20260726_v3/openquantum_ionq_qpu_forte-enterprise_h2_1.0_pilot_manifest.json"
+  ]
+}

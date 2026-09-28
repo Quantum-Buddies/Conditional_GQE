@@ -1,0 +1,92 @@
+{
+  "anisole_cas12": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_anisole_cas12_counts.json",
+    "n_bitstrings": 130,
+    "n_qubits": 12
+  },
+  "beh2": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_beh2_counts.json",
+    "n_bitstrings": 623,
+    "n_qubits": 14
+  },
+  "benzene_cas12": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_benzene_cas12_counts.json",
+    "n_bitstrings": 127,
+    "n_qubits": 12
+  },
+  "ethylene": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_ethylene_counts.json",
+    "n_bitstrings": 2786,
+    "n_qubits": 28
+  },
+  "dim_frag_iodo_frag_meta_para": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_dim_frag_iodo_frag_meta_para_counts.json",
+    "n_bitstrings": 51,
+    "n_qubits": 8
+  },
+  "dim_frag_iodo_frag_ortho": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_dim_frag_iodo_frag_ortho_counts.json",
+    "n_bitstrings": 47,
+    "n_qubits": 8
+  },
+  "dim_frag_ortho_frag_meta_para": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_dim_frag_ortho_frag_meta_para_counts.json",
+    "n_bitstrings": 42,
+    "n_qubits": 8
+  },
+  "frag_iodo": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_frag_iodo_counts.json",
+    "n_bitstrings": 11,
+    "n_qubits": 4
+  },
+  "frag_meta_para": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_frag_meta_para_counts.json",
+    "n_bitstrings": 10,
+    "n_qubits": 4
+  },
+  "frag_ortho": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_frag_ortho_counts.json",
+    "n_bitstrings": 13,
+    "n_qubits": 4
+  },
+  "imeph_cas12": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_imeph_cas12_counts.json",
+    "n_bitstrings": 137,
+    "n_qubits": 12
+  },
+  "iodobenzene": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_iodobenzene_counts.json",
+    "n_bitstrings": 53,
+    "n_qubits": 8
+  },
+  "lih": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_lih_counts.json",
+    "n_bitstrings": 382,
+    "n_qubits": 12
+  },
+  "methyl_iodide_cas12": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_methyl_iodide_cas12_counts.json",
+    "n_bitstrings": 348,
+    "n_qubits": 12
+  },
+  "n2": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_n2_counts.json",
+    "n_bitstrings": 1606,
+    "n_qubits": 20
+  },
+  "ocresol_cas12": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_ocresol_cas12_counts.json",
+    "n_bitstrings": 128,
+    "n_qubits": 12
+  },
+  "phenol_cas12": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_phenol_cas12_counts.json",
+    "n_bitstrings": 379,
+    "n_qubits": 12
+  },
+  "toluene_cas12": {
+    "counts_file": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_toluene_cas12_counts.json",
+    "n_bitstrings": 128,
+    "n_qubits": 12
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "export_type": "sqd_sampling",
+  "measurement_basis": "computational_basis",
+  "molecule": "nh3",
+  "n_qubits": 16,
+  "n_electrons": 10,
+  "n_operators": 1,
+  "operators": [
+    "XZYZZZZZZXYIIIII"
+  ],
+  "thetas": [
+    0.01
+  ],
+  "device": "aws:rigetti:qpu:cepheus-1-108q",
+  "shots": 4096,
+  "circuit_hash": "sha256:a98a1b257896aae01b082a50849a8421e1e24a31187cb417f366dd1c3e21cfd9",
+  "circuit_qasm": "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[16];\ncreg meas[16];\nx q[15];\nx q[14];\nx q[13];\nx q[12];\nx q[11];\nx q[10];\nx q[9];\nx q[8];\nx q[7];\nx q[6];\nh q[15];\nh q[13];\ns q[13];\nh q[6];\nh q[5];\ns q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\ncx q[9],q[10];\ncx q[10],q[11];\ncx q[11],q[12];\ncx q[12],q[13];\ncx q[13],q[14];\ncx q[14],q[15];\nrz(-0.02) q[15];\ncx q[14],q[15];\ncx q[13],q[14];\ncx q[12],q[13];\ncx q[11],q[12];\ncx q[10],q[11];\ncx q[9],q[10];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\nh q[15];\nsdg q[13];\nh q[13];\nh q[6];\nsdg q[5];\nh q[5];\nbarrier q[0],q[1],q[2],q[3],q[4],q[5],q[6],q[7],q[8],q[9],q[10],q[11],q[12],q[13],q[14],q[15];\nmeasure q[0] -> meas[0];\nmeasure q[1] -> meas[1];\nmeasure q[2] -> meas[2];\nmeasure q[3] -> meas[3];\nmeasure q[4] -> meas[4];\nmeasure q[5] -> meas[5];\nmeasure q[6] -> meas[6];\nmeasure q[7] -> meas[7];\nmeasure q[8] -> meas[8];\nmeasure q[9] -> meas[9];\nmeasure q[10] -> meas[10];\nmeasure q[11] -> meas[11];\nmeasure q[12] -> meas[12];\nmeasure q[13] -> meas[13];\nmeasure q[14] -> meas[14];\nmeasure q[15] -> meas[15];",
+  "circuit_depth": 26,
+  "circuit_gates": {
+    "cx": 20,
+    "measure": 16,
+    "x": 10,
+    "h": 8,
+    "s": 2,
+    "sdg": 2,
+    "rz": 1,
+    "barrier": 1
+  },
+  "n_hamiltonian_terms": 1941,
+  "pipeline_stage": "sqd_pilot",
+  "export_timestamp": "2026-07-26T01:01:08Z",
+  "description": "Computational-basis sampling circuit for SQD. Submit to QPU, collect counts, then run sqd_energy_from_counts()."
+}

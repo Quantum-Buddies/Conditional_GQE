@@ -1,0 +1,47 @@
+{
+  "export_type": "sqd_sampling",
+  "measurement_basis": "computational_basis",
+  "molecule": "n2_2.5",
+  "n_qubits": 20,
+  "n_electrons": 14,
+  "n_operators": 8,
+  "operators": [
+    "IIIIIIIYZZZZXZZZXZZY",
+    "XZZZZXZZZZZZZZYZZZZY",
+    "IIIXZZZZZZYZZZZXZZZY",
+    "IIIIIIIXZZXZZZZZZYZY",
+    "IIIIIIIIIIIIXXZZZXZX",
+    "IIIIIIIIXZZZZYZZXZYI",
+    "IIIIIIIIYZZXZZZYZXII",
+    "IIIIIIIYZYZZZZZZXZXI"
+  ],
+  "thetas": [
+    0.01,
+    0.01,
+    0.01,
+    0.01,
+    0.01,
+    0.01,
+    0.01,
+    0.01
+  ],
+  "device": "aws:rigetti:qpu:cepheus-1-108q",
+  "shots": 4096,
+  "circuit_hash": "sha256:c2e7e9d586819bcb5ed52dc5c20463cc041048661e65317d8b40841f33df96ea",
+  "circuit_qasm": "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[20];\ncreg meas[20];\nx q[19];\nx q[18];\nx q[17];\nx q[16];\nx q[15];\nx q[14];\nx q[13];\nx q[12];\nx q[11];\nx q[10];\nx q[9];\nx q[8];\nx q[7];\nx q[6];\nh q[12];\ns q[12];\nh q[7];\nh q[3];\nh q[0];\ns q[0];\ncx q[0],q[1];\ncx q[1],q[2];\ncx q[2],q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\ncx q[9],q[10];\ncx q[10],q[11];\ncx q[11],q[12];\nrz(-0.02) q[12];\ncx q[11],q[12];\ncx q[10],q[11];\ncx q[9],q[10];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\ncx q[2],q[3];\ncx q[1],q[2];\ncx q[0],q[1];\nsdg q[12];\nh q[12];\nh q[7];\nh q[3];\nsdg q[0];\nh q[0];\nh q[19];\nh q[14];\nh q[5];\ns q[5];\nh q[0];\ns q[0];\ncx q[0],q[1];\ncx q[1],q[2];\ncx q[2],q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\ncx q[9],q[10];\ncx q[10],q[11];\ncx q[11],q[12];\ncx q[12],q[13];\ncx q[13],q[14];\ncx q[14],q[15];\ncx q[15],q[16];\ncx q[16],q[17];\ncx q[17],q[18];\ncx q[18],q[19];\nrz(-0.02) q[19];\ncx q[18],q[19];\ncx q[17],q[18];\ncx q[16],q[17];\ncx q[15],q[16];\ncx q[14],q[15];\ncx q[13],q[14];\ncx q[12],q[13];\ncx q[11],q[12];\ncx q[10],q[11];\ncx q[9],q[10];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\ncx q[2],q[3];\ncx q[1],q[2];\ncx q[0],q[1];\nh q[19];\nh q[14];\nsdg q[5];\nh q[5];\nsdg q[0];\nh q[0];\nh q[16];\nh q[9];\ns q[9];\nh q[4];\nh q[0];\ns q[0];\ncx q[0],q[1];\ncx q[1],q[2];\ncx q[2],q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\ncx q[9],q[10];\ncx q[10],q[11];\ncx q[11],q[12];\ncx q[12],q[13];\ncx q[13],q[14];\ncx q[14],q[15];\ncx q[15],q[16];\nrz(-0.02) q[16];\ncx q[15],q[16];\ncx q[14],q[15];\ncx q[13],q[14];\ncx q[12],q[13];\ncx q[11],q[12];\ncx q[10],q[11];\ncx q[9],q[10];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\ncx q[2],q[3];\ncx q[1],q[2];\ncx q[0],q[1];\nh q[16];\nsdg q[9];\nh q[9];\nh q[4];\nsdg q[0];\nh q[0];\nh q[12];\nh q[9];\nh q[2];\ns q[2];\nh q[0];\ns q[0];\ncx q[0],q[1];\ncx q[1],q[2];\ncx q[2],q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\ncx q[9],q[10];\ncx q[10],q[11];\ncx q[11],q[12];\nrz(-0.02) q[12];\ncx q[11],q[12];\ncx q[10],q[11];\ncx q[9],q[10];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\ncx q[2],q[3];\ncx q[1],q[2];\ncx q[0],q[1];\nh q[12];\nh q[9];\nsdg q[2];\nh q[2];\nsdg q[0];\nh q[0];\nh q[7];\nh q[6];\nh q[2];\nh q[0];\ncx q[0],q[1];\ncx q[1],q[2];\ncx q[2],q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\nrz(-0.02) q[7];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\ncx q[2],q[3];\ncx q[1],q[2];\ncx q[0],q[1];\nh q[7];\nh q[6];\nh q[2];\nh q[0];\nh q[11];\nh q[6];\ns q[6];\nh q[3];\nh q[1];\ns q[1];\ncx q[1],q[2];\ncx q[2],q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\ncx q[9],q[10];\ncx q[10],q[11];\nrz(-0.02) q[11];\ncx q[10],q[11];\ncx q[9],q[10];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\ncx q[2],q[3];\ncx q[1],q[2];\nh q[11];\nsdg q[6];\nh q[6];\nh q[3];\nsdg q[1];\nh q[1];\nh q[11];\ns q[11];\nh q[8];\nh q[4];\ns q[4];\nh q[2];\ncx q[2],q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\ncx q[9],q[10];\ncx q[10],q[11];\nrz(-0.02) q[11];\ncx q[10],q[11];\ncx q[9],q[10];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\ncx q[2],q[3];\nsdg q[11];\nh q[11];\nh q[8];\nsdg q[4];\nh q[4];\nh q[2];\nh q[12];\ns q[12];\nh q[10];\ns q[10];\nh q[3];\nh q[1];\ncx q[1],q[2];\ncx q[2],q[3];\ncx q[3],q[4];\ncx q[4],q[5];\ncx q[5],q[6];\ncx q[6],q[7];\ncx q[7],q[8];\ncx q[8],q[9];\ncx q[9],q[10];\ncx q[10],q[11];\ncx q[11],q[12];\nrz(-0.02) q[12];\ncx q[11],q[12];\ncx q[10],q[11];\ncx q[9],q[10];\ncx q[8],q[9];\ncx q[7],q[8];\ncx q[6],q[7];\ncx q[5],q[6];\ncx q[4],q[5];\ncx q[3],q[4];\ncx q[2],q[3];\ncx q[1],q[2];\nsdg q[12];\nh q[12];\nsdg q[10];\nh q[10];\nh q[3];\nh q[1];\nbarrier q[0],q[1],q[2],q[3],q[4],q[5],q[6],q[7],q[8],q[9],q[10],q[11],q[12],q[13],q[14],q[15],q[16],q[17],q[18],q[19];\nmeasure q[0] -> meas[0];\nmeasure q[1] -> meas[1];\nmeasure q[2] -> meas[2];\nmeasure q[3] -> meas[3];\nmeasure q[4] -> meas[4];\nmeasure q[5] -> meas[5];\nmeasure q[6] -> meas[6];\nmeasure q[7] -> meas[7];\nmeasure q[8] -> meas[8];\nmeasure q[9] -> meas[9];\nmeasure q[10] -> meas[10];\nmeasure q[11] -> meas[11];\nmeasure q[12] -> meas[12];\nmeasure q[13] -> meas[13];\nmeasure q[14] -> meas[14];\nmeasure q[15] -> meas[15];\nmeasure q[16] -> meas[16];\nmeasure q[17] -> meas[17];\nmeasure q[18] -> meas[18];\nmeasure q[19] -> meas[19];",
+  "circuit_depth": 223,
+  "circuit_gates": {
+    "cx": 192,
+    "h": 64,
+    "measure": 20,
+    "x": 14,
+    "s": 14,
+    "sdg": 14,
+    "rz": 8,
+    "barrier": 1
+  },
+  "n_hamiltonian_terms": 3163,
+  "pipeline_stage": "sqd_pilot",
+  "export_timestamp": "2026-07-26T01:00:31Z",
+  "description": "Computational-basis sampling circuit for SQD. Submit to QPU, collect counts, then run sqd_energy_from_counts()."
+}

@@ -1,0 +1,147 @@
+{
+  "results": [
+    {
+      "system": "iodobenzene",
+      "baseline": "cudaq_gqe",
+      "reference_energy": -7078.011842695125,
+      "baseline_energy": -7078.014922707071,
+      "delta_energy": 0.003080011945712613,
+      "n_spin_orbitals": 8,
+      "n_pauli_terms": 105,
+      "mode": "cudaq_gqe",
+      "gqe_config": {
+        "max_iters": 50,
+        "ngates": 20,
+        "num_samples": 5,
+        "objective_shift": -7076.791690257471,
+        "objective_scale": 7080.216289133431,
+        "min_scaled_energy": -0.00017276767175644636
+      },
+      "n_electrons": 4,
+      "target": "nvidia",
+      "target_option": null,
+      "gqe_selected_operators": [
+        {
+          "index": 371,
+          "coefficient_real": -0.0002321375369442904,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIXIXIII"
+        },
+        {
+          "index": 248,
+          "coefficient_real": -0.00026445137415679774,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIYYXXII"
+        },
+        {
+          "index": 378,
+          "coefficient_real": 5.80343842360726e-05,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIZXZXII"
+        },
+        {
+          "index": 84,
+          "coefficient_real": 0.0008785155247226982,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIZIIII"
+        },
+        {
+          "index": 74,
+          "coefficient_real": 0.0018717503739911013,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIZZI"
+        },
+        {
+          "index": 73,
+          "coefficient_real": -0.0009358751869955506,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIZZI"
+        },
+        {
+          "index": 247,
+          "coefficient_real": 0.00013222568707839887,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIYYXXII"
+        },
+        {
+          "index": 180,
+          "coefficient_real": 0.0005137714043396782,
+          "coefficient_imag": 0.0,
+          "pauli_word": "ZIIIZIII"
+        },
+        {
+          "index": 332,
+          "coefficient_real": 0.00017619813331733213,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIXYYX"
+        },
+        {
+          "index": 201,
+          "coefficient_real": -0.0009237004125680643,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IZIIIIZI"
+        },
+        {
+          "index": 334,
+          "coefficient_real": 0.00035239626663466426,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIXYYX"
+        },
+        {
+          "index": 243,
+          "coefficient_real": -0.00026445137415679774,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIYXXYII"
+        },
+        {
+          "index": 343,
+          "coefficient_real": 8.454152924385137e-05,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIYYIIXX"
+        },
+        {
+          "index": 247,
+          "coefficient_real": 0.00013222568707839887,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIYYXXII"
+        },
+        {
+          "index": 55,
+          "coefficient_real": -0.001117682841988654,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIZZ"
+        },
+        {
+          "index": 15,
+          "coefficient_real": 0.0046511167216751114,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIZI"
+        },
+        {
+          "index": 343,
+          "coefficient_real": 8.454152924385137e-05,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIYYIIXX"
+        },
+        {
+          "index": 15,
+          "coefficient_real": 0.0046511167216751114,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIZI"
+        },
+        {
+          "index": 15,
+          "coefficient_real": 0.0046511167216751114,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIIIIIZI"
+        },
+        {
+          "index": 376,
+          "coefficient_real": 0.0002321375369442904,
+          "coefficient_imag": 0.0,
+          "pauli_word": "IIZYZYII"
+        }
+      ]
+    }
+  ]
+}

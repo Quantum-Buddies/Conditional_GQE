@@ -1,0 +1,215 @@
+{
+  "description": "SFT-only vs SFT+RL (DAPO) ablation: L-BFGS-B optimized energies",
+  "sft_checkpoint": "results/train/h_cgqe_uccsd_model.pt (300 epochs, 7.7M params)",
+  "rl_checkpoint": "results/train/h_cgqe_rl_gic2026.pt (24 epochs DAPO, 32 molecules)",
+  "comparisons": [
+    {
+      "molecule": "h2_0.74",
+      "n_qubits": 4,
+      "sft_energy": -1.1167593073964253,
+      "sft_operators": [
+        "IZIZ"
+      ],
+      "sft_error_mha": 20.52,
+      "rl_optimized_energy": -1.137136552017799,
+      "rl_error_mha": 0.15,
+      "fci_energy": -1.137283834488502,
+      "improvement_mha": 20.38
+    },
+    {
+      "molecule": "lih_1.6_full",
+      "n_qubits": 12,
+      "sft_energy": -7.86186664083599,
+      "sft_operators": [
+        "IZIZ",
+        "IZII",
+        "IZII",
+        "IZII",
+        "IZII",
+        "XYYX",
+        "IZII",
+        "XYYX",
+        "IZII",
+        "IZII",
+        "IZII",
+        "IIIIZZII",
+        "ZZIIIIII",
+        "IZII",
+        "IZII",
+        "IZII",
+        "IZII",
+        "ZIIIIIIIIIIZ",
+        "IIIIIIIIIIZZ",
+        "IIIZIIZIIIII"
+      ],
+      "sft_error_mha": 1.81,
+      "rl_optimized_energy": -7.8618293572626206,
+      "rl_error_mha": 1.85,
+      "fci_energy": -7.863681624920665,
+      "improvement_mha": -0.04
+    },
+    {
+      "molecule": "n2_1.1_full",
+      "n_qubits": 20,
+      "sft_energy": -107.49653895554192,
+      "sft_operators": [
+        "IZIZ",
+        "IZII",
+        "IZII",
+        "IZII",
+        "IZII",
+        "XYYX",
+        "IZII",
+        "XYYX",
+        "IZII",
+        "XYYX",
+        "IZII",
+        "IZZI"
+      ],
+      "sft_error_mha": 126.56,
+      "rl_optimized_energy": -107.49633137037715,
+      "rl_error_mha": 126.77,
+      "fci_energy": -107.62310177201758,
+      "improvement_mha": -0.21
+    },
+    {
+      "molecule": "beh2_1.3_full",
+      "n_qubits": 14,
+      "sft_energy": -15.561278032308028,
+      "sft_operators": [
+        "IZIZ"
+      ],
+      "sft_error_mha": 33.77,
+      "rl_optimized_energy": -15.560232879256166,
+      "rl_error_mha": 34.81,
+      "fci_energy": -15.595047080934544,
+      "improvement_mha": -1.05
+    },
+    {
+      "molecule": "iodobenzene_cas12",
+      "n_qubits": 12,
+      "sft_energy": -7078.008739756695,
+      "sft_operators": [
+        "IZIZ"
+      ],
+      "sft_error_mha": 3.1,
+      "rl_optimized_energy": -7078.008871255745,
+      "rl_error_mha": 2.97,
+      "fci_energy": -7078.011842695108,
+      "improvement_mha": 0.13
+    },
+    {
+      "molecule": "methyl_iodide_cas12",
+      "n_qubits": 12,
+      "sft_energy": -6889.841779348114,
+      "sft_operators": [
+        "ZZIIIIII",
+        "IIIIIZZI",
+        "IIIIIZZI",
+        "ZZIIIIII",
+        "ZIIIZIII",
+        "ZZIIIIII",
+        "ZZIIIIII",
+        "IIIIZIIZ",
+        "ZZIIIIII",
+        "ZZIIIIII",
+        "IIIIZZII",
+        "ZZIIIIII",
+        "ZZIIIIII",
+        "ZZIIIIII",
+        "ZZIIIIII",
+        "ZZIIIIII"
+      ],
+      "sft_error_mha": 1.43,
+      "rl_optimized_energy": -6889.838761559182,
+      "rl_error_mha": 1.59,
+      "fci_energy": -6889.840354306438,
+      "improvement_mha": -0.17
+    },
+    {
+      "molecule": "imeph_cas12",
+      "n_qubits": 12,
+      "sft_energy": -7190.331319272142,
+      "sft_operators": [
+        "IZIZ"
+      ],
+      "sft_error_mha": 25.01,
+      "rl_optimized_energy": -7190.331558070803,
+      "rl_error_mha": 24.78,
+      "fci_energy": -7190.356334261206,
+      "improvement_mha": 0.24
+    },
+    {
+      "molecule": "phenol_cas12",
+      "n_qubits": 12,
+      "sft_energy": -301.61251619477804,
+      "sft_operators": [
+        "IZIZ",
+        "IZII",
+        "IZII",
+        "IZII",
+        "IZII",
+        "XYYX",
+        "IZII",
+        "XYYX",
+        "IZII",
+        "IZII",
+        "IIIIZZII",
+        "IZII",
+        "ZIIIIIII",
+        "IZII",
+        "ZZIIIIII",
+        "IZII",
+        "IZII",
+        "IZII",
+        "IZIZ"
+      ],
+      "sft_error_mha": 45.12,
+      "rl_optimized_energy": -301.61248484019205,
+      "rl_error_mha": 45.15,
+      "fci_energy": -301.6576396779959,
+      "improvement_mha": -0.03
+    }
+  ],
+  "rl_variant_ablation": {
+    "description": "DAPO component ablation on 4 core molecules (raw RL energies)",
+    "variants": {
+      "full": {
+        "h2": -1.1167593073964253,
+        "lih": -7.861864769808656,
+        "beh2": -15.561204461467414,
+        "n2": -107.49640321091846
+      },
+      "vanilla_dapo": {
+        "h2": -1.1167593073964253,
+        "lih": -7.861864769808656,
+        "beh2": -15.561242493552873,
+        "n2": -107.49646828946372
+      },
+      "no_kl": {
+        "h2": -1.1167006884960107,
+        "lih": -7.861864769808656,
+        "beh2": -15.561204461467414,
+        "n2": -107.49632897616624
+      },
+      "kl_only": {
+        "h2": -1.1167593073964253,
+        "lih": -7.861864769808656,
+        "beh2": -15.561204461467414,
+        "n2": -107.49632897616624
+      },
+      "no_creativity": {
+        "h2": -1.1167593073964253,
+        "lih": -7.86184436742226,
+        "beh2": -15.561204461467414,
+        "n2": -107.49632897616624
+      },
+      "no_mmd": {
+        "h2": -1.1167593073964253,
+        "lih": -7.861850625814115,
+        "beh2": -15.561204461467414,
+        "n2": -107.49632897616624
+      }
+    }
+  }
+}

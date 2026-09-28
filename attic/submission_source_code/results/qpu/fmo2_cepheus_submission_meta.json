@@ -1,0 +1,44 @@
+{
+  "device": "aws:rigetti:qpu:cepheus-1-108q",
+  "timestamp": "2026-07-26T02:01:39Z",
+  "shots": 4096,
+  "fmo2_context": "3-fragment iodobenzene scaling",
+  "sqd_jobs": {
+    "dim_frag_iodo_frag_ortho": {
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a656a830936bd6f4ceca8ed",
+      "shots": 4096,
+      "n_qubits": 8,
+      "manifest": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/qpu/fmo2_dim_frag_iodo_frag_ortho_sqd_manifest.json"
+    },
+    "dim_frag_iodo_frag_meta_para": {
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a656a840936bd6f4ceca8f1",
+      "shots": 4096,
+      "n_qubits": 8,
+      "manifest": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/qpu/fmo2_dim_frag_iodo_frag_meta_para_sqd_manifest.json"
+    },
+    "dim_frag_ortho_frag_meta_para": {
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a656a850936bd6f4ceca8f4",
+      "shots": 4096,
+      "n_qubits": 8,
+      "manifest": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/qpu/fmo2_dim_frag_ortho_frag_meta_para_sqd_manifest.json"
+    },
+    "frag_iodo": {
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a656a860936bd6f4ceca8f7",
+      "shots": 4096,
+      "n_qubits": 4,
+      "manifest": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/qpu/fmo2_frag_iodo_sqd_manifest.json"
+    },
+    "frag_ortho": {
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a656a880936bd6f4ceca8fa",
+      "shots": 4096,
+      "n_qubits": 4,
+      "manifest": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/qpu/fmo2_frag_ortho_sqd_manifest.json"
+    },
+    "frag_meta_para": {
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a656a890936bd6f4ceca8fd",
+      "shots": 4096,
+      "n_qubits": 4,
+      "manifest": "/mnt/scratch/kcwp264/Conditional-GQE_materials/results/qpu/fmo2_frag_meta_para_sqd_manifest.json"
+    }
+  }
+}

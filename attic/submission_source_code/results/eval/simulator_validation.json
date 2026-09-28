@@ -1,0 +1,80 @@
+[
+  {
+    "molecule": "h2",
+    "device": "ionq:ionq:sim:simulator",
+    "sim_energy": -1.1149636384823358,
+    "shots": 1024,
+    "runtime_seconds": 57.35,
+    "mode": "full_qwc",
+    "sim_gpu_diff_mha": 19.5899,
+    "sim_fci_err_mha": 22.3202,
+    "sqd_energy": -1.137283834488502,
+    "sqd_fci_err_mha": 0.0,
+    "sqd_gpu_diff_mha": 2.7303
+  },
+  {
+    "molecule": "h2",
+    "device": "ionq:ionq:sim:simulator",
+    "sim_energy": -1.113547931747842,
+    "shots": 4096,
+    "runtime_seconds": 42.37,
+    "mode": "full_qwc",
+    "sim_gpu_diff_mha": 21.0056,
+    "sim_fci_err_mha": 23.7359,
+    "sqd_energy": -1.137283834488502,
+    "sqd_fci_err_mha": 0.0,
+    "sqd_gpu_diff_mha": 2.7303
+  },
+  {
+    "molecule": "lih",
+    "device": "ionq:ionq:sim:simulator",
+    "sim_energy": null,
+    "shots": 1024,
+    "runtime_seconds": 17.03,
+    "mode": "sqd_only",
+    "sim_gpu_diff_mha": null,
+    "sim_fci_err_mha": null,
+    "sqd_energy": -1.381523732605706,
+    "sqd_fci_err_mha": 6500.8006,
+    "sqd_gpu_diff_mha": 5986.0292
+  },
+  {
+    "molecule": "lih",
+    "device": "ionq:ionq:sim:simulator",
+    "sim_energy": null,
+    "shots": 4096,
+    "runtime_seconds": 16.88,
+    "mode": "sqd_only",
+    "sim_gpu_diff_mha": null,
+    "sim_fci_err_mha": null,
+    "sqd_energy": -1.381523732605706,
+    "sqd_fci_err_mha": 6500.8006,
+    "sqd_gpu_diff_mha": 5986.0292
+  },
+  {
+    "molecule": "beh2",
+    "device": "ionq:ionq:sim:simulator",
+    "sim_energy": null,
+    "shots": 1024,
+    "runtime_seconds": 16.98,
+    "mode": "sqd_only",
+    "sim_gpu_diff_mha": null,
+    "sim_fci_err_mha": null,
+    "sqd_energy": -2.813930205640884,
+    "sqd_fci_err_mha": 12781.1169,
+    "sqd_gpu_diff_mha": 12536.305
+  },
+  {
+    "molecule": "beh2",
+    "device": "ionq:ionq:sim:simulator",
+    "sim_energy": null,
+    "shots": 4096,
+    "runtime_seconds": 17.03,
+    "mode": "sqd_only",
+    "sim_gpu_diff_mha": null,
+    "sim_fci_err_mha": null,
+    "sqd_energy": -2.813930205640884,
+    "sqd_fci_err_mha": 12781.1169,
+    "sqd_gpu_diff_mha": 12536.305
+  }
+]

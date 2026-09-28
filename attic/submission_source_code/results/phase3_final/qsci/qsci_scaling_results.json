@@ -1,0 +1,1026 @@
+{
+  "experiment": "gqe_qsci_scaling",
+  "description": "QSCI scaling: sample determinants from H-cGQE/HF state, diagonalize subspace",
+  "n_samples_list": [
+    100,
+    500,
+    1000,
+    5000
+  ],
+  "bond_dims": [
+    64,
+    128,
+    256
+  ],
+  "n_shots": 8192,
+  "results": [
+    {
+      "molecule": "h2",
+      "n_qubits": 4,
+      "n_electrons": 2,
+      "n_hamiltonian_terms": 15,
+      "hf_energy": -1.1167593073964253,
+      "used_hcgqe_operators": false,
+      "n_operators": 0,
+      "backend": "nvidia",
+      "sweep_results": [
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 100,
+          "n_samples_used": 6,
+          "n_unique_bitstrings": 6,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.049218177795410156,
+          "diag_time_seconds": 0.00139617919921875,
+          "qsci_energy": -1.1372838344885021,
+          "error_vs_hf": 20.52452709207686
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 500,
+          "n_samples_used": 6,
+          "n_unique_bitstrings": 6,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.049218177795410156,
+          "diag_time_seconds": 0.0005805492401123047,
+          "qsci_energy": -1.1372838344885017,
+          "error_vs_hf": 20.52452709207642
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 1000,
+          "n_samples_used": 6,
+          "n_unique_bitstrings": 6,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.049218177795410156,
+          "diag_time_seconds": 0.00051116943359375,
+          "qsci_energy": -1.1372838344885017,
+          "error_vs_hf": 20.52452709207642
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 5000,
+          "n_samples_used": 6,
+          "n_unique_bitstrings": 6,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.049218177795410156,
+          "diag_time_seconds": 0.0004837512969970703,
+          "qsci_energy": -1.137283834488504,
+          "error_vs_hf": 20.524527092078635
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 100,
+          "n_samples_used": 6,
+          "n_unique_bitstrings": 6,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.027329683303833008,
+          "diag_time_seconds": 0.0007388591766357422,
+          "qsci_energy": -1.137283834488502,
+          "error_vs_hf": 20.52452709207664
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 500,
+          "n_samples_used": 6,
+          "n_unique_bitstrings": 6,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.027329683303833008,
+          "diag_time_seconds": 0.0005228519439697266,
+          "qsci_energy": -1.1372838344885017,
+          "error_vs_hf": 20.52452709207642
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 1000,
+          "n_samples_used": 6,
+          "n_unique_bitstrings": 6,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.027329683303833008,
+          "diag_time_seconds": 0.0004930496215820312,
+          "qsci_energy": -1.1372838344885003,
+          "error_vs_hf": 20.524527092075083
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 5000,
+          "n_samples_used": 6,
+          "n_unique_bitstrings": 6,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.027329683303833008,
+          "diag_time_seconds": 0.0005371570587158203,
+          "qsci_energy": -1.1372838344884992,
+          "error_vs_hf": 20.524527092073974
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 100,
+          "n_samples_used": 6,
+          "n_unique_bitstrings": 6,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.027219772338867188,
+          "diag_time_seconds": 0.0007011890411376953,
+          "qsci_energy": -1.1372838344885006,
+          "error_vs_hf": 20.524527092075306
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 500,
+          "n_samples_used": 6,
+          "n_unique_bitstrings": 6,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.027219772338867188,
+          "diag_time_seconds": 0.0005023479461669922,
+          "qsci_energy": -1.1372838344885023,
+          "error_vs_hf": 20.524527092077083
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 1000,
+          "n_samples_used": 6,
+          "n_unique_bitstrings": 6,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.027219772338867188,
+          "diag_time_seconds": 0.0004856586456298828,
+          "qsci_energy": -1.1372838344885015,
+          "error_vs_hf": 20.524527092076195
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 5000,
+          "n_samples_used": 6,
+          "n_unique_bitstrings": 6,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.027219772338867188,
+          "diag_time_seconds": 0.0004749298095703125,
+          "qsci_energy": -1.1372838344884997,
+          "error_vs_hf": 20.52452709207442
+        }
+      ]
+    },
+    {
+      "molecule": "lih",
+      "n_qubits": 12,
+      "n_electrons": 4,
+      "n_hamiltonian_terms": 631,
+      "hf_energy": -7.8618647698086415,
+      "used_hcgqe_operators": false,
+      "n_operators": 0,
+      "backend": "nvidia",
+      "sweep_results": [
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 100,
+          "n_samples_used": 93,
+          "n_unique_bitstrings": 93,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.031348228454589844,
+          "diag_time_seconds": 0.026349782943725586,
+          "qsci_energy": -7.8618647698086646,
+          "error_vs_hf": 2.3092638912203256e-11
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 500,
+          "n_samples_used": 93,
+          "n_unique_bitstrings": 93,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.031348228454589844,
+          "diag_time_seconds": 0.02613544464111328,
+          "qsci_energy": -7.861864769808655,
+          "error_vs_hf": 1.3322676295501878e-11
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 1000,
+          "n_samples_used": 93,
+          "n_unique_bitstrings": 93,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.031348228454589844,
+          "diag_time_seconds": 0.02628183364868164,
+          "qsci_energy": -7.861864769808664,
+          "error_vs_hf": 2.220446049250313e-11
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 5000,
+          "n_samples_used": 93,
+          "n_unique_bitstrings": 93,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.031348228454589844,
+          "diag_time_seconds": 0.02626490592956543,
+          "qsci_energy": -7.861864769808665,
+          "error_vs_hf": 2.398081733190338e-11
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 100,
+          "n_samples_used": 93,
+          "n_unique_bitstrings": 93,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03248286247253418,
+          "diag_time_seconds": 0.025244712829589844,
+          "qsci_energy": -7.861864769808664,
+          "error_vs_hf": 2.220446049250313e-11
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 500,
+          "n_samples_used": 93,
+          "n_unique_bitstrings": 93,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03248286247253418,
+          "diag_time_seconds": 0.02552652359008789,
+          "qsci_energy": -7.861864769808675,
+          "error_vs_hf": 3.375077994860476e-11
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 1000,
+          "n_samples_used": 93,
+          "n_unique_bitstrings": 93,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03248286247253418,
+          "diag_time_seconds": 0.025292634963989258,
+          "qsci_energy": -7.861864769808665,
+          "error_vs_hf": 2.398081733190338e-11
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 5000,
+          "n_samples_used": 93,
+          "n_unique_bitstrings": 93,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03248286247253418,
+          "diag_time_seconds": 0.025192737579345703,
+          "qsci_energy": -7.861864769808665,
+          "error_vs_hf": 2.398081733190338e-11
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 100,
+          "n_samples_used": 93,
+          "n_unique_bitstrings": 93,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.030467987060546875,
+          "diag_time_seconds": 0.025142669677734375,
+          "qsci_energy": -7.861864769808662,
+          "error_vs_hf": 2.042810365310288e-11
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 500,
+          "n_samples_used": 93,
+          "n_unique_bitstrings": 93,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.030467987060546875,
+          "diag_time_seconds": 0.025150775909423828,
+          "qsci_energy": -7.861864769808664,
+          "error_vs_hf": 2.220446049250313e-11
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 1000,
+          "n_samples_used": 93,
+          "n_unique_bitstrings": 93,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.030467987060546875,
+          "diag_time_seconds": 0.02508378028869629,
+          "qsci_energy": -7.861864769808669,
+          "error_vs_hf": 2.7533531010703882e-11
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 5000,
+          "n_samples_used": 93,
+          "n_unique_bitstrings": 93,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.030467987060546875,
+          "diag_time_seconds": 0.02492976188659668,
+          "qsci_energy": -7.861864769808651,
+          "error_vs_hf": 9.769962616701378e-12
+        }
+      ]
+    },
+    {
+      "molecule": "beh2",
+      "n_qubits": 14,
+      "n_electrons": 6,
+      "n_hamiltonian_terms": 666,
+      "hf_energy": -15.561278032308035,
+      "used_hcgqe_operators": false,
+      "n_operators": 0,
+      "backend": "nvidia",
+      "sweep_results": [
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.030393600463867188,
+          "diag_time_seconds": 0.027555227279663086,
+          "qsci_energy": -15.561278032308042,
+          "error_vs_hf": 7.105427357601002e-12
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 500,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.030393600463867188,
+          "diag_time_seconds": 0.03639650344848633,
+          "qsci_energy": -15.561278032308069,
+          "error_vs_hf": 3.375077994860476e-11
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 1000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.030393600463867188,
+          "diag_time_seconds": 0.035973310470581055,
+          "qsci_energy": -15.56127803230803,
+          "error_vs_hf": 5.329070518200751e-12
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 5000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.030393600463867188,
+          "diag_time_seconds": 0.03659796714782715,
+          "qsci_energy": -15.561278032308017,
+          "error_vs_hf": 1.7763568394002505e-11
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.031546592712402344,
+          "diag_time_seconds": 0.027080059051513672,
+          "qsci_energy": -15.561278032308039,
+          "error_vs_hf": 3.552713678800501e-12
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 500,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.031546592712402344,
+          "diag_time_seconds": 0.03594779968261719,
+          "qsci_energy": -15.56127803230804,
+          "error_vs_hf": 5.329070518200751e-12
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 1000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.031546592712402344,
+          "diag_time_seconds": 0.03587198257446289,
+          "qsci_energy": -15.561278032308033,
+          "error_vs_hf": 1.7763568394002505e-12
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 5000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.031546592712402344,
+          "diag_time_seconds": 0.03582572937011719,
+          "qsci_energy": -15.561278032308051,
+          "error_vs_hf": 1.5987211554602254e-11
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03136754035949707,
+          "diag_time_seconds": 0.027088165283203125,
+          "qsci_energy": -15.561278032308044,
+          "error_vs_hf": 8.881784197001252e-12
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 500,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03136754035949707,
+          "diag_time_seconds": 0.03614377975463867,
+          "qsci_energy": -15.561278032308026,
+          "error_vs_hf": 8.881784197001252e-12
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 1000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03136754035949707,
+          "diag_time_seconds": 0.03610587120056152,
+          "qsci_energy": -15.561278032308024,
+          "error_vs_hf": 1.0658141036401503e-11
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 5000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03136754035949707,
+          "diag_time_seconds": 0.036039113998413086,
+          "qsci_energy": -15.56127803230804,
+          "error_vs_hf": 5.329070518200751e-12
+        }
+      ]
+    },
+    {
+      "molecule": "n2",
+      "n_qubits": 20,
+      "n_electrons": 14,
+      "n_hamiltonian_terms": 2951,
+      "hf_energy": -107.49650051179738,
+      "used_hcgqe_operators": false,
+      "n_operators": 0,
+      "backend": "nvidia",
+      "sweep_results": [
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03822207450866699,
+          "diag_time_seconds": 0.0873403549194336,
+          "qsci_energy": -107.49650051179749,
+          "error_vs_hf": 1.1368683772161603e-10
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 500,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03822207450866699,
+          "diag_time_seconds": 0.11030054092407227,
+          "qsci_energy": -107.49650051179775,
+          "error_vs_hf": 3.694822225952521e-10
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 1000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03822207450866699,
+          "diag_time_seconds": 0.1098017692565918,
+          "qsci_energy": -107.4965005117976,
+          "error_vs_hf": 2.2737367544323206e-10
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 5000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03822207450866699,
+          "diag_time_seconds": 0.11289358139038086,
+          "qsci_energy": -107.49650051179789,
+          "error_vs_hf": 5.115907697472721e-10
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03638505935668945,
+          "diag_time_seconds": 0.08524346351623535,
+          "qsci_energy": -107.49650051179763,
+          "error_vs_hf": 2.5579538487363607e-10
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 500,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03638505935668945,
+          "diag_time_seconds": 0.10850048065185547,
+          "qsci_energy": -107.49650051179773,
+          "error_vs_hf": 3.552713678800501e-10
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 1000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03638505935668945,
+          "diag_time_seconds": 0.10839557647705078,
+          "qsci_energy": -107.49650051179758,
+          "error_vs_hf": 1.9895196601282805e-10
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 5000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.03638505935668945,
+          "diag_time_seconds": 0.10834097862243652,
+          "qsci_energy": -107.49650051179748,
+          "error_vs_hf": 9.947598300641403e-11
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.037642478942871094,
+          "diag_time_seconds": 0.08591246604919434,
+          "qsci_energy": -107.4965005117978,
+          "error_vs_hf": 4.263256414560601e-10
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 500,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.037642478942871094,
+          "diag_time_seconds": 0.10816168785095215,
+          "qsci_energy": -107.4965005117978,
+          "error_vs_hf": 4.263256414560601e-10
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 1000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.037642478942871094,
+          "diag_time_seconds": 0.1088869571685791,
+          "qsci_energy": -107.49650051179783,
+          "error_vs_hf": 4.547473508864641e-10
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 5000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.037642478942871094,
+          "diag_time_seconds": 0.10970520973205566,
+          "qsci_energy": -107.49650051179788,
+          "error_vs_hf": 4.973799150320701e-10
+        }
+      ]
+    },
+    {
+      "molecule": "formaldehyde",
+      "n_qubits": 24,
+      "n_electrons": 16,
+      "n_hamiltonian_terms": 9257,
+      "hf_energy": -112.35244597683345,
+      "used_hcgqe_operators": false,
+      "n_operators": 0,
+      "backend": "nvidia",
+      "sweep_results": [
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.09611749649047852,
+          "diag_time_seconds": 0.20030570030212402,
+          "qsci_energy": -112.35244597683351,
+          "error_vs_hf": 5.6843418860808015e-11
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 500,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.09611749649047852,
+          "diag_time_seconds": 0.2608063220977783,
+          "qsci_energy": -112.35244597683335,
+          "error_vs_hf": 9.947598300641403e-11
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 1000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.09611749649047852,
+          "diag_time_seconds": 0.2598378658294678,
+          "qsci_energy": -112.35244597683354,
+          "error_vs_hf": 8.526512829121202e-11
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 5000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.09611749649047852,
+          "diag_time_seconds": 0.25998497009277344,
+          "qsci_energy": -112.3524459768334,
+          "error_vs_hf": 5.6843418860808015e-11
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.09799385070800781,
+          "diag_time_seconds": 0.19986653327941895,
+          "qsci_energy": -112.35244597683351,
+          "error_vs_hf": 5.6843418860808015e-11
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 500,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.09799385070800781,
+          "diag_time_seconds": 0.26173830032348633,
+          "qsci_energy": -112.35244597683362,
+          "error_vs_hf": 1.7053025658242404e-10
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 1000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.09799385070800781,
+          "diag_time_seconds": 0.26172733306884766,
+          "qsci_energy": -112.35244597683364,
+          "error_vs_hf": 1.8474111129762605e-10
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 5000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.09799385070800781,
+          "diag_time_seconds": 0.2623748779296875,
+          "qsci_energy": -112.35244597683361,
+          "error_vs_hf": 1.5631940186722204e-10
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.09646368026733398,
+          "diag_time_seconds": 0.20075368881225586,
+          "qsci_energy": -112.35244597683369,
+          "error_vs_hf": 2.4158453015843406e-10
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 500,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.09646368026733398,
+          "diag_time_seconds": 0.2612755298614502,
+          "qsci_energy": -112.35244597683362,
+          "error_vs_hf": 1.7053025658242404e-10
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 1000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.09646368026733398,
+          "diag_time_seconds": 0.2617604732513428,
+          "qsci_energy": -112.35244597683342,
+          "error_vs_hf": 2.8421709430404007e-11
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 5000,
+          "n_samples_used": 129,
+          "n_unique_bitstrings": 129,
+          "n_shots": 8192,
+          "sample_time_seconds": 0.09646368026733398,
+          "diag_time_seconds": 0.26274704933166504,
+          "qsci_energy": -112.35244597683352,
+          "error_vs_hf": 7.105427357601002e-11
+        }
+      ]
+    },
+    {
+      "molecule": "ethylene",
+      "n_qubits": 28,
+      "n_electrons": 16,
+      "n_hamiltonian_terms": 8919,
+      "hf_energy": null,
+      "used_hcgqe_operators": false,
+      "n_operators": 0,
+      "backend": "tensornet-mps",
+      "sweep_results": [
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 11.844982147216797,
+          "diag_time_seconds": 0.2717905044555664,
+          "qsci_energy": -77.07031619333567,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 500,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 11.844982147216797,
+          "diag_time_seconds": 0.26555848121643066,
+          "qsci_energy": -77.07031619333556,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 1000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 11.844982147216797,
+          "diag_time_seconds": 0.2562124729156494,
+          "qsci_energy": -77.07031619333571,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 5000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 11.844982147216797,
+          "diag_time_seconds": 0.257981538772583,
+          "qsci_energy": -77.07031619333563,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 11.697760343551636,
+          "diag_time_seconds": 0.20232796669006348,
+          "qsci_energy": -77.07031619333559,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 500,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 11.697760343551636,
+          "diag_time_seconds": 0.2581627368927002,
+          "qsci_energy": -77.07031619333574,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 1000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 11.697760343551636,
+          "diag_time_seconds": 0.25885915756225586,
+          "qsci_energy": -77.07031619333563,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 5000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 11.697760343551636,
+          "diag_time_seconds": 0.25725769996643066,
+          "qsci_energy": -77.07031619333556,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 11.71804666519165,
+          "diag_time_seconds": 0.20192646980285645,
+          "qsci_energy": -77.07031619333557,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 500,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 11.71804666519165,
+          "diag_time_seconds": 0.256359338760376,
+          "qsci_energy": -77.07031619333556,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 1000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 11.71804666519165,
+          "diag_time_seconds": 0.2561628818511963,
+          "qsci_energy": -77.07031619333573,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 5000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 11.71804666519165,
+          "diag_time_seconds": 0.2642638683319092,
+          "qsci_energy": -77.07031619333553,
+          "error_vs_hf": null
+        }
+      ]
+    },
+    {
+      "molecule": "benzene_cas20",
+      "n_qubits": 40,
+      "n_electrons": 12,
+      "n_hamiltonian_terms": 29897,
+      "hf_energy": null,
+      "used_hcgqe_operators": false,
+      "n_operators": 0,
+      "backend": "tensornet-mps",
+      "sweep_results": [
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 18.139729738235474,
+          "diag_time_seconds": 0.7362711429595947,
+          "qsci_energy": -227.89009111989716,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 500,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 18.139729738235474,
+          "diag_time_seconds": 0.921314001083374,
+          "qsci_energy": -227.89009111989714,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 1000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 18.139729738235474,
+          "diag_time_seconds": 0.9277281761169434,
+          "qsci_energy": -227.89009111989697,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 64,
+          "n_samples_requested": 5000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 18.139729738235474,
+          "diag_time_seconds": 0.930814266204834,
+          "qsci_energy": -227.8900911198971,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 18.040101766586304,
+          "diag_time_seconds": 0.7304706573486328,
+          "qsci_energy": -227.8900911198971,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 500,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 18.040101766586304,
+          "diag_time_seconds": 0.9279165267944336,
+          "qsci_energy": -227.8900911198967,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 1000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 18.040101766586304,
+          "diag_time_seconds": 0.930307149887085,
+          "qsci_energy": -227.8900911198967,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 128,
+          "n_samples_requested": 5000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 18.040101766586304,
+          "diag_time_seconds": 0.9220113754272461,
+          "qsci_energy": -227.890091119897,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 100,
+          "n_samples_used": 100,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 18.018706798553467,
+          "diag_time_seconds": 0.7308568954467773,
+          "qsci_energy": -227.8900911198973,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 500,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 18.018706798553467,
+          "diag_time_seconds": 0.9203965663909912,
+          "qsci_energy": -227.89009111989702,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 1000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 18.018706798553467,
+          "diag_time_seconds": 0.9233319759368896,
+          "qsci_energy": -227.89009111989708,
+          "error_vs_hf": null
+        },
+        {
+          "bond_dim": 256,
+          "n_samples_requested": 5000,
+          "n_samples_used": 131,
+          "n_unique_bitstrings": 131,
+          "n_shots": 8192,
+          "sample_time_seconds": 18.018706798553467,
+          "diag_time_seconds": 0.9267117977142334,
+          "qsci_energy": -227.89009111989716,
+          "error_vs_hf": null
+        }
+      ]
+    }
+  ]
+}

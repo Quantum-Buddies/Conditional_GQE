@@ -1,0 +1,6 @@
+{
+  "job_id": "rigetti:rigetti:qpu:cepheus-1-108q-135b-qjob-6a55f1d45e6838c8f546a829",
+  "status": "JobStatus.FAILED",
+  "completed": false,
+  "error": "Job did not complete successfully"
+}

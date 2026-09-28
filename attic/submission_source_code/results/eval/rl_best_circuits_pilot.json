@@ -1,0 +1,163 @@
+[
+  {
+    "molecule": "h2",
+    "generated_sequences": [
+      {
+        "operators": [
+          "XXYY",
+          "IZIZ",
+          "ZIIZ",
+          "ZZII",
+          "ZZII",
+          "XYYX",
+          "YYXX",
+          "ZZII",
+          "YYXX",
+          "IIZI",
+          "YYXX",
+          "IIZI",
+          "YXXY",
+          "IIZZ",
+          "ZIII",
+          "IZIZ",
+          "ZIII",
+          "IIZZ",
+          "IZZI"
+        ],
+        "energy": -1.1173331406155733
+      }
+    ]
+  },
+  {
+    "molecule": "lih",
+    "generated_sequences": [
+      {
+        "operators": [
+          "IXZYYZZZXIII",
+          "IXZYZZZZYXII",
+          "IIYXXYII",
+          "IIXXYYII",
+          "IIIXZXZXZZZX"
+        ],
+        "energy": -7.861313966674625
+      }
+    ]
+  },
+  {
+    "molecule": "beh2",
+    "generated_sequences": [
+      {
+        "operators": [
+          "IIIXYZYZZXIIII",
+          "XZZZZZZZZXIIII",
+          "XZXZZZYZZZYIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "XZZZYZYZXIIIII",
+          "IIIYZXZYXIIIII",
+          "IIIYXZZZZZYXII",
+          "IIYXZZXZZYII",
+          "IIIIZIIZ",
+          "YYXXIIII",
+          "ZIII",
+          "IIIIIIIIZIIZ"
+        ],
+        "energy": -15.5579385265799
+      }
+    ]
+  },
+  {
+    "molecule": "n2",
+    "generated_sequences": [
+      {
+        "operators": [
+          "IIIIIIIYZZZZXZZZXZZY",
+          "XZZZZXZZZZZZZZYZZZZY",
+          "IIIXZZZZZZYZZZZXZZZY",
+          "IIIIIIIXZZXZZZZZZYZY",
+          "IIIIIIIIIIZZ",
+          "IXZYZZXYIIII",
+          "IIXZXZZZZZYY",
+          "IIXZYZZZZXYI"
+        ],
+        "energy": -107.48486992276818
+      }
+    ]
+  },
+  {
+    "molecule": "h2o",
+    "generated_sequences": [
+      {
+        "operators": [
+          "YYIYYIII",
+          "IIIIIIIIIIIZ",
+          "ZIZI"
+        ],
+        "energy": -74.93649139218525
+      }
+    ]
+  },
+  {
+    "molecule": "nh3",
+    "generated_sequences": [
+      {
+        "operators": [
+          "XZYZZZZZZXYIIIII"
+        ],
+        "energy": -55.43576102742402
+      }
+    ]
+  },
+  {
+    "molecule": "ch4",
+    "generated_sequences": [
+      {
+        "operators": [
+          "IXZYYZZZXIII",
+          "XZZXXXIIIIII",
+          "IIZIIZII",
+          "IXZYZXZZZZZY",
+          "ZIIIZIIIIIII",
+          "IIIIIIIIIZII",
+          "IIIIXXYY",
+          "IIZIIIIIIZII",
+          "IIIIIIIZIIZI",
+          "YZZYZXZZZXII",
+          "IIIXZZZXYZYIIIII",
+          "IIXZZZZXXZZZZXII",
+          "IIYXZZZZYZXIIIII"
+        ],
+        "energy": -39.7192312766544
+      }
+    ]
+  },
+  {
+    "molecule": "co",
+    "generated_sequences": [
+      {
+        "operators": [
+          "XZYZZZZZZXYIIIII",
+          "IIIIXZYZXZZZYIII",
+          "IIXZZXZZZYYIIIII",
+          "XZZZZZXZYZZZZYII",
+          "IIZIIIZI",
+          "IIIIIIIXZZXZZZZZZYZY",
+          "YZZZXZZZZZYXII",
+          "IIYYZZXZXIIIII",
+          "IIZIIIIIIIIZ",
+          "IZXZXIII",
+          "IIYZXZXZYIIIII",
+          "IIXZXZZZZZYZZY",
+          "IIYZZYZYZYIIII",
+          "ZIIIIIIIZIIIII",
+          "IIIIIIIIIIIIZZ",
+          "IIYZYZXZZZZX",
+          "IIZIIIII",
+          "ZIIIIIIZIIII",
+          "ZIIIIIIIIZIIII"
+        ],
+        "energy": -111.20192725782333
+      }
+    ]
+  }
+]

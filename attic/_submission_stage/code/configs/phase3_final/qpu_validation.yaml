@@ -1,0 +1,61 @@
+# Phase 3 Final — Experiment 2: Real QPU execution
+# Submit best 1-2 circuits from Experiment 1 to a qBraid-accessible QPU.
+# Validate portability and hardware compactness, not full chemistry.
+
+experiment:
+  name: "phase3_qpu_validation"
+  seed: 42
+  description: >
+    Execute the best H-cGQE circuit from Experiment 1 on a real QPU via
+    qBraid. Run ideal GPU simulation, finite-shot simulator, noisy
+    simulator (if available), raw QPU, and mitigated QPU (if available)
+    as a grouped job. Report job IDs, device details, and energy
+    comparisons.
+
+source:
+  benchmark_result: "results/phase3_final/baselines/benchmark_ch3i_hcgqe.json"
+  select_top_k: 1
+
+qpu:
+  # Device selection is determined at runtime by qpu_preflight.py
+  # Preferred providers (in order): Rigetti, IonQ, IBM
+  preferred_providers: ["rigetti", "ionq", "ibm"]
+  min_qubits: 8
+  shots: 4096
+  max_queue_time_minutes: 30
+
+simulation:
+  ideal:
+    backend: "nvidia"
+    target_option: "mqpu"
+    shots: 0  # exact
+  finite_shot:
+    backend: "nvidia"
+    shots: 4096
+  noisy:
+    enabled: false  # enable if noise model available
+    backend: "density-matrix-cpu"
+
+mitigation:
+  enabled: false
+  method: "readout_error_mitigation"  # if implemented
+
+report_metrics:
+  - qbraid_job_id
+  - device_id
+  - submission_time_utc
+  - queue_duration_seconds
+  - shots
+  - logical_qubits
+  - physical_qubits
+  - native_depth
+  - native_two_qubit_gates
+  - raw_energy_hartree
+  - raw_energy_uncertainty
+  - mitigated_energy_hartree
+  - mitigated_energy_uncertainty
+  - ideal_reference_energy
+
+output:
+  dir: "results/phase3_final/qpu"
+  prefix: "qpu_validation"

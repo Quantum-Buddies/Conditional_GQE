@@ -1,0 +1,47 @@
+{
+  "h2": {
+    "status": "completed",
+    "molecule": "h2",
+    "n_qubits": 4,
+    "n_electrons": 2,
+    "n_shots": 4096,
+    "n_unique_bitstrings": 16,
+    "hf_energy": -1.1167593073964253,
+    "sqd_energy": -1.137283834488502,
+    "fci_energy": -1.137283834488502,
+    "error_vs_fci_mha": 0.0,
+    "improvement_over_hf_mha": 20.52452709207664,
+    "n_symmetry_filtered": 6,
+    "variational_bound_satisfied": true
+  },
+  "lih": {
+    "status": "completed",
+    "molecule": "lih",
+    "n_qubits": 12,
+    "n_electrons": 4,
+    "n_shots": 4096,
+    "n_unique_bitstrings": 1955,
+    "hf_energy": -7.86186476980865,
+    "sqd_energy": -7.880693323204017,
+    "fci_energy": -7.882324378883457,
+    "error_vs_fci_mha": 1.6310556794394415,
+    "improvement_over_hf_mha": 18.82855339536693,
+    "n_symmetry_filtered": 207,
+    "variational_bound_satisfied": true
+  },
+  "beh2": {
+    "status": "completed",
+    "molecule": "beh2",
+    "n_qubits": 14,
+    "n_electrons": 6,
+    "n_shots": 4096,
+    "n_unique_bitstrings": 3489,
+    "hf_energy": -15.561278032308017,
+    "sqd_energy": -15.272943917608767,
+    "fci_energy": -15.595047080934403,
+    "error_vs_fci_mha": 322.10316332563593,
+    "improvement_over_hf_mha": -288.33411469925,
+    "n_symmetry_filtered": 692,
+    "variational_bound_satisfied": true
+  }
+}

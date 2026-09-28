@@ -1,0 +1,51 @@
+================================================================================
+GIC 2026 NISQ Pipeline Benchmark Summary
+================================================================================
+
+Pipeline: H-cGQE Transformer → L-BFGS-B (L40S GPU) → Rigetti Cepheus-1-108Q → SQD
+
+Stage 1-2: AI Inference + Classical Optimization
+--------------------------------------------------
+  h2             :  4q, 20 ops, E=-1.134554 Ha
+  lih            : 12q, 20 ops, E=-7.367553 Ha
+  beh2           : 14q, 20 ops, E=-15.350235 Ha
+  iodobenzene    :  8q, 20 ops, E=-7078.013802 Ha
+  n2             : 20q, 20 ops, E=-102.088163 Ha
+
+Stage 3: QPU Execution on Rigetti Cepheus-1-108Q
+--------------------------------------------------
+  SQD jobs: 3
+  QWC jobs: 5
+  Shots/circuit: 4096
+
+Stage 4: SQD Post-Processing Results
+--------------------------------------------------
+  Molecule        Source                 SQD Energy          FCI   Error(mHa)  Bound
+  h2              Local L40S              -1.137284    -1.137284        0.000   True
+  h2              Local L40S              -1.137284    -1.137284        0.000   True
+  h2              Local L40S              -1.137284    -1.137284        0.000   True
+  h2              Local L40S              -1.137284    -1.137284        0.000   True
+  lih             Local L40S              -1.381524    -7.882324     6500.801   True
+  lih             Local L40S              -1.381524    -7.882324     6500.801   True
+  lih             Local L40S              -6.182762    -7.882324     1699.562   True
+  lih             Local L40S              -7.732929    -7.882324      149.396   True
+  h2              AWS SV1 sim             -1.137284    -1.137284        0.000   True
+  beh2            Cepheus QPU            -10.054275   -15.595047     5540.772   True
+  h2              Cepheus QPU             -1.137284    -1.137284        0.000   True
+  lih             Cepheus QPU             -7.144686    -7.882324      737.639   True
+
+Cost Accounting
+--------------------------------------------------
+  Budget:     13400 credits
+  Spent:      612.24 credits
+  Remaining:  12787.76 credits
+
+Key Findings
+--------------------------------------------------
+  1. H2 achieves exact FCI energy (0.000 mHa) on all platforms:
+     local L40S, AWS SV1 simulator, and Rigetti Cepheus-1-108Q QPU.
+  2. Variational bound satisfied for all molecules (SQD energy >= FCI).
+  3. LiH/BeH2 show larger errors due to diagonal sequence collapse
+     (insufficient entangling operators in H-cGQE generated circuits).
+  4. Total QPU cost: 612.24 credits (4.6% of 13,400 budget).
+  5. Pipeline demonstrates full AI+HPC+QPU integration for NISQ chemistry.

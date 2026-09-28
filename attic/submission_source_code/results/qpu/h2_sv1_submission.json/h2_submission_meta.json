@@ -1,0 +1,108 @@
+{
+  "job_ids": [
+    "aws:aws:sim:sv1-135b-qjob-6a6543870936bd6f4ceca0f4",
+    "aws:aws:sim:sv1-135b-qjob-6a6543880936bd6f4ceca0f7",
+    "aws:aws:sim:sv1-135b-qjob-6a6543890936bd6f4ceca0fa",
+    "aws:aws:sim:sv1-135b-qjob-6a65438a0936bd6f4ceca0fd",
+    "aws:aws:sim:sv1-135b-qjob-6a65438a0936bd6f4ceca101"
+  ],
+  "is_list": true,
+  "molecule": "h2",
+  "device": "aws:aws:sim:sv1",
+  "shots": 4096,
+  "group_mapping": [
+    [
+      {
+        "term_idx": 0,
+        "term": "IIII",
+        "coeff": -0.09706626816763153
+      },
+      {
+        "term_idx": 1,
+        "term": "ZIII",
+        "coeff": 0.1714128264477691
+      },
+      {
+        "term_idx": 2,
+        "term": "IZII",
+        "coeff": 0.1714128264477691
+      },
+      {
+        "term_idx": 3,
+        "term": "IIZI",
+        "coeff": -0.2234315369081343
+      },
+      {
+        "term_idx": 4,
+        "term": "IIIZ",
+        "coeff": -0.22343153690813428
+      },
+      {
+        "term_idx": 5,
+        "term": "ZZII",
+        "coeff": 0.16868898170361207
+      },
+      {
+        "term_idx": 10,
+        "term": "ZIZI",
+        "coeff": 0.12062523483390412
+      },
+      {
+        "term_idx": 11,
+        "term": "ZIIZ",
+        "coeff": 0.16592785033770335
+      },
+      {
+        "term_idx": 12,
+        "term": "IZZI",
+        "coeff": 0.16592785033770335
+      },
+      {
+        "term_idx": 13,
+        "term": "IZIZ",
+        "coeff": 0.12062523483390412
+      },
+      {
+        "term_idx": 14,
+        "term": "IIZZ",
+        "coeff": 0.17441287612261575
+      }
+    ],
+    [
+      {
+        "term_idx": 6,
+        "term": "YXXY",
+        "coeff": 0.04530261550379926
+      }
+    ],
+    [
+      {
+        "term_idx": 7,
+        "term": "YYXX",
+        "coeff": -0.04530261550379926
+      }
+    ],
+    [
+      {
+        "term_idx": 8,
+        "term": "XXYY",
+        "coeff": -0.04530261550379926
+      }
+    ],
+    [
+      {
+        "term_idx": 9,
+        "term": "XYYX",
+        "coeff": 0.04530261550379926
+      }
+    ]
+  ],
+  "n_qubits": 4,
+  "metadata": {
+    "n_qubits": 4,
+    "n_electrons": 2,
+    "n_operators": 20,
+    "n_hamiltonian_terms": 15,
+    "n_groups": 5
+  }
+}

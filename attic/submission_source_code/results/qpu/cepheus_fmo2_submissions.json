@@ -1,0 +1,38 @@
+[
+  {
+    "molecule": "dim_frag_iodo_frag_meta_para",
+    "n_qubits": 8,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65dde60936bd6f4cecc200",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_fmo2_dim_frag_iodo_frag_meta_para_submission_meta.json"
+  },
+  {
+    "molecule": "dim_frag_iodo_frag_ortho",
+    "n_qubits": 8,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65dde70936bd6f4cecc203",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_fmo2_dim_frag_iodo_frag_ortho_submission_meta.json"
+  },
+  {
+    "molecule": "dim_frag_ortho_frag_meta_para",
+    "n_qubits": 8,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65dde80936bd6f4cecc207",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_fmo2_dim_frag_ortho_frag_meta_para_submission_meta.json"
+  },
+  {
+    "molecule": "frag_iodo",
+    "n_qubits": 4,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65dde90936bd6f4cecc20b",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_fmo2_frag_iodo_submission_meta.json"
+  },
+  {
+    "molecule": "frag_meta_para",
+    "n_qubits": 4,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddea0936bd6f4cecc20f",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_fmo2_frag_meta_para_submission_meta.json"
+  },
+  {
+    "molecule": "frag_ortho",
+    "n_qubits": 4,
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddeb0936bd6f4cecc213",
+    "meta": "/scratch/kcwp264/Conditional-GQE_materials/results/qpu/cepheus_fmo2_frag_ortho_submission_meta.json"
+  }
+]

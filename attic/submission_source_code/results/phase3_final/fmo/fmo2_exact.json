@@ -1,0 +1,14 @@
+{
+  "method": "exact",
+  "n_fragments": 2,
+  "monomer_energies": [
+    -6887.892329966283,
+    -189.54028229684278
+  ],
+  "dimer_energies": {
+    "0_1": -7190.356334261206
+  },
+  "fmo2_energy": -7190.356334261206,
+  "monomer_sum": -7077.4326122631255,
+  "pair_correction": -112.92372199808037
+}

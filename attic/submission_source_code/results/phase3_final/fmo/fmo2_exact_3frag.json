@@ -1,0 +1,69 @@
+{
+  "method": "exact",
+  "molecule": "iodobenzene_cas12",
+  "n_fragments": 3,
+  "fmo2_energy": -7061.092180833148,
+  "monomer_energies": [
+    -6872.013071601091,
+    -75.09617705628445,
+    -113.03273105006252
+  ],
+  "dimer_energies": {
+    "0_1": -6947.368481792128,
+    "0_2": -6985.505693556985,
+    "1_2": -188.35998519147333
+  },
+  "parent_energy": -7061.103524430482,
+  "monomer_sum": -7060.141979707438,
+  "pair_correction": -0.9502011257099525,
+  "fragmentation_error_mha": 11.3435973344167,
+  "max_dimer_qubits": 8,
+  "parent_qubits": 12,
+  "genuine_scaling": true,
+  "non_tautological": true,
+  "ccsd_refs": {
+    "parent": {
+      "hf_energy": -7061.065571158854,
+      "ccsd_energy": -7061.463372739925,
+      "ccsd_t_energy": -0.010345372102853361,
+      "ccsd_t_total": -7061.473718112028
+    },
+    "frag_iodo": {
+      "hf_energy": -6871.843104999543,
+      "ccsd_energy": -6872.034192713813,
+      "ccsd_t_energy": -0.006247944061352941,
+      "ccsd_t_total": -6872.040440657875
+    },
+    "frag_ortho": {
+      "hf_energy": -74.98346365194448,
+      "ccsd_energy": -75.15529957314683,
+      "ccsd_t_energy": -0.007281743043077359,
+      "ccsd_t_total": -75.16258131618991
+    },
+    "frag_meta_para": {
+      "hf_energy": -113.03185581529469,
+      "ccsd_energy": -113.21411008767483,
+      "ccsd_t_energy": -0.005672528561981541,
+      "ccsd_t_total": -113.21978261623681
+    },
+    "dim_frag_iodo_frag_ortho": {
+      "hf_energy": -6947.226878097192,
+      "ccsd_energy": -6947.547993397756,
+      "ccsd_t_energy": -0.037128549531090196,
+      "ccsd_t_total": -6947.585121947287
+    },
+    "dim_frag_iodo_frag_meta_para": {
+      "hf_energy": -6985.315368637103,
+      "ccsd_energy": -6985.582374743219,
+      "ccsd_t_energy": -0.010147671158047808,
+      "ccsd_t_total": -6985.592522414377
+    },
+    "dim_frag_ortho_frag_meta_para": {
+      "hf_energy": -188.204632148097,
+      "ccsd_energy": -188.57640381045553,
+      "ccsd_t_energy": -0.017184530031511176,
+      "ccsd_t_total": -188.59358834048703
+    }
+  },
+  "elapsed_seconds": 10.81172776222229
+}

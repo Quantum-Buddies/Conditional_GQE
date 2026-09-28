@@ -1,0 +1,74 @@
+{
+  "dim_frag_iodo_frag_ortho": {
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a656a830936bd6f4ceca8ed",
+    "n_qubits": 8,
+    "shots": 4096,
+    "fci_energy": -6947.368481792127,
+    "hf_energy": -6947.226878097188,
+    "sqd_energy": -6947.17035888638,
+    "error_vs_fci_mha": 198.12290574645885,
+    "n_symmetry_filtered": 17,
+    "n_unique_raw": 51,
+    "variational_bound_satisfied": true
+  },
+  "dim_frag_iodo_frag_meta_para": {
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a656a840936bd6f4ceca8f1",
+    "n_qubits": 8,
+    "shots": 4096,
+    "fci_energy": -6985.505693556992,
+    "hf_energy": -6985.315368637125,
+    "sqd_energy": -6984.851918282026,
+    "error_vs_fci_mha": 653.7752749654828,
+    "n_symmetry_filtered": 17,
+    "n_unique_raw": 45,
+    "variational_bound_satisfied": true
+  },
+  "dim_frag_ortho_frag_meta_para": {
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a656a850936bd6f4ceca8f4",
+    "n_qubits": 8,
+    "shots": 4096,
+    "fci_energy": -188.35998519147293,
+    "hf_energy": -188.20463214809752,
+    "sqd_energy": -187.8793417808769,
+    "error_vs_fci_mha": 480.64341059603066,
+    "n_symmetry_filtered": 16,
+    "n_unique_raw": 42,
+    "variational_bound_satisfied": true
+  },
+  "frag_iodo": {
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a656a860936bd6f4ceca8f7",
+    "n_qubits": 4,
+    "shots": 4096,
+    "fci_energy": -6872.013071601087,
+    "hf_energy": -6871.843104999551,
+    "sqd_energy": -6871.932485928458,
+    "error_vs_fci_mha": 80.58567262924043,
+    "n_symmetry_filtered": 5,
+    "n_unique_raw": 14,
+    "variational_bound_satisfied": true
+  },
+  "frag_ortho": {
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a656a880936bd6f4ceca8fa",
+    "n_qubits": 4,
+    "shots": 4096,
+    "fci_energy": -75.09617705628445,
+    "hf_energy": -74.98346365194443,
+    "sqd_energy": -74.88723129169092,
+    "error_vs_fci_mha": 208.94576459352265,
+    "n_symmetry_filtered": 5,
+    "n_unique_raw": 13,
+    "variational_bound_satisfied": true
+  },
+  "frag_meta_para": {
+    "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a656a890936bd6f4ceca8fd",
+    "n_qubits": 4,
+    "shots": 4096,
+    "fci_energy": -113.03273105006252,
+    "hf_energy": -113.03185581529468,
+    "sqd_energy": -112.98808703500492,
+    "error_vs_fci_mha": 44.64401505759952,
+    "n_symmetry_filtered": 5,
+    "n_unique_raw": 13,
+    "variational_bound_satisfied": true
+  }
+}

@@ -1,0 +1,674 @@
+{
+  "timestamp": "2026-07-26T11:32:04+00:00",
+  "challenge": "GIC 2026",
+  "team": "Quantum-Buddies",
+  "model": "H-cGQE (Hierarchical conditional Generative Quantum Eigensolver)",
+  "hardware": {
+    "gpu": "NVIDIA L40S (48GB, PCIe)",
+    "qpu": "Rigetti Cepheus-1-108Q (108q superconducting)",
+    "qpu_access": "qBraid SDK",
+    "classical_optimizer": "L-BFGS-B (scipy.optimize)"
+  },
+  "summary": {
+    "total_molecules_benchmarked": 17,
+    "chemically_accurate_count": 4,
+    "chemical_accuracy_threshold_mha": 1.6,
+    "qpu_molecules_run": 12,
+    "qpu_chemically_accurate": 0,
+    "best_gpu_error_mha": 0.0,
+    "best_qpu_error_mha": 13.948195658485929,
+    "qpu_max_qubits": 28,
+    "qpu_max_qubits_validated": 20,
+    "qpu_device": "Rigetti Cepheus-1-108Q (108q)",
+    "qpu_best_error_mha": 13.948195658485929,
+    "qpu_best_molecule": "methyl_iodide_cas12",
+    "note": "Ethylene (28q) and iodobenzene (8q) have no FCI reference; errors are null. Best validated QPU error is 13.95 mHa (methyl_iodide_cas12, 12q). No QPU molecule reached chemical accuracy (1.6 mHa)."
+  },
+  "gpu_benchmark": [
+    {
+      "molecule": "h2_0.5",
+      "n_qubits": 4,
+      "n_operators": 3,
+      "best_operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "h_cgqe_unoptimized_energy": -1.0428305687722443,
+      "h_cgqe_optimized_energy": -1.0543864991685457,
+      "cudaq_gqe_energy": -1.0431018965243728,
+      "reference_energy": -1.0551597944706224,
+      "error_vs_reference_mha": 0.77,
+      "improvement_over_gqe_mha": 11.28
+    },
+    {
+      "molecule": "h2_0.74",
+      "n_qubits": 4,
+      "n_operators": 4,
+      "best_operators": [
+        "YXXY",
+        "IZII",
+        "IZII",
+        "IZIZ"
+      ],
+      "h_cgqe_unoptimized_energy": -1.1167462727011226,
+      "h_cgqe_optimized_energy": -1.137136552017799,
+      "cudaq_gqe_energy": -1.1169029463455153,
+      "reference_energy": -1.137283834488502,
+      "error_vs_reference_mha": 0.15,
+      "improvement_over_gqe_mha": 20.23
+    },
+    {
+      "molecule": "h2_1.0",
+      "n_qubits": 4,
+      "n_operators": 3,
+      "best_operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "h_cgqe_unoptimized_energy": -1.0660803259135678,
+      "h_cgqe_optimized_energy": -1.101148571268639,
+      "cudaq_gqe_energy": -1.0662029360313117,
+      "reference_energy": -1.1011503302326187,
+      "error_vs_reference_mha": 0.0,
+      "improvement_over_gqe_mha": 34.95
+    },
+    {
+      "molecule": "h2_1.5",
+      "n_qubits": 4,
+      "n_operators": 3,
+      "best_operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "h_cgqe_unoptimized_energy": -0.9109136997628456,
+      "h_cgqe_optimized_energy": -0.9782211720658275,
+      "cudaq_gqe_energy": -0.9109248447189858,
+      "reference_energy": -0.9981493534714101,
+      "error_vs_reference_mha": 19.93,
+      "improvement_over_gqe_mha": 67.3
+    },
+    {
+      "molecule": "h2_2.0",
+      "n_qubits": 4,
+      "n_operators": 3,
+      "best_operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "h_cgqe_unoptimized_energy": -0.7838720298215169,
+      "h_cgqe_optimized_energy": -0.8821032415395602,
+      "cudaq_gqe_energy": -0.7838331829175919,
+      "reference_energy": -0.9486411121761859,
+      "error_vs_reference_mha": 66.54,
+      "improvement_over_gqe_mha": 98.27
+    },
+    {
+      "molecule": "lih_1.2",
+      "n_qubits": 8,
+      "n_operators": 3,
+      "best_operators": [
+        "YXXY",
+        "IZII",
+        "IZIZ"
+      ],
+      "h_cgqe_unoptimized_energy": -7.835548810316585,
+      "h_cgqe_optimized_energy": -7.835578568080478,
+      "cudaq_gqe_energy": -7.8356204959478974,
+      "reference_energy": -7.837671147320343,
+      "error_vs_reference_mha": 2.09,
+      "improvement_over_gqe_mha": -0.04
+    },
+    {
+      "molecule": "lih_1.6",
+      "n_qubits": 8,
+      "n_operators": 3,
+      "best_operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "h_cgqe_unoptimized_energy": -7.861801454690049,
+      "h_cgqe_optimized_energy": -7.8618293572626206,
+      "cudaq_gqe_energy": -7.861869455845228,
+      "reference_energy": -7.863681624920665,
+      "error_vs_reference_mha": 1.85,
+      "improvement_over_gqe_mha": -0.04
+    },
+    {
+      "molecule": "lih_2.0",
+      "n_qubits": 8,
+      "n_operators": 3,
+      "best_operators": [
+        "YXXY",
+        "IZII",
+        "IZIZ"
+      ],
+      "h_cgqe_unoptimized_energy": -7.830851216695891,
+      "h_cgqe_optimized_energy": -7.830874271079732,
+      "cudaq_gqe_energy": -7.830912119253919,
+      "reference_energy": -7.832886003640116,
+      "error_vs_reference_mha": 2.01,
+      "improvement_over_gqe_mha": -0.04
+    },
+    {
+      "molecule": "lih_3.0",
+      "n_qubits": 8,
+      "n_operators": 3,
+      "best_operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ"
+      ],
+      "h_cgqe_unoptimized_energy": -7.710816656251343,
+      "h_cgqe_optimized_energy": -7.710815619869016,
+      "cudaq_gqe_energy": -7.710834496229983,
+      "reference_energy": -7.7277331465927395,
+      "error_vs_reference_mha": 16.92,
+      "improvement_over_gqe_mha": -0.02
+    },
+    {
+      "molecule": "n2_1.1",
+      "n_qubits": 12,
+      "n_operators": 7,
+      "best_operators": [
+        "XYYX",
+        "IZII",
+        "IZIZ",
+        "IZII",
+        "IZII",
+        "IZII",
+        "XYYX"
+      ],
+      "h_cgqe_unoptimized_energy": -107.49427008372274,
+      "h_cgqe_optimized_energy": -107.49633137037715,
+      "cudaq_gqe_energy": -107.49655177012377,
+      "reference_energy": -107.62310177201758,
+      "error_vs_reference_mha": 126.77,
+      "improvement_over_gqe_mha": -0.22
+    },
+    {
+      "molecule": "n2_1.8",
+      "n_qubits": 12,
+      "n_operators": 1,
+      "best_operators": [
+        "XXYY"
+      ],
+      "h_cgqe_unoptimized_energy": -107.01690742974407,
+      "h_cgqe_optimized_energy": -107.01710856615553,
+      "cudaq_gqe_energy": -107.01741620951597,
+      "reference_energy": -107.4595061091802,
+      "error_vs_reference_mha": 442.4,
+      "improvement_over_gqe_mha": -0.31
+    },
+    {
+      "molecule": "n2_2.5",
+      "n_qubits": 12,
+      "n_operators": 1,
+      "best_operators": [
+        "XXYY"
+      ],
+      "h_cgqe_unoptimized_energy": -106.61660692575025,
+      "h_cgqe_optimized_energy": -106.61677396586816,
+      "cudaq_gqe_energy": -106.61704805089241,
+      "reference_energy": -107.43440342869651,
+      "error_vs_reference_mha": 817.63,
+      "improvement_over_gqe_mha": -0.27
+    },
+    {
+      "molecule": "iodobenzene",
+      "n_qubits": 8,
+      "n_operators": 2,
+      "best_operators": [
+        "XYYX",
+        "IZIZ"
+      ],
+      "h_cgqe_unoptimized_energy": -7078.008313371316,
+      "h_cgqe_optimized_energy": -7078.008871255745,
+      "cudaq_gqe_energy": -7078.013802343064,
+      "reference_energy": -7078.011842695108,
+      "error_vs_reference_mha": 2.97,
+      "improvement_over_gqe_mha": -4.93
+    },
+    {
+      "molecule": "methyl_iodide",
+      "n_qubits": 8,
+      "n_operators": 1,
+      "best_operators": [
+        "XYYX"
+      ],
+      "h_cgqe_unoptimized_energy": -6889.83884643056,
+      "h_cgqe_optimized_energy": -6889.838761559182,
+      "cudaq_gqe_energy": -6889.845064679519,
+      "reference_energy": -6889.840354306438,
+      "error_vs_reference_mha": 1.59,
+      "improvement_over_gqe_mha": -6.3
+    },
+    {
+      "molecule": "imeph",
+      "n_qubits": 8,
+      "n_operators": 1,
+      "best_operators": [
+        "XYYX"
+      ],
+      "h_cgqe_unoptimized_energy": -7190.3309396934865,
+      "h_cgqe_optimized_energy": -7190.331558070803,
+      "cudaq_gqe_energy": -7190.337319352154,
+      "reference_energy": -7190.356334261206,
+      "error_vs_reference_mha": 24.78,
+      "improvement_over_gqe_mha": -5.76
+    },
+    {
+      "molecule": "phenol",
+      "n_qubits": 8,
+      "n_operators": 1,
+      "best_operators": [
+        "XYYX"
+      ],
+      "h_cgqe_unoptimized_energy": -301.6123390605387,
+      "h_cgqe_optimized_energy": -301.61248484019205,
+      "cudaq_gqe_energy": -301.6128342636788,
+      "reference_energy": -301.6576396779959,
+      "error_vs_reference_mha": 45.15,
+      "improvement_over_gqe_mha": -0.35
+    },
+    {
+      "molecule": "beh2_1.3",
+      "n_qubits": 14,
+      "n_operators": 18,
+      "best_operators": [
+        "XYYX",
+        "ZIZI",
+        "ZZII",
+        "IIZZ",
+        "XXYY",
+        "YXXY",
+        "IIZZ",
+        "IIIZ",
+        "IZII",
+        "YYXX",
+        "ZIIZ",
+        "IZZI",
+        "IIIZ",
+        "IIZZ",
+        "IZII",
+        "IZZI",
+        "IZII",
+        "IZZI"
+      ],
+      "h_cgqe_unoptimized_energy": -15.538107809311054,
+      "h_cgqe_optimized_energy": -15.560232879256166,
+      "cudaq_gqe_energy": -15.561289162601417,
+      "reference_energy": -15.595047080934544,
+      "error_vs_reference_mha": 34.81,
+      "improvement_over_gqe_mha": -1.06
+    }
+  ],
+  "qpu_results": [
+    {
+      "molecule": "anisole_cas12",
+      "n_qubits": 12,
+      "n_electrons": 6,
+      "device": "Rigetti Cepheus-1-108Q",
+      "shots": 8192,
+      "n_bitstrings": 130,
+      "sqd_energy": -337.68512377730246,
+      "hf_energy": -337.68512377730025,
+      "fci_energy": -337.70949463921784,
+      "error_mHa": 24.37086191537219,
+      "correct_pn_pct": 64.501953125,
+      "circuit_type": "HF state + SQD",
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddae0936bd6f4cecc1be",
+      "bit_order_fix": "reversed"
+    },
+    {
+      "molecule": "beh2",
+      "n_qubits": 14,
+      "n_electrons": 6,
+      "device": "Rigetti Cepheus-1-108Q",
+      "shots": 8192,
+      "n_bitstrings": 623,
+      "sqd_energy": -15.563659962324461,
+      "hf_energy": -15.561278032307992,
+      "fci_energy": -15.595047080934403,
+      "error_mHa": 31.387118609941922,
+      "correct_pn_pct": 38.8671875,
+      "circuit_type": "RL-optimized ansatz",
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddaf0936bd6f4cecc1c1",
+      "bit_order_fix": "reversed"
+    },
+    {
+      "molecule": "benzene_cas12",
+      "n_qubits": 12,
+      "n_electrons": 6,
+      "device": "Rigetti Cepheus-1-108Q",
+      "shots": 8192,
+      "n_bitstrings": 127,
+      "sqd_energy": -227.89550378617014,
+      "hf_energy": -227.89010798052504,
+      "fci_energy": -227.94786860093672,
+      "error_mHa": 52.36481476657673,
+      "correct_pn_pct": 64.013671875,
+      "circuit_type": "HF state + SQD",
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb00936bd6f4cecc1c4",
+      "bit_order_fix": "reversed"
+    },
+    {
+      "molecule": "ethylene",
+      "n_qubits": 28,
+      "n_electrons": 16,
+      "device": "Rigetti Cepheus-1-108Q",
+      "shots": 8192,
+      "n_bitstrings": 2786,
+      "sqd_energy": -77.08012859969224,
+      "hf_energy": -77.07228357089053,
+      "fci_energy": null,
+      "error_mHa": null,
+      "error_vs_hf_mha": 7.845,
+      "correct_pn_pct": 23.92578125,
+      "circuit_type": "RL-optimized ansatz",
+      "validation_note": "No FCI reference available for 28q ethylene. SQD energy improves on HF by 7.85 mHa. Qubit count is valid but accuracy is unvalidated against exact diagonalization.",
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb10936bd6f4cecc1c7",
+      "bit_order_fix": "reversed"
+    },
+    {
+      "molecule": "imeph_cas12",
+      "n_qubits": 12,
+      "n_electrons": 6,
+      "device": "Rigetti Cepheus-1-108Q",
+      "shots": 8192,
+      "n_bitstrings": 137,
+      "sqd_energy": -7187.002254484669,
+      "hf_energy": -7187.002243593628,
+      "fci_energy": -7187.026980076353,
+      "error_mHa": 24.725591683818493,
+      "correct_pn_pct": 64.3310546875,
+      "circuit_type": "HF state + SQD",
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb30936bd6f4cecc1ca",
+      "bit_order_fix": "reversed"
+    },
+    {
+      "molecule": "iodobenzene",
+      "n_qubits": 8,
+      "n_electrons": 4,
+      "device": "Rigetti Cepheus-1-108Q",
+      "shots": 8192,
+      "n_bitstrings": 53,
+      "sqd_energy": -7078.0095904833015,
+      "hf_energy": null,
+      "fci_energy": null,
+      "error_mHa": null,
+      "correct_pn_pct": 71.03271484375,
+      "circuit_type": "HF state + SQD",
+      "validation_note": "No FCI/HF reference available for this active space. PNP=71% suggests good state quality. GPU benchmark (8q, different active space) achieved 2.97 mHa error.",
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddbc0936bd6f4cecc1ed",
+      "bit_order_fix": "reversed"
+    },
+    {
+      "molecule": "lih",
+      "n_qubits": 12,
+      "n_electrons": 4,
+      "device": "Rigetti Cepheus-1-108Q",
+      "shots": 8192,
+      "n_bitstrings": 382,
+      "sqd_energy": -7.862738165954212,
+      "hf_energy": -7.861864769808652,
+      "fci_energy": -7.882324378883502,
+      "error_mHa": 19.586212929289637,
+      "correct_pn_pct": 14.2822265625,
+      "circuit_type": "RL-optimized ansatz",
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb40936bd6f4cecc1cd",
+      "bit_order_fix": "reversed"
+    },
+    {
+      "molecule": "methyl_iodide_cas12",
+      "n_qubits": 12,
+      "n_electrons": 6,
+      "device": "Rigetti Cepheus-1-108Q",
+      "shots": 8192,
+      "n_bitstrings": 348,
+      "sqd_energy": -6889.8395313553765,
+      "hf_energy": -6889.839397058096,
+      "fci_energy": -6889.853479551035,
+      "error_mHa": 13.948195658485929,
+      "correct_pn_pct": 8.0810546875,
+      "circuit_type": "RL-optimized ansatz",
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb50936bd6f4cecc1d1",
+      "bit_order_fix": "reversed"
+    },
+    {
+      "molecule": "n2",
+      "n_qubits": 20,
+      "n_electrons": 14,
+      "device": "Rigetti Cepheus-1-108Q",
+      "shots": 8192,
+      "n_bitstrings": 1606,
+      "sqd_energy": -107.52407454100089,
+      "hf_energy": -107.49650051179778,
+      "fci_energy": -107.6541224475226,
+      "error_mHa": 130.0479065217104,
+      "correct_pn_pct": 28.43017578125,
+      "circuit_type": "RL-optimized ansatz",
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb60936bd6f4cecc1d8",
+      "bit_order_fix": "reversed"
+    },
+    {
+      "molecule": "ocresol_cas12",
+      "n_qubits": 12,
+      "n_electrons": 6,
+      "device": "Rigetti Cepheus-1-108Q",
+      "shots": 8192,
+      "n_bitstrings": 128,
+      "sqd_energy": -337.5717788171216,
+      "hf_energy": -337.57161337555794,
+      "fci_energy": -337.5982294788453,
+      "error_mHa": 26.450661723742996,
+      "correct_pn_pct": 63.8916015625,
+      "circuit_type": "HF state + SQD",
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb70936bd6f4cecc1de",
+      "bit_order_fix": "reversed"
+    },
+    {
+      "molecule": "phenol_cas12",
+      "n_qubits": 12,
+      "n_electrons": 6,
+      "device": "Rigetti Cepheus-1-108Q",
+      "shots": 8192,
+      "n_bitstrings": 379,
+      "sqd_energy": -301.63615390668406,
+      "hf_energy": -301.61261853352374,
+      "fci_energy": -301.6581690576164,
+      "error_mHa": 22.015150932361394,
+      "correct_pn_pct": 6.97021484375,
+      "circuit_type": "RL-optimized ansatz",
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddb90936bd6f4cecc1e1",
+      "bit_order_fix": "reversed"
+    },
+    {
+      "molecule": "toluene_cas12",
+      "n_qubits": 12,
+      "n_electrons": 6,
+      "device": "Rigetti Cepheus-1-108Q",
+      "shots": 8192,
+      "n_bitstrings": 128,
+      "sqd_energy": -266.44081243997243,
+      "hf_energy": -266.44081235517086,
+      "fci_energy": -266.4940953969434,
+      "error_mHa": 53.28295697097474,
+      "correct_pn_pct": 65.27099609375,
+      "circuit_type": "HF state + SQD",
+      "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddba0936bd6f4cecc1e4",
+      "bit_order_fix": "reversed"
+    }
+  ],
+  "rl_optimized_circuits": [
+    {
+      "molecule": "h2",
+      "n_qubits": 4,
+      "n_operators": 19,
+      "rl_unoptimized_energy": -1.1173331406155733,
+      "optimized_energy": -1.1313989968183584,
+      "best_operators": [
+        "XXYY",
+        "IZIZ",
+        "ZIIZ",
+        "ZZII",
+        "ZZII",
+        "XYYX",
+        "YYXX",
+        "ZZII",
+        "YYXX",
+        "IIZI",
+        "YYXX",
+        "IIZI",
+        "YXXY",
+        "IIZZ",
+        "ZIII",
+        "IZIZ",
+        "ZIII",
+        "IIZZ",
+        "IZZI"
+      ],
+      "best_thetas": [
+        0.08234358151050884,
+        0.051067358532505616,
+        -0.02961832717770457,
+        -0.6157931872430179,
+        0.07376487966819005,
+        0.04545438900080764,
+        -0.06219959767361792,
+        -0.017067040428182037,
+        -0.09225773967915152,
+        -0.779415707645736,
+        0.04997286686749273,
+        0.03060391461870733,
+        0.08669219832884859,
+        -0.7411130120240732,
+        -0.02109936417508848,
+        0.0003556021819489753,
+        -0.04793966059632707,
+        -0.0711577851224646,
+        -0.007124673763987746
+      ],
+      "optimization_time_seconds": 39.270243644714355
+    },
+    {
+      "molecule": "lih",
+      "n_qubits": 12,
+      "n_operators": 5,
+      "rl_unoptimized_energy": -7.861313966674625,
+      "optimized_energy": -7.855087667854278,
+      "best_operators": [
+        "IXZYYZZZXIII",
+        "IXZYZZZZYXII",
+        "IIYXXYII",
+        "IIXXYYII",
+        "IIIXZXZXZZZX"
+      ],
+      "best_thetas": [
+        -0.025981922873065676,
+        0.04717003070552894,
+        0.02853250300560187,
+        0.02603842988278144,
+        -0.01138069976404749
+      ],
+      "optimization_time_seconds": 11.190673589706421
+    },
+    {
+      "molecule": "beh2",
+      "n_qubits": 14,
+      "n_operators": 13,
+      "rl_unoptimized_energy": -15.5579385265799,
+      "optimized_energy": -15.464093333841223,
+      "best_operators": [
+        "IIIXYZYZZXIIII",
+        "XZZZZZZZZXIIII",
+        "XZXZZZYZZZYIII",
+        "IIYZXZXZYIIIII",
+        "IIXZXZZZZZYZZY",
+        "XZZZYZYZXIIIII",
+        "IIIYZXZYXIIIII",
+        "IIIYXZZZZZYXII",
+        "IIYXZZXZZYII",
+        "IIIIZIIZ",
+        "YYXXIIII",
+        "ZIII",
+        "IIIIIIIIZIIZ"
+      ],
+      "best_thetas": [
+        0.054791440290694014,
+        -0.012224348119268535,
+        0.07171984835107673,
+        0.039473769865407494,
+        -0.0811647894307577,
+        0.0951248628382068,
+        0.05222817325141526,
+        0.05721312845167788,
+        -0.07437748050473943,
+        -0.009922805225284076,
+        -0.0258404051054203,
+        0.0853529976230045,
+        0.028773023446055306
+      ],
+      "optimization_time_seconds": 35.34475898742676
+    }
+  ],
+  "pipeline_description": {
+    "stage_1": "H-cGQE Transformer autoregressively generates Pauli operator sequences (circuit architecture)",
+    "stage_2": "L-BFGS-B classical optimization of rotation coefficients (thetas) on GPU via CUDA-Q statevector",
+    "stage_3": "RL fine-tuning (DAPO) with energy-based rewards for improved operator selection",
+    "stage_4": "QPU sampling on Rigetti Cepheus-1-108Q + SQD post-processing for ground state energy"
+  },
+  "euv_photoresist_molecules": [
+    {
+      "molecule": "imeph_cas12",
+      "n_qubits": 12,
+      "description": "4-iodo-2-methylphenol (IMePh) - Mitsubishi Chemical's EUV photoresist model molecule",
+      "sqd_error_mha": 24.7
+    },
+    {
+      "molecule": "iodobenzene",
+      "n_qubits": 8,
+      "description": "Iodobenzene - EUV photoresist component"
+    },
+    {
+      "molecule": "methyl_iodide_cas12",
+      "n_qubits": 12,
+      "description": "Methyl iodide - EUV photoresist component",
+      "sqd_error_mha": 13.9
+    },
+    {
+      "molecule": "phenol_cas12",
+      "n_qubits": 12,
+      "description": "Phenol - photoresist base material",
+      "sqd_error_mha": 22.0
+    },
+    {
+      "molecule": "ocresol_cas12",
+      "n_qubits": 12,
+      "description": "o-Cresol - photoresist variant",
+      "sqd_error_mha": 26.5
+    },
+    {
+      "molecule": "anisole_cas12",
+      "n_qubits": 12,
+      "description": "Anisole - photoresist variant",
+      "sqd_error_mha": 24.4
+    },
+    {
+      "molecule": "toluene_cas12",
+      "n_qubits": 12,
+      "description": "Toluene - photoresist solvent",
+      "sqd_error_mha": 53.3
+    },
+    {
+      "molecule": "benzene_cas12",
+      "n_qubits": 12,
+      "description": "Benzene - photoresist base",
+      "sqd_error_mha": 52.4
+    }
+  ]
+}

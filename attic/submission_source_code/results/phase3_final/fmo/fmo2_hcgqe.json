@@ -1,0 +1,14 @@
+{
+  "method": "hcgqe",
+  "n_fragments": 2,
+  "monomer_energies": [
+    -6887.710310987716,
+    -189.3919977879081
+  ],
+  "dimer_energies": {
+    "0_1": -7190.330082382299
+  },
+  "fmo2_energy": -7190.330082382299,
+  "monomer_sum": -7077.102308775624,
+  "pair_correction": -113.22777360667493
+}

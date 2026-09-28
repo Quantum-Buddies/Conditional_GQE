@@ -1,0 +1,297 @@
+{
+  "schema_version": 1,
+  "method": "non_embedded_active_space_mbe2_prototype",
+  "created_utc": "2026-07-26T01:14:57.065523+00:00",
+  "provenance": {
+    "script": "scripts/validate_fmo2_particle_number.py",
+    "input_files": {
+      "monomers.json": "results/data/fragments/monomers.json",
+      "dimers.json": "results/data/fragments/dimers.json",
+      "parent.json": "results/data/fragments/parent.json",
+      "ccsd_refs.json": "results/data/fragments/ccsd_refs.json"
+    },
+    "python": "3.11.15 | packaged by conda-forge | (main, Mar  5 2026, 16:45:40) [GCC 14.3.0]",
+    "basis_convention": "integer bit q is occupation of OpenFermion/Jordan-Wigner spin-orbital q; Qiskit Pauli labels are reversed"
+  },
+  "validation": {
+    "monomer_count": 3,
+    "dimer_count": 3,
+    "parent_count": 1,
+    "complete_pair_inventory": true,
+    "active_electron_counts_consistent": true
+  },
+  "components": {
+    "monomers": [
+      {
+        "name": "frag_iodo",
+        "n_qubits": 4,
+        "full_hilbert_dimension": 16,
+        "declared_active_electrons": 2,
+        "fixed_n_sector_dimension": 6,
+        "expected_sector_dimension": 6,
+        "fixed_n_energy_hartree": -6871.934872960561,
+        "unconstrained_energy_hartree": -6872.013071601086,
+        "unconstrained_minus_fixed_n_hartree": -0.0781986405254429,
+        "solver": "numpy.linalg.eigvalsh",
+        "particle_number_leakage_max_abs": 0.0,
+        "hf_determinant": {
+          "occupied_qubits": [
+            0,
+            1
+          ],
+          "basis_index": 3,
+          "expectation_hartree": -6871.843104999551,
+          "is_in_sector": true
+        },
+        "bit_ordering_crosscheck": {
+          "available": true,
+          "qiskit_label_rule": "reverse ops[q] so qubit n-1 is leftmost",
+          "qiskit_hf_expectation": -6871.843104999551,
+          "absolute_difference": 0.0,
+          "passed": true
+        }
+      },
+      {
+        "name": "frag_ortho",
+        "n_qubits": 4,
+        "full_hilbert_dimension": 16,
+        "declared_active_electrons": 2,
+        "fixed_n_sector_dimension": 6,
+        "expected_sector_dimension": 6,
+        "fixed_n_energy_hartree": -74.98443971262424,
+        "unconstrained_energy_hartree": -75.0961770562845,
+        "unconstrained_minus_fixed_n_hartree": -0.11173734366026622,
+        "solver": "numpy.linalg.eigvalsh",
+        "particle_number_leakage_max_abs": 0.0,
+        "hf_determinant": {
+          "occupied_qubits": [
+            0,
+            1
+          ],
+          "basis_index": 3,
+          "expectation_hartree": -74.98346365194443,
+          "is_in_sector": true
+        },
+        "bit_ordering_crosscheck": {
+          "available": true,
+          "qiskit_label_rule": "reverse ops[q] so qubit n-1 is leftmost",
+          "qiskit_hf_expectation": -74.98346365194443,
+          "absolute_difference": 0.0,
+          "passed": true
+        }
+      },
+      {
+        "name": "frag_meta_para",
+        "n_qubits": 4,
+        "full_hilbert_dimension": 16,
+        "declared_active_electrons": 2,
+        "fixed_n_sector_dimension": 6,
+        "expected_sector_dimension": 6,
+        "fixed_n_energy_hartree": -113.03273105006252,
+        "unconstrained_energy_hartree": -113.03273105006247,
+        "unconstrained_minus_fixed_n_hartree": 5.684341886080802e-14,
+        "solver": "numpy.linalg.eigvalsh",
+        "particle_number_leakage_max_abs": 0.0,
+        "hf_determinant": {
+          "occupied_qubits": [
+            0,
+            1
+          ],
+          "basis_index": 3,
+          "expectation_hartree": -113.03185581529468,
+          "is_in_sector": true
+        },
+        "bit_ordering_crosscheck": {
+          "available": true,
+          "qiskit_label_rule": "reverse ops[q] so qubit n-1 is leftmost",
+          "qiskit_hf_expectation": -113.03185581529468,
+          "absolute_difference": 0.0,
+          "passed": true
+        }
+      }
+    ],
+    "dimers": [
+      {
+        "name": "dim_frag_iodo_frag_ortho",
+        "n_qubits": 8,
+        "full_hilbert_dimension": 256,
+        "declared_active_electrons": 4,
+        "fixed_n_sector_dimension": 70,
+        "expected_sector_dimension": 70,
+        "fixed_n_energy_hartree": -6947.368481792124,
+        "unconstrained_energy_hartree": -6947.368481792148,
+        "unconstrained_minus_fixed_n_hartree": -2.3646862246096134e-11,
+        "solver": "numpy.linalg.eigvalsh",
+        "particle_number_leakage_max_abs": 6.938893903907228e-18,
+        "hf_determinant": {
+          "occupied_qubits": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "basis_index": 15,
+          "expectation_hartree": -6947.226878097189,
+          "is_in_sector": true
+        },
+        "bit_ordering_crosscheck": {
+          "available": true,
+          "qiskit_label_rule": "reverse ops[q] so qubit n-1 is leftmost",
+          "qiskit_hf_expectation": -6947.226878097189,
+          "absolute_difference": 0.0,
+          "passed": true
+        }
+      },
+      {
+        "name": "dim_frag_iodo_frag_meta_para",
+        "n_qubits": 8,
+        "full_hilbert_dimension": 256,
+        "declared_active_electrons": 4,
+        "fixed_n_sector_dimension": 70,
+        "expected_sector_dimension": 70,
+        "fixed_n_energy_hartree": -6985.381115355775,
+        "unconstrained_energy_hartree": -6985.505693556996,
+        "unconstrained_minus_fixed_n_hartree": -0.12457820122108387,
+        "solver": "numpy.linalg.eigvalsh",
+        "particle_number_leakage_max_abs": 2.0816681711721685e-17,
+        "hf_determinant": {
+          "occupied_qubits": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "basis_index": 15,
+          "expectation_hartree": -6985.31536863713,
+          "is_in_sector": true
+        },
+        "bit_ordering_crosscheck": {
+          "available": true,
+          "qiskit_label_rule": "reverse ops[q] so qubit n-1 is leftmost",
+          "qiskit_hf_expectation": -6985.315368637125,
+          "absolute_difference": 4.547473508864641e-12,
+          "passed": true
+        }
+      },
+      {
+        "name": "dim_frag_ortho_frag_meta_para",
+        "n_qubits": 8,
+        "full_hilbert_dimension": 256,
+        "declared_active_electrons": 4,
+        "fixed_n_sector_dimension": 70,
+        "expected_sector_dimension": 70,
+        "fixed_n_energy_hartree": -188.2981679296156,
+        "unconstrained_energy_hartree": -188.35998519147319,
+        "unconstrained_minus_fixed_n_hartree": -0.06181726185758407,
+        "solver": "numpy.linalg.eigvalsh",
+        "particle_number_leakage_max_abs": 1.0137290312739466e-17,
+        "hf_determinant": {
+          "occupied_qubits": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "basis_index": 15,
+          "expectation_hartree": -188.2046321480976,
+          "is_in_sector": true
+        },
+        "bit_ordering_crosscheck": {
+          "available": true,
+          "qiskit_label_rule": "reverse ops[q] so qubit n-1 is leftmost",
+          "qiskit_hf_expectation": -188.20463214809752,
+          "absolute_difference": 8.526512829121202e-14,
+          "passed": true
+        }
+      }
+    ],
+    "parent": {
+      "name": "iodobenzene_cas12",
+      "n_qubits": 12,
+      "full_hilbert_dimension": 4096,
+      "declared_active_electrons": 6,
+      "fixed_n_sector_dimension": 924,
+      "expected_sector_dimension": 924,
+      "fixed_n_energy_hartree": -7061.10352443054,
+      "unconstrained_energy_hartree": -7061.103524430531,
+      "unconstrained_minus_fixed_n_hartree": 9.094947017729282e-12,
+      "solver": "scipy.sparse.linalg.eigsh",
+      "particle_number_leakage_max_abs": 2.2551405187698492e-17,
+      "hf_determinant": {
+        "occupied_qubits": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "basis_index": 63,
+        "expectation_hartree": -7061.0655711588415,
+        "is_in_sector": true
+      },
+      "bit_ordering_crosscheck": {
+        "available": true,
+        "qiskit_label_rule": "reverse ops[q] so qubit n-1 is leftmost",
+        "qiskit_hf_expectation": -7061.06557115884,
+        "absolute_difference": 1.8189894035458565e-12,
+        "passed": true
+      }
+    }
+  },
+  "mbe2": {
+    "formula": "sum(dimer energies) - sum(monomer energies)",
+    "fixed_particle_number": {
+      "monomer_sum_hartree": -7059.952043723248,
+      "dimer_sum_hartree": -14121.047765077516,
+      "mbe2_energy_hartree": -7061.095721354268,
+      "parent_energy_hartree": -7061.10352443054,
+      "signed_error_hartree": 0.007803076272466569,
+      "absolute_error_hartree": 0.007803076272466569
+    },
+    "unconstrained_diagnostic_only": {
+      "monomer_sum_hartree": -7060.141979707433,
+      "dimer_sum_hartree": -14121.234160540618,
+      "mbe2_energy_hartree": -7061.092180833185,
+      "parent_energy_hartree": -7061.103524430531,
+      "signed_error_hartree": 0.01134359734624013,
+      "absolute_error_hartree": 0.01134359734624013
+    },
+    "classical_references": {
+      "hf": {
+        "monomer_sum_hartree": -7059.858424466783,
+        "dimer_sum_hartree": -14120.746878882392,
+        "mbe2_energy_hartree": -7060.888454415609,
+        "parent_energy_hartree": -7061.065571158854,
+        "signed_error_hartree": 0.17711674324527849,
+        "absolute_error_hartree": 0.17711674324527849,
+        "source_field": "hf_energy"
+      },
+      "ccsd": {
+        "monomer_sum_hartree": -7060.403602374636,
+        "dimer_sum_hartree": -14121.706771951429,
+        "mbe2_energy_hartree": -7061.303169576793,
+        "parent_energy_hartree": -7061.463372739925,
+        "signed_error_hartree": 0.16020316313188232,
+        "absolute_error_hartree": 0.16020316313188232,
+        "source_field": "ccsd_energy"
+      },
+      "ccsd_t": {
+        "monomer_sum_hartree": -7060.422804590301,
+        "dimer_sum_hartree": -14121.77123270215,
+        "mbe2_energy_hartree": -7061.34842811185,
+        "parent_energy_hartree": -7061.473718112028,
+        "signed_error_hartree": 0.1252900001782109,
+        "absolute_error_hartree": 0.1252900001782109,
+        "source_field": "ccsd_t_total"
+      }
+    }
+  },
+  "limitations": [
+    "This is a non-embedded active-space MBE2 prototype, not FMO2.",
+    "Independently optimized fragment active spaces are not a common orbital partition of the parent Hamiltonian.",
+    "No electrostatic embedding, projection operator, or environmental polarization is included.",
+    "Unconstrained ground energies are reported only to diagnose particle-number-sector collapse.",
+    "HF/CCSD/CCSD(T) references use full molecular calculations and are not directly equivalent to the truncated active-space Hamiltonians."
+  ]
+}

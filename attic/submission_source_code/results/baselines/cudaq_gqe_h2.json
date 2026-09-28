@@ -1,0 +1,220 @@
+{
+  "results": [
+    {
+      "system": "h2",
+      "baseline": "cudaq_gqe",
+      "reference_energy": -1.1371757102406845,
+      "baseline_energy": -1.1371619701385498,
+      "delta_energy": 1.3740102134729426e-05,
+      "n_spin_orbitals": 4,
+      "mode": "cudaq_gqe",
+      "gqe_config": {
+        "max_iters": 25,
+        "ngates": 10,
+        "num_samples": 5
+      },
+      "gqe_selected_operators": [
+        {
+          "index": 22,
+          "terms": [
+            {
+              "coefficient_real": -0.003125,
+              "coefficient_imag": 0.0,
+              "pauli_word": "YYXY"
+            }
+          ]
+        },
+        {
+          "index": 76,
+          "terms": [
+            {
+              "coefficient_real": 0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "XXXY"
+            }
+          ]
+        },
+        {
+          "index": 76,
+          "terms": [
+            {
+              "coefficient_real": 0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "XXXY"
+            }
+          ]
+        },
+        {
+          "index": 76,
+          "terms": [
+            {
+              "coefficient_real": 0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "XXXY"
+            }
+          ]
+        },
+        {
+          "index": 92,
+          "terms": [
+            {
+              "coefficient_real": -0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "XYXX"
+            }
+          ]
+        },
+        {
+          "index": 81,
+          "terms": [
+            {
+              "coefficient_real": 0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "YXXX"
+            }
+          ]
+        },
+        {
+          "index": 92,
+          "terms": [
+            {
+              "coefficient_real": -0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "XYXX"
+            }
+          ]
+        },
+        {
+          "index": 92,
+          "terms": [
+            {
+              "coefficient_real": -0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "XYXX"
+            }
+          ]
+        },
+        {
+          "index": 81,
+          "terms": [
+            {
+              "coefficient_real": 0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "YXXX"
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "terms": [
+            {
+              "coefficient_real": 0.003125,
+              "coefficient_imag": 0.0,
+              "pauli_word": "XXYX"
+            }
+          ]
+        },
+        {
+          "index": 92,
+          "terms": [
+            {
+              "coefficient_real": -0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "XYXX"
+            }
+          ]
+        },
+        {
+          "index": 33,
+          "terms": [
+            {
+              "coefficient_real": 0.00625,
+              "coefficient_imag": 0.0,
+              "pauli_word": "YXXX"
+            }
+          ]
+        },
+        {
+          "index": 81,
+          "terms": [
+            {
+              "coefficient_real": 0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "YXXX"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "terms": [
+            {
+              "coefficient_real": 0.003125,
+              "coefficient_imag": 0.0,
+              "pauli_word": "XZYI"
+            }
+          ]
+        },
+        {
+          "index": 81,
+          "terms": [
+            {
+              "coefficient_real": 0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "YXXX"
+            }
+          ]
+        },
+        {
+          "index": 33,
+          "terms": [
+            {
+              "coefficient_real": 0.00625,
+              "coefficient_imag": 0.0,
+              "pauli_word": "YXXX"
+            }
+          ]
+        },
+        {
+          "index": 81,
+          "terms": [
+            {
+              "coefficient_real": 0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "YXXX"
+            }
+          ]
+        },
+        {
+          "index": 143,
+          "terms": [
+            {
+              "coefficient_real": -0.1,
+              "coefficient_imag": 0.0,
+              "pauli_word": "YYYX"
+            }
+          ]
+        },
+        {
+          "index": 33,
+          "terms": [
+            {
+              "coefficient_real": 0.00625,
+              "coefficient_imag": 0.0,
+              "pauli_word": "YXXX"
+            }
+          ]
+        },
+        {
+          "index": 81,
+          "terms": [
+            {
+              "coefficient_real": 0.025,
+              "coefficient_imag": 0.0,
+              "pauli_word": "YXXX"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "device": "aws:rigetti:qpu:cepheus-1-108q",
+  "timestamp": "2026-07-25T23:20:19Z",
+  "sqd_jobs": {
+    "h2": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a6544ac0936bd6f4ceca147",
+    "lih": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a6544ad0936bd6f4ceca14b",
+    "beh2": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a6544ad0936bd6f4ceca14f"
+  },
+  "qwc_jobs": {
+    "h2": [
+      "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a6544ae0936bd6f4ceca153",
+      "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a6544b00936bd6f4ceca156",
+      "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a6544b10936bd6f4ceca159",
+      "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a6544b20936bd6f4ceca15c",
+      "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a6544b30936bd6f4ceca160"
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "molecule": "frag_meta_para",
+  "n_qubits": 4,
+  "job_id": "aws:rigetti:qpu:cepheus-1-108q-135b-qjob-6a65ddea0936bd6f4cecc20f",
+  "device": "aws:rigetti:qpu:cepheus-1-108q",
+  "shots": 4096,
+  "counts": {
+    "0000": 19,
+    "0100": 215,
+    "0110": 1,
+    "1000": 233,
+    "1001": 3,
+    "1010": 4,
+    "1100": 3543,
+    "1101": 33,
+    "1110": 36,
+    "1111": 9
+  },
+  "n_bitstrings": 10,
+  "total_shots": 4096,
+  "retrieve_time": "2026-07-26T11:16:20"
+}
